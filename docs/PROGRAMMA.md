@@ -39,7 +39,15 @@ meno di quanto sembri: quel codice e gia condannato a prescindere.
 
 1. **Viste come strato di indirezione** — oggi zero `create view` in 62 migrazioni.
 2. **RLS che isolano davvero** — oggi tutte `using (true) with check (true)`.
-3. **Un solo vocabolario di ruoli** — oggi due insiemi senza un valore in comune.
+3. **Un solo vocabolario di ruoli** — oggi due insiemi senza un valore in comune,
+   e con **una distinzione che nessuno dei due fa**: il datore di lavoro che svolge
+   in proprio i compiti di RSPP (**art. 34**) non e un RSPP (**art. 32**). Sono due
+   figure, due percorsi formativi e due scadenze. Misurato il 9 settembre: 28 nomine
+   RSPP e 14 persone col corso professionale, sovrapposizione **zero** — una
+   disgiunzione perfetta non e un caso, era una colonna mappata male, e 26 delle 28
+   erano datori dell’art. 34. Se il vocabolario nuovo non separa i due valori, lo
+   stesso errore si riscrive alla prima migrazione e stavolta con la provenienza
+   che lo fa sembrare verificato.
 4. **Provenienza su ogni riga formativa** — a tre valori: Sicurweb, ASSIDAL, kit.
 5. **Navigazione con URL** — oggi cinque livelli di stato annidato, zero URL.
 6. **Concorrenza ottimistica** — `updated_at` c'e ma nessuno lo legge.
