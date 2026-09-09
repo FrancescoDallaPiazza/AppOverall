@@ -23,7 +23,7 @@ moltiplicano, non che si sommano.
 | AppSopralluoghi | dentro | Unica con `sede` come entita, unico punto dove WERP e Sicurweb convergono. Porta l'anagrafe. Il campo migra per ultimo. |
 | AppFormazione | dentro | Corpus con le citazioni, schema provato su dati veri, raccordo ATECO. |
 | Organigramma-sicurezza | assorbito | Terza copia del corpus e quarta app dell'organigramma. Entra per essere assorbito, non mantenuto. Da li vengono le trascrizioni `.txt` degli accordi. |
-| formazione-81-utils-src | fonte a monte | Non e un'applicazione: **genera** `ateco.ts`. Va tenuta allineata o il difetto si ripresenta a valle. |
+| formazione-81-utils-src | **base normativa** | Non e un'applicazione: **genera** `ateco.ts` e, in prospettiva, le tabelle del repo unico. Decisione 7: resta il generatore unico e `reference/` la alimenta. Non viene dismessa con la Fase 5. |
 | kitformasubito ×2 | fuori | Erogazione. E vivo e resta vivo: va detto **dove vive e chi lo tiene**, o fra sei mesi rientra. |
 | WERP | fuori | Scambio via Excel. L'anagrafe si modella sapendo che un giorno potrebbe arrivare, senza inseguirlo. |
 | AppCorsiOverall, AppHr, sito, IPE | fuori | Escluse per decisione o linea di business diversa. Non vanno aperte. |
@@ -148,7 +148,8 @@ in conoscenza; quello che si rifarebbe a mano e piccolo in righe e caro in anni.
 | Motori di dominio (requisiti, valutazione, scadenze) | migra come codice |
 | Schermate e navigazione | si riscrive |
 | Sincronizzazione offline | si riscrive |
-| **Il raccordo ISTAT** (3.257 codici, 6.742 righe) | **torna a monte, alla libreria** |
+| **Il raccordo ISTAT** (3.257 codici, 6.742 righe) | **torna a monte, alla libreria** — e ci resta: sotto la decisione 7 la libreria e la sorgente, non una copia |
+| **Il corpus `reference/`** (17 PDF, 11 trascrizioni citate) | **va a monte anch'esso**, ad alimentare il generatore |
 
 ## 5. Stato delle decisioni
 
@@ -161,6 +162,7 @@ in conoscenza; quello che si rifarebbe a mano e piccolo in righe e caro in anni.
 | Sede o azienda | **aperto** | **la fase 3** |
 | Chiave cliente unica | **aperto** | **la fase 3** |
 | Dove vive `kitformasubito` | aperto | niente subito, ma rientra fra sei mesi |
+| Chi possiede la base normativa | **deciso** | niente: la libreria resta il generatore unico |
 | Le divisioni 30, 86, 87 | aperto | 32 codici senza classe |
 | «Si prende il piu alto» | aperto | niente finche le sedi non sono di prima classe |
 
