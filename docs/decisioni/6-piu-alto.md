@@ -5,13 +5,19 @@ una domanda quotidiana, non un caso limite.
 
 ## Il fatto
 
-La regola «si prende la classe piu alta» e scritta in **due posti indipendenti**, e
-in **nessuno dei due con una fonte**:
+La regola «si prende la classe piu alta» e scritta in **due posti indipendenti**:
 
 - `formazione-81-utils-src`, funzione `classificaClienteMultiSede(codici)`: aggrega
-  piu ATECO prendendo il piu alto;
+  piu ATECO prendendo il piu alto, **citando** «ai sensi del DM 388/2003 (e prassi
+  consolidata)»;
 - `Organigramma-sicurezza`, `ateco-rischio.md`: «in caso di dubbio tra due classi,
-  applicare il principio di precauzione (scegliere la piu alta)».
+  applicare il principio di precauzione (scegliere la piu alta)», senza citare nulla.
+
+Il rilievo esatto non e che la fonte manchi in entrambi, ma che **quella citata parla
+d'altro**: il DM 388/2003 disciplina i gruppi di primo soccorso — dove il criterio
+del piu alto e effettivamente previsto — non le classi di rischio della formazione
+lavoratori dell'Allegato IV. E un'applicazione per analogia, e va dichiarata tale o
+sostituita con una fonte propria.
 
 ## Perche non e ovvia
 
