@@ -139,8 +139,9 @@ tiene, non corretta da qui.
 
 ## Cosa la decisione adesso richiede
 
-La libreria non ha oggi la disciplina che questo ruolo comporta. Tre regole, e sono
-il prezzo della scelta. Valgono sulla materia (a): le tabelle.
+La libreria non ha oggi la disciplina che questo ruolo comporta. Sono il prezzo della
+scelta. **R1, R2 e R3 valgono sulla materia (a)**, le tabelle; **R4 e R5 valgono su
+tutto**, comprese le interpretazioni e questa scheda stessa.
 
 **R1 · Le fonti stanno accanto al generatore.** I PDF e le trascrizioni citate
 alimentano la libreria: vanno dove lei le puo leggere. I `.txt` di
@@ -290,6 +291,54 @@ registro osserva un'edizione che la tabella non ha ancora letto, c'e lavoro da f
 Nota di collocazione: sotto R1 le fonti traslocano accanto al generatore, e
 `aggiornamento-fonti.md` **trasloca con loro**. Finche non succede, il ciclo di
 aggiornamento della base normativa del gruppo vive nel repo di una sola corsia.
+
+## R5 · Ogni affermazione di stato dice quando e stata misurata
+
+R2 pretende che una regola dica **da dove viene**. Nessuna regola, finora, pretendeva
+che dicesse **quando e stata riverificata l'ultima volta** — ed e il buco da cui e
+passato tutto il resto.
+
+**Un'affermazione di stato non e una regola, e non decade allo stesso modo.** Una
+regola cambia quando cambia la norma, e finche la norma sta ferma la regola resta
+vera. Un'affermazione di stato **decade da sola**, senza che nessuno la tocchi e
+senza dare segnale. Sono affermazioni di stato: «16 PDF in `fonti/`», «62 codici
+sbagliati in campo», «167 preposti», «l'ATECO manca sul 57% delle attive», «il
+progetto usa il 24 maggio». Erano tutte vere quando sono state scritte. Nessuna
+diceva quando.
+
+La forma: **il numero, la data, e come si rimisura.**
+
+    ATECO presente su 267 delle 619 attive (43%)
+      misurato il 09/09/2026 su ElencoSedi.xlsx
+      si rimisura con: anteprima import anagrafiche
+
+Non serve un campo strutturato: serve che la riga porti con se cio che permette a
+chiunque di dire «questa e vecchia di sei mesi» senza dover andare a controllare.
+
+### La forma di errore contro cui e progettata
+
+Il 9 settembre 2026 lo stesso difetto si e presentato **cinque volte in un giorno
+solo**, fra le tre corsie, e ogni volta travestito da qualcos'altro:
+
+| # | come si e presentato |
+| --- | --- |
+| 1 | un denominatore contato **dopo** il filtro: il «141 su 141» dei ruoli sicurezza |
+| 2 | righe oltre la millesima non lette, perche PostgREST tronca a 1000 |
+| 3 | colonne **cercate** invece che enumerate: `Dirigente` e l'unico ASPP |
+| 4 | il lavoro di un'altra corsia dato per mancante senza aprirlo |
+| 5 | un record **vero al momento della scrittura e mai riletto**: il 24 maggio in `faq-asr-2025.md`, falso da tre giorni |
+
+In tutti e cinque **un insieme incompleto si presenta come completo**, perche il
+numero o la rilettura che lo smaschererebbe non avviene mai. Il caso 5 e il piu
+insidioso dei cinque: non nasce sbagliato, lo diventa, e non c'e nessun momento in
+cui qualcuno faccia qualcosa di sbagliato.
+
+R5 non previene nessuno dei cinque. Rende visibile **da quando nessuno ha guardato**,
+che e l'unica difesa che regge quando il difetto e l'assenza di un'azione.
+
+Nota: il registro di R4 e gia R5 applicata a una fonte sola, con i suoi tre esiti.
+R5 e la stessa disciplina estesa a ogni riga che afferma un fatto — **questa scheda
+compresa**.
 
 ## Cosa resta da sciogliere
 
