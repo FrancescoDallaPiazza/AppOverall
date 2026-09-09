@@ -190,6 +190,61 @@ il numero, il titolo, o entrambi dichiarando la prudenza.)*
 
 ---
 
+## Verificato sul testo della Conferenza, non su una riedizione (9 settembre 2026)
+
+Restava un dubbio che cambiava la natura della decisione: le tre divisioni mancano
+**nell'originale**, o e' un difetto introdotto dalla riedizione di *PiuSicurezza srl*
+(«Rev 1 del 06/06/2025», col suo sito nel pie' di pagina) che sta in
+`AppFormazione/reference/fonti/`?
+
+Sciolto scaricando il testo **dal sito della Conferenza Stato-Regioni**:
+`statoregioni.it`, Repertorio Atto n. 59/CSR, allegato
+`p-9-csr-atto-rep-n-59-17apr2025.pdf` (6,0 MB, PDF 1.6, 138 pagine contro le 136
+della riedizione). Estratto con `pdftotext -layout`.
+
+**Il difetto e' nell'originale.** Coda dell'Allegato IV, pagina 138 di 138:
+
+    29 - FABBRICAZIONE DI AUTOVEICOLI, RIMORCHI E SEMIRIMORCHI
+    33 - FABBRICAZIONE DI ALTRI MEZZI DI TRASPORTO
+    31 - FABBRICAZIONE Dl MOBILI
+    32- ALTRI INDUSTRIE MANIFATTURIERE
+    ...
+    22 - FABBRICA7IONIE DI ARTICOLI IN GOMMA E MATERIE PLASTICHE
+    Q - SANITA E ASSISTENZA SOCIALE
+
+    Pag. 138 a 138
+
+Due difetti distinti, non uno:
+
+- la **30 non e' persa, e' numerata male**. La sequenza e' 29, **33**, 31, 32:
+  crescente ovunque tranne li'. E il titolo «altri mezzi di trasporto» appartiene
+  alla 30 — la 33 vera e' «riparazione e manutenzione di macchine». Nella tabella
+  riassuntiva il guaio si consolida, perche' l'intervallo e' scritto `31-33` e il 33
+  fasullo viene assorbito senza lasciare un buco visibile;
+- la **86 e la 87 cadono sotto un'intestazione vuota**: «Q - SANITA E ASSISTENZA
+  SOCIALE» e' stampata, sotto non c'e' niente, e li' finisce il documento.
+
+**Quella pagina e' passata per un OCR che ha sbagliato in almeno cinque punti
+visibili in trenta righe** — `FABBRICA7IONIE` col 7 al posto della Z, `Dl MOBILI` e
+`Dl COKE` con la elle minuscola, `DELPETROLIO` attaccato, `ALTRI INDUSTRIE` invece
+di *altre*. Un `0` letto come `3` e' esattamente cio' che quella macchina sbaglia.
+**Gli stessi refusi ci sono nel testo della Conferenza e nella riedizione**, il che
+dimostra che la seconda ristampa fedelmente il primo e non introduce niente.
+
+Non e' quindi «il legislatore ha tolto tre divisioni»: e' che l'ultima pagina del
+testo vigente e' tipograficamente rotta, e i tre buchi stanno dentro quel guasto
+insieme a refusi che nessuno contesterebbe.
+
+**E nessuno l'ha ancora sollevata.** Cercato in tutte e tre le raccolte di FAQ: le
+uniche occorrenze di «ATECO» riguardano il passaggio 2007 -> 2025 con le tavole
+ISTAT, il fatto che il codice non e' obbligatorio sull'attestato, e le aule
+multi-ATECO. Nessun quesito su una divisione mancante o su un numero sbagliato.
+
+Conseguenza per la decisione: **aspettare un chiarimento significa aspettare
+qualcosa che nessuno ha ancora chiesto.**
+
+---
+
 *Fonti cercate il 9 settembre 2026. Verificate: le tre raccolte di FAQ in `fonti/`
 (nessuna tratta i codici non classificati), l'Allegato IV dell'ASR 2025 su tre rese,
 l'Allegato 2 del 221/2011 su tre rese — Regione Abruzzo piu due blocchi distinti del
