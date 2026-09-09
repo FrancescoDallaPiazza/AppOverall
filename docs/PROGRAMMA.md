@@ -70,7 +70,7 @@ Le fasi 0 e 1 corrono in parallelo in due repo. Dalla 3 in poi e una fila.
       clienti vivi, P.IVA fittizie, cessati come attivi, 233 persone senza CF
 - L'ATECO mancante sul 57% delle attive — **aspetta il raccordo della fase 1**
 
-**Criterio di uscita.** Un tecnico lavora offline senza restare bloccato, e le 618
+**Criterio di uscita.** Un tecnico lavora offline senza restare bloccato, e le 619
 aziende attive sono rientrate nel database, vuoto dal 5 agosto.
 
 Il lettore Excel e TypeScript puro sui file: le riparazioni all'import **viaggiano
@@ -176,7 +176,7 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Codici che cambiano classe fra le annate | 62 | Su 2.166 validi in entrambe |
 | Codici ATECO 2025 a una classe sola | 1.229 | Su 1.290 foglia; 32 fermati dalle divisioni non classificate |
 | Clienti — formazione / sopralluoghi | 480 / 607 | Sottoinsieme stretto, zero orfani, una collisione |
-| Anagrafiche da far rientrare | 618 | Database del campo vuoto dal 5 agosto |
+| Anagrafiche da far rientrare | 619 | Database del campo vuoto dal 5 agosto |
 | Scadenze sul modello | 7.084 | Base allargata; il 100% era chiuso su 4.778 |
 | Migrazioni AppFormazione | 53 | `supabase/migrations/*.sql` |
 | Righe SQL AppFormazione | 7.423 | **solo `migrations/`**; con `scripts/*.sql` sono 8.125 |

@@ -10,7 +10,7 @@ Le due app identificano lo stesso cliente in modi incompatibili:
 | | AppSopralluoghi | AppFormazione |
 | --- | --- | --- |
 | chiave | **P.IVA + sede** | **ragione sociale normalizzata** |
-| file di partenza | `ElencoSedi`, 618 attive | rifiuta `ElencoSedi`: non e fra le entita riconosciute |
+| file di partenza | `ElencoSedi`, 619 attive | rifiuta `ElencoSedi`: non e fra le entita riconosciute |
 | sedi | entita di prima classe | la tabella esiste ma non viene popolata |
 | clienti conosciuti | 607 | 480, sottoinsieme stretto, zero orfani |
 | ruoli | `tecnico / admin / interno` | `formazione / amministrazione / lettore` |
