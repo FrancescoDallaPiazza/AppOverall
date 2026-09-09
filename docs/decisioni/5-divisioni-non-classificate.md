@@ -1,7 +1,8 @@
 # 5 · Le divisioni 30, 86 e 87: alto rischio, o silenzio?
 
-**Non blocca una fase.** Ma finche resta aperta, **32 codici ATECO non hanno una
-classe di rischio**.
+**Decisa il 9 settembre 2026: `ALTO`, con citazione e marcatura di deduzione** —
+vedi [Decisione](#decisione) in fondo. Sblocca **32 codici ATECO** che fino a oggi
+non avevano una classe di rischio.
 
 ## Il fatto
 
@@ -166,9 +167,40 @@ solleva la questione.
 
 ## Decisione
 
-*(da scrivere. E ora una riga sola: la fonte primaria esiste, e la scelta e fra
-adottare `ALTO` con la citazione della Gazzetta e la marcatura di deduzione, oppure
-restare a `null`.)*
+**Presa da Francesco il 9 settembre 2026: le tre divisioni valgono `ALTO`**, con la
+citazione della Gazzetta e la marcatura di deduzione.
+
+Non e' una lettura dell'ASR 2025, che su quelle tre righe **tace per un guasto
+tipografico** e non per una scelta. E' la fonte primaria del 2011 — Gazzetta
+Ufficiale n. 8 dell'11/01/2012, p. 48, atto 12A00059 — che le classifica, e
+l'ultima pagina del testo vigente e' la stessa pagina rotta in cui un OCR ha letto
+`30` come `33`, `Z` come `7`, `DI` come `Dl`.
+
+**Cosa comporta, e va scritto accanto al valore, non solo qui:**
+
+- il valore e' `alto`, ma la sua provenienza non e' l'accordo vigente: e'
+  l'Allegato II del 221/CSR **piu'** la deduzione che il vigente non abbia inteso
+  declassarle. Le due cose si marcano **separatamente**, con lo stesso corredo
+  dello scostamento della scheda [8](8-scostamento-dal-rischio-ateco.md): valore,
+  fonte, e il fatto che sia una ricostruzione;
+- **non e' un default silenzioso.** Una sede che ricade nella 30, 86 o 87 deve
+  poter mostrare da dove viene la sua classe. Se il giorno di un'ispezione la
+  risposta e' «l'ha messo il programma», la decisione non ha retto;
+- **si riapre da sola** se arriva un chiarimento. Nessuno l'ha ancora chiesto — le
+  tre raccolte di FAQ sono mute — ma il giorno in cui una correzione ufficiale
+  esce, questa riga si sostituisce con una citazione e la deduzione cade. La
+  marcatura serve anche a rendere quel giorno una modifica di un dato, non una
+  caccia.
+
+**Dove si applica.** Il valore entra **a monte**, in `formazione-81-utils-src`, che
+e' il generatore unico (decisione [7](7-base-normativa.md)); `ateco.ts` di
+AppSopralluoghi si **rigenera**. Scriverlo a valle sarebbe la quinta copia della
+stessa tabella — cioe' esattamente il difetto da cui e' nato il repo unico.
+
+**Cosa sblocca.** I 32 codici ATECO che oggi non hanno una classe. Insieme ai 9 del
+raccordo e al 57% di ATECO mancante sulle attive, era il terzo dei buchi che
+rendevano il livello di rischio non calcolabile su una parte del parco clienti: e'
+l'ultimo che si chiude con una decisione invece che con del lavoro.
 
 ---
 
