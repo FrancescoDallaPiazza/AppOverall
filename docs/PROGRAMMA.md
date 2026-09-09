@@ -101,7 +101,7 @@ quelli portano codici gia in formato 2007 — ma **la campagna di riempimento**.
 
 ### Fase 2 — Le decisioni che aprono il repo · nessun codice
 
-Otto schede in [`decisioni/`](decisioni/). **Sei sono chiuse, tutte il 9 settembre**,
+Otto schede in [`decisioni/`](decisioni/). **Sette sono chiuse, tutte il 9 settembre**,
 e con l'ultima delle bloccanti e caduta la guardia che teneva l'SQL fuori dal repo:
 
 - ~~**Sede o azienda**~~ — **decisa: appartengono alla sede**, e per tre ragioni
@@ -126,16 +126,16 @@ e con l'ultima delle bloccanti e caduta la guardia che teneva l'SQL fuori dal re
   consente esplicitamente. Meta del meccanismo era gia costruita:
   `persona.livello_rischio` c'e dalla migrazione `015` e il motore gli da gia la
   precedenza sul rischio del cliente. Manca solo chi lo popola.
+- ~~**Le divisioni 30, 86, 87**~~ (scheda 5, di norma) — **decisa: valgono `alto`**,
+  con la citazione della Gazzetta n. 8 dell'11/01/2012 e **la deduzione marcata
+  separatamente dal valore**. Non e una lettura dell'ASR 2025, che le tace per un
+  guasto tipografico — la 30 stampata come 33, la Q con l'intestazione sopra il
+  vuoto — ma il 221/CSR piu la deduzione che il vigente non abbia inteso
+  declassarle. Sblocca i 32 codici che non avevano classe. Il valore entra **nel
+  generatore**, non in `ateco.ts`: sarebbe la quinta copia.
 
-Restano due schede aperte, **e nessuna delle due blocca**:
-
-- **WERP resta** (scheda 3): da confermare formalmente. Tocca solo la fase 4.
-- **Le divisioni 30, 86, 87** (scheda 5): la fonte primaria **e stata trovata** — la
-  Gazzetta n. 8 dell'11/01/2012 le classifica tutte e tre, e i tre buchi dell'ASR
-  2025 sono un guasto tipografico, non una scelta del legislatore (la 30 stampata
-  come 33, la Q con l'intestazione vuota). Resta **una riga sola** da scrivere:
-  adottare `ALTO` citando la Gazzetta e marcandolo come dedotto, oppure restare a
-  `null`. Finche e `null`, 32 codici ATECO non hanno classe.
+Resta **una scheda aperta, e non blocca**: **WERP resta** (scheda 3), da confermare
+formalmente. Tocca solo la fase 4.
 
 **Criterio di uscita.** Una riga scritta per scheda, non un'opinione. Ognuna delle
 bloccanti determina una colonna dello schema — ed e per questo che sono state decise
@@ -197,7 +197,7 @@ in conoscenza; quello che si rifarebbe a mano e piccolo in righe e caro in anni.
 | Lo scostamento dal rischio ATECO | **deciso il 9.09** | niente: si annota accanto al default, con motivazione, data e autore |
 | Dove vive `kitformasubito` | **deciso il 9.09** | niente: resta fuori, si lega al cliente non al sistema |
 | «Si prende il piu alto» | **deciso il 9.09** | niente: **dipende dalla mansione** |
-| Le divisioni 30, 86, 87 | **aperto**, ma la fonte primaria c'e | 32 codici senza classe, finche restano `null` |
+| Le divisioni 30, 86, 87 | **deciso il 9.09** | niente: `alto`, con la deduzione marcata. I 32 codici hanno una classe |
 
 ## 6. Le misure
 
