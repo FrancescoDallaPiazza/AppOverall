@@ -101,14 +101,30 @@ quelli portano codici gia in formato 2007 — ma **la campagna di riempimento**.
 
 ### Fase 2 — Le decisioni che aprono il repo · nessun codice
 
-- **Sede o azienda**: il codice ha gia deciso «aziendali», con un commento esplicito
-- **Chiave cliente**: la direzione e obbligata, ma va scritta
+Otto schede in [`decisioni/`](decisioni/). Tre sono chiuse, e due lo sono state la
+sera del 9 settembre:
+
+- ~~**Sede o azienda**~~ — **decisa: appartengono alla sede**, e per tre ragioni
+  diverse. Il rischio perche l'ATECO si legge dalla visura, che riporta l'attivita di
+  ciascuna unita locale; l'antincendio perche dipende da cosa si fa in quel
+  capannone; il primo soccorso dal codice di tariffa INAIL. E l'**inversione**: il
+  motore legge sempre il cliente e va riscritto.
+- ~~**Chiave cliente**~~ — **decisa: P.IVA + sede.** «Un'azienda con due sedi chiama
+  per forza due organigrammi.» Da cui il modello: un cliente, N sedi, **un
+  organigramma per sede**.
+- ~~**Chi possiede la base normativa**~~ — **decisa: la libreria resta il generatore
+  unico**, e `reference/` la alimenta.
+- **Lo scostamento dal rischio ATECO** (scheda 8) — **aperta, e adesso e la sola che
+  blocca la Fase 3.** L'ATECO da un default, non un verdetto: serve il posto dove si
+  annota che la classe applicata non e quella della tabella, e perche.
 - **WERP resta**: da confermare formalmente
 - **Dove vive `kitformasubito`** e chi lo tiene
 - Le due decisioni di norma della fase 1, se non hanno trovato una fonte
 
-**Criterio di uscita.** Cinque righe scritte, non cinque opinioni. Ognuna determina
-una colonna dello schema.
+**Criterio di uscita.** Una riga scritta per scheda, non un'opinione. Ognuna delle
+bloccanti determina una colonna dello schema — ed e per questo che vanno decise
+**insieme**: aggiungere dopo le colonne della 8 significa riscrivere le righe scritte
+sotto la 1.
 
 ### Fase 3 — Il repo nasce, e nasce piccolo
 
@@ -159,10 +175,11 @@ in conoscenza; quello che si rifarebbe a mano e piccolo in righe e caro in anni.
 | `AppCorsiOverall` escluso | deciso | niente |
 | Repo nuovo, non foglio bianco | deciso | niente |
 | WERP resta | raccomandato | solo la fase 4, e solo se lo scadenzario genera commesse |
-| Sede o azienda | **aperto** | **la fase 3** |
-| Chiave cliente unica | **aperto** | **la fase 3** |
+| Sede o azienda | **deciso il 9.09** | niente: appartengono alla **sede** |
+| Chiave cliente unica | **deciso il 9.09** | niente: **P.IVA + sede**, un organigramma per sede |
+| Chi possiede la base normativa | **deciso il 9.09** | niente: la libreria resta il generatore unico |
+| **Lo scostamento dal rischio ATECO** | **aperto** | **la fase 3** — e la sola rimasta |
 | Dove vive `kitformasubito` | aperto | niente subito, ma rientra fra sei mesi |
-| Chi possiede la base normativa | **deciso** | niente: la libreria resta il generatore unico |
 | Le divisioni 30, 86, 87 | aperto | 32 codici senza classe |
 | «Si prende il piu alto» | aperto | niente finche le sedi non sono di prima classe |
 
