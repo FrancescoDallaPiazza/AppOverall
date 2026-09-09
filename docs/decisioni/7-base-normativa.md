@@ -98,25 +98,44 @@ piu alta**, e la scelta si dichiara come precauzione, non come lettura.
 perdente: cosa diceva, perche non si applica, in che data si e deciso. Un conflitto
 sciolto senza traccia si ripresenta identico fra sei mesi.
 
-### La gerarchia, appena scritta, produce subito un esito
+**G1-bis · Il rango di chi porta la notizia non e il rango della notizia.** Una FAQ
+che **cita una norma primaria** porta il rango di quella norma, non il proprio: non
+sta contraddicendo l'accordo per conto suo, lo sta leggendo alla luce di qualcosa che
+gli sta sopra. Una FAQ che afferma in proprio vale rango 4. Senza questa distinzione
+G1 sbaglia il primo caso su cui viene applicata, ed e il caso qui sotto.
 
-E onesto dirlo qui invece di scoprirlo dopo: **G1 rovescia una scelta gia fatta.**
+### La gerarchia, appena scritta, viene confermata da una decisione che non la conosceva
 
-Sull'entrata in vigore dell'ASR 2025, le FAQ del Veneto (rango 5) dicono **24 maggio
-2025**; le FAQ interregionali del 27/03/2026, quesito 11, dicono **19 maggio 2025**,
-citando l'art. 32 della legge 69/2009. Il progetto usa il 24 maggio, e la ragione
-scritta in `faq-asr-2025.md` e che il Veneto e la regione in cui l'azienda opera e che
-quelle date sono dichiarate e non calcolate. **Sotto G1 vince il rango 4**, e sotto G2
-vince comunque il 19 maggio, che e la data che fa scadere prima.
+**La prima stesura di questo paragrafo era falsa, e la verifica costava un comando.**
+Diceva che G1 rovescia una scelta gia fatta e che il progetto usa il 24 maggio. Non e
+vero **dal 6 settembre 2026**: `AppFormazione/supabase/migrations/0043_entrata_in_vigore_19_maggio.sql`
+(commit `eba5a4e`) porta gia tutti i termini transitori al **19 maggio**, e la ragione
+scritta nel suo commento e — parola per parola — *«dove si sbaglia, si sbaglia in
+anticipo»*, sugli stessi **167 preposti**.
 
-Cosa cambia davvero, misurato: riguarda **167 persone**, e le due scadenze transitorie
-dei preposti diventano 19/05/2026 e 19/05/2027 invece del 24. La prima **e gia
-passata in entrambe le letture** — oggi e il 9 settembre 2026 — quindi li la domanda
-non e di pianificazione ma di conformita all'indietro, su una finestra di cinque
-giorni. La seconda e ancora davanti.
+Cioe **G2, detta da chi G2 non l'aveva mai vista.**
 
-Non la cambio io: e una conseguenza della gerarchia, e va decisa sapendo che il
-motivo per tenere il 24 maggio sarebbe operativo, non gerarchico.
+Quindi la gerarchia non rovescia niente: **conferma**, arrivando allo stesso numero
+per un'altra strada e tre giorni dopo. E la validazione piu forte che quelle regole
+potessero avere — meglio di un caso costruito apposta, perche nessuno dei due lati
+sapeva dell'altro.
+
+**Ma il caso e anche il controesempio che ha prodotto G1-bis**, e questa parte non
+era stata vista da nessuna delle due corsie. Il conflitto vero non era FAQ contro FAQ:
+era la **Parte VII punto 1 dell'accordo** — rango 2, *«entra in vigore il giorno della
+pubblicazione nella Gazzetta Ufficiale»*, e la Gazzetta e la n. 119 **del 24 maggio**
+— contro le FAQ interregionali, rango 4. **G1 letta alla lettera darebbe il 24.**
+
+Da il 19 per una ragione sola: la FAQ non parla in proprio, invoca l'**art. 32 della
+legge 69/2009**, che e rango 1. La FAQ e il messaggero, non la fonte. Senza G1-bis la
+gerarchia avrebbe sbagliato il suo primo caso reale — e lo avrebbe sbagliato
+*sembrando* di funzionare.
+
+**Cosa resta aperto, e non e piu la data.** La nota in
+`AppFormazione/reference/faq-asr-2025.md` dice ancora che «il progetto usa il 24
+maggio» e che «va sciolto»: e ferma a prima del 6 settembre e contraddice la
+migrazione 0043. Non e un file di questo repo — va segnalata alla corsia che lo
+tiene, non corretta da qui.
 
 ## Cosa la decisione adesso richiede
 
@@ -281,8 +300,9 @@ aggiornamento della base normativa del gruppo vive nel repo di una sola corsia.
 - **Dove vive la materia (b).** Le tabelle hanno una casa dichiarata; le
   interpretazioni no. Il campo di override dell'Interpello 1/2025 e uno schema, non
   una libreria: e la prima cosa che la Fase 3 deve sapere.
-- **Il 19 o il 24 maggio 2025.** La gerarchia lo decide, 167 persone lo subiscono, e
-  la scelta di oggi e quella meno prudente delle due.
+- **La nota ferma in `faq-asr-2025.md`.** Dice ancora che il progetto usa il 24 maggio
+  e che «va sciolto»: la migrazione 0043 l'ha sciolto il 6 settembre, sul 19. E una
+  riga falsa nel repo di un'altra corsia, e va segnalata la, non corretta da qui.
 - **Il nome.** `formazione-81-utils-src` si annuncia come una raccolta di utilita.
   Se diventa la base normativa del gruppo, il nome dice la cosa sbagliata a chiunque
   ci arrivi senza contesto.
