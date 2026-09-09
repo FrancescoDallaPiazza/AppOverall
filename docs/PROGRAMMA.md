@@ -101,8 +101,8 @@ quelli portano codici gia in formato 2007 — ma **la campagna di riempimento**.
 
 ### Fase 2 — Le decisioni che aprono il repo · nessun codice
 
-Otto schede in [`decisioni/`](decisioni/). Tre sono chiuse, e due lo sono state la
-sera del 9 settembre:
+Otto schede in [`decisioni/`](decisioni/). **Sei sono chiuse, tutte il 9 settembre**,
+e con l'ultima delle bloccanti e caduta la guardia che teneva l'SQL fuori dal repo:
 
 - ~~**Sede o azienda**~~ — **decisa: appartengono alla sede**, e per tre ragioni
   diverse. Il rischio perche l'ATECO si legge dalla visura, che riporta l'attivita di
@@ -114,17 +114,33 @@ sera del 9 settembre:
   organigramma per sede**.
 - ~~**Chi possiede la base normativa**~~ — **decisa: la libreria resta il generatore
   unico**, e `reference/` la alimenta.
-- **Lo scostamento dal rischio ATECO** (scheda 8) — **aperta, e adesso e la sola che
-  blocca la Fase 3.** L'ATECO da un default, non un verdetto: serve il posto dove si
-  annota che la classe applicata non e quella della tabella, e perche.
-- **WERP resta**: da confermare formalmente
-- **Dove vive `kitformasubito`** e chi lo tiene
-- Le due decisioni di norma della fase 1, se non hanno trovato una fonte
+- ~~**Lo scostamento dal rischio ATECO**~~ (scheda 8) — **decisa: si annota accanto
+  al default.** L'ATECO da un default, non un verdetto: il rischio calcolato resta
+  visibile, e accanto sta la nota che dice la classe applicata, **la motivazione, la
+  data e chi l'ha fatta**. Era la sola che bloccava la Fase 3.
+- ~~**Dove vive `kitformasubito`**~~ — **decisa: resta dov'e**, fuori dall'ecosistema.
+  E un servizio che si lega al cliente che lo chiede, non al sistema. Chi lo tiene
+  quando serve una modifica non e stato detto, e non blocca.
+- ~~**«Si prende il piu alto»**~~ (scheda 6, di norma) — **decisa: dipende dalla
+  mansione**, la piu esigente delle tre strade e la sola che l'Interpello 1/2025
+  consente esplicitamente. Meta del meccanismo era gia costruita:
+  `persona.livello_rischio` c'e dalla migrazione `015` e il motore gli da gia la
+  precedenza sul rischio del cliente. Manca solo chi lo popola.
+
+Restano due schede aperte, **e nessuna delle due blocca**:
+
+- **WERP resta** (scheda 3): da confermare formalmente. Tocca solo la fase 4.
+- **Le divisioni 30, 86, 87** (scheda 5): la fonte primaria **e stata trovata** — la
+  Gazzetta n. 8 dell'11/01/2012 le classifica tutte e tre, e i tre buchi dell'ASR
+  2025 sono un guasto tipografico, non una scelta del legislatore (la 30 stampata
+  come 33, la Q con l'intestazione vuota). Resta **una riga sola** da scrivere:
+  adottare `ALTO` citando la Gazzetta e marcandolo come dedotto, oppure restare a
+  `null`. Finche e `null`, 32 codici ATECO non hanno classe.
 
 **Criterio di uscita.** Una riga scritta per scheda, non un'opinione. Ognuna delle
-bloccanti determina una colonna dello schema — ed e per questo che vanno decise
-**insieme**: aggiungere dopo le colonne della 8 significa riscrivere le righe scritte
-sotto la 1.
+bloccanti determina una colonna dello schema — ed e per questo che sono state decise
+**insieme**: aggiungere dopo le colonne della 8 avrebbe significato riscrivere le
+righe scritte sotto la 1.
 
 ### Fase 3 — Il repo nasce, e nasce piccolo
 
@@ -174,14 +190,14 @@ in conoscenza; quello che si rifarebbe a mano e piccolo in righe e caro in anni.
 | Perimetro senza erogazione | deciso | niente |
 | `AppCorsiOverall` escluso | deciso | niente |
 | Repo nuovo, non foglio bianco | deciso | niente |
-| WERP resta | raccomandato | solo la fase 4, e solo se lo scadenzario genera commesse |
+| WERP resta | raccomandato, **da confermare** | solo la fase 4, e solo se lo scadenzario genera commesse |
 | Sede o azienda | **deciso il 9.09** | niente: appartengono alla **sede** |
 | Chiave cliente unica | **deciso il 9.09** | niente: **P.IVA + sede**, un organigramma per sede |
 | Chi possiede la base normativa | **deciso il 9.09** | niente: la libreria resta il generatore unico |
-| **Lo scostamento dal rischio ATECO** | **aperto** | **la fase 3** — e la sola rimasta |
-| Dove vive `kitformasubito` | aperto | niente subito, ma rientra fra sei mesi |
-| Le divisioni 30, 86, 87 | aperto | 32 codici senza classe |
-| «Si prende il piu alto» | aperto | niente finche le sedi non sono di prima classe |
+| Lo scostamento dal rischio ATECO | **deciso il 9.09** | niente: si annota accanto al default, con motivazione, data e autore |
+| Dove vive `kitformasubito` | **deciso il 9.09** | niente: resta fuori, si lega al cliente non al sistema |
+| «Si prende il piu alto» | **deciso il 9.09** | niente: **dipende dalla mansione** |
+| Le divisioni 30, 86, 87 | **aperto**, ma la fonte primaria c'e | 32 codici senza classe, finche restano `null` |
 
 ## 6. Le misure
 
