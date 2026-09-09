@@ -24,11 +24,12 @@ La lista del rischio ALTO si chiude con «Q - SANITA E ASSISTENZA SOCIALE» e so
 classificata media altrove; la 86 non e classificata.
 
 Per la 30, il titolo «Fabbricazione di altri mezzi di trasporto» compare accostato
-al codice 33, quindi e *probabile* che l'intenzione fosse il rischio alto — ma
-probabile non e scritto.
+al codice 33.
 
-Il buco e confermato su tre rese indipendenti dell'accordo — le due di `fonti/` e il
-`.txt` di Organigramma-sicurezza: non e un artefatto di scansione.
+Il buco si presenta identico su piu rese dell'accordo del 2025 — le due di `fonti/` e
+il `.txt` di Organigramma-sicurezza. **Ma quelle rese non sono indipendenti**: e la
+prima cosa che questa scheda ha sbagliato, e la sezione qui sotto la corregge.
+Discendono tutte dallo stesso testo, e ripetere la stessa fonte non e confermarla.
 
 ## L'indizio
 
@@ -37,71 +38,66 @@ Ma **senza citare**: il commento accanto e un raggruppamento («Sezione Q — Sa
 e la sua tabella e dichiaratamente ricostruita da fonti incrociate. Vale come
 indizio, non come fonte.
 
-## Le fonti, cercate il 9 settembre 2026 — e l'esito e diviso
+## La fonte primaria: la Gazzetta, e dice 30
 
-**Le tre divisioni non sono lo stesso caso, e non vanno decise insieme.** La prima
-stesura di questa sezione le trattava come una cosa sola e sbagliava su una delle
-tre; la correzione e arrivata dalla corsia AppFormazione e l'ho verificata di
-persona sul testo coordinato del D.Lgs. 81/2008 (Amato-Di Fiore, edizione gennaio
-2026), che riporta per intero gli accordi del 2011 **con il loro Allegato 2**.
+Questa sezione e stata riscritta tre volte in un pomeriggio, e le prime due erano
+sbagliate. Vale la pena tenerne conto quando si legge la terza: quello che segue e
+l'unico stato che poggia su una fonte **primaria** invece che su una copia.
 
-### 86 e 87 — confermate, e su tre rese indipendenti
+**GU Serie generale n. 8 dell'11 gennaio 2012, pagina 48, atto 12A00059** — Allegato
+II del 221/CSR, elenco `Rischio ALTO`. Letto a video sull'immagine della pagina:
 
-Nell'**Allegato 2 dell'Accordo Stato-Regioni 21/12/2011, Rep. Atti 221/CSR** stanno
-sotto `Rischio ALTO`:
+    DM  Autoveicoli    29 - FABBRICAZIONE DI AUTOVEICOLI, RIMORCHI E SEMIRIMORCHI
+                       30 - FABBRICAZIONE DI ALTRI MEZZI DI TRASPORTO
+    DN  Mobili         31 - FABBRICAZIONE DI MOBILI
+                       32- ALTRE INDUSTRIE MANIFATTURIERE
+    N   Sanità         Q - SANITA' E ASSISTENZA SOCIALE
+                       86 - ASSISTENZA SANITARIA
+                       87 - SERVIZI DI ASSISTENZA SOCIALE RESIDENZIALE
 
-    Q - SANITÀ E ASSISTENZA SOCIALE
-    86 - ASSISTENZA SANITARIA
-    87 - SERVIZI DI ASSISTENZA SOCIALE RESIDENZIALE
+**`30`, non `33`.** E «FABBRICAZIONE DI MOBILI» e «ALTRE INDUSTRIE MANIFATTURIERE»
+**senza refusi**. Tutte e tre le divisioni erano ALTO, ed e **un caso solo**, non due.
 
-e la `88` sta sotto `Rischio MEDIO`, dov'e anche nel 2025. Verificato su **tre rese**:
-la ripubblicazione della Regione Abruzzo, e **due blocchi distinti** del testo
-coordinato — l'accordo lavoratori e quello datori di lavoro portano entrambi la
-tabella.
+**Perche nessuno l'aveva trovata prima:** in Gazzetta quella tabella e una scansione
+**ruotata di novanta gradi**. Nessuna estrazione di testo la vede — ne `pdftotext`,
+ne la modalita grezza, ne PyMuPDF — e nessuna di esse *fallisce*: restituiscono
+silenzio. Si legge solo rendendo la pagina in immagine. E il terzo esito di R4 —
+**non verificabile** — comparso su una fonte invece che su un controllo: l'estrazione
+vuota si presentava come «la tabella non c'e».
 
-**E qui il 2025 le ha perse di stampa.** Nel 2011 la lista ALTO si chiude con
-`Q - SANITA' E ASSISTENZA SOCIALE` e sotto le sue due righe. Nel 2025 si chiude con la
-stessa intestazione **e non ha nulla sotto**, ed e l'ultima riga di pagina 136, cioe
-dell'intero accordo. L'intestazione e rimasta esattamente dov'era; le due righe che le
-stavano sotto no.
+### Il confronto, adesso che c'e un originale
 
-E **un'intestazione sopravvissuta al proprio contenuto**: la stessa forma di difetto
-di R5 nella [scheda 7](7-base-normativa.md), un insieme incompleto che si presenta
-come completo. Qui l'intestazione fa da falsa conferma — c'e un titolo, quindi sembra
-che qualcuno abbia deciso, mentre e solo il contenitore di cio che si e perso.
+| | GU 2012 (primaria) | Regione Abruzzo | coordinato Amato-Di Fiore | ASR 2025 (Conferenza) |
+| --- | --- | --- | --- | --- |
+| la divisione | `30` | `30` | `33` | `33` |
+| i mobili | `DI MOBILI` | `DI MOBILI` | `Dì MOBILI` | `Dl MOBILI` |
+| le manifatturiere | `ALTRE INDUSTRIE` | `ALTRE INDUSTRIE` | `ALTRI INDUSTRIE` | `ALTRI INDUSTRIE` |
+| 86 e 87 | presenti | presenti | presenti | **assenti** |
 
-### 30 — la ricostruzione non regge, e l'errore ha quindici anni
+Si legge in una riga: **la Gazzetta e pulita, e la corruzione entra dopo.** Il
+coordinato e l'ASR 2025 condividono la stessa discendenza sporca — gli stessi refusi
+nelle stesse righe — e il 2025 in piu perde le due righe della sanita. La resa della
+Regione Abruzzo, che avevo scartato, **coincide con la Gazzetta**.
 
-**Nel 2011 c'era gia scritto `33`.** Il testo coordinato riporta, sotto `Rischio ALTO`
-dell'Allegato 2 del 2011:
+### I miei due errori, e il secondo e piu istruttivo del primo
 
-    29 - FABBRICAZIONE DI AUTOVEICOLI, RIMORCHI E SEMIRIMORCHI
-    33 - FABBRICAZIONE DI ALTRI MEZZI DI TRASPORTO
-    31 - FABBRICAZIONE Dì MOBILI
-    32- ALTRI INDUSTRIE MANIFATTURIERE
+**Il primo:** avevo concluso che il 2025 avesse perso il `30`. Giusto nel merito, ma
+poggiato su una sola resa non primaria.
 
-**Gli stessi refusi che questa scheda attribuiva al 2025 sono nel 2011**, «Dì MOBILI»
-compreso. Il 2025 non ha perso il `30`: ha ricopiato fedelmente il `33` che aveva
-davanti. L'argomento della sequenza resta valido — stessa posizione, stesso titolo —
-ma la conclusione si rovescia, perche il numero era gia sbagliato nella fonte da cui
-il 2025 copia.
+**Il secondo:** mi sono «corretto» sul testo coordinato — che **non e la fonte** — e
+ci ho costruito sopra una regola: *«una copia piu pulita non e una copia migliore»*.
+**E falsa**, e questo caso e il suo controesempio: la resa piu pulita era la piu
+vicina alla Gazzetta, e l'ho scartata proprio perche era pulita.
 
-**Nessuna fonte che possediamo scrive `30` in quella posizione.**
+L'errore sotto l'errore, che e quello da ricordare: **ho contato due blocchi dello
+stesso volume come due rese indipendenti.** Il coordinato riporta la stessa tabella
+due volte — accordo lavoratori e accordo datori — e ho letto la ripetizione come
+conferma. Due estrazioni dalla stessa urna non sono due prove. E la forma campionaria
+del difetto di R5: **un campione non indipendente che si presenta come indipendente.**
 
-### Perche mi ero convinto del contrario, che e la parte da tenere
-
-La resa su cui avevo verificato — Regione Abruzzo, SPSAL — scrive `30`, `31 -
-FABBRICAZIONE DI MOBILI` e `32- ALTRE INDUSTRIE MANIFATTURIERE`: **pulita**. Ma non e
-la Gazzetta: e la stampa di una pagina di CMS, e lo dichiara in testa a ogni pagina —
-*«Mercoledì 04 Gennaio 2012 14:33 - Ultimo aggiornamento Giovedì 12 Gennaio 2012
-16:55»*. E datata **una settimana prima** della pubblicazione in Gazzetta dell'11
-gennaio 2012: e una ritrascrizione d'ufficio, e chi la batteva ha normalizzato gli
-errori evidenti. Chi corregge «Dì MOBILI» corregge anche un `33` che non torna.
-
-La lezione, e non e quella di R5: **una copia piu pulita non e una copia migliore.**
-La pulizia di una resa e un indizio di ritrascrizione, cioe di distanza dalla fonte —
-e va letta come un allarme, non come una conferma di accuratezza. Avevo scambiato
-l'assenza di refusi per fedelta.
+**La regola che regge**, e viene dalla corsia AppFormazione: *fra rese discordi non
+decide la pulizia, decide la **distanza dalla fonte** — e la distanza si stabilisce
+risalendo alla fonte, non giudicando le copie.*
 
 ### Cosa fa oggi la libreria, e non e una copia di niente
 
@@ -150,43 +146,29 @@ Decidere il contrario e legittimo — ma va deciso qui, sapendo che e uno strapp
 non lasciato all'inerzia. E l'unica delle sei decisioni che, se risolta in un certo
 modo, **cambia la natura del progetto invece che il calendario**.
 
-## Cosa c'e da decidere adesso: due domande, non una
+## Cosa c'e da decidere adesso
 
-La ricerca ha spaccato la scheda in due, e le due meta hanno bisogno di risposte
-diverse.
+Una domanda sola, e su tutte e tre le divisioni insieme — perche in Gazzetta erano
+tutte e tre `ALTO` e si sono perse nella stessa catena di riedizioni.
 
-### Per 86 e 87 — una scelta fra due, con una base documentale
-
-1. **Si adotta `ALTO`** citando l'Allegato 2 del 221/2011 su tre rese e la
-   dimostrazione dell'intestazione rimasta senza contenuto, **marcando le righe come
-   derivate** e non lette. Sotto A7 e una deduzione dichiarata, che e esattamente cio
-   che A7 prevede.
-2. **Si resta a `null`**, accettando che ospedali, case di cura e RSA non abbiano
-   classe.
+1. **Si adotta `ALTO` per 30, 86 e 87**, citando l'Allegato II del 221/CSR **in
+   Gazzetta Ufficiale n. 8 dell'11/01/2012, pagina 48, atto 12A00059**, e
+   **marcando le righe come derivate** e non lette.
+2. **Si resta a `null`**, accettando che ospedali, case di cura, RSA e i costruttori
+   di mezzi di trasporto non abbiano classe.
 
 La 1 e coerente con A7 **a condizione che la marcatura arrivi davvero fino ai dati**:
 senza, e la 2 travestita da 1.
 
-### Per la 30 — una domanda diversa, e forse senza risposta
-
-Non manca una riga: c'e una riga sola, in cui **il numero e il titolo non
-corrispondono**, e sono discordi da quindici anni su ogni resa che possediamo. Quindi:
-
-- **se fa fede il numero**, e `ALTO` la **33** (riparazione e manutenzione di
-  macchine) e la **30** resta senza classe;
-- **se fa fede il titolo**, e `ALTO` la **30** e resta senza classe la **33**;
-- **se si tengono entrambe** — cio che la libreria fa oggi in silenzio — si sceglie la
-  lettura piu prudente, e va detto che e una scelta e non una lettura.
-
-Nessuna fonte scioglie il nodo, e non e detto che una fonte lo sciolga mai: **questo
-non e un buco di trascrizione, e un difetto del testo.** L'unica strada che lo
-chiuderebbe davvero e' esterna a noi — un interpello, o una FAQ che rilevi il refuso.
+E vale la conseguenza gia annotata piu sotto: **aspettare un chiarimento significa
+aspettare qualcosa che nessuno ha ancora chiesto** — nessuna delle tre raccolte di FAQ
+solleva la questione.
 
 ## Decisione
 
-*(da scrivere, e sono due righe, non una: una per 86 e 87 — dove c'e una fonte da
-citare con il suo limite dichiarato — e una per la 30, dove non c'e e la scelta e fra
-il numero, il titolo, o entrambi dichiarando la prudenza.)*
+*(da scrivere. E ora una riga sola: la fonte primaria esiste, e la scelta e fra
+adottare `ALTO` con la citazione della Gazzetta e la marcatura di deduzione, oppure
+restare a `null`.)*
 
 ---
 
@@ -245,10 +227,13 @@ qualcosa che nessuno ha ancora chiesto.**
 
 ---
 
-*Fonti cercate il 9 settembre 2026. Verificate: le tre raccolte di FAQ in `fonti/`
-(nessuna tratta i codici non classificati), l'Allegato IV dell'ASR 2025 su tre rese,
-l'Allegato 2 del 221/2011 su tre rese — Regione Abruzzo piu due blocchi distinti del
-testo coordinato Amato-Di Fiore gennaio 2026 — e `allegato_iv_asr2025.js`. Non
-consultata: la Gazzetta Ufficiale n. 8 dell'11/01/2012, che e la sola resa primaria e
-l'unica che chiuderebbe la questione della 30. Si rimisura confrontando le liste ALTO
-del 221/2011 e del 59/2025 su rese dichiarate, non su ritrascrizioni.*
+*Fonti cercate il 9 settembre 2026, e la sezione riscritta tre volte in un pomeriggio.
+**Primaria**: Allegato II del 221/CSR in Gazzetta Ufficiale n. 8 dell'11/01/2012,
+p. 48, atto 12A00059, letto a video perche la scansione e ruotata di 90 gradi
+(`GU-8-11012012-Accordo-221-CSR.pdf` e i due ritagli, in `AppFormazione/reference/fonti/`).
+**Secondarie, e tutte discordi dalla primaria in almeno un punto**: testo coordinato
+Amato-Di Fiore gennaio 2026, ripubblicazione Regione Abruzzo, ASR 2025 dal sito della
+Conferenza, riedizione PiuSicurezza, `.txt` di Organigramma-sicurezza,
+`allegato_iv_asr2025.js`. **Cercate e mute**: le tre raccolte di FAQ.
+Si rimisura rileggendo a video la pagina 48 della Gazzetta — non estraendone il testo,
+che restituisce silenzio.*
