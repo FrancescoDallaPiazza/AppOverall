@@ -174,10 +174,23 @@ ereditano.
 
 Resta necessaria in un caso solo — **una sede con piu' codici ATECO e nessuna
 determinazione per mansione** — e li' vale come **default prudenziale**, non come
-lettura della norma. Va dichiarata cosi': il DM 388/2003 citato in
-`classificaClienteMultiSede` disciplina i gruppi di primo soccorso, non le classi
-di rischio della formazione. La citazione va tolta o sostituita; il criterio puo'
-restare, purche' si dica che e' una precauzione presa da noi.
+lettura della norma.
+
+Con la distinzione che il corpo di questa scheda ha stabilito e che va tenuta
+ferma, perche' le due meta' hanno statuti diversi:
+
+- **per il gruppo di primo soccorso la citazione al DM 388/2003 e' giusta e va
+  tenuta**: l'art. 1 c. 2 ultimo periodo dice il «piu alto» testualmente, e dice
+  anche **dentro quale perimetro** — «azienda o unita' produttiva». Cioe' **per
+  sede**. Non e' piu' solo cio' che ha deciso la scheda 1: e' la lettera del
+  decreto, e la decisione 1 ne risulta confermata dall'esterno;
+- **per la classe di rischio della formazione la stessa citazione non regge**,
+  perche' quel decreto disciplina il primo soccorso. Li' il criterio puo' restare,
+  ma come **precauzione dichiarata da noi** — rango 6 della gerarchia — e senza
+  appoggiarsi al DM 388.
+
+La correzione da fare a valle e' quindi piu' stretta di «togliere la citazione»:
+va **separato l'uso**, non cancellato il riferimento.
 
 ### Quanto lavoro e', misurato
 
