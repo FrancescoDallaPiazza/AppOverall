@@ -199,8 +199,11 @@ piano.
   non una fase.
 - **A4** L'anagrafe unica sta dove ci sono le sedi. La riconciliazione ha una
   direzione obbligata, non e simmetrica.
-- **A5** Il database operativo e vuoto dal 5 agosto. Ogni fase che presuppone dati
-  veri dipende dalla fase 0.
+- **A5** ~~Il database operativo e vuoto dal 5 agosto.~~ **Ritirata il 9 settembre**:
+  era un'affermazione del TODO, non una misura, e nessuno l'aveva verificata contro il
+  database. All'import i clienti c'erano gia — 0 nuovi, 618 a posto — e le persone
+  scritte sono 3.420. Resta vero che ogni fase che presuppone dati veri dipende dalla
+  fase 0, ma non perche il database fosse vuoto.
 - **A6** Il perimetro non si allarga durante il riavvio.
 - **A7** **Una regola dedotta non entra nelle tabelle applicative.** Si applica cio
   che si legge, con parte, punto e pagina; cio che si deduce aspetta, dichiarato.
