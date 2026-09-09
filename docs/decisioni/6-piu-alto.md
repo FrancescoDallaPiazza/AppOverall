@@ -170,6 +170,17 @@ ereditano.
   **lo stesso, a due livelli.** Una persona classificata sotto la sua sede senza
   una riga che dica perche' e' la cosa che in un'ispezione non si difende.
 
+**Dove si applica: nello schema nuovo, non in AppSopralluoghi.** Misurato
+dall'altra corsia il 9 settembre, e corregge un ordine che era stato dato male:
+in quel repo `sede` **non ha** `livello_rischio` — il campo sta su `cliente`. La
+catena `persona ?? sede` non e' scrivibile li' senza una migrazione che sposta
+colonne su una tabella che stiamo per archiviare, e lo stesso vale per la nota di
+scostamento, che vuole colonne nuove. Le due righe qui sopra sono **requisiti
+della migrazione `0001`**, non lavoro di Fase 0. Quello che in AppSopralluoghi c'e
+gia e resta vero e' la **precedenza**: `formazione.ts:796` legge
+`persona.livello_rischio ?? rischioCliente`, cioe' la semantica giusta col ripiego
+vecchio.
+
 ### E la regola «si prende il piu alto» non sparisce: si ridimensiona
 
 Resta necessaria in un caso solo — **una sede con piu' codici ATECO e nessuna
@@ -214,6 +225,12 @@ Da notare, perche' e' lavoro che si crea da solo: OPERAIO/IMPIEGATO/IMPIEGATA e
 ADDETTO/ADDETTA PULIZIE sono **la stessa mansione scritta in due modi**. Le 619
 mansioni distinte sono in buona parte grafie, non ruoli: normalizzarle prima
 riduce il lavoro e non e' un abbellimento.
+
+**E non e' un problema di maiuscole**, che sarebbe la prima cosa da tentare e
+sarebbe tempo perso: `leggiCampiPersona` (`anagraficheImport.ts:811`) le porta gia
+in maiuscolo all'ingresso. Il vocabolario doppio e' **genere e sinonimi** —
+IMPIEGATO/IMPIEGATA, ADDETTO/ADDETTA — cioe' l'unica parte che una normalizzazione
+meccanica non risolve da sola.
 
 ### Cosa resta da decidere, ma non blocca
 
