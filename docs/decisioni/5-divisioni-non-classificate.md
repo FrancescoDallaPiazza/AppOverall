@@ -37,51 +37,80 @@ Ma **senza citare**: il commento accanto e un raggruppamento («Sezione Q — Sa
 e la sua tabella e dichiaratamente ricostruita da fonti incrociate. Vale come
 indizio, non come fonte.
 
-## La fonte, cercata e trovata il 9 settembre 2026
+## Le fonti, cercate il 9 settembre 2026 — e l'esito e diviso
 
-**Le tre divisioni erano classificate, e tutte e tre ALTO.** Stanno nell'**Allegato 2
-dell'Accordo Stato-Regioni 21/12/2011, Rep. Atti 221/CSR** — «Individuazione delle
-macrocategorie di rischio e corrispondenze ATECO 2002-2007» — che e la tabella che
-l'Allegato IV del 2025 riprende. Verificato sul testo integrale pubblicato dalla
-Regione Abruzzo (SPSAL), 23 pagine:
+**Le tre divisioni non sono lo stesso caso, e non vanno decise insieme.** La prima
+stesura di questa sezione le trattava come una cosa sola e sbagliava su una delle
+tre; la correzione e arrivata dalla corsia AppFormazione e l'ho verificata di
+persona sul testo coordinato del D.Lgs. 81/2008 (Amato-Di Fiore, edizione gennaio
+2026), che riporta per intero gli accordi del 2011 **con il loro Allegato 2**.
 
-| dove | riga, alla lettera | classe |
-| --- | --- | --- |
-| C - ATTIVITA MANIFATTURIERE | `30 - FABBRICAZIONE DI ALTRI MEZZI DI TRASPORTO` | **ALTO** |
-| Q - SANITA' E ASSISTENZA SOCIALE | `86 - ASSISTENZA SANITARIA` | **ALTO** |
-| Q - SANITA' E ASSISTENZA SOCIALE | `87 - SERVIZI DI ASSISTENZA SOCIALE RESIDENZIALE` | **ALTO** |
-| Q - SANITA' E ASSISTENZA SOCIALE | `88 - ASSISTENZA SOCIALE NON RESIDENZIALE` | MEDIO |
+### 86 e 87 — confermate, e su tre rese indipendenti
 
-### E il 2025 non le ha declassificate: le ha perse di stampa
+Nell'**Allegato 2 dell'Accordo Stato-Regioni 21/12/2011, Rep. Atti 221/CSR** stanno
+sotto `Rischio ALTO`:
 
-Non e una congettura, e un confronto riga per riga fra le due tabelle. Il difetto ha
-due forme diverse e ciascuna si dimostra da sola.
+    Q - SANITÀ E ASSISTENZA SOCIALE
+    86 - ASSISTENZA SANITARIA
+    87 - SERVIZI DI ASSISTENZA SOCIALE RESIDENZIALE
 
-**La 30 — un numero sbagliato su un titolo giusto.** Le due liste ALTO hanno la
-stessa sequenza nello stesso ordine:
+e la `88` sta sotto `Rischio MEDIO`, dov'e anche nel 2025. Verificato su **tre rese**:
+la ripubblicazione della Regione Abruzzo, e **due blocchi distinti** del testo
+coordinato — l'accordo lavoratori e quello datori di lavoro portano entrambi la
+tabella.
 
-| 2011 (Allegato 2) | 2025 (Allegato IV) |
-| --- | --- |
-| `29 - FABBRICAZIONE DI AUTOVEICOLI, RIMORCHI E SEMIRIMORCHI` | `29 - FABBRICAZIONE DI AUTOVEICOLI, RIMORCHI E SEMIRIMORCHI` |
-| `30 - FABBRICAZIONE DI ALTRI MEZZI DI TRASPORTO` | **`33`** ` - FABBRICAZIONE DI ALTRI MEZZI DI TRASPORTO` |
-| `31 - FABBRICAZIONE DI MOBILI` | `31 - FABBRICAZIONE Dì MOBILI` |
-| `32 - ALTRE INDUSTRIE MANIFATTURIERE` | `32- ALTRI INDUSTRIE MANIFATTURIERE` |
+**E qui il 2025 le ha perse di stampa.** Nel 2011 la lista ALTO si chiude con
+`Q - SANITA' E ASSISTENZA SOCIALE` e sotto le sue due righe. Nel 2025 si chiude con la
+stessa intestazione **e non ha nulla sotto**, ed e l'ultima riga di pagina 136, cioe
+dell'intero accordo. L'intestazione e rimasta esattamente dov'era; le due righe che le
+stavano sotto no.
 
-Stessa posizione, stesso titolo parola per parola, solo il numero cambiato. E la
-stessa pagina che scrive «Dì MOBILI» e «ALTRI INDUSTRIE». In ATECO 2007 la 33 e
-*Riparazione, manutenzione e installazione di macchine e apparecchiature*: il titolo
-stampato accanto al 33 non e il suo.
-
-**La 86 e la 87 — un'intestazione sopravvissuta al suo contenuto.** Nel 2011 la lista
-ALTO si chiude con `Q - SANITA' E ASSISTENZA SOCIALE` e sotto le sue due righe. Nel
-2025 la lista ALTO si chiude con `Q - SANITÀ E ASSISTENZA SOCIALE` **e non ha nulla
-sotto**, ed e l'ultima riga di pagina 136, cioe dell'intero accordo. L'intestazione e
-rimasta esattamente dov'era; le due righe che le stavano sotto no.
-
-E la sesta comparsa in un giorno della stessa forma di difetto (vedi R5 nella
-[scheda 7](7-base-normativa.md)): **un insieme incompleto che si presenta come
-completo.** Qui l'intestazione fa da falsa conferma — c'e un titolo, quindi sembra
+E **un'intestazione sopravvissuta al proprio contenuto**: la stessa forma di difetto
+di R5 nella [scheda 7](7-base-normativa.md), un insieme incompleto che si presenta
+come completo. Qui l'intestazione fa da falsa conferma — c'e un titolo, quindi sembra
 che qualcuno abbia deciso, mentre e solo il contenitore di cio che si e perso.
+
+### 30 — la ricostruzione non regge, e l'errore ha quindici anni
+
+**Nel 2011 c'era gia scritto `33`.** Il testo coordinato riporta, sotto `Rischio ALTO`
+dell'Allegato 2 del 2011:
+
+    29 - FABBRICAZIONE DI AUTOVEICOLI, RIMORCHI E SEMIRIMORCHI
+    33 - FABBRICAZIONE DI ALTRI MEZZI DI TRASPORTO
+    31 - FABBRICAZIONE Dì MOBILI
+    32- ALTRI INDUSTRIE MANIFATTURIERE
+
+**Gli stessi refusi che questa scheda attribuiva al 2025 sono nel 2011**, «Dì MOBILI»
+compreso. Il 2025 non ha perso il `30`: ha ricopiato fedelmente il `33` che aveva
+davanti. L'argomento della sequenza resta valido — stessa posizione, stesso titolo —
+ma la conclusione si rovescia, perche il numero era gia sbagliato nella fonte da cui
+il 2025 copia.
+
+**Nessuna fonte che possediamo scrive `30` in quella posizione.**
+
+### Perche mi ero convinto del contrario, che e la parte da tenere
+
+La resa su cui avevo verificato — Regione Abruzzo, SPSAL — scrive `30`, `31 -
+FABBRICAZIONE DI MOBILI` e `32- ALTRE INDUSTRIE MANIFATTURIERE`: **pulita**. Ma non e
+la Gazzetta: e la stampa di una pagina di CMS, e lo dichiara in testa a ogni pagina —
+*«Mercoledì 04 Gennaio 2012 14:33 - Ultimo aggiornamento Giovedì 12 Gennaio 2012
+16:55»*. E datata **una settimana prima** della pubblicazione in Gazzetta dell'11
+gennaio 2012: e una ritrascrizione d'ufficio, e chi la batteva ha normalizzato gli
+errori evidenti. Chi corregge «Dì MOBILI» corregge anche un `33` che non torna.
+
+La lezione, e non e quella di R5: **una copia piu pulita non e una copia migliore.**
+La pulizia di una resa e un indizio di ritrascrizione, cioe di distanza dalla fonte —
+e va letta come un allarme, non come una conferma di accuratezza. Avevo scambiato
+l'assenza di refusi per fedelta.
+
+### Cosa fa oggi la libreria, e non e una copia di niente
+
+`allegato_iv_asr2025.js` classifica **`ALTO` sia la 30 sia la 33**, e alla `33` da la
+sua descrizione vera («Riparazione, manutenzione ed installazione di macchine ed
+apparecchiature»), che nell'accordo non compare. Cioe ha **sciolto in due righe
+un'ambiguita che nella fonte e una riga sola**, prendendo il numero *e* il titolo e
+dando alto a entrambi. E la lettura massimamente prudente, e non e dichiarata: sotto
+R2 nessuna delle due righe puo citare.
 
 ### Un riscontro dentro l'accordo del 2025 stesso
 
@@ -121,30 +150,50 @@ Decidere il contrario e legittimo — ma va deciso qui, sapendo che e uno strapp
 non lasciato all'inerzia. E l'unica delle sei decisioni che, se risolta in un certo
 modo, **cambia la natura del progetto invece che il calendario**.
 
-## Cosa c'e da decidere adesso
+## Cosa c'e da decidere adesso: due domande, non una
 
-La ricerca ha cambiato la domanda. Non e piu «alto, o silenzio?» — nessuno deve piu
-inventare un `ALTO`. E:
+La ricerca ha spaccato la scheda in due, e le due meta hanno bisogno di risposte
+diverse.
 
-1. **Si adotta `ALTO` per 30, 86 e 87** con la citazione dell'Allegato 2 del 221/2011
-   e la dimostrazione del difetto di stampa, **marcando le righe come derivate** e non
-   lette. Sotto A7 e una deduzione dichiarata, che e esattamente cio che A7 prevede.
-2. **Si resta a `null`** finche una fonte vigente non le classifichi, accettando che
-   32 codici — fra cui ospedali, case di cura e RSA — non abbiano classe.
+### Per 86 e 87 — una scelta fra due, con una base documentale
 
-La 1 e coerente con A7 **a condizione che la marcatura ci sia davvero nei dati**:
+1. **Si adotta `ALTO`** citando l'Allegato 2 del 221/2011 su tre rese e la
+   dimostrazione dell'intestazione rimasta senza contenuto, **marcando le righe come
+   derivate** e non lette. Sotto A7 e una deduzione dichiarata, che e esattamente cio
+   che A7 prevede.
+2. **Si resta a `null`**, accettando che ospedali, case di cura e RSA non abbiano
+   classe.
+
+La 1 e coerente con A7 **a condizione che la marcatura arrivi davvero fino ai dati**:
 senza, e la 2 travestita da 1.
+
+### Per la 30 — una domanda diversa, e forse senza risposta
+
+Non manca una riga: c'e una riga sola, in cui **il numero e il titolo non
+corrispondono**, e sono discordi da quindici anni su ogni resa che possediamo. Quindi:
+
+- **se fa fede il numero**, e `ALTO` la **33** (riparazione e manutenzione di
+  macchine) e la **30** resta senza classe;
+- **se fa fede il titolo**, e `ALTO` la **30** e resta senza classe la **33**;
+- **se si tengono entrambe** — cio che la libreria fa oggi in silenzio — si sceglie la
+  lettura piu prudente, e va detto che e una scelta e non una lettura.
+
+Nessuna fonte scioglie il nodo, e non e detto che una fonte lo sciolga mai: **questo
+non e un buco di trascrizione, e un difetto del testo.** L'unica strada che lo
+chiuderebbe davvero e' esterna a noi — un interpello, o una FAQ che rilevi il refuso.
 
 ## Decisione
 
-*(da scrivere. Se «alto», va detto **con quale fonte** — e ora ce n'e una da citare,
-con il suo limite dichiarato — oppure dichiarato esplicitamente come deduzione e
-marcato tale nei dati.)*
+*(da scrivere, e sono due righe, non una: una per 86 e 87 — dove c'e una fonte da
+citare con il suo limite dichiarato — e una per la 30, dove non c'e e la scelta e fra
+il numero, il titolo, o entrambi dichiarando la prudenza.)*
 
 ---
 
 *Fonti cercate il 9 settembre 2026. Verificate: le tre raccolte di FAQ in `fonti/`
-(nessuna tratta i codici non classificati), l'Allegato IV nelle tre rese disponibili,
-il testo integrale dell'Accordo 221/2011 (Regione Abruzzo, SPSAL, 23 pagine),
-l'ASR 2025 RAW. Si rimisura rileggendo l'Allegato 2 del 221/2011 e l'Allegato IV
-del 59/2025 e confrontando le due liste ALTO.*
+(nessuna tratta i codici non classificati), l'Allegato IV dell'ASR 2025 su tre rese,
+l'Allegato 2 del 221/2011 su tre rese — Regione Abruzzo piu due blocchi distinti del
+testo coordinato Amato-Di Fiore gennaio 2026 — e `allegato_iv_asr2025.js`. Non
+consultata: la Gazzetta Ufficiale n. 8 dell'11/01/2012, che e la sola resa primaria e
+l'unica che chiuderebbe la questione della 30. Si rimisura confrontando le liste ALTO
+del 221/2011 e del 59/2025 su rese dichiarate, non su ritrascrizioni.*
