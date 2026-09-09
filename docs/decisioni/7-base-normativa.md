@@ -343,6 +343,29 @@ Nota: il registro di R4 e gia R5 applicata a una fonte sola, con i suoi tre esit
 R5 e la stessa disciplina estesa a ogni riga che afferma un fatto — **questa scheda
 compresa**.
 
+## R6 · Il censimento si fa sull'elenco dei repo dell'account, non sulle cartelle del disco
+
+R1 dice che le fonti stanno accanto al generatore. Presuppone che si sappia **dove
+sta il generatore** — e il 9 settembre 2026 non si sapeva.
+
+`formazione-81-utils-src` e la base normativa di tutto il gruppo per decisione di
+questa scheda, e **non era clonata su questa macchina**. Il censimento della
+mattina, fatto sulle cartelle presenti, l'aveva persa: quindici repo contati, e
+quello che sta a monte di tutti gli altri non c'era. E' stato clonato solo la sera,
+per portarci dentro la decisione 5.
+
+La regola, nella forma di R5 — il fatto, e come si rimisura:
+
+> **Il censimento si fa sull'elenco dei repo dell'account, non sulle cartelle del
+> disco.** Una cartella assente non e un repo assente: e un repo che nessuno vede.
+> Si rimisura elencando i repo dell'account e confrontandoli con le cartelle
+> presenti, in quest'ordine e non nell'altro.
+
+Perche' vale la pena scriverla: un repo che il censimento non vede e' il modo in cui
+una base normativa diventa la quinta copia **senza che nessuno decida niente**. La
+decisione 7 sceglie chi ha l'ultima parola; un censimento fatto sul disco puo'
+togliergliela in silenzio, semplicemente non trovandolo.
+
 ## Cosa resta da sciogliere
 
 - **Le fonti traslocano dentro la libreria, o restano in un repo e lei le vendora?**

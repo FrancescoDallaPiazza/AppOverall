@@ -47,7 +47,11 @@ meno di quanto sembri: quel codice e gia condannato a prescindere.
    disgiunzione perfetta non e un caso, era una colonna mappata male, e 26 delle 28
    erano datori dell’art. 34. Se il vocabolario nuovo non separa i due valori, lo
    stesso errore si riscrive alla prima migrazione e stavolta con la provenienza
-   che lo fa sembrare verificato.
+   che lo fa sembrare verificato. **La distinzione non e da inventare**: il catalogo
+   di AppFormazione tiene gia i due gruppi d'obbligo separati — `datore_lavoro_rspp`
+   e `rspp_aspp`, migrazione `0022` — e nell'export i due percorsi si distinguono da
+   soli, 31 righe di corso per datore contro 7 di moduli A/B/C professionali. Il
+   vocabolario nuovo eredita quella separazione invece di rifarla.
 4. **Provenienza su ogni riga formativa** — a tre valori: Sicurweb, ASSIDAL, kit.
 5. **Navigazione con URL** — oggi cinque livelli di stato annidato, zero URL.
 6. **Concorrenza ottimistica** — `updated_at` c'e ma nessuno lo legge.
