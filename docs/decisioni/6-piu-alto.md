@@ -141,7 +141,72 @@ scrive come default quando una sola sede ha due ATECO di classe diversa».
 
 ## Decisione
 
-*(da scrivere)*
+**Presa da Francesco il 9 settembre 2026: dipende dalla mansione.**
+
+E' la piu' esigente delle tre strade possibili — non la prevalente, non la piu'
+alta d'ufficio — ed e' quella che l'Interpello 1/2025 consente esplicitamente.
+
+### La meta' che era gia' costruita
+
+Il meccanismo **esiste gia' e funziona**, e nessuno lo usa.
+
+`persona.livello_rischio` e' nello schema dalla migrazione `015`, con il suo check.
+E il motore lo legge **con la precedenza giusta**, `formazione.ts:796`:
+
+    const rischio = d.persona.livello_rischio ?? rischioCliente;
+
+Cioe': se la persona ha un livello suo, quello vince; altrimenti eredita. E'
+esattamente la semantica della decisione, scritta nel codice da prima che la
+decisione fosse presa. Manca solo che qualcuno lo popoli: l'import scrive il
+livello **sul cliente** e mai sulla persona, quindi oggi tutte e 3.420 le persone
+ereditano.
+
+### Cosa cambia, con le decisioni 1 e 8
+
+- **Il ripiego non e' piu' il cliente, e' la sede** (decisione 1). La catena
+  diventa `persona.livello_rischio ?? sede.livello_rischio`.
+- **Lo scostamento della persona vuole la stessa nota dello scostamento della
+  sede** (decisione 8): motivazione, fonte, quando e chi. Non due meccanismi:
+  **lo stesso, a due livelli.** Una persona classificata sotto la sua sede senza
+  una riga che dica perche' e' la cosa che in un'ispezione non si difende.
+
+### E la regola «si prende il piu alto» non sparisce: si ridimensiona
+
+Resta necessaria in un caso solo — **una sede con piu' codici ATECO e nessuna
+determinazione per mansione** — e li' vale come **default prudenziale**, non come
+lettura della norma. Va dichiarata cosi': il DM 388/2003 citato in
+`classificaClienteMultiSede` disciplina i gruppi di primo soccorso, non le classi
+di rischio della formazione. La citazione va tolta o sostituita; il criterio puo'
+restare, purche' si dica che e' una precauzione presa da noi.
+
+### Quanto lavoro e', misurato
+
+Sui dati veri appena importati:
+
+| | |
+| --- | ---: |
+| persone con una mansione dichiarata | 2.890 su 3.502 |
+| mansioni distinte | 619 |
+| coppie **(sede, mansione)** distinte | **1.184** |
+
+Le piu' frequenti sono poche e grosse: OPERAIO 497, ADDETTO PULIZIE 205, IMPIEGATO
+127, IMPIEGATA 108, ADDETTA PULIZIE 71, TITOLARE 52.
+
+**Il numero che conta e' 1.184, non 3.420**: la classificazione si fa per **coppia
+(sede, mansione)** e si applica a tutte le persone che ci ricadono, non persona per
+persona. E le prime dieci mansioni coprono una quota larga del totale, quindi il
+lavoro utile e' molto meno di 1.184.
+
+Da notare, perche' e' lavoro che si crea da solo: OPERAIO/IMPIEGATO/IMPIEGATA e
+ADDETTO/ADDETTA PULIZIE sono **la stessa mansione scritta in due modi**. Le 619
+mansioni distinte sono in buona parte grafie, non ruoli: normalizzarle prima
+riduce il lavoro e non e' un abbellimento.
+
+### Cosa resta da decidere, ma non blocca
+
+Se una persona **senza** mansione dichiarata (612 su 3.502) erediti dalla sede in
+silenzio o vada segnalata come da classificare. Si decide quando si disegna la
+schermata.
 
 ---
 
