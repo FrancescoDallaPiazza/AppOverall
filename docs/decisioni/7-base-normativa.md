@@ -1,7 +1,10 @@
 # 7 · Chi possiede la base normativa, e chi puo modificarla
 
-**Decisa il 9 settembre 2026.** E l'unica decisione di governo fra le sette: non
-dice cosa costruire, dice chi ha l'ultima parola su cosa e vero.
+> **Blocca:** niente · è una decisione di governo, non di costruzione
+> **In una riga:** la libreria `formazione-81-utils-src` resta il **generatore unico**, e `reference/` la alimenta
+
+E l'unica decisione di governo fra le otto: non dice cosa costruire, dice chi ha
+l'ultima parola su cosa e vero.
 
 ## Il problema
 
@@ -24,8 +27,8 @@ classifica ancora un codice ATECO 2025 sbagliando su 62 codici.
 
 ## Decisione
 
-**La libreria `formazione-81-utils-src` resta il generatore unico, e `reference/` la
-alimenta.**
+**Presa da Francesco il 9 settembre 2026: la libreria `formazione-81-utils-src`
+resta il generatore unico, e `reference/` la alimenta.**
 
 Non viene dismessa con la Fase 5: diventa **la base normativa** di tutto il gruppo —
 a monte di AppOverall, di AppSopralluoghi finche vive, e delle skill. Le tabelle

@@ -10,13 +10,19 @@ blocca. La sezione **Decisione** e vuota: la riempie chi decide, con la data.
 Una decisione scritta a meta non e presa. Il criterio di uscita della Fase 2 e che
 in fondo a ogni scheda ci sia una riga, non un'opinione.
 
-| scheda | blocca |
-| --- | --- |
-| [1 · sede o azienda](1-sede-o-azienda.md) | **la Fase 3** |
-| [2 · chiave cliente](2-chiave-cliente.md) | **la Fase 3** |
-| [3 · WERP resta](3-werp-resta.md) | la Fase 4, e solo se lo scadenzario genera commesse |
-| [4 · dove vive kitformasubito](4-kitformasubito.md) | **decisa il 9.09**: resta dov'e, non entra, si lega al cliente che lo chiede |
-| [5 · le divisioni 30, 86, 87](5-divisioni-non-classificate.md) | **decisa il 9.09**: `ALTO` sulla Gazzetta 2011, marcato come deduzione; il valore entra a monte e `ateco.ts` si rigenera |
-| [6 · il cliente con piu ATECO](6-piu-alto.md) | **decisa il 9.09**: dipende dalla mansione; il "piu alto" resta come default prudenziale |
-| [7 · chi possiede la base normativa](7-base-normativa.md) | **decisa il 9.09**: la libreria resta il generatore unico |
-| [8 · lo scostamento dal rischio ATECO](8-scostamento-dal-rischio-ateco.md) | **decisa il 9.09**: box accanto al rischio, nota con data e autore |
+<!-- decisioni:inizio (generato da docs/decisioni/genera.py) -->
+
+**7 schede su 8 sono chiuse.** Stato generato dalle schede: il paragrafo `## Decisione` di ognuna e la fonte, questa tabella e la resa.
+
+| scheda | blocca | stato |
+| --- | --- | --- |
+| [1 · Il fatto appartiene alla sede o all'azienda?](1-sede-o-azienda.md) | la **Fase 3** · determina colonne dello schema | **decisa il 9 settembre 2026** — appartengono alla **sede**, per tre ragioni diverse; e il motore, che legge sempre il cliente, va riscritto |
+| [2 · Qual e la chiave di un cliente?](2-chiave-cliente.md) | la **Fase 3** · determina colonne dello schema | **decisa il 9 settembre 2026** — la chiave è **P.IVA + sede**: un cliente, N sedi, un organigramma per sede |
+| [3 · WERP resta o muore?](3-werp-resta.md) | la **Fase 4**, e solo se lo scadenzario deve generare commesse | **aperta** |
+| [4 · Dove vive kitformasubito, e chi lo tiene?](4-kitformasubito.md) | niente subito · ma non deciderlo la fa rientrare dalla finestra fra sei mesi | **decisa il 9 settembre 2026** — resta dov’è, fuori dall’ecosistema, e si lega al cliente che lo chiede |
+| [5 · Le divisioni 30, 86 e 87: alto rischio, o silenzio?](5-divisioni-non-classificate.md) | niente · ma finché era aperta, 32 codici ATECO non avevano classe | **decisa il 9 settembre 2026** — valgono **`ALTO`**, con la citazione della Gazzetta e la deduzione marcata separatamente dal valore |
+| [6 · Il cliente con piu codici ATECO: si prende il piu alto?](6-piu-alto.md) | niente · finché le sedi non sono entità di prima classe | **decisa il 9 settembre 2026** — **dipende dalla mansione** — il «più alto» resta solo come default prudenziale per la sede multi-ATECO |
+| [7 · Chi possiede la base normativa, e chi puo modificarla](7-base-normativa.md) | niente · è una decisione di governo, non di costruzione | **decisa il 9 settembre 2026** — la libreria `formazione-81-utils-src` resta il **generatore unico**, e `reference/` la alimenta |
+| [8 · Dove si annota che il livello di rischio non viene dall'ATECO](8-scostamento-dal-rischio-ateco.md) | la **Fase 3** · determina colonne, insieme a quelle della decisione 1 | **decisa il 9 settembre 2026** — si annota in un **box accanto al default ATECO**, con motivazione, data e autore |
+
+<!-- decisioni:fine -->

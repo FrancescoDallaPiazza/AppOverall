@@ -1,5 +1,8 @@
 # 6 · Il cliente con piu codici ATECO: si prende il piu alto?
 
+> **Blocca:** niente · finché le sedi non sono entità di prima classe
+> **In una riga:** **dipende dalla mansione** — il «più alto» resta solo come default prudenziale per la sede multi-ATECO
+
 **Non blocca niente** finche le sedi non sono entita di prima classe. Poi diventa
 una domanda quotidiana, non un caso limite.
 

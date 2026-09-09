@@ -1,8 +1,10 @@
 # 5 · Le divisioni 30, 86 e 87: alto rischio, o silenzio?
 
-**Decisa il 9 settembre 2026: `ALTO`, con citazione e marcatura di deduzione** —
-vedi [Decisione](#decisione) in fondo. Sblocca **32 codici ATECO** che fino a oggi
-non avevano una classe di rischio.
+> **Blocca:** niente · ma finché era aperta, 32 codici ATECO non avevano classe
+> **In una riga:** valgono **`ALTO`**, con la citazione della Gazzetta e la deduzione marcata separatamente dal valore
+
+Fino a oggi **32 codici ATECO non avevano una classe di rischio**, e la ragione
+non era una scelta del legislatore.
 
 ## Il fatto
 

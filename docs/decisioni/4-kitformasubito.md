@@ -1,5 +1,8 @@
 # 4 · Dove vive kitformasubito, e chi lo tiene?
 
+> **Blocca:** niente subito · ma non deciderlo la fa rientrare dalla finestra fra sei mesi
+> **In una riga:** resta dov’è, fuori dall’ecosistema, e si lega al cliente che lo chiede
+
 **Non blocca niente subito.** Ma se non si dice adesso, rientra dalla finestra fra
 sei mesi.
 

@@ -1,5 +1,7 @@
 # 3 · WERP resta o muore?
 
+> **Blocca:** la **Fase 4**, e solo se lo scadenzario deve generare commesse
+
 **Blocca la Fase 4**, e solo se lo scadenzario deve generare commesse.
 
 ## Raccomandazione: resta

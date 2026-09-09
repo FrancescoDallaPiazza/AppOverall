@@ -1,5 +1,8 @@
 # 8 · Dove si annota che il livello di rischio non viene dall'ATECO
 
+> **Blocca:** la **Fase 3** · determina colonne, insieme a quelle della decisione 1
+> **In una riga:** si annota in un **box accanto al default ATECO**, con motivazione, data e autore
+
 **Blocca la Fase 3.** Determina colonne dello schema, e vanno messe insieme alle
 altre della decisione 1: aggiungerle dopo significa riscrivere le righe gia' scritte.
 

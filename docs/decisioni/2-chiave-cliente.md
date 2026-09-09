@@ -1,5 +1,8 @@
 # 2 · Qual e la chiave di un cliente?
 
+> **Blocca:** la **Fase 3** · determina colonne dello schema
+> **In una riga:** la chiave è **P.IVA + sede**: un cliente, N sedi, un organigramma per sede
+
 **Blocca la Fase 3.** La direzione e obbligata, ma una direzione obbligata che
 nessuno ha scritto non e una decisione.
 

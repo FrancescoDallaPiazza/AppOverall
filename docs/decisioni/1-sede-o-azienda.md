@@ -1,5 +1,8 @@
 # 1 · Il fatto appartiene alla sede o all'azienda?
 
+> **Blocca:** la **Fase 3** · determina colonne dello schema
+> **In una riga:** appartengono alla **sede**, per tre ragioni diverse; e il motore, che legge sempre il cliente, va riscritto
+
 **Blocca la Fase 3.** Determina colonne dello schema.
 
 ## Cosa e in gioco

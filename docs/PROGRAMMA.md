@@ -101,41 +101,16 @@ quelli portano codici gia in formato 2007 — ma **la campagna di riempimento**.
 
 ### Fase 2 — Le decisioni che aprono il repo · nessun codice
 
-Otto schede in [`decisioni/`](decisioni/). **Sette sono chiuse, tutte il 9 settembre**,
-e con l'ultima delle bloccanti e caduta la guardia che teneva l'SQL fuori dal repo:
+Otto schede in [`decisioni/`](decisioni/), e **lo stato si legge nella
+[sezione 5](#5-stato-delle-decisioni)**, che lo prende dalle schede. Non e
+riportato qui: lo stesso fatto stava in quattro posti — la scheda, questo elenco,
+la tabella della sezione 5, lo STATO dell'altra corsia — e chi decideva ne toccava
+uno. Il piano e invecchiato due volte in un'ora il 9 settembre, ed e per questo che
+questo paragrafo non elenca piu niente.
 
-- ~~**Sede o azienda**~~ — **decisa: appartengono alla sede**, e per tre ragioni
-  diverse. Il rischio perche l'ATECO si legge dalla visura, che riporta l'attivita di
-  ciascuna unita locale; l'antincendio perche dipende da cosa si fa in quel
-  capannone; il primo soccorso dal codice di tariffa INAIL. E l'**inversione**: il
-  motore legge sempre il cliente e va riscritto.
-- ~~**Chiave cliente**~~ — **decisa: P.IVA + sede.** «Un'azienda con due sedi chiama
-  per forza due organigrammi.» Da cui il modello: un cliente, N sedi, **un
-  organigramma per sede**.
-- ~~**Chi possiede la base normativa**~~ — **decisa: la libreria resta il generatore
-  unico**, e `reference/` la alimenta.
-- ~~**Lo scostamento dal rischio ATECO**~~ (scheda 8) — **decisa: si annota accanto
-  al default.** L'ATECO da un default, non un verdetto: il rischio calcolato resta
-  visibile, e accanto sta la nota che dice la classe applicata, **la motivazione, la
-  data e chi l'ha fatta**. Era la sola che bloccava la Fase 3.
-- ~~**Dove vive `kitformasubito`**~~ — **decisa: resta dov'e**, fuori dall'ecosistema.
-  E un servizio che si lega al cliente che lo chiede, non al sistema. Chi lo tiene
-  quando serve una modifica non e stato detto, e non blocca.
-- ~~**«Si prende il piu alto»**~~ (scheda 6, di norma) — **decisa: dipende dalla
-  mansione**, la piu esigente delle tre strade e la sola che l'Interpello 1/2025
-  consente esplicitamente. Meta del meccanismo era gia costruita:
-  `persona.livello_rischio` c'e dalla migrazione `015` e il motore gli da gia la
-  precedenza sul rischio del cliente. Manca solo chi lo popola.
-- ~~**Le divisioni 30, 86, 87**~~ (scheda 5, di norma) — **decisa: valgono `alto`**,
-  con la citazione della Gazzetta n. 8 dell'11/01/2012 e **la deduzione marcata
-  separatamente dal valore**. Non e una lettura dell'ASR 2025, che le tace per un
-  guasto tipografico — la 30 stampata come 33, la Q con l'intestazione sopra il
-  vuoto — ma il 221/CSR piu la deduzione che il vigente non abbia inteso
-  declassarle. Sblocca i 32 codici che non avevano classe. Il valore entra **nel
-  generatore**, non in `ateco.ts`: sarebbe la quinta copia.
-
-Resta **una scheda aperta, e non blocca**: **WERP resta** (scheda 3), da confermare
-formalmente. Tocca solo la fase 4.
+Quello che resta qui e pianificazione, non stato: **con l'ultima delle bloccanti e
+caduta la guardia che teneva l'SQL fuori dal repo**, e le decisioni 1 e 8 vanno
+applicate insieme, perche determinano colonne della stessa tabella.
 
 **Criterio di uscita.** Una riga scritta per scheda, non un'opinione. Ognuna delle
 bloccanti determina una colonna dello schema — ed e per questo che sono state decise
@@ -185,19 +160,28 @@ in conoscenza; quello che si rifarebbe a mano e piccolo in righe e caro in anni.
 
 ## 5. Stato delle decisioni
 
-| Decisione | Stato | Cosa blocca |
-|---|---|---|
-| Perimetro senza erogazione | deciso | niente |
-| `AppCorsiOverall` escluso | deciso | niente |
-| Repo nuovo, non foglio bianco | deciso | niente |
-| WERP resta | raccomandato, **da confermare** | solo la fase 4, e solo se lo scadenzario genera commesse |
-| Sede o azienda | **deciso il 9.09** | niente: appartengono alla **sede** |
-| Chiave cliente unica | **deciso il 9.09** | niente: **P.IVA + sede**, un organigramma per sede |
-| Chi possiede la base normativa | **deciso il 9.09** | niente: la libreria resta il generatore unico |
-| Lo scostamento dal rischio ATECO | **deciso il 9.09** | niente: si annota accanto al default, con motivazione, data e autore |
-| Dove vive `kitformasubito` | **deciso il 9.09** | niente: resta fuori, si lega al cliente non al sistema |
-| «Si prende il piu alto» | **deciso il 9.09** | niente: **dipende dalla mansione** |
-| Le divisioni 30, 86, 87 | **deciso il 9.09** | niente: `alto`, con la deduzione marcata. I 32 codici hanno una classe |
+**Tre decisioni di perimetro non hanno una scheda**, perche non hanno uno stato
+che evolve: sono state prese e basta — il perimetro senza erogazione,
+`AppCorsiOverall` escluso, il repo nuovo invece del foglio bianco.
+
+Le altre otto ce l'hanno, e da li si legge lo stato:
+
+<!-- decisioni:inizio (generato da docs/decisioni/genera.py) -->
+
+**7 schede su 8 sono chiuse.** Stato generato dalle schede: il paragrafo `## Decisione` di ognuna e la fonte, questa tabella e la resa.
+
+| scheda | blocca | stato |
+| --- | --- | --- |
+| [1 · Il fatto appartiene alla sede o all'azienda?](decisioni/1-sede-o-azienda.md) | la **Fase 3** · determina colonne dello schema | **decisa il 9 settembre 2026** — appartengono alla **sede**, per tre ragioni diverse; e il motore, che legge sempre il cliente, va riscritto |
+| [2 · Qual e la chiave di un cliente?](decisioni/2-chiave-cliente.md) | la **Fase 3** · determina colonne dello schema | **decisa il 9 settembre 2026** — la chiave è **P.IVA + sede**: un cliente, N sedi, un organigramma per sede |
+| [3 · WERP resta o muore?](decisioni/3-werp-resta.md) | la **Fase 4**, e solo se lo scadenzario deve generare commesse | **aperta** |
+| [4 · Dove vive kitformasubito, e chi lo tiene?](decisioni/4-kitformasubito.md) | niente subito · ma non deciderlo la fa rientrare dalla finestra fra sei mesi | **decisa il 9 settembre 2026** — resta dov’è, fuori dall’ecosistema, e si lega al cliente che lo chiede |
+| [5 · Le divisioni 30, 86 e 87: alto rischio, o silenzio?](decisioni/5-divisioni-non-classificate.md) | niente · ma finché era aperta, 32 codici ATECO non avevano classe | **decisa il 9 settembre 2026** — valgono **`ALTO`**, con la citazione della Gazzetta e la deduzione marcata separatamente dal valore |
+| [6 · Il cliente con piu codici ATECO: si prende il piu alto?](decisioni/6-piu-alto.md) | niente · finché le sedi non sono entità di prima classe | **decisa il 9 settembre 2026** — **dipende dalla mansione** — il «più alto» resta solo come default prudenziale per la sede multi-ATECO |
+| [7 · Chi possiede la base normativa, e chi puo modificarla](decisioni/7-base-normativa.md) | niente · è una decisione di governo, non di costruzione | **decisa il 9 settembre 2026** — la libreria `formazione-81-utils-src` resta il **generatore unico**, e `reference/` la alimenta |
+| [8 · Dove si annota che il livello di rischio non viene dall'ATECO](decisioni/8-scostamento-dal-rischio-ateco.md) | la **Fase 3** · determina colonne, insieme a quelle della decisione 1 | **decisa il 9 settembre 2026** — si annota in un **box accanto al default ATECO**, con motivazione, data e autore |
+
+<!-- decisioni:fine -->
 
 ## 6. Le misure
 
