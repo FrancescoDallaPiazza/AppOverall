@@ -174,20 +174,84 @@ riga generata cita parte-punto-pagina, allora quando un articolo cambia si puo
 passo 3 si fa a memoria, cioe non si fa. Il passo 5 e R3 usata al contrario: la
 versione dichiarata dal consumatore serve a sapere quando **non** e stata rigenerata.
 
-### Tre cadenze
+### Due meccanismi, non tre cadenze
 
-| cadenza | cosa si guarda | perche quella |
+La prima stesura elencava tre cadenze — mensile, trimestrale, a evento — e la terza
+era una finzione: «a evento» non e una cadenza, perche nessuno pubblica un feed del
+giorno in cui esce un decreto attuativo. La domanda giusta per ogni fonte non e *ogni
+quanto la guardo*, ma **cosa mi accorgerebbe che e cambiata**. Posta cosi, quasi tutte
+hanno gia una risposta, e le tre cadenze si riducono a due meccanismi.
+
+| sentinella | cosa mi accorgerebbe | chi lo fa |
 | --- | --- | --- |
-| **mensile** | D.Lgs. 81/2008, edizione dichiarata | e l'unica fonte che cambia da sola, ogni pochi mesi |
-| **trimestrale** | FAQ interregionali, FAQ regionali, nuovi interpelli MLPS | escono a ondate — tre raccolte in otto mesi — e sono la materia (b): spostano interpretazioni, non tabelle |
-| **a evento** | ASR e decreti attuativi, tavole ISTAT, statistiche INAIL triennali | non cambiano da soli. Il sorvegliato speciale e l'**art. 45 c. 2**: il giorno in cui esce il decreto che sostituisce il DM 388/2003, le 6 e 4 ore di aggiornamento del primo soccorso smettono di essere prassi aziendale — materia (b), rango 6 — e tornano a essere una lettura |
+| modifiche al D.Lgs. 81/2008, i 16 articoli che reggono il motore | il testo coordinato **annota ogni comma modificato** con il provvedimento e la data | il controllo mensile, gratis |
+| tavole ATECO ISTAT | la pagina ISTAT della classificazione dichiara data e versione | il controllo mensile, se la pagina e stabile |
+| il decreto attuativo dell'**art. 45 c. 2** | *da verificare* — vedi la riserva qui sotto | il mensile se lo annota, altrimenti il promemoria |
+| statistiche INAIL sull'inabilita permanente | sono **triennali**, in Gazzetta, aggiornate al 31 dicembre: la finestra e prevedibile | promemoria a data, non un watcher |
+| nuove FAQ interregionali o regionali | nessun feed: le pubblicano il Coordinamento e le regioni sui propri siti | il promemoria trimestrale |
+| un nuovo ASR, o una modifica dell'ASR 2025 | nessun segnale automatico affidabile — ma e notizia di settore, e arriva prima da li | il promemoria trimestrale |
 
-### Il registro
+**Meccanismo 1 · il controllo mensile**, che legge una stringa e la confronta con
+l'ultima osservata. **Meccanismo 2 · il promemoria trimestrale**, che non controlla
+niente e non finge di farlo: porta davanti la lista delle cose che vanno guardate a
+mano. Piu un promemoria a data per l'INAIL.
+
+**La riserva, dichiarata invece di essere scoperta dopo.** Un decreto attuativo
+dell'art. 45 c. 2 e un atto separato: non e detto che modifichi il testo
+dell'articolo, quindi **non e garantito che il testo coordinato lo annoti**.
+`aggiornamento-fonti.md` dice che ogni comma modificato porta la nota; non dice cosa
+fa con i decreti attuativi. Va guardato al primo controllo utile: se lo segnala, la
+sentinella e coperta dal mensile; se non lo segnala, scende nel trimestrale. Non si da
+per buono adesso.
+
+Nota di merito, emersa proprio da questo esercizio: le statistiche INAIL **non sono
+ancora in `fonti/`**, e servono alla condizione II del gruppo A di primo soccorso. Il
+buco c'era gia — lo dichiara `reference/README.md` — ma nessuna cadenza lo faceva
+riemergere.
+
+### Il registro, e i suoi tre esiti
 
 Ogni controllo lascia una riga **anche quando non cambia niente**: data, cosa si e
 guardato, esito. Serve per la ragione opposta a quella che sembra — non a provare che
 il lavoro e stato fatto, ma a sapere **da quando** non lo e. «Ultimo controllo: marzo»
 e un'informazione; il silenzio no.
+
+Il registro sta in [`../registro-normativa.md`](../registro-normativa.md), qui, e non
+nel repo di una corsia: il ciclo appartiene alla base normativa del gruppo, e cosi
+sopravvive al trasloco previsto da R1.
+
+Gli esiti sono **tre, non due**, ed e la parte da non sbagliare:
+
+| esito | cosa significa |
+| --- | --- |
+| **invariato** | ho guardato, la fonte dichiara quello che dichiarava prima |
+| **cambiato** | ho guardato, dichiara altro: parte la catena dei cinque anelli |
+| **non verificabile** | **non ho potuto guardare**: sito irraggiungibile, pagina cambiata, stringa non trovata |
+
+Il terzo esiste perche senza di lui un controllo scritto male **tace**, e nel registro
+il silenzio e indistinguibile da «invariato». Sarebbe la stessa forma di difetto gia
+presa due volte su questo progetto: la lettura non paginata che tronca a 1000 e
+presenta l'assenza come un insieme completo, e il «141 su 141» che contava solo le
+righe che il codice fiscale ce l'avevano. **Un'assenza che si presenta come una
+conferma.**
+
+### Cosa l'agente puo scrivere da solo
+
+Il controllo mensile e automatico e **committa la sua riga senza chiedere**. Una PR
+al mese che dice «invariato» verrebbe approvata senza leggerla, e un'approvazione
+automatica e peggio di nessuna: da l'impressione del controllo senza il controllo.
+
+Il confine e questo, e vale come regola: **l'agente scrive cio che ha osservato, mai
+cio che ne ha concluso.** Data, fonte, stringa dichiarata, esito. Non trascrizioni,
+non migrazioni, non righe di tabella — quelli sono gli anelli 2-5 e richiedono una
+citazione, che un controllo automatico non sa produrre. E R2 applicata a chi scrive
+invece che a cio che e scritto.
+
+Nota di separazione, per non creare la doppia verita che questo repo esiste per
+chiudere: il registro dice **cosa la fonte dichiara oggi**; la tabella «Stato» di
+`aggiornamento-fonti.md` dice **quale edizione e stata letta e trascritta**. Sono due
+fatti diversi, e non si duplicano. **Il divario fra i due e il segnale**: quando il
+registro osserva un'edizione che la tabella non ha ancora letto, c'e lavoro da fare.
 
 ### Cosa R4 richiede e oggi non c'e
 

@@ -19,3 +19,4 @@ in fondo a ogni scheda ci sia una riga, non un'opinione.
 | [5 · le divisioni 30, 86, 87](5-divisioni-non-classificate.md) | 32 codici ATECO restano senza classe |
 | [6 · il cliente con piu ATECO](6-piu-alto.md) | niente finche le sedi non sono di prima classe |
 | [7 · chi possiede la base normativa](7-base-normativa.md) | **decisa il 9.09**: la libreria resta il generatore unico |
+| [8 · lo scostamento dal rischio ATECO](8-scostamento-dal-rischio-ateco.md) | **la Fase 3** |
