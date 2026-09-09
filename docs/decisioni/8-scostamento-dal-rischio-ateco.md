@@ -88,4 +88,71 @@ volte. E' materiale della **prima migrazione del repo unico**.
 
 ## Decisione
 
-*(da scrivere)*
+**Presa da Francesco il 9 settembre 2026.** Nelle sue parole:
+
+> «Si annota in un box accanto al rischio, che e calcolato di default da ATECO, con
+> le motivazioni in una nota a corredo che riportera data e chi l'ha fatta.»
+
+Quindi tre cose, e in quest'ordine:
+
+1. **Il default resta calcolato dall'ATECO e non si sovrascrive.** La classe che la
+   tabella dice continua a esserci ed essere ricalcolabile. Cio che si annota e lo
+   **scostamento**, non il valore finale: se un giorno il raccordo cambia il default,
+   si vede subito su quali sedi la nota lo teneva fermo e su quali no.
+2. **Il box sta accanto al rischio**, non dentro. Un campo separato, per sede.
+3. **La nota porta data e autore.** Non e un dettaglio di audit: e cio che distingue
+   una motivazione da un'opinione. «Rischio alto» non si verifica; «rischio alto
+   perche il DVR del 12 marzo rileva saldatura in ambiente confinato, annotato da
+   M.R. il 14 marzo» si verifica.
+
+### La forma non va inventata: esiste, ed e in AppFormazione
+
+Questa scheda diceva che il meccanismo esiste **a meta** in AppSopralluoghi, con
+`antincendio_definito_mediante` e `primo_soccorso_definito_mediante` — due stringhe
+libere, scritte dal wizard DM 388 nella stessa patch del verdetto.
+
+Ma la meta che manca la' e gia scritta di qua. `risposte_azienda`
+(`0052_le_domande_d_azienda_e_il_discriminante.sql:212`) porta i **quattro campi che
+la decisione chiede**, con questi nomi:
+
+    motivazione     text                                    il perche
+    fonte_risposta  text                                    da dove viene
+    risposto_il     date not null default current_date      quando
+    risposto_da     text                                    chi
+
+E il commento accanto dice gia perche esistono:
+
+> «Una scheda che dice "gruppo A" e una lettera; una che dice "gruppo A perche
+> fabbrichiamo munizioni, dichiarato dal datore di lavoro il 12 ottobre sul verbale
+> della riunione periodica" e un **archivio**.»
+
+Quindi la decisione non chiede una forma nuova. Chiede di **applicare al livello di
+rischio la forma che AppFormazione usa gia per le domande d'azienda**, e di portarci
+sopra i due `*_definito_mediante` di AppSopralluoghi, che oggi sono la stessa cosa
+scritta peggio: la motivazione senza la data e senza chi.
+
+**Una forma sola per tutti e tre gli attributi** — rischio, antincendio, primo
+soccorso — e non tre.
+
+### Cosa entra nella prima migrazione del repo unico
+
+Per sede, accanto al valore applicato:
+
+- la **motivazione** dello scostamento, testo libero ma obbligatorio quando la classe
+  applicata differisce da quella calcolata;
+- la **fonte**: il documento da cui viene (DVR, verbale, dichiarazione del datore);
+- **quando** e **chi**, con `chi` che punta all'operatore e non a una stringa —
+  `risposto_da` oggi e testo, e nel repo unico c'e un vocabolario di operatori a cui
+  agganciarlo.
+
+Il valore calcolato dall'ATECO non si memorizza come dato scritto a mano: **resta un
+derivato**, cosi non puo divergere in silenzio dalla tabella che lo produce.
+
+### Cosa resta da decidere, ma non blocca
+
+Se la motivazione debba essere obbligatoria anche quando la classe applicata
+**coincide** con quella calcolata — cioe se «confermo il default» sia un atto da
+registrare o un non-atto. L'Interpello 1/2025 dice che la classe va confrontata con
+la valutazione dei rischi sempre, il che suggerirebbe di si; ma renderlo obbligatorio
+su 480 clienti prima di averne raccolto uno e un modo per farlo compilare a vuoto.
+Si decide quando si disegna la schermata.
