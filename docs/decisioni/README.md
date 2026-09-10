@@ -12,7 +12,7 @@ in fondo a ogni scheda ci sia una riga, non un'opinione.
 
 <!-- decisioni:inizio (generato da docs/decisioni/genera.py) -->
 
-**7 schede su 9 sono chiuse.** Stato generato dalle schede: il paragrafo `## Decisione` di ognuna e la fonte, questa tabella e la resa.
+**8 schede su 9 sono chiuse.** Stato generato dalle schede: il paragrafo `## Decisione` di ognuna e la fonte, questa tabella e la resa.
 
 | scheda | blocca | stato |
 | --- | --- | --- |
@@ -24,6 +24,6 @@ in fondo a ogni scheda ci sia una riga, non un'opinione.
 | [6 · Il cliente con piu codici ATECO: si prende il piu alto?](6-piu-alto.md) | niente · finché le sedi non sono entità di prima classe | **decisa il 9 settembre 2026** — **dipende dalla mansione** — il «più alto» resta solo come default prudenziale per la sede multi-ATECO |
 | [7 · Chi possiede la base normativa, e chi puo modificarla](7-base-normativa.md) | niente · è una decisione di governo, non di costruzione | **decisa il 9 settembre 2026** — la libreria `formazione-81-utils-src` resta il **generatore unico**, e `reference/` la alimenta |
 | [8 · Dove si annota che il livello di rischio non viene dall'ATECO](8-scostamento-dal-rischio-ateco.md) | la **Fase 3** · determina colonne, insieme a quelle della decisione 1 | **decisa il 9 settembre 2026** — si annota in un **box accanto al default ATECO**, con motivazione, data e autore |
-| [9 · Il catalogo formativo: si tiene il corso o l'obbligo, e con che chiave](9-grana-e-chiave-del-catalogo.md) | la **Fase 3** · determina la forma delle tabelle formative e la chiave a cui si aggancia tutto ciò che è già stato importato | **aperta** |
+| [9 · Il catalogo formativo: si tiene il corso o l'obbligo, e con che chiave](9-grana-e-chiave-del-catalogo.md) | la **Fase 3** · determina la forma delle tabelle formative e la chiave a cui si aggancia tutto ciò che è già stato importato | **decisa il 10 settembre 2026** — la grana è l'**obbligo**, la chiave è il **codice curato**, e l'impronta `GEST-`+md5 del gestionale diventa un **alias** invece di un'identità |
 
 <!-- decisioni:fine -->

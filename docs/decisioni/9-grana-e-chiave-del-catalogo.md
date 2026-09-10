@@ -1,6 +1,7 @@
 # 9 · Il catalogo formativo: si tiene il corso o l'obbligo, e con che chiave
 
 > **Blocca:** la **Fase 3** · determina la forma delle tabelle formative e la chiave a cui si aggancia tutto ciò che è già stato importato
+> **In una riga:** la grana è l'**obbligo**, la chiave è il **codice curato**, e l'impronta `GEST-`+md5 del gestionale diventa un **alias** invece di un'identità
 
 **Blocca la Fase 3.** È della stessa specie delle schede 1 e 8: determina colonne, e
 aggiungerle dopo significa riscrivere le righe già scritte — con l'aggravante che
@@ -114,5 +115,51 @@ settembre 2026 e non era scritto in nessuno dei due piani.
 
 ## Decisione
 
-*(da scrivere. Serve prima della prima migrazione formativa: è quella che crea le
-tabelle di cui questa scheda decide la forma.)*
+**Decisa il 10 settembre 2026.** La grana è l'**obbligo**; la chiave è il **codice
+testuale curato**; e l'impronta `GEST-` + md5 del titolo normalizzato **smette di
+essere un'identità e diventa la chiave di un alias**.
+
+Sulla grana è una ratifica, non una scelta: il motore ragiona per obbligo dalla
+`0024`, e la `0036` aveva già fatto `drop table requisiti` con la motivazione
+scritta — «la sua forma legava una regola a un titolo di catalogo». Il corso resta,
+come catalogo di erogazione agganciato all'obbligo che assolve, non come soggetto
+della regola.
+
+Sulla chiave la scelta è vera, e il costo che sembrava distinguerla è stato
+**misurato il 10 settembre** invece di essere stimato. La domanda era: quanto costa
+coniare un codice per i corsi del gestionale? Non 163. Dei **167** titoli del
+catalogo del gestionale, **137 hanno già un codice curato** attraverso il dizionario
+dei 268 alias — quella curatela è il lavoro che i settantasei `update` a mano hanno
+già prodotto. Ne restano **30**, e guardarli cambia la natura del lavoro: **undici
+non sono corsi** ma visite ed esami di sorveglianza sanitaria, che rispondono
+all'art. 41 e non all'art. 37; **nove** sono moduli tecnici `MV …` di un cliente
+ferroviario; gli altri dieci sono corsi veri quasi tutti fuori dal D.Lgs. 81 —
+HACCP, fitosanitari, privacy, qualità, rifiuti.
+
+Quindi il lavoro reale è smistare trenta titoli in tre caselle: prende un codice,
+si marca `ignorato` come i 31 già marcati così, oppure è un'altra entità e il
+sistema deve tracciarla altrove. **Ed è lavoro da fare comunque**, qualunque chiave
+si scelga, perché quei trenta titoli sono nei dati e oggi non sanno dove andare. Il
+costo non distingue le due strade: le distingue il rischio.
+
+Il rischio lo decide un fatto solo. L'impronta è **calcolata dal titolo**, e quando
+è cambiata la funzione di normalizzazione — un `btrim` mancante, migrazione `0020` —
+sono cambiati **41 codici su 163** in un colpo. Con l'uuid quella fu una riga; con
+una chiave testuale sarebbe stata una cascata su 13.215 eventi formativi. Ma la
+conclusione giusta non è «serve l'uuid»: è che **una stringa derivata non può fare
+da identità**. Tolta di lì, la cascata non si risolve meglio — smette di poter
+accadere, perché non c'è più niente da riscrivere: si ricalcola l'alias e si
+rimappa.
+
+Ricaduta che vale oltre l'import del gestionale, e che è emersa dal progetto sugli
+attestati del cliente nuovo: **il titolo stampato su un attestato di terzi è per
+natura un alias e non un'identità.** Un repo che nasce con un dizionario di alias di
+prima classe ha già dove far atterrare quelle carte; uno che lega ogni titolo a
+un'identità di catalogo si riempie di righe che non sono corsi ma modi di scrivere.
+
+Da scrivere subito, non dopo: che l'impronta del gestionale **è un alias**, a
+chiare lettere, altrimenti la prima persona che vede `GEST-a1b2c3d4` la tratta da
+codice. E che i codici si **coniano a mano** mentre gli alias no: la stabilità dei
+40 codici del campo — zero rinomine in 63 migrazioni — è stata pagata tenendo chiuso
+l'universo, e gli attestati dei clienti nuovi sono un flusso di titoli che nessun
+curatore controlla.
