@@ -350,9 +350,22 @@ Come funziona, per non trasformarlo in un collo di bottiglia:
 | corsia | prossimo task | perche questo e non un altro |
 |---|---|---|
 | **AppOverall** | **migrazione `0004`, il catalogo formativo** sotto la scheda 9: grana l'**obbligo**, chiave il **codice curato**, e l'impronta `GEST-`+md5 come **alias** | E la sola decisione che determina tabelle e non e ancora incarnata. Le 0001-0003 hanno fondamenta, ruoli e viste; il catalogo e il prossimo strato, e **13.215 eventi formativi** si agganciano a quella chiave: aggiungerla dopo significa riscriverli |
-| **AppSopralluoghi** | **in pausa** sull'import dei ruoli sicurezza, per decisione di Francesco. Nel frattempo, e solo questo: **leggere `AppFormazione/docs/07-i-ruoli-sicurezza-erano-in-un-export.md` ed enumerare le colonne del foglio «Ruoli SSL»** — preparazione a costo zero, nessuna scrittura su database | La pausa vale finche la toglie lui. La preparazione serve perche la trappola non e quella dei 12 CF mancanti: e una colonna mappata male su sette, con `datore_lavoro_rspp` letto come RSPP e sovrapposizione zero fra i due insiemi — il tipo di difetto che nessun conteggio segnala. **`D2` resta esclusa**: e in Edge Function e questa sessione non ha accesso a Supabase |
+| **AppSopralluoghi** | ~~enumerare le colonne del foglio «Ruoli SSL»~~ **chiuso il 10.09** (`01c35df`, `docs/c1a/ruoli-ssl-colonne.md`) → **prossimo: enumerare gli altri tre fogli** dello stesso workbook, con lo stesso metodo e senza scrivere niente, e dichiarare **quale foglio legge oggi ciascun import**, per indice e per nome. Import dei ruoli sempre **in pausa** | La preparazione ha capovolto la diagnosi: il workbook ha **quattro fogli** e il codice ne legge **uno** (`formazioneImport.ts:190`, `SheetNames[0]`), e le colonne sono **47**, non nove. Quindi non sappiamo cosa contengano «Fattori di Rischio» e «Visite» — tre quarti del file non esistono per il codice, e prima di progettare le tabelle formative conviene sapere cosa c'e dentro. La colonna 45 resta fuori dall'import **sapendo perche** (vedi A9), non per prudenza. **`D2` resta esclusa**: e in Edge Function e questa sessione non ha accesso a Supabase |
 | **AppFormazione** | **portare `reference/` a monte, nella libreria** — decisione 7. Verificato ora: `formazione-81-utils-src` contiene solo i tre `.js` e i test, **nessun `reference/`** | Fase 1 e chiusa, e questo e l'unico impegno della sezione 4 ancora non eseguito. Finche il corpus non alimenta il generatore, la decisione 7 e scritta ma non vera: la libreria resta il generatore unico **di una tabella che nessuna fonte alimenta** |
 
 Quando uno di questi si chiude, questa tabella si riscrive. Se resta ferma per un
 giorno di lavoro, e scaduta — e vale la nota della sezione 3: un piano che tiene
 anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**.
+
+- **A9** **Un dato coerente con se stesso non e per questo vero.** Enumerare le
+  colonne di un export e **necessario e non sufficiente**: la verifica che scopre il
+  difetto e **esterna al file**. Aggiunta il 10 settembre 2026 dalla corsia
+  AppSopralluoghi, e pagata sul caso peggiore — il foglio «Ruoli SSL» ha una colonna
+  testuale (la 32) che ripete i ruoli in prosa, e il riscontro fra quella e le nove
+  colonne di data da **zero incoerenze su tutte e nove** (79/79, 85/85, 31/31 e via).
+  Il file non si contraddice mai: chiama RSPP la colonna 45 e la ripete RSPP
+  nell'elenco. Il difetto sta **a monte del file** — il gestionale chiama RSPP il
+  datore che assume l'incarico in proprio, art. 34 — e la prova sta **negli
+  attestati**, dove la sovrapposizione con chi ha i moduli professionali e zero.
+  A8 riguarda **quando** una nota e stata scritta; questa riguarda **dove** puo stare
+  la prova: mai solo dentro il dato che si sta verificando.
