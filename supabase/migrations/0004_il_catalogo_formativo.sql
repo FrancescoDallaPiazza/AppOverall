@@ -84,6 +84,34 @@
 -- 268 in `corso_alias` di cui 31 `ignorato`. Le due chiavi esterne di questa
 -- migrazione sono la ragione per cui quel carico e una prova: se un codice non
 -- torna, l'insert si rifiuta invece di scrivere una riga muta.
+--
+-- **Il confronto col database vero e cominciato e non e finito**, la sera del 10
+-- settembre 2026, perche la sessione che aveva l'accesso in lettura si e chiusa.
+-- Dove si riprende, senza rifare la prima meta:
+--
+--   fatto:      le 40 righe di questo blocco lette da `origin` e parsate con un
+--               tokenizer che gestisce gli apici escapati, non con una regex —
+--               40 righe, 40 codici distinti, nessuna anomalia. Per ognuna un md5
+--               su una stringa canonica dei nove campi (null -> stringa vuota,
+--               `attivo` -> 't'/'f')
+--   da fare:    lo stesso md5 calcolato in Postgres su `corso_catalogo`, e il
+--               confronto dei due elenchi di hash. Solo le righe che divergono
+--               vanno guardate campo per campo:
+--
+--   select codice, md5(codice||'|'||coalesce(nome,'')||'|'||coalesce(categoria,'')
+--     ||'|'||coalesce(ore::text,'')||'|'||coalesce(aggiornamento_mesi::text,'')
+--     ||'|'||coalesce(ore_aggiornamento::text,'')||'|'||coalesce(prerequisito_codice,'')
+--     ||'|'||(case when attivo then 't' else 'f' end)||'|'||coalesce(note,'')) as h
+--     from corso_catalogo order by codice;
+--
+-- **L'unico dato che c'e non e una conferma.** `corso_catalogo` ha 40 righe nel
+-- database, misurato lo stesso giorno: stesso numero di queste. Dice che non ci
+-- sono codici in piu ne in meno — non dice che i contenuti coincidano. Va trattato
+-- come un conteggio e non come una mezza prova: e la stessa forma della coincidenza
+-- «24 e 24» che quel giorno ha ingannato entrambe le corsie per due ore.
+--
+-- Quindi lo «zero divergenze su 21 righe» di `figura_requisito` resta vero **per
+-- quella tabella** e non si estende a questi 40 codici.
 
 create table corso (
   -- Il codice curato, e non un uuid: questa tabella si legge nelle migrazioni
