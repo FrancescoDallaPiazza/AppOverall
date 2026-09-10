@@ -306,10 +306,23 @@ piano.
   database. All'import i clienti c'erano gia — 0 nuovi, 618 a posto — e le persone
   scritte sono 3.420. Resta vero che ogni fase che presuppone dati veri dipende dalla
   fase 0, ma non perche il database fosse vuoto.
-- **A6** Il perimetro non si allarga durante il riavvio.
+- **A6** Il perimetro non si allarga durante il riavvio. **Piegata una volta, il 10
+  settembre, con la decisione 3**: la pianificazione delle attivita di consulenza e
+  RSPP esce da WERP ed entra nel perimetro. E un allargamento dichiarato e circoscritto
+  — preventivi, commesse e fatturazione restano fuori — ma e un allargamento, e sta
+  scritto qui perche la prossima volta si sappia che questa e la seconda e non la
+  prima.
 - **A7** **Una regola dedotta non entra nelle tabelle applicative.** Si applica cio
   che si legge, con parte, punto e pagina; cio che si deduce aspetta, dichiarato.
   Non e condivisa da tutte le fonti in gioco: la libreria normativa riempie le tre
   divisioni aperte senza citarle. **E l'unica assunzione che, se cade, cambia la
   natura del progetto invece che il calendario**: 32 codici si sbloccano subito, e
   il progetto smette di essere quello che dice di essere.
+
+- **A8** **Un impegno scritto e un impegno eseguito hanno la stessa forma sulla
+  pagina.** Una nota che dice «verra fatto» non prova che sia da fare: si confronta
+  con la data in cui la cosa e stata fatta. Aggiunta il 10 settembre 2026 dalla corsia
+  AppSopralluoghi, che ha letto come pendente un azzeramento **deciso il 3 agosto** ed
+  **eseguito il 5** — e che, per la conferma di Francesco, non era mai stato un
+  impegno ma un'idea a voce. E la sorella di A5: la stessa nota letta come misura.
+  Il difetto non e stato misurare male, e stato **non misurare affatto**.
