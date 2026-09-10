@@ -113,7 +113,7 @@ quelli portano codici gia in formato 2007 — ma **la campagna di riempimento**.
 
 ### Fase 2 — Le decisioni che aprono il repo · nessun codice
 
-Otto schede in [`decisioni/`](decisioni/), e **lo stato si legge nella
+Le schede stanno in [`decisioni/`](decisioni/), e **lo stato si legge nella
 [sezione 5](#5-stato-delle-decisioni)**, che lo prende dalle schede. Non e
 riportato qui: lo stesso fatto stava in quattro posti — la scheda, questo elenco,
 la tabella della sezione 5, lo STATO dell'altra corsia — e chi decideva ne toccava
@@ -160,9 +160,9 @@ in conoscenza; quello che si rifarebbe a mano e piccolo in righe e caro in anni.
 
 | Che cosa | Destino |
 |---|---|
-| Corpus normativo (4.568 righe, 1.505 in `reference/`, 17 PDF) | migra come dato |
+| Corpus normativo (misurato al commit `7acfd69`: 4.568 righe, 1.505 in `reference/`, 17 PDF) | migra come dato |
 | Schema del dominio (62 migrazioni di qua, 53 e 7.423 righe SQL di la) | migra, rivisto |
-| Cataloghi e configurazione (268 alias, 40 corsi, 13 figure, 16 box) | migra come dato |
+| Cataloghi e configurazione (268 alias, 40 corsi, 13 figure, 16 box) | migra come dato — **ma gli alias non stanno nelle migrazioni**: vedi sotto |
 | Lettori degli export (WERP a 7 stadi, Sicurweb) | migra come codice |
 | Motori di dominio (requisiti, valutazione, scadenze) | migra come codice |
 | Schermate e navigazione | si riscrive |
@@ -170,17 +170,32 @@ in conoscenza; quello che si rifarebbe a mano e piccolo in righe e caro in anni.
 | **Il raccordo ISTAT** (3.257 codici, 6.742 righe) | **torna a monte, alla libreria** — e ci resta: sotto la decisione 7 la libreria e la sorgente, non una copia |
 | **Il corpus `reference/`** (17 PDF, 11 trascrizioni citate) | **va a monte anch'esso**, ad alimentare il generatore |
 
+**Dove stanno davvero i 268 alias.** Non in `supabase/migrations/`: li la tabella
+`corso_alias` nasce **vuota** (`055`). Le righe vivono in
+`AppSopralluoghi/supabase/scripts/`, seminate da `ripristina_alias_gestionale.sql`
+e poi mappate da **76 `update` scritti a mano** — 237 mappati, 31 ignorati. Con
+loro vanno le colonne di comportamento (`ignorato`, `pregressa`,
+`is_aggiornamento`, `parziale`, `evidenza_incompleta`), che sono decisioni prese
+una per una. Una migrazione dati che guardasse solo `migrations/` creerebbe la
+tabella e perderebbe **268 giudizi**, senza accorgersene: la tabella ci sarebbe.
+
+E lo stato vero non e nei file ma nel database, perche gli script ricostruiscono il
+30 luglio e il TODO del campo riporta l'esito come gia eseguito. Il seed si
+**esporta**, non si rigioca.
+
 ## 5. Stato delle decisioni
 
 **Tre decisioni di perimetro non hanno una scheda**, perche non hanno uno stato
 che evolve: sono state prese e basta — il perimetro senza erogazione,
 `AppCorsiOverall` escluso, il repo nuovo invece del foglio bianco.
 
-Le altre otto ce l'hanno, e da li si legge lo stato:
+Le altre ce l'hanno, e da li si legge lo stato — la 9 e stata aperta il 10
+settembre, quando e emerso che il codice dei corsi di AppFormazione e
+un'impronta del titolo e non un codice:
 
 <!-- decisioni:inizio (generato da docs/decisioni/genera.py) -->
 
-**7 schede su 8 sono chiuse.** Stato generato dalle schede: il paragrafo `## Decisione` di ognuna e la fonte, questa tabella e la resa.
+**7 schede su 9 sono chiuse.** Stato generato dalle schede: il paragrafo `## Decisione` di ognuna e la fonte, questa tabella e la resa.
 
 | scheda | blocca | stato |
 | --- | --- | --- |
@@ -192,6 +207,7 @@ Le altre otto ce l'hanno, e da li si legge lo stato:
 | [6 · Il cliente con piu codici ATECO: si prende il piu alto?](decisioni/6-piu-alto.md) | niente · finché le sedi non sono entità di prima classe | **decisa il 9 settembre 2026** — **dipende dalla mansione** — il «più alto» resta solo come default prudenziale per la sede multi-ATECO |
 | [7 · Chi possiede la base normativa, e chi puo modificarla](decisioni/7-base-normativa.md) | niente · è una decisione di governo, non di costruzione | **decisa il 9 settembre 2026** — la libreria `formazione-81-utils-src` resta il **generatore unico**, e `reference/` la alimenta |
 | [8 · Dove si annota che il livello di rischio non viene dall'ATECO](decisioni/8-scostamento-dal-rischio-ateco.md) | la **Fase 3** · determina colonne, insieme a quelle della decisione 1 | **decisa il 9 settembre 2026** — si annota in un **box accanto al default ATECO**, con motivazione, data e autore |
+| [9 · Il catalogo formativo: si tiene il corso o l'obbligo, e con che chiave](decisioni/9-grana-e-chiave-del-catalogo.md) | la **Fase 3** · determina la forma delle tabelle formative e la chiave a cui si aggancia tutto ciò che è già stato importato | **aperta** |
 
 <!-- decisioni:fine -->
 
@@ -209,9 +225,9 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Clienti — formazione / sopralluoghi | 480 / 607 | Sottoinsieme stretto, zero orfani, una collisione |
 | Anagrafiche da far rientrare | 619 | Database del campo vuoto dal 5 agosto |
 | Scadenze sul modello | 7.084 | Base allargata; il 100% era chiuso su 4.778 |
-| Migrazioni AppFormazione | 53 | `supabase/migrations/*.sql` |
-| Righe SQL AppFormazione | 7.423 | **solo `migrations/`**; con `scripts/*.sql` sono 8.125 |
-| Corpus in markdown | 4.568 | tutti i `.md` tracciati, di cui 1.505 in `reference/` |
+| Migrazioni AppFormazione | 53 | `supabase/migrations/*.sql`, al 9 settembre; il 10 sono 54 |
+| Righe SQL AppFormazione | 7.423 | **solo `migrations/`**, al 9 settembre; con `scripts/*.sql` erano 8.125 |
+| Corpus in markdown | 4.568 | tutti i `.md` tracciati al commit `7acfd69`, di cui 1.505 in `reference/`. **Il 10 settembre sono 5.574 e 1.949**: la misura vale per il giorno in cui e stata presa, e per questo porta il commit invece di essere aggiornata a ogni file scritto |
 | Formazione dentro l'app da campo | 8.876 | 36,1% di 24.576 righe di `src/` |
 | Viste nelle 62 migrazioni del campo | 0 | — |
 | Difetti del campo confermati · riparati | 4 · 3 | Resta D2, che vuole un deploy |

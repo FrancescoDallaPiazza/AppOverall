@@ -32,7 +32,7 @@ FINE = u'<!-- decisioni:fine -->'
 def leggi_schede():
     schede = []
     for f in sorted(os.listdir(QUI)):
-        m = re.match(r'^([1-8])-(.*)\.md$', f)
+        m = re.match(r'^(\d+)-(.*)\.md$', f)
         if not m:
             continue
         s = io.open(os.path.join(QUI, f), encoding='utf-8').read()
@@ -51,9 +51,13 @@ def leggi_schede():
             d = re.search(r'il (\d{1,2} \w+ \d{4})', corpo)
             data = d.group(1) if d else None
 
-        schede.append(dict(n=m.group(1), file=f, titolo=titolo, aperta=aperta,
+        schede.append(dict(n=int(m.group(1)), file=f, titolo=titolo, aperta=aperta,
                            blocca=campo(u'Blocca'), riga=campo(u'In una riga'),
                            data=data))
+    # Per numero e non per nome: alla decima scheda l'ordine alfabetico
+    # metterebbe la 10 fra la 1 e la 2, e la tabella comincerebbe a mentire
+    # sull'ordine in cui le decisioni sono state poste.
+    schede.sort(key=lambda s: s['n'])
     return schede
 
 
@@ -111,8 +115,13 @@ def scrivi(percorso, blocco, check):
 def main():
     check = '--check' in sys.argv
     schede = leggi_schede()
-    if len(schede) != 8:
-        print(u'trovate %d schede invece di 8' % len(schede))
+    # Il vincolo non e «quante sono» — le schede si aggiungono quando una
+    # verifica isola un bivio nuovo — ma che siano numerate senza buchi: un buco
+    # e una scheda cancellata o mai scritta, e in entrambi i casi va vista.
+    numeri = [s['n'] for s in schede]
+    if numeri != list(range(1, len(numeri) + 1)):
+        print(u'le schede non sono numerate consecutivamente da 1: %s'
+              % u', '.join(str(n) for n in numeri))
         return 1
     errori = controlla(schede)
     if errori:
