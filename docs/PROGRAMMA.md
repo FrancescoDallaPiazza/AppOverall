@@ -37,8 +37,24 @@ Sono il motivo per cui il repo e nuovo invece che riparato. Ognuna e un difetto
 gia misurato. Ed e anche il motivo per cui riscrivere lo strato applicativo costa
 meno di quanto sembri: quel codice e gia condannato a prescindere.
 
-1. **Viste come strato di indirezione** — oggi zero `create view` in 62 migrazioni.
-2. **RLS che isolano davvero** — oggi tutte `using (true) with check (true)`.
+1. **Viste come strato di indirezione** — zero `create view` in AppSopralluoghi.
+   **Non nell'altro repo**: AppFormazione ne ha 29, e non e un dettaglio (vedi 2).
+2. **RLS che isolano davvero.** Questa riga diceva «oggi **tutte** `using (true)
+   with check (true)`», e faceva di due repo un mucchio solo. **Corretta il 10
+   settembre 2026**, contando: AppSopralluoghi ne ha **17**; AppFormazione ne ha
+   **zero**, e dichiara `security_invoker` su **28 viste su 29**.
+
+   La correzione non e cosmetica, perche da quella riga la `0001` aveva tratto
+   una conseguenza operativa — «non c'e isolamento da replicare, va scritto da
+   zero» — e ha percio riprodotto un difetto che **l'altro repo aveva gia
+   risolto**: viste che, senza `security_invoker`, eseguono coi diritti del
+   proprietario e scavalcano le policy. Scoperto due giorni dopo scrivendo la
+   `0002`, chiuso con la `0003`. Non era un difetto ignoto al progetto: era ignoto
+   a noi, perche il censimento aveva unito due repo che su questo punto sono
+   **opposti**.
+
+   E la stessa forma di errore della decisione 7 — un censimento fatto sulla cosa
+   sbagliata perde cio che sta a monte.
 3. **Un solo vocabolario di ruoli** — oggi due insiemi senza un valore in comune,
    e con **una distinzione che nessuno dei due fa**: il datore di lavoro che svolge
    in proprio i compiti di RSPP (**art. 34**) non e un RSPP (**art. 32**). Sono due
