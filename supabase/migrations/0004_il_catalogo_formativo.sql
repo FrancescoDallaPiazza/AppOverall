@@ -112,6 +112,32 @@
 --
 -- Quindi lo «zero divergenze su 21 righe» di `figura_requisito` resta vero **per
 -- quella tabella** e non si estende a questi 40 codici.
+--
+-- ---------- il confronto e finito, e ha trovato una cosa sola ----------
+--
+-- Chiuso il 10 settembre 2026 (`aa42ced` in AppSopralluoghi): **360 campi
+-- confrontati, una divergenza**. Zero codici solo nel database — quindi nessuno ha
+-- scritto a catalogo dall'interfaccia, e verificato **sui codici** e non sul
+-- conteggio. 39 righe identiche su tutti e nove i campi.
+--
+-- L'unica divergenza e `DL_RSPP_BASE`, campo `note`, **un carattere**:
+--
+--   questa migrazione:  «DEPRECATO dalla 049 …»
+--   il database:        «DEPRECATO dalla 050 …»
+--
+-- **Nessuno dei due ha ricostruito male.** Quella migrazione e nata come `050`, con
+-- una nota che citava il proprio numero, ed e stata **applicata** in quella forma;
+-- poi il file e stato rinumerato a `049`, la nota aggiornata di conseguenza, e il
+-- `050` cancellato — `git log -S "DEPRECATO dalla 050"` lo mostra. Il database
+-- registra **cio che e stato applicato**; il file registra **una modifica
+-- successiva mai arrivata al database**.
+--
+-- **La decisione, che e mia e non un merge**: la nota qui non cita ne il 049 secco
+-- ne il 050 secco. Dice cosa e successo e dove guardare, perche un numero di
+-- migrazione di un repo destinato all'archivio (Fase 5) e un puntatore che scade, e
+-- un catalogo che porta un riferimento irrisolvibile ha una nota decorativa. **E il
+-- solo campo in cui questo catalogo si discosta deliberatamente da entrambe le
+-- fonti**, ed e scritto qui perche non sembri una terza ricostruzione sbagliata.
 
 create table corso (
   -- Il codice curato, e non un uuid: questa tabella si legge nelle migrazioni
@@ -200,7 +226,7 @@ insert into corso (codice, nome, categoria, ore, aggiornamento_mesi, ore_aggiorn
   ('DIRIGENTE', 'Formazione dirigenti', 'dirigente', 12, 60, 6, null, true,
    'ASR 17/04/2025: 12h (erano 16h con accordo 2011). Aggiornamento 6h ogni 5 anni. Piu'' 6h modulo cantieri se dirigente dell''impresa affidataria (art. 97 c.3-ter).'),
   ('DL_RSPP_BASE', 'Datore di lavoro-RSPP - modulo base', 'dl_rspp', 16, 60, 6, null, false,
-   'DEPRECATO dalla 049. Le 16h base del DL-RSPP coincidono col corso DATORE_LAVORO (art. 37) e sono il PREREQUISITO, non un modulo proprio. Conservato solo per compatibilita con attestati storici.'),
+   'DEPRECATO nel 2026, dalla migrazione del campo che ha reso DATORE_LAVORO il prerequisito: nel repo e la `049`, ma il database la registra come `050`, il numero che il file aveva quando fu applicata (vedi il commento della 0004). Le 16h base del DL-RSPP coincidono col corso DATORE_LAVORO (art. 37) e sono il PREREQUISITO, non un modulo proprio. Conservato solo per compatibilita con attestati storici.'),
   ('DL_RSPP_COMUNE', 'Datore di lavoro-RSPP - modulo comune', 'dl_rspp', 8, 60, 8, 'DATORE_LAVORO', true,
    'Modulo comune 8h (ASR 17/04/2025). Prerequisito: corso base Datore di lavoro 16h (DATORE_LAVORO, art. 37). Aggiornamento 8h ogni 5 anni, distinto e aggiuntivo rispetto al 6h/5a del datore semplice.'),
   ('DL_RSPP_SETTORE', 'Datore di lavoro-RSPP - modulo di settore', 'dl_rspp', null, null, null, 'DL_RSPP_COMUNE', true,

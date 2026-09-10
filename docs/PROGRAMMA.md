@@ -360,7 +360,7 @@ senza la seconda, chi finisce alle sette di sera si ferma o si inventa un compit
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | **`corso_assolve`: la mappatura corso -> obbligo, ereditata da DUE fonti e incrociata** — le regole di AppFormazione (grana obbligo, dalla loro `0036`) e `figura_requisito` del campo. Dove concordano si scrive; **dove divergono e la parte interessante**, e diventa una riga da decidere invece di una media | la migrazione dati del corpus e dell'anagrafe nel nuovo schema | Due fonti perche A9: la mappatura di una sola sarebbe coerente con se stessa e non per questo vera. Nella `0004` ho scritto che si eredita da `figura_requisito`: **quella riga era piu stretta del vero** — la grana e l'obbligo, quindi la fonte principale e il modello di AppFormazione, e il campo e il riscontro |
-| **AppSopralluoghi** | **corsia fermata da Francesco la sera del 10.09 col confronto A META'.** Fatto: le 40 righe della `0004` lette da `origin` e ridotte a un md5 per riga. Da fare: lo stesso md5 in Postgres su `corso_catalogo` e il confronto degli hash — la query e scritta nel commento della `0004`, dove sta anche la ricostruzione che deve provare | la sua meta della riconciliazione delle visite: **clienti distinti** e righe con data passata | Le 40 righe del database e le mie 40 **non sono una conferma**: e un conteggio, ed e la stessa forma del «24 e 24» che ci ha ingannati per due ore lo stesso giorno. Quindi lo «zero divergenze su 21» di `figura_requisito` vale **per quella tabella** e i 40 codici curati restano un'ipotesi |
+| **AppSopralluoghi** | ~~confronto dei 40 codici~~ **chiuso** (`aa42ced`): **360 campi, una divergenza**, e nessun codice scritto dall'interfaccia. Corsia fermata la sera del 10.09 → **la riconciliazione delle visite**: clienti distinti dei due insiemi e righe con data passata | l'import dei ruoli, quando Francesco toglie la pausa | La divergenza e una nota che cita il proprio numero di migrazione — `049` nel file, `050` nel database, perche il file e stato rinumerato dopo essere stato applicato. Un carattere, e da li vengono **A10** e **A11**: nessuno dei due aveva ricostruito male, e al primo giro il confronto dava zero hash coincidenti su 40 per due differenze di rappresentazione |
 | **AppFormazione** | **corsia fermata da Francesco la sera del 10.09, e il passo NON e iniziato.** Assegnato e non aperto: le **regole obbligo -> corso**, stato finale, in due letture confrontate. Chi riapre riparte da qui — non e in corso, non e in attesa di dati, e nessuno la sta facendo | la sua meta della riconciliazione delle visite: su quanti **clienti distinti** stanno i 1.148 eventi, se sono storici o aperti, e su **quali clienti e in che anni** stanno le tre oculistiche quinquennali che vanno contro il pattern | `reference/` a monte e chiuso e riportato (`4d7ab3e`, `182783e` nella libreria, `b5afc64` da loro), con la ragione della forma nel README della libreria. Le regole servono a me: sono la fonte **principale** di `corso_assolve`, e finche non arrivano quella tabella resta vuota per scelta e non per attesa |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco ha fermato
@@ -411,3 +411,25 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   attestati**, dove la sovrapposizione con chi ha i moduli professionali e zero.
   A8 riguarda **quando** una nota e stata scritta; questa riguarda **dove** puo stare
   la prova: mai solo dentro il dato che si sta verificando.
+
+- **A10** **Le migrazioni descrivono il database, tranne dove un file e stato
+  modificato dopo essere stato applicato.** Aggiunta il 10 settembre 2026 e pagata
+  sul caso benigno: `DL_RSPP_BASE` porta «DEPRECATO dalla **050**» nel database e
+  «dalla **049**» nel file, perche quella migrazione e nata 050, e stata applicata,
+  poi rinumerata a 049 con la nota aggiornata — e il database non e stato
+  rieseguito. Qui la differenza e un carattere in una nota. **Il meccanismo non e
+  benigno**: se la modifica avesse riguardato le **ore** di un corso, la
+  ricostruzione dai file avrebbe prodotto un valore che nel database non e mai
+  esistito, e sarebbe stata coerente con se stessa — cioe A9 applicata alle
+  migrazioni invece che a un export. Da cui: una ricostruzione dai file **si
+  qualifica** («i file dicono»), non si dichiara vera, finche non e confrontata con
+  cio che e stato applicato.
+- **A11** **Quando due fonti divergono al cento per cento, il sospetto giusto e il
+  confronto, non i dati.** Aggiunta il 10 settembre 2026 dalla corsia
+  AppSopralluoghi, che al primo giro ha visto **zero hash coincidenti su 40** e
+  stava per riportare «divergono tutte». Non divergeva niente: `ore` e `numeric` e
+  Postgres la stampa `4.0` dove la migrazione scrive `4`, e un booleano concatenato
+  diventa `t` e non `true`. Due differenze di **rappresentazione**, zero di dato. Il
+  controllo che l'ha smascherata e guardare **la stringa grezza sotto l'hash**: un
+  digest dice *se* due cose differiscono e non *in cosa*, e per questo non va usato
+  da solo per dare una notizia.
