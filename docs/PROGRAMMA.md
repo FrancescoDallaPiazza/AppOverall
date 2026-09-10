@@ -108,11 +108,30 @@ Le fasi 0 e 1 corrono in parallelo in due repo. Dalla 3 in poi e una fila.
 **Criterio di uscita.** Un tecnico lavora offline senza restare bloccato, e le 619
 aziende attive sono rientrate nel database, vuoto dal 5 agosto.
 
-**Ordine, e non e una preferenza.** Se la fase di prova sugli import e chiusa,
-l'azzeramento dei dati operativi viene **prima** dell'import dei ruoli: disfare
-nomine e peggio che disfare anagrafiche, perche le scadenze sono **derivate** dalle
-nomine e si disfano insieme. Se la prova non e chiusa, l'import va subito. Lo stato
-della prova non e scritto in nessun repo — si chiede, non si deduce.
+**L'ordine non ha piu oggetto, e la riga che c'era qui era una trappola.** Questo
+paragrafo diceva che l'azzeramento dei dati operativi andasse prima dell'import dei
+ruoli. **Misurato il 10 settembre 2026 sul database di produzione di AppSopralluoghi**
+(`pvbwcfrgatkqashstxjc`, `main`): non c'e niente da azzerare. `nomina`, `formazione`,
+`esonero`, `adempimento`, `azione`, `incarico`, `sopralluogo`, `esito_voce`, `foto`
+sono **tutte a zero**; ci sono 619 clienti, 619 sedi, 3.419 persone (3.419 marcate
+`anag:%`, zero senza), i 268 alias e la config intatta.
+
+Tutte le tabelle che `azzera_anagrafiche.sql` prende di mira erano gia vuote: **il
+database e gia nello stato che l'azzeramento doveva produrre.** Lanciarlo oggi non
+pulirebbe una prova, cancellerebbe le anagrafiche — cioe il lavoro che la Fase 0
+registra come fatto e da non rifare.
+
+E **nessun repo registra un azzeramento in sospeso**: cercato in tutti e tre. In
+AppSopralluoghi `TODO.md` racconta l'azzeramento del **5 agosto**, che e un fatto
+passato, non un impegno; in AppFormazione il carico del 9 settembre (216 ruoli su 121
+persone) e dichiarato come **misura su dati veri**, non come dati di prova da
+buttare. Quindi la fase di prova non ha un azzeramento pendente da nessuna parte, e
+l'import dei ruoli non aspetta niente.
+
+> **Un vincolo che vale per tutte e tre le corsie:** il piano Supabase e **free**,
+> quindi **non ci sono backup automatici**. Ogni cancellazione e definitiva davvero, e
+> uno script distruttivo non si lancia perche il suo nome descrive l'intenzione: si
+> lancia dopo aver contato le righe che colpisce.
 
 Il lettore Excel e TypeScript puro sui file: le riparazioni all'import **viaggiano
 con il codice** nel repo nuovo. Si scrivono una volta sola.
