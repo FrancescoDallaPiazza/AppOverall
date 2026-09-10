@@ -27,7 +27,7 @@ due sul codice, sette sull'uuid.
 
 **I codici di AppSopralluoghi sono nostri, e sono stabili.** Quaranta codici
 parlanti, curati a mano, dichiarati «chiave stabile» nel commento che li istituisce
-(`015_formazione_organigramma.sql:52`). In 63 migrazioni non c'è **un solo**
+(`015_formazione_organigramma.sql:47`). In 63 migrazioni non c'è **un solo**
 `update corso_catalogo set codice`, e persino la deprecazione conserva il codice
 invece di cancellarlo, perché gli attestati storici lo referenziano
 (`049:49-59`). L'import Excel del catalogo si rifiuta di scrivere lì, e dice
