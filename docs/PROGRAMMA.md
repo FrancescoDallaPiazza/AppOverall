@@ -25,7 +25,7 @@ moltiplicano, non che si sommano.
 | Organigramma-sicurezza | assorbito | Terza copia del corpus e quarta app dell'organigramma. Entra per essere assorbito, non mantenuto. Da li vengono le trascrizioni `.txt` degli accordi. |
 | formazione-81-utils-src | **base normativa** | Non e un'applicazione: **genera** `ateco.ts` e, in prospettiva, le tabelle del repo unico. Decisione 7: resta il generatore unico e `reference/` la alimenta. Non viene dismessa con la Fase 5. |
 | kitformasubito ×2 | fuori | Erogazione. E vivo e resta vivo: va detto **dove vive e chi lo tiene**, o fra sei mesi rientra. |
-| WERP | fuori | Scambio via Excel. L'anagrafe si modella sapendo che un giorno potrebbe arrivare, senza inseguirlo. |
+| WERP | fuori, **meno la pianificazione** | Decisione 3: resta il gestionale — contratto, preventivo, commessa, fattura — e **perde la pianificazione delle attivita di consulenza e RSPP**, che passa alla nuova app. Scambio via Excel in entrata, e **nessuna direzione in uscita**: WERP si ferma al contratto. |
 | AppCorsiOverall, AppHr, sito, IPE | fuori | Escluse per decisione o linea di business diversa. Non vanno aperte. |
 
 Togliendo l'erogazione, il sistema nuovo **non e in concorrenza con ASSIDAL**: non
@@ -166,6 +166,11 @@ Il calendario lo detta Sicurweb. E la fetta che dimostra se l'impianto regge.
 **Criterio di uscita.** Sicurweb si puo spegnere sullo scadenzario senza che
 nessuno tenga due finestre aperte.
 
+Sotto la **decisione 3** lo scadenzario **si ferma alla scadenza**: dice chi e
+scaduto e cosa serve, e non genera commesse. La commessa la apre una persona in
+WERP, come oggi — quindi questa fase non ha dipendenze esterne, e in particolare
+non aspetta il canale col fornitore.
+
 ### Fase 5 — Il campo migra per ultimo
 
 **Criterio di uscita.** Il tecnico apre il nuovo in un capannone, offline, e non se
@@ -181,7 +186,7 @@ in conoscenza; quello che si rifarebbe a mano e piccolo in righe e caro in anni.
 | Corpus normativo (misurato al commit `7acfd69`: 4.568 righe, 1.505 in `reference/`, 17 PDF) | migra come dato |
 | Schema del dominio (62 migrazioni di qua, 53 e 7.423 righe SQL di la) | migra, rivisto |
 | Cataloghi e configurazione (268 alias, 40 corsi, 13 figure, 16 box) | migra come dato — **ma gli alias non stanno nelle migrazioni**: vedi sotto |
-| Lettori degli export (WERP a 7 stadi, Sicurweb) | migra come codice |
+| Lettori degli export (WERP a 7 stadi, Sicurweb) | migra come codice — ma sotto la decisione 3 il lettore WERP **cambia ruolo**: da fonte della verita sul numero di sedute a strumento di caricamento iniziale |
 | Motori di dominio (requisiti, valutazione, scadenze) | migra come codice |
 | Schermate e navigazione | si riscrive |
 | Sincronizzazione offline | si riscrive |
