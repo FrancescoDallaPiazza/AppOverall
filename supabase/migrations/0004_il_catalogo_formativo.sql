@@ -1,0 +1,360 @@
+-- AppOverall — 0004
+-- Il catalogo formativo, con la grana e la chiave decise dalla scheda 9.
+--
+-- La 0001 ha portato l'anagrafe, la 0002 il vocabolario dei ruoli, la 0003 ha
+-- impedito alle viste di scavalcare le RLS. Questa porta lo strato formativo, ed e
+-- lo strato a cui si agganciano le due tabelle che pesano: **13.215 eventi
+-- formativi**. Per questo la scheda 9 bloccava la Fase 3 — non per il catalogo in
+-- se, ma perche una chiave sbagliata qui si paga su tredicimila righe.
+--
+-- ---------- le due risposte della scheda 9 ----------
+--
+--   grana:   l'**obbligo**, non il corso. Il corso resta come catalogo di
+--            erogazione agganciato all'obbligo che assolve, non come soggetto
+--            della regola. Sulla grana e una ratifica: il motore di AppFormazione
+--            ragiona per obbligo dalla `0024`, e la sua `0036` aveva gia fatto
+--            `drop table requisiti` con la motivazione scritta — «la sua forma
+--            legava una regola a un titolo di catalogo».
+--
+--   chiave:  il **codice testuale curato**, come `ruolo_applicativo` nella 0001 e
+--            `ruolo_sicurezza` nella 0002.
+--
+--   e l'impronta `GEST-` + md5 del titolo normalizzato **smette di essere
+--   un'identita e diventa la chiave di un alias**.
+--
+-- ============================================================================
+--  QUESTA E LA RIGA DA LEGGERE PRIMA DELLE ALTRE
+-- ============================================================================
+--
+--   `GEST-a1b2c3d4` NON E UN CODICE DI CORSO. E un'impronta calcolata dal titolo
+--   del gestionale, e vive in `corso_alias` come testo di provenienza, mai come
+--   identita.
+--
+-- La scheda 9 chiede di scriverlo qui e a chiare lettere, perche la prima persona
+-- che vede `GEST-a1b2c3d4` la tratta da codice. Il motivo non e estetico ed e
+-- misurato: quando la funzione di normalizzazione di AppFormazione e cambiata per
+-- un `btrim` mancante (loro migrazione `0020`), **41 codici su 163 sono cambiati in
+-- un colpo**, e il commento di quella migrazione dice cosa sarebbe successo senza
+-- riscrittura — «la prossima promozione creerebbe 41 corsi doppi». Con una chiave
+-- testuale derivata, quella riscrittura sarebbe stata una cascata su 13.215 righe.
+--
+-- La conclusione non e «serve un uuid». E che **una stringa derivata non puo fare
+-- da identita**. Togliendola di li la cascata non si risolve meglio: smette di
+-- poter accadere, perche non c'e piu niente da riscrivere — si ricalcola l'alias
+-- e si rimappa.
+--
+-- ============================================================================
+--  I 40 CODICI CURATI — ricostruiti, non ribattuti
+-- ============================================================================
+--
+-- I codici del campo sono nostri e sono stabili: dichiarati «chiave stabile» nel
+-- commento che li istituisce (`015_formazione_organigramma.sql:47`), e in 63
+-- migrazioni non c'e un solo `update corso_catalogo set codice`. Persino la
+-- deprecazione conserva il codice invece di cancellarlo, perche gli attestati
+-- storici lo referenziano.
+--
+-- **Come sono arrivati qui, perche importa.** Simulazione deterministica degli
+-- statement — non lettura a occhio — delle sei migrazioni che toccano
+-- `corso_catalogo` in AppSopralluoghi, nell'ordine in cui vanno eseguite:
+--
+--   015_formazione_organigramma.sql            gli insert iniziali
+--   016_formazione_datore_lavoro.sql           DATORE_LAVORO (on conflict do nothing)
+--   017_allinea_catalogo_quadro_obblighi.sql   2 update + CANTIERI
+--   045_catalogo_asr_2026_attrezzature.sql     le attrezzature
+--   049_dl_rspp_prerequisito_e_moduli_settore  2 update, fra cui la deprecazione
+--   058_catalogo_attrezzature_mancanti.sql     le attrezzature mancanti
+--
+-- Lo stato ereditato e quello **finale**, come nella 0002: applicare gli insert
+-- senza gli update avrebbe riportato indietro `DIRIGENTE` a 16 ore (l'ASR 2025 le
+-- porta a 12) e avrebbe riattivato `DL_RSPP_BASE`, deprecato dalla 049.
+--
+-- **Riscontro indipendente, ed e il motivo per cui questa riga si puo scrivere.**
+-- La ricostruzione da 40 corsi, di cui 39 referenziati dai 268 alias e uno mai
+-- usato: `ATTR_GENERICO`. Il file `supabase/seed/corso_alias.sql` — ricostruito il
+-- giorno prima per un'altra strada e da un altro insieme di file — dichiarava
+-- esattamente questo: «39 dei 40 codici a catalogo usati, `ATTR_GENERICO` non e
+-- referenziato da nessun alias, e non e un errore: e un buco da conoscere». Due
+-- ricostruzioni indipendenti che concordano su quale sia il codice orfano.
+--
+-- **Cosa NON e verificato**, e va detto invece di lasciarlo credere (assunzione A9
+-- del programma): questa migrazione non e stata eseguita su PostgreSQL, perche su
+-- questa macchina non c'e ne `psql` ne Docker. Il controllo che manca e uno solo e
+-- va fatto prima di applicarla in produzione: caricare `0001` -> `0004` e poi
+-- `seed/corso_alias.sql` su un database vuoto, e verificare 40 righe in `corso` e
+-- 268 in `corso_alias` di cui 31 `ignorato`. Le due chiavi esterne di questa
+-- migrazione sono la ragione per cui quel carico e una prova: se un codice non
+-- torna, l'insert si rifiuta invece di scrivere una riga muta.
+
+create table corso (
+  -- Il codice curato, e non un uuid: questa tabella si legge nelle migrazioni
+  -- dati e negli scarti dell'import, dove un uuid costringe a una join per
+  -- capire cosa c'e scritto.
+  codice text primary key,
+  nome text not null,
+  -- La categoria arriva dal campo cosi' com'e. **Non e l'obbligo**: `attrezzature`
+  -- e una categoria sola dove la 0002 ha dodici ruoli distinti, quindi tradurla
+  -- qui sarebbe indovinare. L'aggancio all'obbligo sta in `corso_assolve`, e si
+  -- eredita da `figura_requisito` del campo invece di essere dedotto.
+  categoria text not null,
+  -- null = variabile: `LAV_SPEC` dipende dalla classe di rischio della sede, che
+  -- la genera la libreria normativa (scheda 7), non questa tabella.
+  ore numeric(5,1),
+  aggiornamento_mesi int,
+  ore_aggiornamento numeric(5,1),
+  -- Nel campo era una «soft ref» dichiarata in un commento. Qui e una chiave
+  -- esterna vera: verificato in ricostruzione che tutti i prerequisiti esistono a
+  -- catalogo, quindi il vincolo non rompe niente e impedisce il prossimo
+  -- prerequisito scritto a mano che non esiste.
+  prerequisito_codice text references corso(codice),
+  attivo boolean not null default true,
+  note text,
+  creato_il timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create trigger corso_updated_at before update on corso
+  for each row execute function tocca_updated_at();
+
+comment on table corso is
+  'Il catalogo di erogazione: quali corsi esistono, con ore e periodicita. Non e il soggetto della regola — quello e l''obbligo, e la scheda 9 lo ratifica. Un corso deprecato resta a catalogo con `attivo = false`, perche gli attestati storici lo referenziano per codice.';
+comment on column corso.codice is
+  'Chiave stabile e curata a mano. Zero rinomine in 63 migrazioni del repo di partenza, ed e una stabilita pagata tenendo chiuso l''universo: i titoli che arrivano dagli attestati dei clienti nuovi sono un flusso che nessun curatore controlla, e quelli sono alias, non codici.';
+comment on column corso.categoria is
+  'La categoria del campo, ereditata verbatim. NON e l''obbligo: `attrezzature` qui e una categoria, in `ruolo_sicurezza` sono dodici ruoli. Serve a leggere il catalogo, non a decidere requisiti.';
+
+insert into corso (codice, nome, categoria, ore, aggiornamento_mesi, ore_aggiornamento, prerequisito_codice, attivo, note) values
+  ('AI_LIV1', 'Addetto antincendio - livello 1', 'antincendio', 4, 60, 2, null, true,
+   'DM 02/09/2021. Aggiornamento 2h ogni 5 anni.'),
+  ('AI_LIV2', 'Addetto antincendio - livello 2', 'antincendio', 8, 60, 5, null, true,
+   'DM 02/09/2021. Aggiornamento 5h ogni 5 anni.'),
+  ('AI_LIV3', 'Addetto antincendio - livello 3', 'antincendio', 16, 60, 8, null, true,
+   'DM 02/09/2021. Aggiornamento 8h ogni 5 anni.'),
+  ('ATTR_AMB_CONFINATI', 'Ambienti sospetti di inquinamento o confinati', 'lavori_speciali', 12, 60, 4, null, true,
+   null),
+  ('ATTR_AUTORIBALTABILI', 'Autoribaltabili a cingoli (art. 73)', 'attrezzature', 10, 60, 4, null, true,
+   null),
+  ('ATTR_CARRELLO', 'Carrello elevatore (art. 73)', 'attrezzature', 12, 60, 4, null, true,
+   'Varianti: industriali semoventi, a braccio telescopico, rotativi (12-16h).'),
+  ('ATTR_CARROPONTE', 'Carroponte / gru a ponte (art. 73)', 'attrezzature', 10, 60, 4, null, true,
+   'Comando in cabina/pensile/radiocomandato (10-11h).'),
+  ('ATTR_CMM', 'Caricatori per movimentazione materiali - CMM (art. 73)', 'attrezzature', 8, 60, 4, null, true,
+   null),
+  ('ATTR_CRF', 'Macchina agricola raccoglifrutta - CRF (art. 73)', 'attrezzature', 8, 60, 4, null, true,
+   null),
+  ('ATTR_ESCAVATORI', 'Escavatori, pale caricatrici, terne (art. 73)', 'attrezzature', 10, 60, 4, null, true,
+   'Idraulici/a fune; combinato con pale/terne 16h.'),
+  ('ATTR_GENERICO', 'Attrezzatura abilitante (art. 73)', 'attrezzature', null, 60, 4, null, true,
+   'Carrelli/PLE/gru ecc.: ore per attrezzatura. Aggiornamento min. 4h ogni 5 anni.'),
+  ('ATTR_GRU_AUTOCARRO', 'Gru su autocarro (art. 73)', 'attrezzature', 12, 60, 4, null, true,
+   null),
+  ('ATTR_GRU_MOBILI', 'Gru mobili (art. 73)', 'attrezzature', 14, 60, 4, null, true,
+   'Modulo aggiuntivo falcone telescopico/brandeggiabile 8h.'),
+  ('ATTR_GRU_TORRE', 'Gru a torre (art. 73)', 'attrezzature', 12, 60, 4, null, true,
+   'Rotazione in basso/in alto; entrambe 14h.'),
+  ('ATTR_LAV_ELETTRICI', 'Lavori elettrici PES/PAV/PEI (CEI 11-27)', 'lavori_speciali', 16, 60, 4, null, true,
+   'Norme e lavori sotto tensione secondo mansione.'),
+  ('ATTR_LAV_QUOTA', 'Lavori in quota e DPI anticaduta', 'lavori_speciali', 8, 60, 4, null, true,
+   null),
+  ('ATTR_PLE', 'Piattaforme di lavoro elevabili PLE (art. 73)', 'attrezzature', 10, 60, 4, null, true,
+   'Con e/o senza stabilizzatori.'),
+  ('ATTR_POMPE_CLS', 'Pompe per calcestruzzo (art. 73)', 'attrezzature', 14, 60, 4, null, true,
+   null),
+  ('ATTR_TRATT_CINGOLI', 'Trattori agricoli/forestali a cingoli (art. 73)', 'attrezzature', 8, 60, 4, null, true,
+   null),
+  ('ATTR_TRATT_RUOTE', 'Trattori agricoli/forestali a ruote (art. 73)', 'attrezzature', 8, 60, 4, null, true,
+   null),
+  ('ATTR_TRATT_RUOTE_CINGOLI', 'Trattori agricoli/forestali a ruote e a cingoli (art. 73)', 'attrezzature', 13, 60, 4, null, true,
+   'Percorso congiunto dell''Allegato A (13h): non e'' la somma dei due corsi separati ATTR_TRATT_RUOTE + ATTR_TRATT_CINGOLI.'),
+  ('CANTIERI', 'Modulo aggiuntivo cantieri', 'cantieri', 6, null, null, null, true,
+   'Modulo aggiuntivo 6h per datore di lavoro e dirigente dell''impresa affidataria in cantieri (art. 97 c.3-ter). Termine prima applicazione 19/05/2027. Segue il ciclo di aggiornamento della figura.'),
+  ('DATORE_LAVORO', 'Formazione datore di lavoro (art. 37)', 'datore_lavoro', 16, 60, 6, null, true,
+   'Obbligo introdotto dall''ASR 17/04/2025 per tutti i datori di lavoro; prima applicazione entro 19/05/2027. Aggiornamento 6h ogni 5 anni. Esonero se gia'' in possesso di attestato da dirigente o da DL-RSPP. Piu'' 6h modulo cantieri se datore di lavoro dell''impresa affidataria (art. 97 c.3-ter). Distinto dal percorso DL-RSPP (art. 34).'),
+  ('DIRIGENTE', 'Formazione dirigenti', 'dirigente', 12, 60, 6, null, true,
+   'ASR 17/04/2025: 12h (erano 16h con accordo 2011). Aggiornamento 6h ogni 5 anni. Piu'' 6h modulo cantieri se dirigente dell''impresa affidataria (art. 97 c.3-ter).'),
+  ('DL_RSPP_BASE', 'Datore di lavoro-RSPP - modulo base', 'dl_rspp', 16, 60, 6, null, false,
+   'DEPRECATO dalla 049. Le 16h base del DL-RSPP coincidono col corso DATORE_LAVORO (art. 37) e sono il PREREQUISITO, non un modulo proprio. Conservato solo per compatibilita con attestati storici.'),
+  ('DL_RSPP_COMUNE', 'Datore di lavoro-RSPP - modulo comune', 'dl_rspp', 8, 60, 8, 'DATORE_LAVORO', true,
+   'Modulo comune 8h (ASR 17/04/2025). Prerequisito: corso base Datore di lavoro 16h (DATORE_LAVORO, art. 37). Aggiornamento 8h ogni 5 anni, distinto e aggiuntivo rispetto al 6h/5a del datore semplice.'),
+  ('DL_RSPP_SETTORE', 'Datore di lavoro-RSPP - modulo di settore', 'dl_rspp', null, null, null, 'DL_RSPP_COMUNE', true,
+   'Ore variabili per ATECO 2007: A01-02 16h, A03 12h, F 16h, C 19-20 16h; altri settori nessun modulo. Espanso dal motore in app dall ATECO del cliente. Nessun aggiornamento proprio: segue il ciclo del modulo comune.'),
+  ('LAV_GEN', 'Formazione generale lavoratori', 'lavoratore', 4, null, null, null, true,
+   'Parte comune, non scade di per se; l''aggiornamento quinquennale del lavoratore e'' modellato su LAV_SPEC.'),
+  ('LAV_SPEC', 'Formazione specifica lavoratori', 'lavoratore', null, 60, 6, 'LAV_GEN', true,
+   'Ore secondo rischio: basso 4, medio 8, alto 12. Aggiornamento 6h ogni 5 anni.'),
+  ('PONTEGGI', 'Montaggio, smontaggio e trasformazione di ponteggi', 'lavori_speciali', 28, 48, 4, null, true,
+   'Allegato XXI D.Lgs 81/08: vale anche per il preposto alla sorveglianza. Aggiornamento 4h ogni 4 anni.'),
+  ('PREPOSTO', 'Formazione preposto', 'preposto', 12, 24, 6, 'LAV_SPEC', true,
+   'ASR 17/04/2025: aggiornamento biennale 6h. Richiede la formazione da lavoratore.'),
+  ('PS_BLSD_LAICO', 'BLSD laico (IRC)', 'primo_soccorso', 5, 24, 3, null, true,
+   'Retraining ogni 24 mesi.'),
+  ('PS_BLSD_SANITARIO', 'BLSD sanitario (IRC)', 'primo_soccorso', 8, 24, null, null, true,
+   'Solo personale sanitario/soccorritori. Retraining ogni 24 mesi.'),
+  ('PS_GRA', 'Addetto primo soccorso - gruppo A', 'primo_soccorso', 16, 36, 6, null, true,
+   'DM 388/2003. Aggiornamento 6h ogni 3 anni.'),
+  ('PS_GRBC', 'Addetto primo soccorso - gruppi B e C', 'primo_soccorso', 12, 36, 4, null, true,
+   'DM 388/2003. Aggiornamento 4h ogni 3 anni.'),
+  ('RLS', 'Rappresentante dei lavoratori (RLS)', 'rls', 32, 12, 4, null, true,
+   'Aggiornamento annuale 4h (fino a 50 lavoratori) o 8h (oltre): verificare dimensione.'),
+  ('RSPP_MOD_A', 'RSPP/ASPP - Modulo A', 'rspp_aspp', 28, null, null, null, true,
+   'Propedeutico, comune a RSPP e ASPP.'),
+  ('RSPP_MOD_B', 'RSPP/ASPP - Modulo B (comune)', 'rspp_aspp', 48, 60, 40, 'RSPP_MOD_A', true,
+   'Aggiornamento RSPP 40h/5 anni, ASPP 20h/5 anni: verificare figura.'),
+  ('RSPP_MOD_B_SETTORE', 'RSPP/ASPP - Modulo B modulo di settore', 'rspp_aspp', null, null, null, 'RSPP_MOD_B', true,
+   'Ore variabili per ATECO 2007: A01-02 16h, A03 12h, F 16h, Q 86.1 e 87 12h, C 19-20 16h; altri settori nessun modulo. Espanso dal motore in app dall ATECO del cliente. Nessun aggiornamento proprio: segue il ciclo del Modulo B.'),
+  ('RSPP_MOD_C', 'RSPP - Modulo C', 'rspp_aspp', 24, null, null, 'RSPP_MOD_B', true,
+   'Solo per RSPP.');
+
+-- ============================================================================
+--  IL DIZIONARIO DEGLI ALIAS — di prima classe, non una tabella di servizio
+-- ============================================================================
+--
+-- Qui atterrano i testi che qualcun altro ha scritto: i 167 titoli del catalogo
+-- del gestionale e, in prospettiva, i titoli stampati sugli attestati che un
+-- cliente nuovo porta in mano. La scheda 9 lo dice in una riga che vale oltre
+-- questo import: **il titolo stampato su un attestato di terzi e per natura un
+-- alias e non un'identita.** Un repo che nasce con un dizionario di alias di
+-- prima classe ha dove far atterrare quelle carte; uno che lega ogni titolo a
+-- un'identita di catalogo si riempie di righe che non sono corsi ma modi di
+-- scrivere.
+--
+-- **Perche non c'e una colonna `sistema`**, a differenza di
+-- `ruolo_sicurezza_alias` della 0002: i 268 alias non ce l'hanno, e un titolo e un
+-- titolo qualunque sia la carta su cui e stampato. La colonna servirebbe il giorno
+-- in cui **lo stesso testo** debba puntare a **due corsi diversi** secondo chi
+-- l'ha emesso: quel giorno si aggiunge, e sara una decisione con un caso vero
+-- sotto invece di una previsione.
+
+create table corso_alias (
+  -- Il testo come lo emette l'origine, verbatim. E la chiave perche e cio che si
+  -- riceve: 268 testi distinti su 268 righe, verificato sul seed.
+  testo text primary key,
+  -- Nullable: null vuol dire «questo testo non porta a un corso», e la ragione
+  -- deve essere scritta — `ignorato` per i 31 giudizi presi a mano, o una nota.
+  corso_codice text references corso(codice),
+  -- I cinque giudizi che la curatela del campo ha prodotto su questi testi. Non
+  -- sono flag tecnici: dicono come si legge un attestato che porta quel titolo.
+  ignorato boolean not null default false,
+  pregressa boolean not null default false,
+  is_aggiornamento boolean not null default false,
+  parziale boolean not null default false,
+  evidenza_incompleta boolean not null default false,
+  note text,
+  -- Stessa disciplina della 0002: un alias senza destinazione ha un motivo. Senza
+  -- questo vincolo «conosciuto e non mappabile» e indistinguibile da «non ancora
+  -- curato», e la distinzione vivrebbe solo in un commento che nessun import legge.
+  constraint alias_senza_corso_ha_un_motivo
+    check (corso_codice is not null or ignorato or note is not null)
+);
+
+comment on table corso_alias is
+  'Come i testi delle altre origini si leggono in questo catalogo: 268 giudizi presi a mano, non una normalizzazione automatica. Qui vive anche l''impronta `GEST-` + md5 del gestionale, come testo di provenienza e non come chiave.';
+comment on column corso_alias.corso_codice is
+  'null non significa «non ancora tradotto»: significa «guardato e non traducibile in un corso». Gli undici titoli che sono visite ed esami di sorveglianza sanitaria (art. 41, non art. 37) sono l''esempio: non sono corsi, e forzarli a catalogo li renderebbe adempimenti finti.';
+comment on column corso_alias.is_aggiornamento is
+  'Il testo dichiara un aggiornamento invece di un corso iniziale: 98 dei 268. E la distinzione che permette al motore di non contare due volte lo stesso obbligo.';
+
+-- Il seed sta in `supabase/seed/corso_alias.sql` e si carica dopo questa
+-- migrazione: 268 righe, 237 mappate su 39 codici, 31 ignorate.
+
+-- ============================================================================
+--  L'AGGANCIO ALL'OBBLIGO — la tabella che la grana richiede, e resta vuota
+-- ============================================================================
+--
+-- La grana e l'obbligo, quindi da qualche parte deve stare **quale obbligo un
+-- corso assolve**. La forma e decisa; il contenuto no, e non si inventa qui.
+--
+-- La sorgente esiste e si eredita, come i ruoli della 0002: `figura_requisito` di
+-- AppSopralluoghi, che lega figura e corso ed e stata riscritta piu volte (la 049
+-- ne cancella una riga con una motivazione precisa). Ereditarne lo stato finale e
+-- il passo successivo. Dedurre l'aggancio dalla colonna `categoria` sarebbe
+-- indovinare: `attrezzature` sono dodici ruoli distinti, e `altro` non e un
+-- obbligo.
+--
+-- Resta vuota per disciplina, non per pigrizia: una tabella vuota dichiara la
+-- forma, una tabella riempita a intuito la nasconde.
+
+create table corso_assolve (
+  corso_codice text not null references corso(codice),
+  ruolo text not null references ruolo_sicurezza(codice),
+  -- Lo stesso corso puo assolvere l'obbligo iniziale di un ruolo e
+  -- l'aggiornamento di un altro: la coppia da sola non basta.
+  is_aggiornamento boolean not null default false,
+  note text,
+  primary key (corso_codice, ruolo, is_aggiornamento)
+);
+
+comment on table corso_assolve is
+  'Quale obbligo — cioe quale riga di `ruolo_sicurezza` — un corso assolve, e se come percorso iniziale o come aggiornamento. Vuota per scelta: si eredita dallo stato finale di `figura_requisito` del campo, non si deduce dalla categoria del corso.';
+
+-- ============================================================================
+--  IL CONFINE: QUESTA MIGRAZIONE NON PORTA LA SORVEGLIANZA SANITARIA
+-- ============================================================================
+--
+-- Va dichiarato qui, perche una rinuncia taciuta si scopre in migrazione dati.
+--
+-- Il 10 settembre 2026 la corsia AppSopralluoghi ha enumerato i quattro fogli di
+-- `ExportExcel (4).xlsx` e ha trovato che il foglio «Visite» e **sorveglianza
+-- sanitaria**: 671 visite mediche annuali, 107 biennali, 24 quinquennali, 3
+-- trimestrali, 3 quadriennali, piu audiometrie, spirometrie, elettrocardiogrammi
+-- e oculistiche — **818 scadenze** gia raccolte, ognuna come coppia data +
+-- scadenza verificata sui valori e non dedotta dal nome della colonna.
+--
+-- E l'art. 41 del D.Lgs. 81/2008, non l'art. 37: un dominio con scadenze proprie,
+-- che questo catalogo non copre. Il codice del campo lo sa gia e lo dice —
+-- `formazioneImport.ts:13` scarta le visite perche «il loro posto e adempimento
+-- categoria sorveglianza» — e **quel posto non e mai stato riempito**.
+--
+-- Non entra qui per due ragioni: non e un obbligo formativo, e la scheda 9 decide
+-- la grana del catalogo dei corsi. Se debba esistere nello schema nuovo e una
+-- domanda di perimetro, quindi di Francesco: posta il 10 settembre, e la risposta
+-- va scritta come decisione prima che qualcuno la risolva importando 818 righe in
+-- una tabella di corsi.
+
+-- ============================================================================
+--  Le viste, che restano l'unica superficie di lettura (PILASTRO 01)
+-- ============================================================================
+
+create view v_corso as
+  select codice, nome, categoria, ore, aggiornamento_mesi, ore_aggiornamento,
+         prerequisito_codice, attivo, note, updated_at
+    from corso;
+
+create view v_corso_alias as
+  select a.testo, a.corso_codice, c.nome as corso_nome, a.ignorato, a.pregressa,
+         a.is_aggiornamento, a.parziale, a.evidenza_incompleta, a.note
+    from corso_alias a
+    left join corso c on c.codice = a.corso_codice;
+
+-- Senza questa riga PILASTRO 01 e PILASTRO 02 si annullano: una vista esegue con i
+-- diritti del proprietario, quindi scavalcherebbe le RLS delle tabelle sotto. E la
+-- stessa riga della 0003, e va scritta a ogni vista nuova.
+alter view v_corso       set (security_invoker = on);
+alter view v_corso_alias set (security_invoker = on);
+
+-- ============================================================================
+--  Le policy
+-- ============================================================================
+--
+-- Il catalogo e una curatela: lo legge chiunque sia operatore, lo scrive
+-- l'amministrazione. E la stessa soglia dell'anagrafe nella 0001, e non e una
+-- scelta di comodo: l'import Excel del catalogo nel campo si rifiuta di scrivere
+-- sui codici e dice perche — «la mappatura nome->codice e una curatela, non un
+-- import meccanico» (`catalogoImport.ts:11-15`).
+
+alter table corso         enable row level security;
+alter table corso_alias   enable row level security;
+alter table corso_assolve enable row level security;
+
+create policy leggono_gli_operatori on corso         for select to authenticated using (e_operatore());
+create policy leggono_gli_operatori on corso_alias   for select to authenticated using (e_operatore());
+create policy leggono_gli_operatori on corso_assolve for select to authenticated using (e_operatore());
+
+create policy scrive_amministrazione on corso for all to authenticated
+  using (livello_operatore() >= 4) with check (livello_operatore() >= 4);
+create policy scrive_amministrazione on corso_alias for all to authenticated
+  using (livello_operatore() >= 4) with check (livello_operatore() >= 4);
+create policy scrive_amministrazione on corso_assolve for all to authenticated
+  using (livello_operatore() >= 4) with check (livello_operatore() >= 4);
+
+grant select on corso, corso_alias, corso_assolve to authenticated;
+grant select on v_corso, v_corso_alias to authenticated;

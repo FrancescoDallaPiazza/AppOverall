@@ -59,7 +59,7 @@
 -- tabella gia' popolata a questo stato, svuotarla prima (vedi azzera_anagrafiche.sql).
 
 insert into corso_alias
-  (testo_gestionale, corso_codice, note, ignorato, pregressa, is_aggiornamento, parziale, evidenza_incompleta)
+  (testo, corso_codice, note, ignorato, pregressa, is_aggiornamento, parziale, evidenza_incompleta)
 values
   ('ADDETTO A LAVORI IN SPAZI CONFINATI E SOSPETTI DI INQUINAMENTO', 'ATTR_AMB_CONFINATI', null, false, false, false, false, false),
   ('ADDETTO AI LAVORI IN SPAZI CONFINATI E SOSPETTI DI INQUINAMENTO', 'ATTR_AMB_CONFINATI', null, false, false, false, false, false),
