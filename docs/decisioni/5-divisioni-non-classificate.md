@@ -211,7 +211,7 @@ l'ultimo che si chiude con una decisione invece che con del lavoro.
 Restava un dubbio che cambiava la natura della decisione: le tre divisioni mancano
 **nell'originale**, o e' un difetto introdotto dalla riedizione di *PiuSicurezza srl*
 («Rev 1 del 06/06/2025», col suo sito nel pie' di pagina) che sta in
-`AppFormazione/reference/fonti/`?
+`formazione-81-utils-src/reference/fonti/`?
 
 Sciolto scaricando il testo **dal sito della Conferenza Stato-Regioni**:
 `statoregioni.it`, Repertorio Atto n. 59/CSR, allegato
@@ -264,7 +264,7 @@ qualcosa che nessuno ha ancora chiesto.**
 *Fonti cercate il 9 settembre 2026, e la sezione riscritta tre volte in un pomeriggio.
 **Primaria**: Allegato II del 221/CSR in Gazzetta Ufficiale n. 8 dell'11/01/2012,
 p. 48, atto 12A00059, letto a video perche la scansione e ruotata di 90 gradi
-(`GU-8-11012012-Accordo-221-CSR.pdf` e i due ritagli, in `AppFormazione/reference/fonti/`).
+(`GU-8-11012012-Accordo-221-CSR.pdf` e i due ritagli, in `formazione-81-utils-src/reference/fonti/`).
 **Secondarie, e tutte discordi dalla primaria in almeno un punto**: testo coordinato
 Amato-Di Fiore gennaio 2026, ripubblicazione Regione Abruzzo, ASR 2025 dal sito della
 Conferenza, riedizione PiuSicurezza, `.txt` di Organigramma-sicurezza,

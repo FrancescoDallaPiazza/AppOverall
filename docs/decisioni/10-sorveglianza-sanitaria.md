@@ -79,6 +79,45 @@ Il confine è già scritto nella `0004`, in fondo, come rinuncia dichiarata: que
 migrazione dice che non porta la sorveglianza e perché. Con questa decisione quella
 riga cambia di significato — non è più «fuori perimetro», è «prossima migrazione».
 
+### Un numero da riconciliare, e va fatto prima della migrazione
+
+Le 818 scadenze contate nel foglio «Visite» del campo **non sono le stesse** che
+conta AppFormazione. Il loro `staging.catalogo_gestionale` ha 167 righe di catalogo
+del gestionale, di cui **10 marcate `tipo = 'VISITA'`**, e quelle 10 portano **1.148
+eventi**:
+
+| accertamento | AppFormazione | campo |
+| --- | ---: | ---: |
+| annuale | 961 | 671 |
+| biennale | 151 | 107 |
+| **quinquennale** | **24** | **24** |
+| quadriennale | 2 | — |
+| trimestrale | 2 | — |
+| oculistica 5a · biennale | 3 | 1 |
+| audiometrico · spirometrico · ECG | 2 + 1 + 1 | 3 + 2 + 2 |
+| **totale** | **1.148** | **818** |
+
+**Le quinquennali coincidono esatte e le altre due no**, ed e questo che rende il
+numero interessante invece che approssimativo. Due letture, e non sono equivalenti:
+
+1. **818 sono le scadenze aperte, 1.148 gli eventi storici dello stesso insieme.**
+   Spiega il 24 su 24: con una periodicita di cinque anni, storico e aperto
+   coincidono perche nessuna e ancora scaduta due volte.
+2. **I due export non coprono lo stesso perimetro di clienti.** Non spiega il 24: se
+   il perimetro fosse diverso, coincidere esatti su una riga sarebbe un caso.
+
+La prima spiega il dato, la seconda no — ma «spiega meglio» non e «verificato», e la
+differenza si misura contando i clienti distinti dei due insiemi e guardando se le
+righe del campo abbiano una data passata. **Se la migrazione nasce sul conteggio
+sbagliato nasce storta**, quindi si scioglie prima.
+
+**Il modello di AppFormazione tiene gia le visite fuori dalla formazione, per
+costruzione**, e questo e un riscontro al «accanto e non dentro» di questa scheda:
+`scripts/promuovi.sql` le esclude nel punto esatto in cui diventerebbero corsi —
+`where coalesce(c.e_visita, false) = false` — quindi non entrano mai in `corsi`. Le
+loro 10 descrizioni testuali sono disponibili verbatim, e sono alias di
+accertamento: nessun obbligo formativo le tratta come corsi.
+
 ### Cosa resta da decidere, ma non blocca
 
 Quanto del protocollo sanitario deve stare nel sistema. Le periodicità che si vedono

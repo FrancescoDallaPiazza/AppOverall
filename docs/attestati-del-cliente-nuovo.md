@@ -77,7 +77,7 @@ sono.
 **«Questo attestato vale qualcosa?»** è una domanda sulla **carta**: chi l'ha emessa,
 cosa ci sta scritto sopra, se il corso era conforme a quello che la norma chiedeva
 quando è stato fatto. Il progetto ha le fonti per rispondere solo in parte, e sa
-dichiarare quali parti mancano — è tutto in `AppFormazione/reference/`. Non ha nessuna
+dichiarare quali parti mancano — è tutto in `formazione-81-utils-src/reference/`. Non ha nessuna
 tabella dove scrivere la risposta.
 
 **«A quale obbligo assolve?»** è una domanda sul **titolo**, ed è quella meglio
@@ -126,7 +126,7 @@ primaria porta il rango di quella norma, non il proprio (`7-base-normativa.md:10
 
 Un attestato non si giudica contro la norma di oggi ma contro quella del giorno in cui
 il corso è finito. È il senso per cui esiste
-`AppFormazione/reference/quadro-storico-ore-pregresse.md`, che lo dice nella prima
+`formazione-81-utils-src/reference/quadro-storico-ore-pregresse.md`, che lo dice nella prima
 riga: «per sapere se un corso già fatto sia conforme bisogna sapere a che cosa doveva
 essere conforme quando è stato fatto» (`:5-7`).
 
@@ -134,7 +134,7 @@ Lo spartiacque è l'entrata in vigore dell'ASR 17/04/2025 (Rep. Atti n. 59/CSR).
 progetto usa il **19 maggio 2025** e non il 24, e non è un errore: è una decisione del
 6 settembre 2026, applicata dalla migrazione `0043_entrata_in_vigore_19_maggio.sql`,
 perché le FAQ interregionali del 27/03/2026 invocano l'art. 32 della legge 69/2009,
-che è norma primaria (`AppFormazione/reference/asr-2025-parte-vii.md:11-26`). È il
+che è norma primaria (`formazione-81-utils-src/reference/asr-2025-parte-vii.md:11-26`). È il
 primo caso reale su cui la gerarchia è stata provata, ed è quello che ha prodotto
 G1-bis (`7-base-normativa.md:126-135`).
 
@@ -142,7 +142,7 @@ G1-bis (`7-base-normativa.md:126-135`).
 costante. Ma dipende dal dato che il caso peggiore non ha, cioè la data. E porta con
 sé un difetto che ho trovato guardando: **il file che si userebbe come lista di
 controllo dice ancora 24 maggio.**
-`AppFormazione/reference/assorbite-organigramma/ASR_59_2025_punto6_ATTESTAZIONI.txt:27`
+`formazione-81-utils-src/reference/assorbite-organigramma/ASR_59_2025_punto6_ATTESTAZIONI.txt:27`
 recita «Applicabile agli attestati emessi dal 24/05/2025», e la sua nota di testa non
 lo corregge — corregge il punto 7 e i tre elementi inventati, non la data. Il
 `README.md` della stessa cartella dichiara il conflitto del 19 contro il 24 ma lo

@@ -12,7 +12,7 @@ La base normativa sta in quattro posti con quattro regole diverse:
 
 | dove | cosa | regola |
 | --- | --- | --- |
-| `AppFormazione/reference/` | 16 PDF e 2 tavole ISTAT, 11 trascrizioni **con parte, punto, pagina** | dichiarata nel CLAUDE.md, rigorosa |
+| `formazione-81-utils-src/reference/` | 16 PDF e 2 tavole ISTAT, 11 trascrizioni **con parte, punto, pagina** | dichiarata nel CLAUDE.md, rigorosa. **Stava in `AppFormazione/reference/` fino al 10 settembre 2026**, quando R1 l'ha spostata a monte: i percorsi sotto `reference/` non sono cambiati |
 | `AppFormazione/supabase/migrations/` | le tabelle applicative | A7: entra solo cio che e citato |
 | `Organigramma-sicurezza/.../references/` | 7 `.txt` trascritti, 4 accordi RAW, `ateco-rischio.md` | nessuna, e contiene un errore |
 | `formazione-81-utils-src` | `allegato_iv_asr2025.js`, `raccordo_ateco.js`, `raccordo_istat_2025.js` | ricostruita da fonti incrociate |
@@ -134,11 +134,17 @@ legge 69/2009**, che e rango 1. La FAQ e il messaggero, non la fonte. Senza G1-b
 gerarchia avrebbe sbagliato il suo primo caso reale — e lo avrebbe sbagliato
 *sembrando* di funzionare.
 
-**Cosa resta aperto, e non e piu la data.** La nota in
-`AppFormazione/reference/faq-asr-2025.md` dice ancora che «il progetto usa il 24
-maggio» e che «va sciolto»: e ferma a prima del 6 settembre e contraddice la
-migrazione 0043. Non e un file di questo repo — va segnalata alla corsia che lo
-tiene, non corretta da qui.
+**~~Cosa resta aperto, e non e piu la data.~~ Chiuso, e questa scheda era il record
+vecchio.** Qui c'era scritto che la nota in `faq-asr-2025.md` diceva ancora «il
+progetto usa il 24 maggio» e «va sciolto». **Non e piu vero dal 6 settembre**: la
+nota e sciolta sul **19 maggio**, cita la migrazione `0043` e conserva la traccia di
+cosa diceva prima e perche e cambiato. Segnalato dalla corsia AppFormazione il 10
+settembre 2026.
+
+C'e un che di giusto nel fatto che sia capitato **a questa riga**: era l'esempio
+numero 5 di R5 — «un record vero al momento della scrittura e mai riletto» — e la
+riga che lo denunciava e diventata a sua volta un record vero e mai riletto. R5 non
+si applica una volta: si applica anche a chi la scrive.
 
 ## Cosa la decisione adesso richiede
 
@@ -172,7 +178,7 @@ quando la fonte da cui e entrata cambia**, ed e la meta che mancava: una base
 normativa ferma non e una base normativa, e una fotografia.
 
 Una parte esiste gia, ed e scritta bene:
-[`aggiornamento-fonti.md`](../../../AppFormazione/reference/aggiornamento-fonti.md)
+[`aggiornamento-fonti.md`](../../../formazione-81-utils-src/reference/aggiornamento-fonti.md)
 tiene il controllo mensile sul D.Lgs. 81/2008 — la fonte identificata (il testo
 coordinato Amato/Di Fiore, che dichiara l'edizione in home), la tabella «edizione in
 mano / letta il», i sei passi con il comando di scarico, e la lista dei **16 articoli**
@@ -292,8 +298,17 @@ registro osserva un'edizione che la tabella non ha ancora letto, c'e lavoro da f
   procedura di oggi non ci arriva.
 
 Nota di collocazione: sotto R1 le fonti traslocano accanto al generatore, e
-`aggiornamento-fonti.md` **trasloca con loro**. Finche non succede, il ciclo di
-aggiornamento della base normativa del gruppo vive nel repo di una sola corsia.
+`aggiornamento-fonti.md` **trasloca con loro**. ~~Finche non succede, il ciclo di
+aggiornamento della base normativa del gruppo vive nel repo di una sola corsia.~~
+**Successo il 10 settembre 2026, ore 19:12**: 41 file e 25,8 MB sono in
+`formazione-81-utils-src/reference/`, PDF compresi, **spostati e non copiati** — la
+scelta e di Francesco, posta con la misura davanti (dei 26 MB il generatore ne apre
+1,6; i 24,6 di PDF non li apre il codice, ma sono la prova). In AppFormazione resta
+un puntatore, e **deve tradurre invece di annunciare**: 17 migrazioni gia merged
+citano percorsi `reference/...`, e una migrazione non si tocca dopo il merge. Per
+fortuna sotto `reference/` nessun percorso e cambiato, quindi la traduzione e una
+sostituzione di prefisso. R1 e eseguita: la libreria non e piu il generatore unico di
+tabelle che nessuna fonte alimenta.
 
 ## R5 · Ogni affermazione di stato dice quando e stata misurata
 
@@ -329,7 +344,7 @@ solo**, fra le tre corsie, e ogni volta travestito da qualcos'altro:
 | 2 | righe oltre la millesima non lette, perche PostgREST tronca a 1000 |
 | 3 | colonne **cercate** invece che enumerate: `Dirigente` e l'unico ASPP |
 | 4 | il lavoro di un'altra corsia dato per mancante senza aprirlo |
-| 5 | un record **vero al momento della scrittura e mai riletto**: il 24 maggio in `faq-asr-2025.md`, falso da tre giorni |
+| 5 | un record **vero al momento della scrittura e mai riletto**: il 24 maggio in `faq-asr-2025.md`, falso da tre giorni — e poi **la riga di questa scheda che lo denunciava**, vera il 9 settembre e falsa il 10 |
 
 In tutti e cinque **un insieme incompleto si presenta come completo**, perche il
 numero o la rilettura che lo smaschererebbe non avviene mai. Il caso 5 e il piu

@@ -13,7 +13,7 @@ E il registro previsto da **R4** della
 ## Cosa NON e questo file
 
 Il registro dice **cosa la fonte dichiara oggi**. La tabella «Stato» di
-`../../AppFormazione/reference/aggiornamento-fonti.md` dice **quale edizione e stata
+`../../formazione-81-utils-src/reference/aggiornamento-fonti.md` dice **quale edizione e stata
 letta e trascritta**. Sono due fatti diversi e non vanno fusi: fonderli ricrearebbe la
 doppia verita che questo repo esiste per chiudere.
 
