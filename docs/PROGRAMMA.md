@@ -98,10 +98,21 @@ Le fasi 0 e 1 corrono in parallelo in due repo. Dalla 3 in poi e una fila.
 - La schermata della quarantena: il dato c'e, l'interfaccia no
 - I sette buchi dell'import: 847 indirizzi persi, `ATTIVA` ignorata con 229 ex
       clienti vivi, P.IVA fittizie, cessati come attivi, 233 persone senza CF
-- L'ATECO mancante sul 57% delle attive — **aspetta il raccordo della fase 1**
+- L'ATECO mancante sul 57% delle attive — **non aspetta piu**: il raccordo e a monte
+- **L'import dei ruoli sicurezza** — voce nuova, emersa il 9 settembre: il foglio
+      «Ruoli SSL» dell'export contiene i ruoli **con la data dell'incarico**, e
+      `formazioneImport.ts` legge solo il primo foglio e crea solo nomine
+      `lavoratore`. Finche quel foglio non entra, gli attestati importati sono muti:
+      il motore ricava i requisiti dalle **nomine**, non dagli attestati
 
 **Criterio di uscita.** Un tecnico lavora offline senza restare bloccato, e le 619
 aziende attive sono rientrate nel database, vuoto dal 5 agosto.
+
+**Ordine, e non e una preferenza.** Se la fase di prova sugli import e chiusa,
+l'azzeramento dei dati operativi viene **prima** dell'import dei ruoli: disfare
+nomine e peggio che disfare anagrafiche, perche le scadenze sono **derivate** dalle
+nomine e si disfano insieme. Se la prova non e chiusa, l'import va subito. Lo stato
+della prova non e scritto in nessun repo — si chiede, non si deduce.
 
 Il lettore Excel e TypeScript puro sui file: le riparazioni all'import **viaggiano
 con il codice** nel repo nuovo. Si scrivono una volta sola.
