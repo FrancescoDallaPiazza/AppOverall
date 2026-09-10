@@ -265,7 +265,7 @@ un'impronta del titolo e non un codice:
 | [7 · Chi possiede la base normativa, e chi puo modificarla](decisioni/7-base-normativa.md) | niente · è una decisione di governo, non di costruzione | **decisa il 9 settembre 2026** — la libreria `formazione-81-utils-src` resta il **generatore unico**, e `reference/` la alimenta |
 | [8 · Dove si annota che il livello di rischio non viene dall'ATECO](decisioni/8-scostamento-dal-rischio-ateco.md) | la **Fase 3** · determina colonne, insieme a quelle della decisione 1 | **decisa il 9 settembre 2026** — si annota in un **box accanto al default ATECO**, con motivazione, data e autore |
 | [9 · Il catalogo formativo: si tiene il corso o l'obbligo, e con che chiave](decisioni/9-grana-e-chiave-del-catalogo.md) | la **Fase 3** · determina la forma delle tabelle formative e la chiave a cui si aggancia tutto ciò che è già stato importato | **decisa il 10 settembre 2026** — la grana è l'**obbligo**, la chiave è il **codice curato**, e l'impronta `GEST-`+md5 del gestionale diventa un **alias** invece di un'identità |
-| [10 · La sorveglianza sanitaria entra nel perimetro?](decisioni/10-sorveglianza-sanitaria.md) | niente subito · ma decide se 818 scadenze già raccolte hanno un posto, e allarga il perimetro del 26 agosto per la seconda volta | **decisa il 10 settembre 2026** — **entra, come dominio proprio** — accanto alla formazione e non dentro, perché l'art. 41 non è l'art. 37 |
+| [10 · La sorveglianza sanitaria entra nel perimetro?](decisioni/10-sorveglianza-sanitaria.md) | niente subito · ma decide se 808 accertamenti già raccolti hanno un posto, e allarga il perimetro del 26 agosto per la seconda volta | **decisa il 10 settembre 2026** — **entra, come dominio proprio** — accanto alla formazione e non dentro, perché l'art. 41 non è l'art. 37 |
 
 <!-- decisioni:fine -->
 
@@ -315,8 +315,8 @@ piano.
   — preventivi, commesse e fatturazione restano fuori — ma e un allargamento, e sta
   scritto qui perche la prossima volta si sappia che questa e la seconda e non la
   prima. **Piegata una seconda volta lo stesso giorno, con la scheda 10**: la
-  sorveglianza sanitaria entra come dominio proprio, perche 818 scadenze dell'art.
-  41 erano gia raccolte in un foglio che nessun import apre. Due allargamenti
+  sorveglianza sanitaria entra come dominio proprio, perche 808 accertamenti
+  dell'art. 41 erano gia raccolti in un foglio che nessun import apre. Due allargamenti
   dichiarati non sono una deriva; due allargamenti taciuti lo sarebbero. Il terzo
   si guarda con sospetto.
 - **A7** **Una regola dedotta non entra nelle tabelle applicative.** Si applica cio
@@ -360,7 +360,7 @@ senza la seconda, chi finisce alle sette di sera si ferma o si inventa un compit
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | **`corso_assolve`: la mappatura corso -> obbligo, ereditata da DUE fonti e incrociata** — le regole di AppFormazione (grana obbligo, dalla loro `0036`) e `figura_requisito` del campo. Dove concordano si scrive; **dove divergono e la parte interessante**, e diventa una riga da decidere invece di una media | la migrazione dati del corpus e dell'anagrafe nel nuovo schema | Due fonti perche A9: la mappatura di una sola sarebbe coerente con se stessa e non per questo vera. Nella `0004` ho scritto che si eredita da `figura_requisito`: **quella riga era piu stretta del vero** — la grana e l'obbligo, quindi la fonte principale e il modello di AppFormazione, e il campo e il riscontro |
-| **AppSopralluoghi** | **le 818 scadenze sanitarie**, con le periodicita **misurate sulle date** e non lette dai titoli — **piu la riconciliazione**: AppFormazione ne conta **1.148** sugli stessi accertamenti, con le quinquennali identiche (24 e 24) e le altre no. Servono i **clienti distinti** dei due insiemi e quante righe hanno data passata | confrontare i **40 codici curati** della `0004` col database, come ha fatto con `figura_requisito` | Il 24 su 24 e il punto: se 818 sono le scadenze aperte e 1.148 gli eventi storici, quella coincidenza si spiega da se; se i due export hanno perimetri diversi, non si spiega. La `0005` non si scrive su un conteggio non sciolto |
+| **AppSopralluoghi** | ~~le scadenze sanitarie~~ **chiuso** (`9331e61`): sono **808** e non 818, la scadenza **si deriva** (796 su 796), l'intervallo si memorizza → **confrontare i 40 codici curati della `0004` col database**, come ha fatto con `figura_requisito` | la sua meta della riconciliazione: **clienti distinti** dei due insiemi e quante righe hanno data passata | Ha corretto un numero che avevo gia scritto in due documenti: il foglio ha **due righe di intestazione** e ogni conteggio era gonfiato di uno per colonna. Con i numeri veri **la coincidenza 24 = 24 non esiste** (24 e 23) e il ragionamento che ci avevo costruito sopra e caduto — resta un pattern piu forte: i rari coincidono uno a uno, i frequenti no |
 | **AppFormazione** | ~~`reference/` a monte~~ **chiuso alle 19:12** (`4d7ab3e` nella libreria, `849be6c` da loro): 41 file, 25,8 MB, **spostati e non copiati**, con 21 binari verificati per sha256 → **le regole obbligo -> corso**, stato finale, in **due letture confrontate** come ha fatto il campo | la loro meta della riconciliazione delle visite: se i 1.148 siano eventi storici e su quanti clienti distinti | R1 della decisione 7 e eseguita: la libreria non e piu il generatore unico di tabelle che nessuna fonte alimenta, e i due `.png` della Gazzetta — 610 KB — sono adesso accanto alle tre righe `dedotto: true` che sostengono. Le regole servono a me: sono la fonte **principale** di `corso_assolve`, perche la grana e l'obbligo |
 
 **Un task che nessuna corsia puo prendere, e va detto invece di restare in fondo a

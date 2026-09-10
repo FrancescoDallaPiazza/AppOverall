@@ -372,8 +372,10 @@ comment on column corso_assolve.categoria is
 -- `ExportExcel (4).xlsx` e ha trovato che il foglio «Visite» e **sorveglianza
 -- sanitaria**: 671 visite mediche annuali, 107 biennali, 24 quinquennali, 3
 -- trimestrali, 3 quadriennali, piu audiometrie, spirometrie, elettrocardiogrammi
--- e oculistiche — **818 scadenze** gia raccolte, ognuna come coppia data +
--- scadenza verificata sui valori e non dedotta dal nome della colonna.
+-- e oculistiche — **808 accertamenti** gia raccolti, ognuno come coppia data +
+-- scadenza. Il numero era 818 fino a poche ore dopo: il foglio ha **due righe di
+-- intestazione** e ogni colonna contava la sua come un dato. La scadenza, misurata,
+-- **si deriva** — 796 su 796 uguale a data + intervallo dichiarato, zero deviazioni.
 --
 -- E l'art. 41 del D.Lgs. 81/2008, non l'art. 37: un dominio con scadenze proprie,
 -- che questo catalogo non copre. Il codice del campo lo sa gia e lo dice —
@@ -383,8 +385,9 @@ comment on column corso_assolve.categoria is
 -- Non entra qui per due ragioni: non e un obbligo formativo, e la scheda 9 decide
 -- la grana del catalogo dei corsi. Se debba esistere nello schema nuovo e una
 -- domanda di perimetro, quindi di Francesco: posta il 10 settembre, e la risposta
--- va scritta come decisione prima che qualcuno la risolva importando 818 righe in
--- una tabella di corsi.
+-- va scritta come decisione prima che qualcuno la risolva importando 808 righe in
+-- una tabella di corsi. **Decisa il 10 settembre: entra, come dominio proprio**
+-- (scheda 10), quindi questa rinuncia non e piu un confine ma la prossima migrazione.
 
 -- ============================================================================
 --  Le viste, che restano l'unica superficie di lettura (PILASTRO 01)
