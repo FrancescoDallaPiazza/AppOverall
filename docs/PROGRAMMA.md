@@ -289,6 +289,7 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Formazione dentro l'app da campo | 8.876 | 36,1% di 24.576 righe di `src/` |
 | Viste nelle 62 migrazioni del campo | 0 | — |
 | Difetti del campo confermati · riparati | 4 · 3 | Resta D2, che vuole un deploy |
+| Insiemi distinti di «fattori di rischio» | 76 | Su **162 righe** con almeno un fattore, 3.501 totali. 122 righe condividono l'insieme con un'altra: **112 nella stessa societa**, 45 con la stessa mansione. La cella ha **un solo valore distinto**, `X`, in 2.447 occorrenze su 79 colonne, e nessuna colonna porta un grado o una fascia. Misurato il 10.09 da AppSopralluoghi (`39fb586`) |
 
 ## 7. Le assunzioni
 
@@ -358,7 +359,7 @@ senza la seconda, chi finisce alle sette di sera si ferma o si inventa un compit
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | **`corso_assolve`: la mappatura corso -> obbligo, ereditata da DUE fonti e incrociata** — le regole di AppFormazione (grana obbligo, dalla loro `0036`) e `figura_requisito` del campo. Dove concordano si scrive; **dove divergono e la parte interessante**, e diventa una riga da decidere invece di una media | la migrazione dati del corpus e dell'anagrafe nel nuovo schema | Due fonti perche A9: la mappatura di una sola sarebbe coerente con se stessa e non per questo vera. Nella `0004` ho scritto che si eredita da `figura_requisito`: **quella riga era piu stretta del vero** — la grana e l'obbligo, quindi la fonte principale e il modello di AppFormazione, e il campo e il riscontro |
-| **AppSopralluoghi** | ~~enumerare i quattro fogli~~ **chiuso** (`01c35df`, `abed85c`) → **un campione leggibile di «Fattori di Rischio»**, senza dati personali, perche la domanda su quelle 79 colonne non e rispondibile senza vederle | consegnare lo **stato finale di `figura_requisito`**, che serve al mio incrocio | L'enumerazione ha capovolto due volte la diagnosi: sono **tre workbook distinti**, i due che gli import leggono hanno **un foglio solo** — quindi `SheetNames[0]` e corretto — e il quarto, con ruoli, visite e fattori di rischio, **non lo apre nessuno**. Da li la **scheda 10**. Import dei ruoli **in pausa**, colonna 45 fuori finche chi compila chiarisce l'art. 34. **`D2` esclusa**: Edge Function, senza accesso Supabase |
+| **AppSopralluoghi** | ~~il campione dei fattori di rischio~~ **chiuso** (`39fb586`) → **consegnare lo stato finale di `figura_requisito`**, che e meta del mio incrocio per `corso_assolve`: lo stato **finale**, con gli `update` e i `delete` applicati (la 049 ne cancella una riga) | la forma delle 818 scadenze sanitarie per la migrazione della scheda 10 | Il campione ha risposto meglio della domanda: **non e la valutazione del rischio della mansione**, e lo mostrano due righe della stessa azienda con gli **stessi quindici fattori** e mansioni «ADDETTO CANTIERE - INSTALLATORE» e «ADDETTO ALLA PROGRAMMAZIONE». Cosa sia resta a **confidenza bassa** e con tre letture compatibili: e la domanda per chi compila, non per noi. Import dei ruoli **in pausa** |
 | **AppFormazione** | **portare `reference/` a monte, nella libreria** — decisione 7. Verificato: `formazione-81-utils-src` ha solo i tre `.js` e i test, **nessun `reference/`**. La forma (26 MB di PDF dentro, o puntatore) la propone a Francesco in una domanda sola prima di eseguire | consegnare lo **stato finale delle regole obbligo -> corso**, l'altra meta del mio incrocio | Finche il corpus non alimenta il generatore, la decisione 7 e scritta ma non vera: la libreria e il generatore unico di tabelle che nessuna fonte alimenta — la condizione che ha permesso alla 30 di stare la come `ALTO` senza citazione per mesi |
 
 **Un task che nessuna corsia puo prendere, e va detto invece di restare in fondo a
@@ -367,8 +368,25 @@ sessioni ha `psql`, Docker o le credenziali del progetto. Lo puo fare **solo
 Francesco**, o una sessione a cui apra quell'accesso. Finche non succede, la `0004`
 e scritta e non provata, e la migrazione lo dichiara al posto di lasciarlo credere.
 
-**E uno che aspetta una persona, non un turno:** la colonna «RSPP» del gestionale.
-Francesco la fa chiarire a chi compila. Nessuna nomina RSPP entra prima.
+**E due che aspettano una persona, non un turno.** Entrambe vanno a chi compila il
+gestionale, e conviene farle **nella stessa conversazione**:
+
+1. **La colonna «RSPP»** raccoglie di fatto l'art. 34, il datore che assume
+   l'incarico in proprio. La prova e nei due versi — dei 28 marcati, 26 hanno un
+   corso da datore e **zero** hanno i moduli professionali A/B/C; e le 12 persone
+   con i moduli professionali sono marcate RSPP in **zero** casi. La domanda non e
+   se noi la leggiamo bene: e se il gestionale debba continuare a chiamarla cosi.
+   Nessuna nomina RSPP entra prima.
+2. **Le 79 colonne dei «fattori di rischio»**: cosa ci si mette, e chi. Non e la
+   valutazione della mansione — due righe della stessa societa portano gli stessi
+   quindici fattori con mansioni «installatore di cantiere» e «programmatore» — e
+   nessuna riga ha uno o due fattori: il minimo e **tre**, come se si incollasse un
+   blocco invece di aggiungere un rischio alla volta. Le tre letture compatibili
+   (rischi dell'azienda dal DVR attribuiti a tutti; griglia iniziata e non finita,
+   39 societa su 480; rischio di reparto) **i dati non le distinguono**, e per questo
+   foglio non esiste riscontro esterno: nessun altro foglio incrocia quelle colonne
+   e non c'e un campo che dica chi ha compilato o quando. Il documento della corsia
+   descrive la **forma** del dato, non il significato — ed e scritto cosi.
 
 Quando uno di questi si chiude, questa tabella si riscrive. Se resta ferma per un
 giorno di lavoro, e scaduta — e vale la nota della sezione 3: un piano che tiene
