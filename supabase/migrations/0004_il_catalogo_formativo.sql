@@ -263,12 +263,16 @@ comment on column corso_alias.is_aggiornamento is
 -- La grana e l'obbligo, quindi da qualche parte deve stare **quale obbligo un
 -- corso assolve**. La forma e decisa; il contenuto no, e non si inventa qui.
 --
--- La sorgente esiste e si eredita, come i ruoli della 0002: `figura_requisito` di
--- AppSopralluoghi, che lega figura e corso ed e stata riscritta piu volte (la 049
--- ne cancella una riga con una motivazione precisa). Ereditarne lo stato finale e
--- il passo successivo. Dedurre l'aggancio dalla colonna `categoria` sarebbe
--- indovinare: `attrezzature` sono dodici ruoli distinti, e `altro` non e un
--- obbligo.
+-- Le sorgenti sono **due**, e si incrociano invece di scegliere una. Le regole
+-- obbligo -> corso di AppFormazione, che e il repo dove la grana e l'obbligo (loro
+-- `0036`), e `figura_requisito` di AppSopralluoghi, che lega figura e corso ed e
+-- stata riscritta piu volte (la 049 ne cancella una riga con una motivazione
+-- precisa). Dove concordano si scrive; dove divergono diventa una riga da decidere,
+-- non una media. Una sola fonte sarebbe coerente con se stessa e non per questo
+-- vera — assunzione A9.
+--
+-- Dedurre l'aggancio dalla colonna `categoria` sarebbe invece indovinare:
+-- `attrezzature` sono dodici ruoli distinti, e `altro` non e un obbligo.
 --
 -- Resta vuota per disciplina, non per pigrizia: una tabella vuota dichiara la
 -- forma, una tabella riempita a intuito la nasconde.

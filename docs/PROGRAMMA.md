@@ -350,13 +350,25 @@ Come funziona, per non trasformarlo in un collo di bottiglia:
 - l'assegnazione dice anche **cosa non fare**, quando serve: un task escluso per
   mancanza di accesso o di dato va detto escluso, non lasciato in fondo alla lista.
 
-### Prossimo passo per corsia · al 10 settembre 2026, ore 17
+### Prossimo passo per corsia · al 10 settembre 2026, ore 18
 
-| corsia | prossimo task | perche questo e non un altro |
-|---|---|---|
-| **AppOverall** | ~~migrazione `0004`, il catalogo formativo~~ **scritta il 10.09** → **prossimo: ereditare `figura_requisito`** per riempire `corso_assolve`, e far girare la 0001-0004 su PostgreSQL (qui non c'e ne `psql` ne Docker: **il carico e l'unica prova che manca**) | Fatta: `corso`, `corso_alias` e `corso_assolve`, con i **40 codici curati** ricostruiti per simulazione deterministica dalle sei migrazioni del campo (stato **finale**, non iniziale) e verificati contro il seed dei 268 alias — due ricostruzioni indipendenti concordano che l'unico codice orfano e `ATTR_GENERICO`. `corso_assolve` resta **vuota per scelta**: la mappatura corso->obbligo si eredita da `figura_requisito`, e dedurla dalla categoria sarebbe indovinare (`attrezzature` e una categoria dove i ruoli sono dodici) |
-| **AppSopralluoghi** | ~~enumerare i quattro fogli~~ **chiuso il 10.09** (`01c35df`, `abed85c`) → **prossimo: un campione leggibile di «Fattori di Rischio»**, senza dati personali, perche la domanda su quelle 79 colonne non e rispondibile senza vederle. Import dei ruoli sempre **in pausa**, e la **colonna 45 resta fuori** finche chi compila il gestionale non chiarisce che raccoglie l'art. 34 — Francesco lo fa chiarire | L'enumerazione ha capovolto due volte la diagnosi. Non e «tre fogli su quattro inutilizzati»: sono **tre workbook distinti**, i due che gli import leggono hanno **un foglio solo** — quindi `SheetNames[0]` e corretto — e il quarto file, quello con ruoli, visite e fattori di rischio, **non lo apre nessuno**. Da li e nata la **scheda 10**. Sui fattori di rischio la risposta di Francesco e «non capisco cosa sia», e ha ragione: 79 nomi di colonna e dei conteggi non dicono se sia il rischio valutato o un'annotazione. Serve vedere il dato. **`D2` resta esclusa**: e in Edge Function e quella sessione non ha accesso a Supabase |
-| **AppFormazione** | **portare `reference/` a monte, nella libreria** — decisione 7. Verificato ora: `formazione-81-utils-src` contiene solo i tre `.js` e i test, **nessun `reference/`** | Fase 1 e chiusa, e questo e l'unico impegno della sezione 4 ancora non eseguito. Finche il corpus non alimenta il generatore, la decisione 7 e scritta ma non vera: la libreria resta il generatore unico **di una tabella che nessuna fonte alimenta** |
+Tre colonne, perche una corsia deve sapere **cosa fa adesso** e **cosa la aspetta**:
+senza la seconda, chi finisce alle sette di sera si ferma o si inventa un compito.
+
+| corsia | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **AppOverall** | **`corso_assolve`: la mappatura corso -> obbligo, ereditata da DUE fonti e incrociata** — le regole di AppFormazione (grana obbligo, dalla loro `0036`) e `figura_requisito` del campo. Dove concordano si scrive; **dove divergono e la parte interessante**, e diventa una riga da decidere invece di una media | la migrazione dati del corpus e dell'anagrafe nel nuovo schema | Due fonti perche A9: la mappatura di una sola sarebbe coerente con se stessa e non per questo vera. Nella `0004` ho scritto che si eredita da `figura_requisito`: **quella riga era piu stretta del vero** — la grana e l'obbligo, quindi la fonte principale e il modello di AppFormazione, e il campo e il riscontro |
+| **AppSopralluoghi** | ~~enumerare i quattro fogli~~ **chiuso** (`01c35df`, `abed85c`) → **un campione leggibile di «Fattori di Rischio»**, senza dati personali, perche la domanda su quelle 79 colonne non e rispondibile senza vederle | consegnare lo **stato finale di `figura_requisito`**, che serve al mio incrocio | L'enumerazione ha capovolto due volte la diagnosi: sono **tre workbook distinti**, i due che gli import leggono hanno **un foglio solo** — quindi `SheetNames[0]` e corretto — e il quarto, con ruoli, visite e fattori di rischio, **non lo apre nessuno**. Da li la **scheda 10**. Import dei ruoli **in pausa**, colonna 45 fuori finche chi compila chiarisce l'art. 34. **`D2` esclusa**: Edge Function, senza accesso Supabase |
+| **AppFormazione** | **portare `reference/` a monte, nella libreria** — decisione 7. Verificato: `formazione-81-utils-src` ha solo i tre `.js` e i test, **nessun `reference/`**. La forma (26 MB di PDF dentro, o puntatore) la propone a Francesco in una domanda sola prima di eseguire | consegnare lo **stato finale delle regole obbligo -> corso**, l'altra meta del mio incrocio | Finche il corpus non alimenta il generatore, la decisione 7 e scritta ma non vera: la libreria e il generatore unico di tabelle che nessuna fonte alimenta — la condizione che ha permesso alla 30 di stare la come `ALTO` senza citazione per mesi |
+
+**Un task che nessuna corsia puo prendere, e va detto invece di restare in fondo a
+una lista.** Far girare `0001` -> `0004` piu il seed su PostgreSQL: nessuna delle tre
+sessioni ha `psql`, Docker o le credenziali del progetto. Lo puo fare **solo
+Francesco**, o una sessione a cui apra quell'accesso. Finche non succede, la `0004`
+e scritta e non provata, e la migrazione lo dichiara al posto di lasciarlo credere.
+
+**E uno che aspetta una persona, non un turno:** la colonna «RSPP» del gestionale.
+Francesco la fa chiarire a chi compila. Nessuna nomina RSPP entra prima.
 
 Quando uno di questi si chiude, questa tabella si riscrive. Se resta ferma per un
 giorno di lavoro, e scaduta — e vale la nota della sezione 3: un piano che tiene
