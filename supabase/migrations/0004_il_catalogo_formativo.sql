@@ -278,17 +278,89 @@ comment on column corso_alias.is_aggiornamento is
 -- forma, una tabella riempita a intuito la nasconde.
 
 create table corso_assolve (
-  corso_codice text not null references corso(codice),
   ruolo text not null references ruolo_sicurezza(codice),
-  -- Lo stesso corso puo assolvere l'obbligo iniziale di un ruolo e
-  -- l'aggiornamento di un altro: la coppia da sola non basta.
-  is_aggiornamento boolean not null default false,
+  -- **Esattamente uno dei due.** Un obbligo si assolve con un corso preciso
+  -- (`preposto` -> `PREPOSTO`) oppure con **qualsiasi corso di una categoria**
+  -- (`addetto_antincendio` -> un corso della categoria `antincendio`, che sia
+  -- livello 1, 2 o 3). La seconda forma non e una comodita: e il significato che
+  -- la fonte porta, e copiarla come coppia sarebbe un errore di merito.
+  corso_codice text references corso(codice),
+  categoria text,
   note text,
-  primary key (corso_codice, ruolo, is_aggiornamento)
+  constraint assolve_un_corso_o_una_categoria
+    check ((corso_codice is not null) <> (categoria is not null))
 );
 
+-- I null non collidono fra loro in un vincolo di unicita, quindi senza questo
+-- indice la stessa regola potrebbe entrare due volte.
+create unique index corso_assolve_unico
+  on corso_assolve (ruolo, coalesce(corso_codice, ''), coalesce(categoria, ''));
+
 comment on table corso_assolve is
-  'Quale obbligo — cioe quale riga di `ruolo_sicurezza` — un corso assolve, e se come percorso iniziale o come aggiornamento. Vuota per scelta: si eredita dallo stato finale di `figura_requisito` del campo, non si deduce dalla categoria del corso.';
+  'Quale obbligo — cioe quale riga di `ruolo_sicurezza` — un corso assolve. Vuota per scelta: si riempie incrociando il modello di AppFormazione (fonte principale, perche la grana e l''obbligo) con `figura_requisito` del campo (riscontro), non deducendola dalla categoria del corso.';
+comment on column corso_assolve.categoria is
+  'La famiglia che assolve l''obbligo, quando non e un corso singolo: vale **qualsiasi** corso di `corso.categoria` uguale a questo valore.';
+
+-- ---------- la trappola che questa forma esiste per evitare ----------
+--
+-- Nel campo la stessa cosa e una colonna booleana, `figura_requisito.per_categoria`,
+-- e il commento che la istituisce dice: «il requisito e soddisfatto da qualsiasi
+-- corso della stessa categoria del corso indicato (es. addetto antincendio: vale
+-- liv. 1/2/3)». Su 21 righe e vera **tre volte**, ed e vera esattamente dove i
+-- corsi sono una famiglia:
+--
+--   addetto_antincendio     -> AI_LIV2        (rappresentante, non requisito)
+--   addetto_primo_soccorso  -> PS_GRBC        (rappresentante)
+--   operatore_attrezzatura  -> ATTR_GENERICO  (rappresentante)
+--
+-- Una `corso_assolve` che avesse copiato quelle coppie alla lettera avrebbe reso
+-- **obbligatorio il livello 2** dell'antincendio e **dichiarato scoperti** i
+-- livelli 1 e 3 — cioe avrebbe prodotto non conformita inventate su clienti in
+-- regola. Il difetto sarebbe stato invisibile: la riga e formalmente corretta e la
+-- coppia esiste davvero nella fonte. Segnalato dalla corsia AppSopralluoghi il 10
+-- settembre 2026 leggendo il commento dello schema, non la tabella.
+--
+-- **E spiega il codice orfano.** `ATTR_GENERICO` e l'unico dei 40 codici che
+-- nessuno dei 268 alias referenzia, e qui si vede perche: non e un corso che
+-- qualcuno frequenta, e il **rappresentante della famiglia** delle abilitazioni
+-- alle attrezzature. Un titolo di attestato non porta mai quel nome. Non era un
+-- buco: era una riga di un altro tipo.
+--
+-- ---------- cosa questa tabella NON porta, e non per dimenticanza ----------
+--
+-- **1. La distinzione iniziale / aggiornamento.** La prima versione di questa
+-- tabella aveva `is_aggiornamento` in chiave primaria. La fonte **non lo porta**:
+-- `figura_requisito` ha `id, figura_codice, corso_codice, obbligatorio,
+-- per_categoria, note` e nulla piu, e in quel modello la distinzione vive
+-- **altrove** — su `corso`, che porta `aggiornamento_mesi` e `ore_aggiornamento`.
+-- Un requisito punta a un corso, e il corso sa da se ogni quanto si rinnova.
+-- Trasformare una riga di requisito in due righe di `corso_assolve` sarebbe una
+-- **decisione**, non una deduzione, e sotto A7 una decisione non presa non entra
+-- nelle tabelle: la colonna e uscita.
+--
+-- **2. `obbligatorio`.** Nella fonte e `true` su tutte e 21 le righe, e `note` e
+-- `null` su tutte e 21. Due colonne che esistono e non hanno mai portato
+-- informazione: ereditarle avrebbe importato la forma di una scelta mai fatta.
+-- Rientrano il giorno in cui esiste un requisito **non** obbligatorio, e quel
+-- giorno sara un caso vero.
+--
+-- **3. Le attrezzature come figure.** La domanda «quali delle dodici attrezzature
+-- non hanno requisito» non ha risposta, e la risposta e piu interessante della
+-- domanda: nel campo **nessuna** ce l'ha e nessuna dovrebbe averlo. Le migrazioni
+-- 045 e 058 lo dichiarano — le abilitazioni non sono figure dell'organigramma —
+-- e in `figura_requisito` esiste una riga sola, `operatore_attrezzatura` con
+-- `per_categoria`. Le 15 figure + 12 attrezzature + 9 attivita della 0002 sono la
+-- **tassonomia**; questa tabella e la regola, e non ha la stessa forma.
+--
+-- **Il riscontro che c'e gia, e quello che manca.** Il campo ha consegnato lo stato
+-- finale di `figura_requisito` in **due letture confrontate** — ricostruita dalle
+-- migrazioni e letta dal database — con **zero divergenze su 21 righe** (loro
+-- `b50003f`). Non prova che le migrazioni descrivano ogni tabella: prova che il
+-- **metodo** di ricostruzione funziona, e quindi che confrontare allo stesso modo
+-- i 40 codici curati di questa migrazione ha senso e non e stato ancora fatto.
+-- Manca l'altra meta: le regole obbligo -> corso di AppFormazione. Le 21 righe del
+-- campo si traducono con `ruolo_sicurezza_alias` della 0002 — `dl_rspp` ->
+-- `datore_lavoro_rspp`, e non a mano.
 
 -- ============================================================================
 --  IL CONFINE: QUESTA MIGRAZIONE NON PORTA LA SORVEGLIANZA SANITARIA
