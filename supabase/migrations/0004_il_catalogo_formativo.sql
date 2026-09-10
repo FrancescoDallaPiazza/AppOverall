@@ -138,6 +138,12 @@
 -- un catalogo che porta un riferimento irrisolvibile ha una nota decorativa. **E il
 -- solo campo in cui questo catalogo si discosta deliberatamente da entrambe le
 -- fonti**, ed e scritto qui perche non sembri una terza ricostruzione sbagliata.
+--
+-- **Conseguenza operativa, per chi rifara il confronto.** Rifatto con lo stesso
+-- metodo, questo campo **divergera di nuovo**: e atteso, non e una regressione. Se
+-- divergesse **qualcos'altro**, quella e una notizia. Una differenza attesa che non
+-- porta scritto di essere attesa diventa un falso allarme al primo controllo e un
+-- allarme ignorato al secondo — che e il modo in cui un controllo muore.
 
 create table corso (
   -- Il codice curato, e non un uuid: questa tabella si legge nelle migrazioni
