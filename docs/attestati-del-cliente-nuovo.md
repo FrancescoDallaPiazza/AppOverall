@@ -22,6 +22,53 @@ decide la forma delle tabelle formative: fin quando non è chiusa, qui si dice l
 
 ---
 
+## Due domande di questo foglio sono state decise, il 10 settembre 2026
+
+Il documento le poneva aperte. Restano scritte qui, in testa, perché sono i due
+cardini su cui gira tutto il resto e leggerlo senza saperle porta a conclusioni
+diverse.
+
+**Chi dà il giudizio di conformità dei contenuti: l'Area Formazione.** Non è una
+convenzione da ricordare, perché lo schema sa già rappresentarla: coincide con il
+ruolo applicativo `formazione`, livello 3 del vocabolario della `0001`
+(`supabase/migrations/0001_fondamenta_e_anagrafe.sql:65-69`). Quindi la firma è
+un'azione **chiusa da una policy** — livello ≥ 3, che ammette anche
+l'amministrazione a 4 e tiene fuori il tecnico che raccoglie in campo, il quale
+la carta la porta ma non la giudica. E non è un booleano: è `verificato_da` che
+punta a un operatore, con la data, nella stessa forma di
+`valutazione_sede.deciso_da` (`0001:219-220`), che è l'unico posto del progetto
+dove questa cosa è già fatta bene.
+
+Ne discende una regola operativa che vale la pena scrivere per intero: **un
+attestato non verificato non produce una scadenza.** Resta evidenza in attesa.
+L'alternativa — calcolare la scadenza e far firmare dopo — chiede all'Area
+Formazione di firmare il lavoro di qualcun altro, e trasforma la verifica in una
+ratifica.
+
+**La riserva è una specie, non un flag.** Cioè: una riga per riserva, con il suo
+tipo, chi l'ha sollevata, quando, e come è stata chiusa — non una colonna
+booleana sull'evidenza. La ragione non è l'eleganza ed è verificabile: le quattro
+riserve del §4 **si chiudono in quattro modi diversi e da quattro persone
+diverse**. Ore assenti si recuperano dal catalogo o si chiedono all'ente; ente
+ignoto vuole una verifica di accreditamento; data dedotta vuole il documento;
+contenuti non verificabili è il giudizio dell'Area Formazione qui sopra. Sono
+quattro code di lavoro, e un booleano le fonde in una.
+
+Il flag, oltre a non dire quale sia il problema, non sa dire **a che punto sei**:
+un attestato con due riserve è indistinguibile da uno con una, e chiudendone una
+il flag deve restare acceso. La specie si chiude una alla volta. Se serve il
+booleano per comodità di lettura, **si deriva** dalla specie — esiste una riserva
+aperta? — mentre il contrario non si può ricostruire.
+
+Anche qui la forma non si inventa: è quella di `valutazione_sede` (`0001:209-236`)
+— una riga per attributo, con motivazione, fonte, chi ha deciso e quando, e le
+righe superate che si **revocano** invece di essere cancellate, perché la storia
+di come si è arrivati a una conclusione è essa stessa un documento. Lì serve a
+dire «questa sede ha rischio alto perché il DVR del 12 marzo»; qui a dire «questo
+attestato è accettato con riserva perché le ore non sono stampate».
+
+---
+
 ## 0. Le tre operazioni, e dove stanno oggi
 
 Il caso reale contiene tre domande che il progetto tratta come una sola e che non lo
