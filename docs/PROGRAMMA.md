@@ -326,3 +326,33 @@ piano.
   **eseguito il 5** — e che, per la conferma di Francesco, non era mai stato un
   impegno ma un'idea a voce. E la sorella di A5: la stessa nota letta come misura.
   Il difetto non e stato misurare male, e stato **non misurare affatto**.
+
+## 8. Chi decide il prossimo passo
+
+**Deciso da Francesco il 10 settembre 2026.** AppOverall e il repo in cui tutte le
+corsie confluiranno, quindi e **qui che si decide cosa si fa dopo e chi lo fa**. Non e
+un privilegio, e una conseguenza: chi tiene il piano canonico e l'unico che vede le
+tre corsie insieme, e una corsia che sceglie da se sceglie sul suo pezzo.
+
+Come funziona, per non trasformarlo in un collo di bottiglia:
+
+- **a chiusura di ogni task** — non a fine giornata — la corsia riporta lo stato nel
+  suo `STATO.md` e lo dice; AppOverall decide il passo successivo e **a chi tocca**,
+  e lo scrive **qui**, non in un messaggio;
+- una corsia che non ha un passo assegnato **non lo inventa**: lo chiede;
+- **una pausa messa da Francesco non la toglie nessun altro.** Il fatto che gli
+  ostacoli tecnici siano spariti non e un permesso di ripartire;
+- l'assegnazione dice anche **cosa non fare**, quando serve: un task escluso per
+  mancanza di accesso o di dato va detto escluso, non lasciato in fondo alla lista.
+
+### Prossimo passo per corsia · al 10 settembre 2026, ore 17
+
+| corsia | prossimo task | perche questo e non un altro |
+|---|---|---|
+| **AppOverall** | **migrazione `0004`, il catalogo formativo** sotto la scheda 9: grana l'**obbligo**, chiave il **codice curato**, e l'impronta `GEST-`+md5 come **alias** | E la sola decisione che determina tabelle e non e ancora incarnata. Le 0001-0003 hanno fondamenta, ruoli e viste; il catalogo e il prossimo strato, e **13.215 eventi formativi** si agganciano a quella chiave: aggiungerla dopo significa riscriverli |
+| **AppSopralluoghi** | **in pausa** sull'import dei ruoli sicurezza, per decisione di Francesco. Nel frattempo, e solo questo: **leggere `AppFormazione/docs/07-i-ruoli-sicurezza-erano-in-un-export.md` ed enumerare le colonne del foglio «Ruoli SSL»** — preparazione a costo zero, nessuna scrittura su database | La pausa vale finche la toglie lui. La preparazione serve perche la trappola non e quella dei 12 CF mancanti: e una colonna mappata male su sette, con `datore_lavoro_rspp` letto come RSPP e sovrapposizione zero fra i due insiemi — il tipo di difetto che nessun conteggio segnala. **`D2` resta esclusa**: e in Edge Function e questa sessione non ha accesso a Supabase |
+| **AppFormazione** | **portare `reference/` a monte, nella libreria** — decisione 7. Verificato ora: `formazione-81-utils-src` contiene solo i tre `.js` e i test, **nessun `reference/`** | Fase 1 e chiusa, e questo e l'unico impegno della sezione 4 ancora non eseguito. Finche il corpus non alimenta il generatore, la decisione 7 e scritta ma non vera: la libreria resta il generatore unico **di una tabella che nessuna fonte alimenta** |
+
+Quando uno di questi si chiude, questa tabella si riscrive. Se resta ferma per un
+giorno di lavoro, e scaduta — e vale la nota della sezione 3: un piano che tiene
+anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**.
