@@ -121,7 +121,11 @@ database e gia nello stato che l'azzeramento doveva produrre.** Lanciarlo oggi n
 pulirebbe una prova, cancellerebbe le anagrafiche — cioe il lavoro che la Fase 0
 registra come fatto e da non rifare.
 
-E **nessun repo registra un azzeramento in sospeso**: cercato in tutti e tre. In
+**Chiuso da Francesco il 10 settembre 2026: «non c'e nessun azzeramento da fare, era
+una mia idea a voce.»** Non e un impegno rinviato, e un'ipotesi ritirata: non va
+riproposta, e nessun import aspetta piu una pulizia.
+
+E infatti **nessun repo registrava un azzeramento in sospeso**: cercato in tutti e tre. In
 AppSopralluoghi `TODO.md` racconta l'azzeramento del **5 agosto**, che e un fatto
 passato, non un impegno; in AppFormazione il carico del 9 settembre (216 ruoli su 121
 persone) e dichiarato come **misura su dati veri**, non come dati di prova da
