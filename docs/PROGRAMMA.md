@@ -42,7 +42,9 @@ meno di quanto sembri: quel codice e gia condannato a prescindere.
 2. **RLS che isolano davvero.** Questa riga diceva «oggi **tutte** `using (true)
    with check (true)`», e faceva di due repo un mucchio solo. **Corretta il 10
    settembre 2026**, contando: AppSopralluoghi ne ha **17**; AppFormazione ne ha
-   **zero**, e dichiara `security_invoker` su **28 viste su 29**.
+   **zero**, e dichiara `security_invoker` su **28 viste su 29** al momento del
+   censimento — **29 su 29** dalla sua migrazione `0056`, poche ore dopo, che ha
+   chiuso l'unica scoperta.
 
    La correzione non e cosmetica, perche da quella riga la `0001` aveva tratto
    una conseguenza operativa — «non c'e isolamento da replicare, va scritto da
