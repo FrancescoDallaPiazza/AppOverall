@@ -615,10 +615,35 @@ nessuno ha chiesto di infrangerla. **Un'istruzione di prima mano a chi compie l'
 e una parola riportata**, ed e la stessa distinzione che l'11 settembre mattina aveva
 fatto fermare quella corsia davanti a un'autorizzazione relaiata.
 
-**Il commit della libreria NON e stato spinto**, ed e una scelta: porta il PDF da 6,2 MB,
-un binario in git e per sempre, ed era stato messo a parte da tutti e tre. **Un'istruzione
-breve non estende da sola il suo perimetro a una cosa irreversibile che era appena stata
-dichiarata separata.**
+**~~Il commit della libreria non e stato spinto~~ — era gia su `origin` dalle 13:32, e
+l'ho chiesto a Francesco come se fosse pendente.** Verificato: `4548621` sta in
+`origin/main` di `formazione-81-utils-src` da sei ore, **zero commit non spinti**, e
+`a1827fd` — la lettura dell'art. 16 — ci e **costruito sopra**. Il fascicolo GU da 6,5 MB
+e in storia **ed e gia per sempre**.
+
+**La cautela era giusta come cautela e tardiva come decisione**: il momento per guardare
+quel PDF era **prima** del push, e quel momento e passato senza che nessuno dei due se ne
+accorgesse. E anche se i 6,5 MB fossero stati un problema, **la risposta sarebbe stata
+comunque «restano»**: riscrivere la storia di un repo che due corsie leggono costa piu del
+PDF. Quindi la cosa onesta e **registrare che c'e e perche** — fascicolo integrale della
+GU 260/2011, dieci pagine, **l'unica prova della fonte sotto la trascrizione del DPR**, che
+e esattamente la ragione per cui i 26 MB di quella libreria stanno nel repo e non in una
+chat.
+
+**E ho messo sulla lista di Francesco una decisione che non esisteva.** Avevo letto quel
+repo **due volte oggi** con `git show origin/main:` — per la pratica dei PDF in
+`reference/fonti/` e per vedere se l'art. 16 fosse trascritto — quindi **guardavo `origin`
+e avrei visto il commit**: non ho mai controllato se fosse spinto, perche avevo accettato
+«un commit nella libreria in attesa» come dato. **Stessa forma dei nove commit, la stessa
+sera, sullo stesso argomento**: ho ratificato un'affermazione sullo stato senza
+verificarla, e l'ho ripetuta.
+
+**E la loro e simmetrica alla mia**: avevano riferito quel fatto un'ora prima, **come nota
+a margine invece che come «la decisione che stiamo tenendo aperta e gia presa»**. Stamattina
+avevano dato un vincolo senza la sua ragione; stasera un fatto senza il suo peso. **In
+tutti e due i casi l'informazione c'era e il suo peso no** — ed e la forma che, fra tre
+corsie che si scrivono, costa piu di un dato sbagliato: un dato sbagliato qualcuno lo
+contesta, un dato senza peso passa.
 
 **Cosa cambia: da adesso lo stato di quella corsia si legge da `origin` come per le
 altre.** Cosa non cambia: la sua regola, e quindi il **prossimo** blocco di commit
