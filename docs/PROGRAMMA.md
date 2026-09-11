@@ -303,6 +303,8 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Il seed dei 268 alias contro la produzione | 11 valori su 11 | Confronto dell'11.09: `n`, la somma delle impronte per riga, i cinque flag, le note, i codici distinti e le due somme di lunghezze. **Combacia tutto**, quindi i 268 giudizi presi a mano sono quelli in produzione e la qualificazione «i file dicono» cade sul seed. Il primo tentativo, un `md5(string_agg(... order by))`, dava hash diversi: ordinamento e collation, non deriva — vedi **A11** |
 | Divergenze fra migrazioni e database | 0 su 21 | Su `figura_requisito`, in due letture confrontate — ricostruita dai file e letta dal database (`b50003f`). **Prova che il metodo di ricostruzione funziona**, non che ogni tabella combaci: i 40 codici curati della `0004` restano un'ipotesi finche non si confrontano allo stesso modo |
 | La `0001` → `0006` caricata su PostgreSQL | 12 conteggi su 12 · 8 prove su 8 | Carico dell'11.09 da AppFormazione su un cluster **nuovo**, fatto con `initdb` nello scratchpad di sessione (porta 5455, auth `trust`, poi cancellato): **nessuna credenziale di nessuno**. I sette della `0006` e i cinque della `0004` tornano tutti, e i tre vincoli sono provati **nei due versi** — un vincolo che rifiuta tutto non e un vincolo. **Nessun bug trovato**, a differenza del carico precedente. Le due cose temute prima e misurate dopo: 0 apostrofi rimasti doppi su 31 note, il punto e virgola dentro una nota e arrivato intero, nota piu lunga 411 caratteri |
+| L'organigramma che le colonne dichiarano | 51% · **153 righe su 301** | Misurato l'11.09 (`8dab00a`) su tutte le 3.501 righe persona e tutte le 480 societa, non sulle 65 del perimetro assegnato — l'allargamento e loro e senza di quello la domanda 3 non aveva risposta. **160 righe portano il ruolo dentro la MANSIONE**, 12 in entrambi i posti, e per il **datore di lavoro nell'export non esiste nemmeno una colonna**: quelle 22 righe sono l'unica traccia che il gestionale ne porti. **94 societa — il 15% del portafoglio attivo, 703 persone** — dopo un import che legge solo le colonne avrebbero l'organigramma **vuoto avendone uno scritto**, e «senza organigramma» e uno stato legittimo: il difetto sarebbe **indistinguibile dal dato mancante**, come il `null` di `oreModuloSettore` su un'altra tabella |
+| «RSPP» nella mansione che vuol dire art. 34 | 85 su 91 | Delle 91 righe con RSPP scritto nella mansione, **85 dicono che quella persona e anche titolare, socio o datore** e **3 dicono esplicitamente che non lo e**: il testo libero distingue i due casi in **88 casi su 91**, la colonna in nessuno. Mandare quelle 85 su `rspp` darebbe il percorso del professionista — moduli A, B, C — a chi deve quello del datore, e toglierebbe quello che deve davvero. **Il testo libero dice piu della colonna, non meno** |
 | I 180 titoli di AppFormazione contro i 268 alias | 180 su 180 | Giunto della `0006`. Il confronto ingenuo ne perde **dieci**, e sono **tutti e dieci antincendio**: la loro pipeline **cancella** i caratteri non ASCII (`ATTIVITA'` -> `ATTIVIT`) dove chi usa `unaccent` li traslittera (`ATTIVITA`). Con una chiave che toglie da entrambi i lati ogni carattere non ASCII e non alfanumerico: 180 su 180. Quella chiave collassa 268 alias in **262**, e le cinque collisioni sono innocue **perche verificate**, non perche improbabili: tutte e cinque puntano allo stesso codice di corso |
 | Coppie ruolo -> corso su cui le due fonti concordano | 14 su 14 | Sulle **figure**, dove sia il modello di AppFormazione sia `figura_requisito` possono parlare. Fuori dalle figure non c'e incrocio e non e un difetto: il campo dichiara nelle sue `045` e `058` che le abilitazioni non sono figure dell'organigramma, quindi le 14 righe di attrezzature e attivita della `0006` hanno **una fonte sola** e portano la sua qualificazione, «i file dicono» |
 | Righe scritte in `corso_assolve` | 31 | Su 39 coppie derivabili: **-7** antincendio e primo soccorso (scheda 11), **-3** divergenze non scritte, **+2** con una fonte sola e dichiarata. Coprono **20 dei 36 ruoli**; i 16 vuoti sono di quattro nature diverse e la `0006` le separa, perche un motore che non le distingue dichiara non conforme chi non ha un corso da fare |
@@ -410,7 +412,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
-| **AppOverall** | ~~la `0006`~~ **chiusa e CARICATA** (`f0fd4f4` in AppFormazione): `corso_assolve` ha **31 righe**, e i sette conteggi, i cinque della `0004` e **otto prove sui vincoli nei due versi** tornano tutti. Il carico **non ha trovato nessun bug** → **la migrazione dati**: le 808 righe di sorveglianza e il corpus nel nuovo schema | la Fase 3 vera e propria | La `0006` era verificata **staticamente** — chiavi esterne, `check`, indice unico e conteggi, letti dai file con un parser mio — e staticamente non bastava: e la qualificazione che A10 impone. Adesso non e piu quella la qualificazione. Le due cose che temevo non si sono rotte, **e con la misura invece che con «e andata»**: zero note con apostrofi rimasti doppi, la nota che contiene un punto e virgola e arrivata intera, la piu lunga e di 411 caratteri |
+| **AppOverall** | ~~la `0006`~~ **chiusa e caricata**, zero bug → **la `0007`: dove atterrano i ruoli scritti a mano.** AppSopralluoghi ha misurato che **meta dell'organigramma sta fuori dalle colonne** (`8dab00a`) e che l'import non e ancora scritto. La 0002 ha `ruolo_sicurezza_alias`, ma quella mappa **codici**, e qui non arrivano codici: arrivano 29 frasi. La decisione di forma sta qui sotto, e non e «aggiungere una tabella di alias» | la migrazione **dati**: le 808 righe di sorveglianza e il corpus. **Scavalcata**, e detto perche: il corpus non scade, un progetto di import si decide una volta sola | La `0006` era verificata **staticamente** — chiavi esterne, `check`, indice unico e conteggi, letti dai file con un parser mio — e staticamente non bastava: e la qualificazione che A10 impone. Adesso non e piu quella la qualificazione. Le due cose che temevo non si sono rotte, **e con la misura invece che con «e andata»**: zero note con apostrofi rimasti doppi, la nota che contiene un punto e virgola e arrivata intera, la piu lunga e di 411 caratteri |
 | **AppSopralluoghi** | ~~il livello delle celle multi-codice~~ **chiuso** (`56ae424`): confermato con **88 divisioni lette due volte** da due repository — zero divergenze — e misurato in persone: **27 in eccesso e 3 in difetto**. Il primario **non e nei dati** e va a Francesco → **quanti ruoli stanno nel campo sbagliato.** La mansione del titolare di MIGLIORINI e `TITOLARE- RSPP`, e nel foglio «Ruoli SSL» quella societa non ha **nessuna** colonna di ruolo valorizzata. Quanti altri ruoli sono scritti dentro la **mansione** invece che nella loro colonna, su tutte e 65 le societa del foglio. **Sola lettura** | **tre conteggi che solo voi potete fare**, e sbloccano le altre due corsie: (a) quante delle 619 hanno `N DIPENDENTI` e quante superano i **50** — perche da AppFormazione `clienti.dipendenti` non la riempie nessuno in blocco; (b) **le 31 righe a 8 ore dell'aggiornamento RLS appartengono a quelle aziende?** La frase «sono le aziende oltre i cinquanta» sta in `eddbb44` e **non e mai stata contata**; (c) quanti eventi hanno oggi i due titoli `AGGIORNAMENTO DATORE DI LAVORO` e `... CON MODULO AGGIUNTIVO CANTIERI`. Poi la riparazione: **separare i tre stati** e **conservare la cella d'origine**, sul cliente accanto a `codice_ateco` | Perche l'import delle nomine **non e ancora scritto**, e questa e l'ultima finestra in cui la misura cambia un progetto invece di riparare un danno. Se i ruoli stanno anche altrove, un import che legge solo le colonne di ruolo li perde **in silenzio** — e quel silenzio arriva fino a `corso_assolve`, dove le righe `rspp` e `datore_lavoro_rspp` non scattano per qualcuno che il ruolo ce l'ha. E la stessa malattia dell'ATECO su un campo diverso: un valore in un campo di testo libero che lo schema non si aspetta li. Si lega alla domanda gia aperta sulla colonna «RSPP» del gestionale: quella chiede **cosa significhi** la colonna, questa chiede **quanto stia fuori** dalla colonna |
 | **AppFormazione** | ~~il carico, il giunto RLS e la divergenza del datore~~ **tutti e tre chiusi** (`f73eb1b`, **locale**: il push e di Francesco e non e assegnato). Il giunto distingue `rinvio_al_ccnl` — l'ignoranza **della legge** — da `dimensione_ignota`, che e **la nostra**, e le 4 e le 8 le tratta da pavimento → **le altre durate multiple, per chiudere la scheda 12.** Il vostro `ore_sufficienti` giudica **solo** `rls_art37`, e 0 righe fuori: giusto. La domanda che ne segue e mia e ve la giro perche il dato e vostro: **per quali altri obblighi quel confronto, se esteso, produrrebbe un giudizio falso, e cosa manca a ciascuno prima di poterlo estendere.** Le candidate sono misurate — `DL_RSPP_BASE` con quattro regimi, `DIRIGENTE` 0 su 12, `PREPOSTO` due regimi separati nel tempo, `LAV_SPEC` con le ore dal rischio | la correzione dei due titoli del datore, **quando esiste il numero degli eventi**: quello lo chiedo ad AppSopralluoghi | Perche avete costruito il controllo negativo giusto — «sul dirigente la seconda durata e un regime passato, e giudicarlo col metro di oggi e il difetto che la scheda 12 dice di non introdurre» — e adesso quel controllo va **girato in avanti**: non «cosa non giudico», ma «cosa mi impedisce di giudicare, obbligo per obbligo». La scheda 12 e mia ed e aperta; questa misura e cio che le manca per chiudersi, e le colonne `ore_dovute`/`ore_svolte` che avete valorizzato anche fuori dall'RLS sono gia il posto dove la risposta atterra |
 
@@ -422,6 +424,39 @@ meta, punto di ripresa scritto nella `0004`), e l'import dei ruoli era gia in pa
 resta fermo finche non lo toglie Francesco. Sta scritto qui perche la prossima
 sessione non aspetti un lavoro che nessuno sta facendo: una corsia ferma e diversa da
 una corsia lenta, e dal foglio non si distinguono.
+
+**La `0007` non e una tabella di alias, e il motivo e nei dati che l'hanno chiesta.**
+La tentazione, dopo `8dab00a`, e ovvia: `corso_alias` esiste perche «il titolo stampato
+su un attestato di terzi e per natura un alias e non un'identita», e 29 forme scritte a
+mano chiedono lo stesso trattamento. **Ma le 22 forme dell'RSPP non sono 22 modi di
+scrivere «RSPP».** Sono frasi che asseriscono **due fatti**:
+
+    RSPP/titolare                          RSPP + e il titolare      -> datore_lavoro_rspp
+    RSPP ESTERNO                           RSPP + non e dell'azienda -> rspp, e forse fuori
+    RSPP- NO TITOLARE                      RSPP + NON e il titolare  -> rspp
+    AMMINISTRATORE/DATORE DI LAVORO/RSPP   RSPP + e il datore        -> datore_lavoro_rspp
+
+Il ruolo non e il testo: e la **combinazione**. Una tabella `testo -> ruolo` funziona
+sulle 29 di oggi e si rompe sulla trentesima, e soprattutto **seppellisce la ragione**:
+chi legge `RSPP/titolare -> datore_lavoro_rspp` non sa se sia una regola o un giudizio
+preso a mano su quella stringa. La `0002` descrive gia questo fallimento e lo attribuisce
+alla forma sbagliata — «se la mappa e in un `switch`, qualcuno ci mette il caso mancante
+a mano, **ed e cosi che `dl_rspp` e diventato `rspp` su 26 righe**». Una tabella di alias
+e un `switch` in tabella: stessa opacita, indice migliore.
+
+Quindi la `0007` porta **due colonne di fatto e non una di destinazione**: quale parola
+di ruolo compare, e cosa il testo dice della **posizione della persona** — titolare o
+socio, non titolare, esterno, non dichiarato. Il ruolo lo decide una regola scritta una
+volta, che si legge e si discute; il testo verbatim resta accanto, come per l'ATECO e
+come per `corso_alias`. E la forma «non dichiarato» e obbligatoria: 29 forme su 160
+righe vuol dire **una riga su cinque scritta in modo nuovo**, e la lettura deve poter
+dire di non aver capito invece di ignorare in silenzio.
+
+**Manca un dato per scriverla**, ed e piccolo: di 29 forme ne conosco **22 verbatim**,
+quelle dell'RSPP. Le 5 del datore e le 4 del preposto sono contate e non trascritte.
+Chieste ad AppSopralluoghi in coda ai tre conteggi — **non le invento**, perche il
+refuso `TITOLRE` e la negazione `NO TITOLARE` dicono che in quelle stringhe la forma
+**e** il dato.
 
 **«Le 31 sono le aziende oltre i cinquanta» non e una misura, e l'ho propagata io.**
 Contestata da AppFormazione l'11 settembre con l'argomento giusto: `clienti.dipendenti`
@@ -654,6 +689,14 @@ finche la norma non e letta. Sotto A7 aspetta parte, punto e pagina:
    con i moduli professionali sono marcate RSPP in **zero** casi. La domanda non e
    se noi la leggiamo bene: e se il gestionale debba continuare a chiamarla cosi.
    Nessuna nomina RSPP entra prima.
+   **L'11 settembre e arrivata una seconda prova, e da un'altra popolazione**
+   (`8dab00a`): delle **91 righe** che scrivono «RSPP» dentro la *mansione* —
+   non nella colonna — **85 aggiungono di proprio pugno che quella persona e
+   titolare, socio o datore**, e 3 dicono espressamente che **non** lo e. Le due
+   misure guardano insiemi diversi, 28 marcati nella colonna e 91 scritti a mano,
+   e **concordano**. Non rispondono alla domanda — cosa il gestionale *intendesse*
+   resta tuo — ma la pesano: se quella colonna volesse dire «professionista
+   esterno», ci sono **85 righe che la smentiscono per iscritto**.
 2. **Le 79 colonne dei «fattori di rischio»**: cosa ci si mette, e chi. Non e la
    valutazione della mansione — due righe della stessa societa portano gli stessi
    quindici fattori con mansioni «installatore di cantiere» e «programmatore» — e
