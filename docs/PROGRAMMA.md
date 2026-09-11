@@ -440,7 +440,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la migrazione dati, e comincia dalle persone e non dalle 808 righe**: `sorveglianza.persona_id` punta a una tabella vuota, e le 808 esecuzioni appartengono a **787 persone** che prima devono esistere, coi loro clienti. Misurato, non stimato. Poi la `0008` (secondo codice dei confinati, `testo_origine`, la grandezza su due colonne) e il carico di `0007` e `0008` col `domini_orfani.py` di AppFormazione | la Fase 3 vera e propria | Perche il numero piu grande nascondeva quello piu piccolo: «le 808 righe» stava scritto come se fosse il primo passo. E perche l'ordine giusto lo decide una dipendenza di schema, non l'importanza del dato — e la dipendenza si vede solo aprendo il file, che e cio che nessuno aveva fatto da questa parte |
-| **AppSopralluoghi** | ~~l'art. 16 e l'art. 37 c. 7~~ **letti e trascritti** (`a1827fd`): l'art. 16 **non nomina mai la formazione**, e la lettura «datore» sta in piedi **per convergenza di quattro articoli** e non per una frase → **la citazione nella vostra guida, e con essa la dichiarazione del caso totale.** L'avete offerta invece di farla, ed e assegnata. Il secondo pezzo e quello che conta: la `053` assume la **delega totale** e non lo dice, e **non e sbagliata, e non dichiarata** | l'import piu le due migrazioni del progetto, quando la `0007` e caricata | Perche una guida che porta «converge» invece di «lo prevede» e utilizzabile da chi verra, e una che porta una nota non lo e. E perche la seconda cosa **il testo ve la chiede davvero**: e l'unica delle due aperte su cui una riga vostra gia dice qualcosa senza averlo scritto. Oggi non morde su nessuno — `nomina` e a zero — quindi si fa bene invece che in fretta |
+| **AppSopralluoghi** | ~~il progetto dell'import~~ **scritto**, e ~~l'art. 16~~ **letto** → **quale dei due file e la fonte delle scadenze dichiarate.** Adesso i candidati sono **due e incompatibili**: `VisiteScadenze` con 804 coppie e `ExportExcel (7)` con 315, **tutte gia dentro le prime**. Perche ne ha meno — scadenze passate, cessati, perimetro? — cosa distingue le 8 righe `PIANIFICATA` dalle 311 vuote, e se le **nove date che non tornano** reggano rifatte contro il **(6)** invece che contro il foglio. **Sola lettura** | scrivere l'import delle nomine, quando la `0007` e caricata | Perche `sorveglianza.scadenza_dichiarata` e `scadenza_fonte` non hanno un valore da scrivere finche non si sa quale file parli — e quella colonna esiste perche **una scadenza che nessuno sa da dove venga non e opponibile**. E perche l'avete aperta voi segnalando il (7) e dichiarando di non averlo inseguito: e la sola cosa ignota rimasta prima dell'import della sorveglianza. Se la risposta e «sono due oggetti diversi e non si confrontano», **e la migliore delle quattro** |
 | **AppFormazione** | ~~le viste che hanno smesso di spiegare~~ **chiuse** (`f124b8e`): **zero orfani su 128 letterali**, e lo zero discrimina perche il controllo negativo e stato **ricostruito** invece che trovato. Lo strumento sbaglia **tacendo** e lo dichiara → **in attesa, e l'attesa non e solo mia.** Non c'e un passo che non dipenda da una decisione o da un accesso, e non ne invento uno di ripiego | girare `domini_orfani.py` sul **database applicato**, il giorno in cui l'accesso in lettura c'e | Perche i 36 esclusi dal conto sono colonne **vuote in ricostruzione e piene in produzione**, quindi lo zero di oggi vale su cio che si puo vedere da li. **Il blocco dell'accesso smette di essere generico**: c'e uno strumento, e sola lettura, esce con un codice, e ci vuole un minuto. E perche i loro **otto commit locali piu uno nella libreria** aspettano un push che non e mio |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
@@ -537,6 +537,44 @@ data dei dati.** Lettura (a).
 **produzione del foglio**, il secondo la **freschezza del contenuto**. Le due formule
 stavano sotto i miei occhi da quando ho aperto i file, e le ho trattate come sinonimi
 perche portavano entrambe una data.
+
+**Lo scarto di tre era fra la loro misura e il loro codice, e i tre casi cadono dentro
+una difesa scritta stamattina.**
+
+I tre sono **codici fiscali di diciassette caratteri**, verificati anche qui sulle stesse
+righe del nuovo file: `LNRZDRA75D11C342V` (LIANZI DARIO), `GRSLNE67A60L781MH` (GRISI
+ELENA), `PRZBBR84S51Z5050W` (PREZZI BARBARA). Sono **gli unici tre** che non fanno sedici
+dopo la pulizia, in tutto il file.
+
+**E `GRSLNE67A60L781MH` era gia fra le otto celle anomale del foglio «Visite» di
+stamattina: la stessa persona.** Quindi quel difetto **attraversa due export diversi** —
+sta nel dato **a monte**, non nell'estrazione. Un difetto che compare in due estrazioni
+indipendenti ha smesso di poter essere un artefatto di lettura.
+
+**E non si correggono, benche a occhio si veda quale carattere e di troppo** — la `H` di
+GRISI, la `R` di LIANZI, lo `0` di PREZZI. Proprio perche si vede in tre casi su tre
+qualcuno scriverebbe la regola, **e la regola sbaglierebbe sul quarto**.
+
+**La loro correzione vale piu del numero.** Il 1.016 era la soglia del loro **script di
+misura**, non il comportamento del loro **import**, che non filtra per lunghezza e
+**marca soltanto**. Quindi lo scarto non era fra due misure: **era fra la loro misura e il
+loro codice**, e me l'avevano mandata come se descrivesse l'import. E la stessa
+imprecisione di stamattina — «da noi sporca il campo e non l'identita» — **sulla stessa
+funzione**, e averla riconosciuta due volte sullo stesso punto e cio che la rende una
+lezione invece di un inciampo.
+
+**E i tre cadono dentro la difesa decisa stamattina invece di chiederne una nuova**:
+calcolare il controllo, trattare il fallimento come **assente**, tenere il verbatim in
+`codice_fiscale_origine`, far scattare il ripiego. **E la prima volta oggi che succede in
+quest'ordine**: tutte le altre volte la difesa e arrivata dopo il caso.
+
+**E resta un'ultima cosa ignota prima dell'import della sorveglianza**, ed e loro l'avere
+segnalato senza inseguirla: il secondo file nuovo, `ExportExcel (7)`, **non e il sostituto
+di `VisiteScadenze`**. Ha 315 coppie **tutte gia dentro** le 804 del vecchio — meno della
+meta — e una colonna **`Stato`** che il vecchio non ha, con 8 righe `PIANIFICATA` e 311
+vuote. Finche non si sa **perche** ne abbia meno, `scadenza_fonte` non ha un valore da
+scrivere: e la colonna che esiste apposta perche **una scadenza che nessuno sa da dove
+venga non e opponibile**. Assegnato.
 
 **«Visite Fatte» esiste, e lo storico c'e. L'import cambia forma prima di essere
 scritto, che era il punto della domanda.** Francesco l'ha trovato e scaricato l'11
