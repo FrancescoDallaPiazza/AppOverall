@@ -440,7 +440,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la `0008`, che fa tre cose**: il **secondo codice** dei confinati, giustificato dal catalogo e **senza** una riga in piu in `corso_assolve`; `testo_origine` su `corso_alias` coi **268 verbatim** e la loro impronta, piu il commento corretto; e la **grandezza marcata su DUE colonne e non una** — `ore` e `ore_aggiornamento` sono grandezze diverse sulla stessa riga, e una colonna sola avrebbe descritto male meta dei numeri che doveva descrivere | la **Decisione della scheda 12**, che adesso ha il suo numero: il confronto delle ore copre **11 obblighi su 34** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato, e la terza me l'ha corretta un'altra corsia **prima** che la scrivessi |
-| **AppSopralluoghi** | ~~il progetto dell'import~~ **scritto** (`7820c90`): **tre esiti e non due**, il rifiuto della scorciatoia `da_confermare`, e la meta onesta — cosa non e rilevabile e perche nessuna regola potrebbe coprirlo → **in attesa, e l'attesa e mia.** Non c'e un passo assegnato perche non ce n'e uno che non dipenda dal carico della `0007`, e **inventarne uno per tenere occupata una corsia e peggio che lasciarla ferma** | scrivere l'import, piu le due migrazioni che il progetto propone e non scrive | La regola di questa sezione dice che una corsia senza passo **lo chiede e non lo inventa**; vale anche al contrario — chi assegna non riempie il vuoto con un compito di ripiego. Il vuoto e reale, ha un nome e una durata: dura finche la `0008` e il carico non sono fatti, e sono miei |
+| **AppSopralluoghi** | ~~il progetto dell'import~~ **scritto** (`7820c90`) e **corretto da loro** (`2b51eef`) → **l'art. 16 e l'art. 37 c. 7 in `reference/`, con la trascrizione.** Non e un passo di ripiego e non l'ho inventato io: **e arrivato perche l'avete segnalato voi**. La vostra `053` ha gia deciso che il delegato assume gli obblighi del datore, e quella decisione e in produzione; qui la domanda e aperta e nessuno ha letto la fonte. **Metodo: quello che AppFormazione ha usato sul DPR** — due estrazioni indipendenti, limiti dichiarati | scrivere l'import piu le due migrazioni del progetto, quando la `0007` e caricata | Perche la conclusione **puo andare contro una vostra riga applicata**, e in quel caso e vostra da rivedere — l'avete scritto voi per primi, ed e la ragione per cui il passo sta bene a voi e non altrove: chi ha spedito la decisione legge la norma che la giudica. E perche l'unica cosa con una scadenza vera oggi resta **fuori da tutte e tre le corsie**: MIGLIORINI aspetta una visura, non una migrazione |
 | **AppFormazione** | ~~le due proposte~~ **chiuse** (`1b1ce9f`): la colonna per grandezza sta su **ciascuna attesa**, e popolata **per regola e non per elenco**; il guardrail rifiuta un `G5` mai visto; `rinvio_al_ccnl` e passato da etichetta a spiegazione → **cercare le altre viste che hanno smesso di spiegare.** Il carico ne ha trovata **una** — un `case` che nominava un valore rinominato, vista verde, stesso numero di righe, motivo vuoto. **Non e un caso isolato per costruzione**: ogni `case` che nomina un valore di dominio ha la stessa esposizione. Sola lettura: enumerate le viste e i rami che producono etichette, e confrontateli coi domini di oggi | la scheda 12, quando le quattro decisioni sono prese — e **una non e nostra** | Perche l'avete trovata **caricando** e non leggendo, e una cosa che il carico trova una volta la trova ancora. E perche il difetto e della famiglia peggiore: non rompe, **tace** — un `count(*)` non se ne accorge, e il posto dove si vede non e il carico ma il contenuto |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
@@ -511,6 +511,54 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**Sull'art. 16 una corsia ha gia deciso e l'altra no, e l'ho scoperto perche loro
+hanno corretto se stessi.** (`2b51eef`.)
+
+AppSopralluoghi aveva scritto che `datore_lavoro_art16` «dalla loro parte esiste come
+`datore_lavoro`». **E falso, e l'hanno corretto loro**: e una **figura a se**, aggiunta
+dalla loro `053` come tredicesima — «Datore di lavoro delegato (ex art. 16)» — con i
+propri `estremi_procura` e la propria evidenza, visura camerale piu atto notarile.
+
+**E il verso dell'errore era quello cattivo.** Chi avesse scritto l'import leggendo
+quella riga **avrebbe tradotto il delegato nel datore**, che e precisamente la
+confusione contro cui la riga stessa metteva in guardia. Parole loro: «avevo scritto che
+un nome che combacia a meta e piu pericoloso di uno che non c'e, e poi ho fatto
+combaciare a meta due nomi che nel nostro schema sono separati da tre anni. **La mappa
+era piu affidabile della mia memoria.**» E il secondo argomento per leggere
+`ruolo_sicurezza_alias` invece di riscriverla, ed e piu concreto del primo.
+
+**E il fatto che ne esce cambia lo stato della domanda, non la sua risposta.** Sull'art.
+16 — se al delegato spettino gli obblighi del **datore** o quelli del **dirigente** — le
+due corsie **non sono nello stesso stato**:
+
+    da qui                 APERTA, e aspetta una lettura della norma
+    da AppSopralluoghi     DECISA dalla `053` e IN PRODUZIONE: `datore_lavoro_art16`
+                           richiede `DATORE_LAVORO`, con la nota «il delegato assume gli
+                           obblighi del datore, formazione inclusa»
+    da AppFormazione       il ruolo non esiste, quindi non puo dissentire
+
+Nella `0006` avevo scritto che «il campo ha quella riga e potrebbe bastare». Era vero e
+**sottostimato**: non e una fonte silenziosa che afferma qualcosa, e **una decisione
+presa con una motivazione scritta e applicata su dati veri**. Il che non la rende una
+citazione — resta un'affermazione, e oggi ho imparato due volte che un'affermazione in
+uno schema non e una misura — ma cambia **chi fa cosa se la lettura va nell'altro
+verso**: sarebbe **una loro riga da rivedere**, non una mia da allineare. Lo dicono loro
+per primi, ed e il modo giusto di segnalare una divergenza che non si e ancora
+manifestata.
+
+**E la norma che la chiuderebbe non e nella libreria.** `reference/dlgs-81-2008-articoli
+-citati.md` porta l'art. 37 ai commi 7-ter, 10, 11 e 14-bis, l'allegato XXI e il D.L.
+159/2025 — **l'art. 16 non c'e, e nemmeno l'art. 37 c. 7**, che e quello che fissa
+l'obbligo del datore e del dirigente. E esattamente la situazione del DPR 177/2011 due
+ore fa: **si cita una norma che nessuno ha aperto**, e la strada e quella che ha appena
+funzionato.
+
+**E una cosa che questo repo aveva gia scritto senza saperlo.** Il commento di
+`ruolo_sicurezza_alias.ruolo` dice che `null` **non significa «non ancora tradotto» ma
+«conosciuto e non traducibile da solo»** — cioe la distinzione fra «non lo so» e «non
+c'e», scritta nella `0002` **mesi prima** che la trovassimo sull'ATECO, sui ruoli e sugli
+alias. La lezione dei tre giorni non e nuova: e nuova la sua applicazione sistematica.
 
 **Il progetto dell'import delle nomine e scritto, e la traduzione che chiedeva esiste
 gia dalla `0002`.** (`7820c90`.)
