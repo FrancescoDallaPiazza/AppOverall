@@ -512,6 +512,42 @@ quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario l
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
 
+**L'impronta dei 268 e dell'ESTRAZIONE e non dei testi, e la `0008` deve portarsi
+dietro il numero di riga — altrimenti diventa incontrollabile.**
+
+Avvertimento di AppSopralluoghi arrivato **prima** che caricassi, e **ricalcolato qui**:
+lo sha256 sta sui 268 `testo_origine` concatenati con `\n` **nell'ordine di riga del
+foglio**, in UTF-8, verbatim.
+
+    dichiarato   9742ecef...5f30
+    ricalcolato  9742ecef...5f30     COMBACIA
+    alfabetico   fd81d6a7...        DIVERSO
+    per chiave   0ac9431a...        DIVERSO
+
+**E qui la conseguenza che non era nel loro avvertimento.** `corso_alias` ha per chiave
+`testo` e **nessuna colonna d'ordine**. Se caricassi i 268 e poi provassi a ricalcolare
+l'impronta **dal database**, dovrei ordinare per `testo` — e sarebbe **la trappola A11
+da capo**: l'`order by` di PostgreSQL segue la **collation**, quindi otterrei un **terzo**
+hash e concluderei che il carico e rotto. La stessa trappola che l'11 settembre aveva gia
+prodotto un falso allarme sul dizionario, e che questa volta si presenterebbe **a valle**
+invece che a monte.
+
+Quindi la `0008` **porta `riga_foglio`**, e la query di verifica ordina per quello. Non e
+una colonna di comodo: **e cio che rende l'impronta ricontrollabile dopo il carico**, ed e
+la stessa forma di tutto il resto di oggi — un derivato che non porta con se cio che
+serve a rivederlo.
+
+E due cose che vanno sapute con quei testi: i 268 sono i titoli dell'export **del
+30/07/2026** — se il catalogo nel frattempo e cambiato, l'impronta **non torna per la
+ragione giusta**, cioe perche i testi sono davvero altri; e le **due righe di pie di
+pagina** (l'URL e la data) sono gia fuori dai 268 ed elencate a parte, quindi saltarle di
+nuovo altrove le conterebbe due volte.
+
+**Il senso dell'avvertimento vale piu del dettaglio**: un'impronta che non torna per una
+ragione **procedurale** segnalerebbe un problema che non c'e, e **la prossima volta
+nessuno ci crederebbe piu**. Un controllo perde valore la prima volta che grida a vuoto,
+non la prima volta che sbaglia.
+
 **E i dieci segnaposto sono innocui da loro per la stessa proprieta per cui erano
 pericolosi da me. In nessuno dei due casi e una difesa.**
 
