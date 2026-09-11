@@ -538,6 +538,59 @@ data dei dati.** Lettura (a).
 stavano sotto i miei occhi da quando ho aperto i file, e le ho trattate come sinonimi
 perche portavano entrambe una data.
 
+**Sette delle nove «scadenze anticipate» della `0005` erano aritmetica su una fotografia
+vecchia. Non una scelta clinica: una sottrazione.**
+
+La `0005` scrive che `scadenza_dichiarata` va valorizzata «solo dove una fonte esterna
+dissente dal calcolo — **9 righe su 769**, tutte e nove **anticipate**». Rifatto il conto
+contro lo **storico** del nuovo file: le nove sono le stesse, ma in **sette casi su nove**
+la dichiarata e esattamente **penultima esecuzione + periodicita**, e l'esecuzione piu
+recente e **posteriore al 06/08** — cioe alla fotografia dello scadenzario, che **non
+poteva conoscerla**. Rifatto con «ultima esecuzione **nota al 06/08**»: **sette spiegate,
+due no**.
+
+**E la direzione che sembrava la prova si spiega da se.** «Tutte e nove piu **vicine**,
+nessuna piu lontana» sembrava il richiamo prudente di un medico; e invece **una scadenza
+calcolata su un'esecuzione piu vecchia cade prima, sempre**. Un pattern unanime non era
+un indizio di intenzione: era la firma di un'operazione. **La regolarita che convince e
+spesso quella che andrebbe spiegata per prima.**
+
+**Le due che restano** — MANARA DAVIDE e PORRINI SERENA — hanno la dichiarata = penultima
++ periodicita **anche al netto del taglio**, e restano ambigue fra due letture che i dati
+non separano: **ritardo di registrazione** (il file porta la data dell'esecuzione, non
+quella dell'inserimento) oppure **richiamo anticipato vero**.
+
+**E la loro diagnosi e la parte che tengo**: *«avevo un'altra rilevazione a un metro di
+distanza — lo storico — e ho concluso senza aprirla. Due volte sullo stesso dato.»* La
+prima era il «796 su 796».
+
+**Cosa cambia per lo schema.** La scadenza e **derivabile** molto piu di quanto la `0005`
+suppone: **784 su 793** con l'ultima esecuzione, **791 su 793** con l'ultima nota alla
+data della fotografia — il **99,7%**. Quindi `scadenza_dichiarata` **serve ancora ma per
+altro**: per **due** righe ambigue, e soprattutto per i casi in cui derivare non e
+impreciso ma **impossibile** — le coppie dello scadenzario **senza nessuna esecuzione**.
+
+**E quel caso ha un nome, che e la risposta al secondo quesito.** `PIANIFICATA` non marca
+un appuntamento fissato: **dieci righe, tutte della stessa societa, e nessuna delle dieci
+ha una sola esecuzione nello storico**. Marca le righe che **non derivano da un fatto** —
+le scadenze di persone **mai visitate**, con una data messa a mano (nove su dieci al
+**31 dicembre**, una data tonda che nessun calcolo produce). E **l'unico posto dello
+scadenzario dove una scadenza esiste senza un fatto dietro**, cioe esattamente dove una
+scadenza calcolata non e diversa: **e impossibile**.
+
+**E il `(7)` non e un terzo oggetto**, ed e loro la correzione: ha **le stesse 35 colonne**
+del vecchio, `Stato` compresa. E **il vecchio filtrato sullo scaduto** — 315 righe con data
+**passata 315 su 315**, e delle 489 escluse **477 sono future**. Non alternativi:
+**complementari nel tempo**. Quindi `scadenza_dichiarata` si riempie dal **vecchio**, che
+e l'unico a coprire il futuro fino al 2031. Con dodici righe di residuo di cui **otto
+dichiarate non spiegate** invece di coperte da una quarta ipotesi.
+
+**E `scadenza_fonte` ha adesso una dimostrazione e non un argomento.** Le sette divergenze
+fantasma di oggi **sono** la prova che senza la data del file **non si distingue una
+scadenza anticipata da una scadenza vecchia** — e per un anno nessuno se ne sarebbe
+accorto, perche entrambe si presentano come «dichiarata diversa dal calcolo». **Settima
+volta oggi**, e la prima con una dimostrazione al posto di un ragionamento.
+
 **Lo scarto di tre era fra la loro misura e il loro codice, e i tre casi cadono dentro
 una difesa scritta stamattina.**
 
