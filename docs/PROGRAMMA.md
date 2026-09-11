@@ -293,6 +293,7 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Difetti del campo confermati · riparati | 4 · 3 | Resta D2, che vuole un deploy |
 | Righe a 6 ore nell'export · di cui del datore | 1.651 · 76 | **La regola «6 ore = art. 37» era rovesciata.** A 6 ore ci sono 14 tipi distinti (il piu frequente e l'aggiornamento lavoratori, 1.031 righe), e l'unico del datore e «AGGIORNAMENTO R.S.P.P. DATORE DI LAVORO RISCHIO BASSO», che e **art. 34**. Nel gestionale gli aggiornamenti dell'art. 34 seguono il rischio: 6, 10, 14. Il discriminante resta il **titolo**, che `corso_alias` mappa gia; le ore sono un **controllo**, non una chiave |
 | Famiglie di corso del sito che combaciano col catalogo | 9 su 11 | Confronto dell'11.09 fra le pagine di `overallgroup.info/corsi-sicurezza/` e i 40 codici della `0004` — **prima fonte esterna al sistema**. Esatte al numero anche le due che si sbagliano piu facilmente: preposto a **2** anni, primo soccorso a **3**. I quattro buchi in `docs/riscontro-catalogo-sito.md`: `RLS` con aggiornamento che dipende dalla dimensione, i corsi combinati senza codice, la periodicita dei lavori in quota che e **prassi** e non norma, e l'accesso con funi che manca |
+| ATECO sui clienti del campo | 262 su 619 | **E sono divisioni a due cifre**, non codici pieni: 25, 43, 86 — non 25.62.00. 46 divisioni distinte, **262 su 262 risolvono** contro il raccordo. Il livello e **derivato e non scritto a mano**, e lo dimostrano i **due zeri spaiati**: zero clienti con codice e senza livello, zero con livello e senza codice. Misurato l'11.09 (`5595601`) |
 | Il dizionario dei 268 alias, in tre posti | 3 su 3 identici | Script di AppSopralluoghi, seed di AppOverall e produzione, chiusi in due confronti indipendenti: seed vs produzione **undici valori su undici** (`f94ff83`), script vs seed **zero righe diverse** e somme delle impronte identiche (`7d0b322`). Per transitivita i 268 giudizi presi a mano sono gli stessi nei tre posti, e **cade la riserva A10** sotto cui stava l'analisi delle durate |
 | Il seed dei 268 alias contro la produzione | 11 valori su 11 | Confronto dell'11.09: `n`, la somma delle impronte per riga, i cinque flag, le note, i codici distinti e le due somme di lunghezze. **Combacia tutto**, quindi i 268 giudizi presi a mano sono quelli in produzione e la qualificazione «i file dicono» cade sul seed. Il primo tentativo, un `md5(string_agg(... order by))`, dava hash diversi: ordinamento e collation, non deriva — vedi **A11** |
 | Divergenze fra migrazioni e database | 0 su 21 | Su `figura_requisito`, in due letture confrontate — ricostruita dai file e letta dal database (`b50003f`). **Prova che il metodo di ricostruzione funziona**, non che ogni tabella combaci: i 40 codici curati della `0004` restano un'ipotesi finche non si confrontano allo stesso modo |
@@ -371,7 +372,7 @@ Come funziona, per non trasformarlo in un collo di bottiglia:
 |---|---|---|---|
 | **AppOverall** | **la `0006`: `corso_assolve` riempita.** Tutti i blocchi sono caduti — la qualificazione «i file dicono» sulle quattro tabelle di AppFormazione, il dizionario verificato in tre posti, `DATORE_LAVORO` sciolto per titolo. Si scrive sui **33 codici** che arrivano a un obbligo senza ambiguita, **tenendo fuori antincendio e primo soccorso** | la migrazione **dati**: le 808 righe di sorveglianza e il corpus nel nuovo schema | Era l'unica tabella nata vuota per scelta, e adesso ha **due fonti incrociate** invece di una. Antincendio e primo soccorso restano fuori non per prudenza: la scheda 11 e decisa, ma pretende il **livello della sede**, che e vuoto su 619 righe — una riga «qualsiasi corso della categoria» riprodurrebbe il difetto che quella scheda chiude |
 | **AppSopralluoghi** | **l'ATECO: cosa avete davvero.** Quanti dei 619 clienti hanno un codice, in che **annata** (2007 o 2025), quanti sono validi contro il raccordo a monte, e se `livello_rischio` sia stato scritto a mano o derivato. **Sola lettura, nessuna scrittura** | la campagna di riempimento, **se** Francesco la autorizza: scrive su dati veri | Perche il buco piu grosso emerso oggi e che in AppFormazione `clienti.ateco` e **vuota su 480**, mentre da voi l'ATECO c'e su **267 delle 619 attive**. Il dato che manca a una corsia **esiste nell'altra**, e nessuno lo aveva messo accanto. Prima di spostarlo va misurato: un codice 2007 e uno 2025 non sono lo stesso codice |
-| **AppFormazione** | **due cose corte.** Primo: `supabase_migrations.schema_migrations` **conserva un'impronta** del contenuto? Se si, **A10 ha il test che le manca**; se no, va scritto che non e verificabile con gli strumenti che abbiamo. Secondo: da dove puo arrivare l'ATECO dalla vostra parte — esiste negli import, nello staging, negli export? | la vostra meta dell'ATECO, e il giunto fra `dipendenti_rls` e la durata | La prima chiude un buco del **metodo**: A10 ha un test per i file mancanti e **nessuno** per i file cambiati, e senza impronta nel registro quel test non esiste. La seconda e il collo di bottiglia vero della decisione 5: e vera nel database e **non ha effetto su nessun cliente** |
+| **AppFormazione** | ~~l'impronta nel registro e l'origine dell'ATECO~~ **chiuse** (`41b4192`): il registro conserva **il contenuto** e non un'impronta, quindi **A10 ha un test**; e l'ATECO **non e mai entrato** — zero chiavi «ateco» su 22.591 righe grezze, e fra le cinque entita caricate **non c'e un'anagrafica aziende** → **il giunto fra `dipendenti_rls` e la durata dell'aggiornamento RLS**, che e la forma che la scheda 12 aspetta | la loro meta dell'ATECO, quando Francesco decide da dove entra | Il dato non si e perso in un mapping: **non e mai stato chiesto**, perche nessun export di anagrafica aziende e stato caricato — le cinque entita sono tutte di persone o di corsi. Quindi la domanda non e «dove si e perso» ma **«quale export lo porta»**, e la risposta sta fuori da quel repo |
 
 **Chi e fermo, e da quando.****Chi e fermo, e da quando.** La sera del 10 settembre Francesco ha fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -487,8 +488,25 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   **rinominato**, non un file **modificato** — un file modificato conserva il suo
   nome, quindi quel confronto passerebbe senza vedere niente. Per accorgersi di un
   contenuto cambiato serve un'**impronta**, e va prima verificato se il registro di
-  Supabase ne conservi una. Finche non lo sappiamo, **A10 non ha un test completo**:
-  ne ha uno per i file mancanti e nessuno per i file cambiati. Conseguenza: **la `0055`
+  Supabase ne conservi una. **Lo conserva, e meglio di un checksum** — misurato l'11
+  settembre 2026: `schema_migrations` ha una colonna **`statements`**, valorizzata su
+  tutte e 56 le righe, che non e un'impronta ma **il contenuto applicato**, spezzato
+  in enunciati e **verbatim**: il primo enunciato della `0055` comincia col suo
+  commento di intestazione, quindi **anche una modifica ai soli commenti sarebbe
+  visibile**. Quindi A10 **ha un test**, e «i file sono quelli applicati» e
+  dimostrabile.
+  **Ma il test non e `md5(file)` contro `md5(statements)`**, e scriverlo cosi lo
+  farebbe nascere rotto: la CLI applica un suo parsing che quattro tentativi di
+  riprodurre non hanno riprodotto, e darebbe **un falso positivo su tutte e 56**. Il
+  test operativo e prendere **oggi** l'md5 degli `statements` come riferimento e
+  riconfrontarlo in futuro: una deriva si vede come cambio d'impronta, senza
+  ricostruire le regole della CLI. Riferimenti gia presi: `0055` venti enunciati,
+  `b847bbb2597510e439945f43c729d6b0`; `0056` un enunciato,
+  `f9f9728d76c2dc4281e4d53d37920d7d`.
+  *E una nota che merita di stare qui: per rispondere a questa domanda **Docker
+  sarebbe servito davvero** — `supabase db dump --schema supabase_migrations` lo
+  richiede. Lo strumento chiesto per il problema sbagliato serviva per un altro
+  problema.* Conseguenza: **la `0055`
   recepiva la decisione 5**, e in produzione le divisioni **30, 86 e 87 sono ancora
   `null`** — un cliente con quell'ATECO oggi non ha classe di rischio, e le colonne
   `fonte` e `dedotto` non esistono. La voce era dichiarata **chiusa** nel loro

@@ -170,6 +170,26 @@ create table sede (
   codice_ateco text,
   ateco_versione text
     constraint sede_ateco_versione_nota check (ateco_versione in ('2007', '2022', '2025')),
+  -- **Una grana da sciogliere con l'import, misurata l'11 settembre 2026.** Questa
+  -- colonna e `text` libero, quindi accetta **due grane senza distinguerle**:
+  -- `25.62.00` (codice foglia) e `25` (divisione). Non e un'ipotesi: nel database del
+  -- campo i 262 valori presenti **sono divisioni a due cifre**.
+  --
+  -- Non e un difetto dei loro dati. L'Allegato IV **classifica per divisione**,
+  -- quindi la divisione e la grana che la norma usa e basta a derivare la classe —
+  -- e infatti quei 262 livelli risolvono tutti. Il codice foglia serve ad altro: la
+  -- descrizione dell'attivita e il raccordo fra le annate.
+  --
+  -- **E li c'e la trappola, che vale per i 357 che mancano e non per i 262 che ci
+  -- sono.** Prendere le prime due cifre di un codice foglia 2025 per ricavarne la
+  -- divisione **sbaglia in 9 casi su 1.290** — `raccordo_istat_2025.js` della libreria
+  -- li porta contati: **7 in sovraformazione** e **2 in sottoformazione**, e sono i
+  -- due a esporre, perche danno una classe **piu bassa** del vero. Quando si
+  -- riempiranno i 357 partendo dalle visure, che portano codici foglia 2025, quel
+  -- filtro va applicato invece di troncare la stringa.
+  --
+  -- Il vincolo di formato non si scrive adesso: deciderebbe la grana prima di aver
+  -- visto da dove arrivano i 357.
   -- Il codice di tariffa INAIL: la scheda 1 lo chiede perche il gruppo di primo
   -- soccorso dipende da quello, e oggi il wizard DM 388 lo usa e non lo scrive.
   tariffa_inail text,

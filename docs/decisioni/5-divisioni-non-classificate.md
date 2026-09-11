@@ -213,6 +213,19 @@ raccordo e al 57% di ATECO mancante sulle attive, era il terzo dei buchi che
 rendevano il livello di rischio non calcolabile su una parte del parco clienti: e'
 l'ultimo che si chiude con una decisione invece che con del lavoro.
 
+> **Quanto pesa in concreto, misurato l'11 settembre 2026** nel database del campo
+> (`5595601`): delle **46 divisioni** presenti sui clienti, **45 citano** l'Allegato
+> IV dell'ASR 2025 con `dedotto = false`. **Una sola ha `dedotto = true`: la 86**,
+> assistenza sanitaria, e sono **6 clienti su 262** — il **2,3%**. La 30 e la 87 non
+> compaiono affatto nei dati.
+>
+> Non riduce la decisione a un dettaglio: senza di essa quei sei clienti non
+> avrebbero **nessuna** classe di rischio, e sono strutture sanitarie. Ma dimensiona
+> lo «strappo ad A7» di cui questa scheda discuteva a lungo: vale **sei clienti**,
+> non l'archivio. E la marcatura `dedotto` fa esattamente il suo lavoro — e l'unica
+> riga marcata su 46, quindi chi la guarda sa subito quali sei clienti poggiano su
+> una deduzione e quali 256 su una lettura.
+
 ---
 
 ## Verificato sul testo della Conferenza, non su una riedizione (9 settembre 2026)
