@@ -305,6 +305,9 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | La `0001` → `0006` caricata su PostgreSQL | 12 conteggi su 12 · 8 prove su 8 | Carico dell'11.09 da AppFormazione su un cluster **nuovo**, fatto con `initdb` nello scratchpad di sessione (porta 5455, auth `trust`, poi cancellato): **nessuna credenziale di nessuno**. I sette della `0006` e i cinque della `0004` tornano tutti, e i tre vincoli sono provati **nei due versi** — un vincolo che rifiuta tutto non e un vincolo. **Nessun bug trovato**, a differenza del carico precedente. Le due cose temute prima e misurate dopo: 0 apostrofi rimasti doppi su 31 note, il punto e virgola dentro una nota e arrivato intero, nota piu lunga 411 caratteri |
 | L'organigramma che le colonne dichiarano | 51% · **153 righe su 301** | Misurato l'11.09 (`8dab00a`) su tutte le 3.501 righe persona e tutte le 480 societa, non sulle 65 del perimetro assegnato — l'allargamento e loro e senza di quello la domanda 3 non aveva risposta. **160 righe portano il ruolo dentro la MANSIONE**, 12 in entrambi i posti, e per il **datore di lavoro nell'export non esiste nemmeno una colonna**: quelle 22 righe sono l'unica traccia che il gestionale ne porti. **94 societa — il 15% del portafoglio attivo, 703 persone** — dopo un import che legge solo le colonne avrebbero l'organigramma **vuoto avendone uno scritto**, e «senza organigramma» e uno stato legittimo: il difetto sarebbe **indistinguibile dal dato mancante**, come il `null` di `oreModuloSettore` su un'altra tabella |
 | «RSPP» nella mansione che vuol dire art. 34 | 85 su 91 | Delle 91 righe con RSPP scritto nella mansione, **85 dicono che quella persona e anche titolare, socio o datore** e **3 dicono esplicitamente che non lo e**: il testo libero distingue i due casi in **88 casi su 91**, la colonna in nessuno. Mandare quelle 85 su `rspp` darebbe il percorso del professionista — moduli A, B, C — a chi deve quello del datore, e toglierebbe quello che deve davvero. **Il testo libero dice piu della colonna, non meno** |
+| Aziende sopra i 50 lavoratori | **8 su 619** | `N DIPENDENTI` e valorizzata su **tutte** le 619 attive (138 a zero, 481 con un numero). **Sotto i 15 sono 432 su 481, il 90%**, e la scheda 12 e confermata con margine largo. Le otto si contano a mano: Rittal RCS 408, VELOX HOTELLERIE 227, VELOX SERVIZI 190, FRESENIUS KABI 113, CROCE VERDE 76, ZUCCHELLI FORNI 66, CAFFINI 53, SERVIZI SICUREZZA ITALIA 52. **Riserva dichiarata da chi l'ha misurata, e va con il dato ovunque vada**: quel numero **non e una dichiarazione della forza lavoro**, e il conteggio delle persone che abbiamo in anagrafica — coincide col conteggio righe in **601 casi su 619** — quindi risponde a «quante ne gestiamo», non a «quanti lavoratori ha l'impresa». Per un artigiano le due domande coincidono; per una societa di cui seguiamo un reparto no, ed e **proprio sulla soglia dei 50** che la differenza morde |
+| Le 31 righe a 8 ore, contate | 25 su 31 · **4 aziende** | L'81% viene da aziende sopra i 50, e la controprova regge nell'altro verso: le **128 righe a 4 ore** vengono da 42 aziende, di cui **due sole** sopra i 50, per 4 righe su 128 — il **3%**. La separazione fra le due durate segue la dimensione. E la meta della frase che nessuno aveva notato non aveva bisogno di conteggi: il gestionale ha **due voci di catalogo distinte**, «Aggiornamento R.L.S. 4 ore» e «8 ore», quindi chi registrava **sceglieva**. Resta aperta **KOSME SPA**, 6 righe da 8 ore e 11 persone in anagrafica (`40ca5bc`) |
+| Eventi erogati sui due titoli contesi del datore | **0** | Nessuno dei due compare in `ExportExcelCorsiFatti`: esistono **solo come scadenze future**, 12 righe fra gennaio 2030 e luglio 2031, ognuna generata da un **iniziale davvero erogato** («Datore di Lavoro» 16h x10 e «... con Modulo Cantieri» 22h x2), e i conti tornano persona per persona. Quindi la correzione della classificazione **e gratis sullo storico** — non c'e niente da rimappare — e tocca 12 obblighi **da calcolare bene la prima volta**. I 12 iniziali sono tutti 2025-2026, gia sotto l'ASR 17/04/2025 (`40ca5bc`) |
 | I 180 titoli di AppFormazione contro i 268 alias | 180 su 180 | Giunto della `0006`. Il confronto ingenuo ne perde **dieci**, e sono **tutti e dieci antincendio**: la loro pipeline **cancella** i caratteri non ASCII (`ATTIVITA'` -> `ATTIVIT`) dove chi usa `unaccent` li traslittera (`ATTIVITA`). Con una chiave che toglie da entrambi i lati ogni carattere non ASCII e non alfanumerico: 180 su 180. Quella chiave collassa 268 alias in **262**, e le cinque collisioni sono innocue **perche verificate**, non perche improbabili: tutte e cinque puntano allo stesso codice di corso |
 | Coppie ruolo -> corso su cui le due fonti concordano | 14 su 14 | Sulle **figure**, dove sia il modello di AppFormazione sia `figura_requisito` possono parlare. Fuori dalle figure non c'e incrocio e non e un difetto: il campo dichiara nelle sue `045` e `058` che le abilitazioni non sono figure dell'organigramma, quindi le 14 righe di attrezzature e attivita della `0006` hanno **una fonte sola** e portano la sua qualificazione, «i file dicono» |
 | Righe scritte in `corso_assolve` | 31 | Su 39 coppie derivabili: **-7** antincendio e primo soccorso (scheda 11), **-3** divergenze non scritte, **+2** con una fonte sola e dichiarata. Coprono **20 dei 36 ruoli**; i 16 vuoti sono di quattro nature diverse e la `0006` le separa, perche un motore che non le distingue dichiara non conforme chi non ha un corso da fare |
@@ -388,6 +391,28 @@ Come funziona, per non trasformarlo in un collo di bottiglia:
   e una cosa che si scrive qui e che qualcuno puo rileggere, aggirare e una cosa
   che non lascia traccia.
 
+**La terza volta non e una coincidenza: e una regola.** Tre volte in due giorni il
+dato che manca a una corsia **esiste nell'altra**, e tutte e tre le volte viene
+**dallo stesso export**:
+
+| dato | dove risultava mancante | dove c'era |
+|---|---|---|
+| ATECO | `clienti.ateco` vuota su 480 | 262 delle 619 attive |
+| ruoli | nessun organigramma importato | 153 colonne **e** 160 mansioni |
+| lavoratori | `clienti.dipendenti` scritta solo a mano | **619 su 619** |
+
+**Non e che i dati manchino: e che ogni import ha letto le colonne che gli servivano
+quel giorno.** La regola, formulata da AppSopralluoghi e adottata qui: **prima di
+dichiarare mancante un dato anagrafico, guardare se un'altra corsia lo sta gia
+leggendo dallo stesso file.** Costa un `grep` e ha gia evitato tre campagne di
+raccolta inutili.
+
+E il corollario che la terza istanza aggiunge: **un dato che trasloca porta con se la
+sua etichetta.** `N DIPENDENTI` non e «quanti lavoratori ha l'impresa», e «quante
+persone ne gestiamo» — e l'uso previsto e proprio la soglia dei 50 dell'RLS, cioe il
+punto esatto in cui le due domande divergono. Trasferirlo senza l'etichetta
+produrrebbe la stessa classe di difetto dell'ATECO derivato senza la cella.
+
 **~~Serviva la password~~ — no, e l'errore e mio, dello stesso tipo di A9.** Ho messo
 davanti a Francesco tre opzioni — dimmela, la lanci tu, la assegni a loro — e
 **nessuna delle tre era quella giusta**. AppFormazione non ha usato il PostgreSQL
@@ -413,8 +438,8 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0006`~~ **chiusa e caricata**, zero bug → **la `0007`: dove atterrano i ruoli scritti a mano.** AppSopralluoghi ha misurato che **meta dell'organigramma sta fuori dalle colonne** (`8dab00a`) e che l'import non e ancora scritto. La 0002 ha `ruolo_sicurezza_alias`, ma quella mappa **codici**, e qui non arrivano codici: arrivano 29 frasi. La decisione di forma sta qui sotto, e non e «aggiungere una tabella di alias» | la migrazione **dati**: le 808 righe di sorveglianza e il corpus. **Scavalcata**, e detto perche: il corpus non scade, un progetto di import si decide una volta sola | La `0006` era verificata **staticamente** — chiavi esterne, `check`, indice unico e conteggi, letti dai file con un parser mio — e staticamente non bastava: e la qualificazione che A10 impone. Adesso non e piu quella la qualificazione. Le due cose che temevo non si sono rotte, **e con la misura invece che con «e andata»**: zero note con apostrofi rimasti doppi, la nota che contiene un punto e virgola e arrivata intera, la piu lunga e di 411 caratteri |
-| **AppSopralluoghi** | ~~il livello delle celle multi-codice~~ **chiuso** (`56ae424`): confermato con **88 divisioni lette due volte** da due repository — zero divergenze — e misurato in persone: **27 in eccesso e 3 in difetto**. Il primario **non e nei dati** e va a Francesco → **quanti ruoli stanno nel campo sbagliato.** La mansione del titolare di MIGLIORINI e `TITOLARE- RSPP`, e nel foglio «Ruoli SSL» quella societa non ha **nessuna** colonna di ruolo valorizzata. Quanti altri ruoli sono scritti dentro la **mansione** invece che nella loro colonna, su tutte e 65 le societa del foglio. **Sola lettura** | **tre conteggi che solo voi potete fare**, e sbloccano le altre due corsie: (a) quante delle 619 hanno `N DIPENDENTI` e quante superano i **50** — perche da AppFormazione `clienti.dipendenti` non la riempie nessuno in blocco; (b) **le 31 righe a 8 ore dell'aggiornamento RLS appartengono a quelle aziende?** La frase «sono le aziende oltre i cinquanta» sta in `eddbb44` e **non e mai stata contata**; (c) quanti eventi hanno oggi i due titoli `AGGIORNAMENTO DATORE DI LAVORO` e `... CON MODULO AGGIUNTIVO CANTIERI`; (d) **le durate reali dei dieci alias di `ATTR_AMB_CONFINATI`, divise per alias** — quattro sono aggiornamenti per platee diverse sotto un codice solo, e da quel numero dipende se un obbligo si puo estendere; (e) le **7 forme verbatim** che mancano alla `0007`, quelle del datore e del preposto. Poi la riparazione: **separare i tre stati** e **conservare la cella d'origine**, sul cliente accanto a `codice_ateco` | Perche l'import delle nomine **non e ancora scritto**, e questa e l'ultima finestra in cui la misura cambia un progetto invece di riparare un danno. Se i ruoli stanno anche altrove, un import che legge solo le colonne di ruolo li perde **in silenzio** — e quel silenzio arriva fino a `corso_assolve`, dove le righe `rspp` e `datore_lavoro_rspp` non scattano per qualcuno che il ruolo ce l'ha. E la stessa malattia dell'ATECO su un campo diverso: un valore in un campo di testo libero che lo schema non si aspetta li. Si lega alla domanda gia aperta sulla colonna «RSPP» del gestionale: quella chiede **cosa significhi** la colonna, questa chiede **quanto stia fuori** dalla colonna |
-| **AppFormazione** | ~~le durate multiple~~ **chiuse** (`cf9cba6`, locale): non un elenco ma una **partizione in cinque specie su 34 obblighi**, ordinate per *come si procura* cio che manca — «si legge una fonte», «si fa una domanda», «serve una migrazione e tocca lo storico». Due pronti oggi → **`ponteggi_art136` si estende, `spazi_confinati` no**: `PONTEGGI` e nominato conforme nel riscontro delle durate, `ATTR_AMB_CONFINATI` **non e nominato affatto**, e nel mio dizionario ha **dieci alias** di cui quattro sono aggiornamenti per quattro platee diverse. Estendete il `not in` **al solo `ponteggi_art136`**, e aspettate una misura per l'altro | la correzione dei due titoli del datore, quando esiste il numero degli eventi | Perche un obbligo pronto e un obbligo non nominato non sono la stessa cosa, e trasformare un silenzio in una conferma e la mossa che ho appena ritirato sulle 31 aziende. Il vostro «1 titolo di aggiornamento» conta i **vostri** sei titoli; il dizionario ne porta dieci, e i due numeri non misurano lo stesso oggetto — stessa forma dei «1.148 eventi di visita» |
+| **AppSopralluoghi** | ~~i ruoli fuori dalla colonna, i tre conteggi e le 29 forme~~ **tutti chiusi** (`8dab00a`, `40ca5bc`) → **le durate reali dei dieci alias di `ATTR_AMB_CONFINATI`, divise per alias.** E l'unica cosa rimasta della tornata, ed e piccola: quattro di quei dieci sono aggiornamenti per **quattro platee diverse** — lavoratori, preposto, DL-RSPP, RSPP modulo B — sotto un codice solo con un'attesa sola. **Sola lettura** | la riparazione dell'ATECO: **tre stati** e **la cella d'origine conservata**, sul cliente accanto a `codice_ateco` | Perche da quel numero dipende se un obbligo si estende o aspetta, e perche e l'ultimo pezzo che manca ad AppFormazione per chiudere la scheda 12. Se le dieci durate sono una sola, `spazi_confinati` e il terzo pronto; se sono quattro, e la stessa forma di `RLS` e serve un codice in piu, non un numero diverso |
+| **AppFormazione** | ~~le durate multiple~~ **chiuse** (`cf9cba6`): una **partizione in cinque specie su 34 obblighi**, ordinate per *come si procura* cio che manca → **la correzione dei due titoli del datore, che e gratis.** Contati: **zero eventi erogati**, quindi non c'e storico da rimappare — solo 12 scadenze future e i 12 iniziali che le generano. Insieme: estendere il confronto al **solo `ponteggi_art136`**, non a `spazi_confinati` | il push di `0057` e `cf9cba6`, che e di Francesco e non e assegnato | Perche la correzione ha smesso di essere rischiosa nel momento in cui il numero e uscito zero, ed e la ragione per cui il numero andava chiesto **prima**: non «era sola lettura», ma «una correzione di due righe che `promuovi.sql` applica da sola puo rimappare lo storico, e lo storico non l'avevamo contato». Adesso il rischio e l'opposto — dodici obblighi calcolati male **in avanti** — e su una decadenza a dieci anni conviene sbagliarli adesso che nel 2030 |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -485,6 +510,21 @@ quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario l
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
 
+**La `0007` ha un caso di bordo, trovato prima che la scrivessi.** Due delle 29 forme
+— `TITOLARE ASPP e RSPP` e `AMMINISTRATORE/DATORE DI LAVORO/RSPP` — mostrano che il
+secondo campo **non e sempre la posizione della persona: a volte e un secondo ruolo**.
+Con una colonna «posizione» che ammette solo titolare/socio/non-titolare/esterno/non
+dichiarato, quelle stringhe costringono o a perdere l'ASPP o a fare due righe per la
+stessa persona. Sono **6 righe su 160**, e si vedono adesso.
+
+La risposta e che **due righe sono la cosa giusta, non il ripiego**: la grana e
+`(testo, ruolo asserito)`, e una frase che asserisce due ruoli produce due righe perche
+**asserisce davvero due cose**. La `posizione` resta proprieta del **testo** — descrive
+la persona, non il singolo ruolo — e vale su tutte le righe che quel testo genera.
+`datore di lavoro` compare allora in **due panni**, come ruolo asserito e come cio che
+fissa la posizione, e non e una contraddizione: e esattamente il meccanismo che rende
+`RSPP/titolare` risolvibile in `datore_lavoro_rspp` invece che in `rspp`.
+
 **La `0007` non e una tabella di alias, e il motivo e nei dati che l'hanno chiesta.**
 La tentazione, dopo `8dab00a`, e ovvia: `corso_alias` esiste perche «il titolo stampato
 su un attestato di terzi e per natura un alias e non un'identita», e 29 forme scritte a
@@ -533,19 +573,39 @@ stessa che avevo scritto nella `0004` per `ATTR_LAV_QUOTA`: **una prassi present
 come dato**. Da li e passata nel commento della `0004`, in questa tabella, e in un
 messaggio a una corsia che l'ha ricevuta come fatto.
 
-**E c'e di peggio del non averla verificata: e poco probabile.** La scheda 12 dice che
-**la maggior parte delle 480 aziende sta sotto i 15 lavoratori**. Se e vero, le aziende
-oltre i 50 sono poche, e 31 aggiornamenti su 159 — **il 19%** — sono troppi per venire
-da quelle. Non e una smentita: 31 righe non sono 31 aziende, e un'azienda grande fa piu
-aggiornamenti negli anni. Ma il conto non torna a occhio, e un'interpretazione che non
-torna a occhio **non e quella prudente**: ce ne sono altre che spiegherebbero le 8 ore
-altrettanto bene — un corso su due giornate, il formato di un altro erogatore, un
-iniziale scambiato per aggiornamento.
+**E c'e di peggio del non averla verificata: e poco probabile.** ~~La scheda 12 dice
+che la maggior parte delle 480 aziende sta sotto i 15 lavoratori, quindi 31
+aggiornamenti su 159 — il 19% — sono troppi per venire da quelle.~~ **Contata l'11
+settembre (`40ca5bc`), ed e vera all'81%.** Le 31 righe sono **quattro aziende**:
+Rittal RCS 17 righe (408 lavoratori), ZUCCHELLI FORNI 6 (66), CAFFINI 2 (53), KOSME 6
+(11). **Venticinque righe su 31 vengono da aziende sopra i 50**, e la controprova
+nell'altro verso e quella che rende il conto credibile: **le 128 righe a 4 ore vengono
+da 42 aziende, di cui due sole sopra i 50, per 4 righe su 128 — il 3%.** Ottantuno
+contro tre non e una coincidenza.
+
+**Quindi la ritrattazione era giusta e il dubbio era sbagliato, e le due cose sono
+diverse.** Giusto: quella frase **non era un conteggio** e l'ho citata come tale;
+qualificarla era dovuto a prescindere da come sarebbe finita. Sbagliato: il ragionamento
+di probabilita con cui l'ho attaccata. E l'errore ha un nome preciso — **avevo scritto
+io stesso il controesempio e poi ho ragionato come se non l'avessi scritto**: «31 righe
+non sono 31 aziende, e un'azienda grande fa piu aggiornamenti negli anni». Erano quattro
+aziende, e una ne ha fatti diciassette. Sollevare una riserva e poi non pesarla e peggio
+che non sollevarla, perche fa sembrare controllato un conto che non lo e.
+
+**E la meta della frase che nessuno aveva notato regge da sola, senza contare niente.**
+Il gestionale ha **due voci di catalogo distinte** — «Aggiornamento R.L.S. 4 ore» e
+«Aggiornamento R.L.S. 8 ore». Non e una durata digitata storta: chi registrava ha
+**scelto** fra due voci. Bastava guardare il dizionario invece di ragionare sulle
+proporzioni.
+
+**Resta aperta KOSME SPA**: 6 righe da 8 ore con 11 lavoratori in anagrafica. O sei
+righe sul titolo sbagliato, o — piu probabile — l'anagrafica parziale di una societa
+grande, che e il punto della riserva qui sotto. Va nella lista di cio che aspetta una
+persona, dopo MIGLIORINI e ANTICHI SAPORI.
 
 Che cosa resta vero: che le durate reali sono **due** e il catalogo ne porta **una**.
-Quello e misurato e il giunto della `0057` risponde comunque — a chi non ha la
-dimensione risponde `dimensione_ignota`, che e la verita. Cade solo la spiegazione del
-**perche** siano due.
+Quello e misurato e il giunto della `0057` risponde comunque. E adesso e misurato anche
+il **perche** siano due.
 
 La `0004` non si corregge, per la stessa ragione della nota dell'RLS qui sotto. Ma va
 detto che **la `0006` da quella frase e salva**: la nota di `rls -> RLS` porta
@@ -655,7 +715,20 @@ in due righe di `staging.classificazione_corsi`, e `promuovi.sql` le applichereb
 solo al prossimo import**: rimapperebbe lo **storico** senza che nessuno esegua altro.
 Prima serve un numero — quanti eventi hanno oggi quei due titoli. Se e zero la
 correzione e gratis; se non e zero, **cosa fare dello storico viene prima della
-correzione**. Il numero e chiesto ad AppSopralluoghi, che ha l'export.
+correzione**. Il numero e chiesto ad AppSopralluoghi, che ha l'export. **Contato l'11 settembre: e zero** (`40ca5bc`). Quei due
+titoli non compaiono fra i corsi erogati — esistono **solo come 12 scadenze future**,
+2030-2031, ognuna generata da un iniziale davvero fatto. Quindi la correzione **non
+rimappa niente**: tocca dodici obblighi da calcolare bene la prima volta, il che sulla
+decadenza a 120 mesi e la posizione migliore possibile.
+
+**E il conteggio ha portato un quarto testimone.** Lo scadenzario del gestionale mette
+quegli aggiornamenti a **cinque anni** dall'iniziale (2026 -> 2031), mentre la
+decadenza dell'art. 34 e a **dieci**. AppSopralluoghi l'ha segnalato come «due orologi
+diversi sullo stesso attestato», e letto insieme al resto dice di piu: **cinque anni e
+il ciclo dell'art. 37**, cioe il gestionale tratta quei titoli da datore semplice
+anche quando decide **quando scadono**. Tre segnali indipendenti — la norma, la
+`staging.mappa_aggiornamenti` con tredici righe e zero eccezioni, e adesso il
+calendario — contro **una sola** riga di classificazione.
 
 **~~Un task che nessuna corsia puo prendere~~ — era falso, e l'ho scoperto per caso.**
 Avevo scritto che far girare le migrazioni su PostgreSQL potesse farlo solo
