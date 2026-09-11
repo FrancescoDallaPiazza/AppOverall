@@ -301,6 +301,7 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Il dizionario dei 268 alias, in tre posti | 3 su 3 identici | Script di AppSopralluoghi, seed di AppOverall e produzione, chiusi in due confronti indipendenti: seed vs produzione **undici valori su undici** (`f94ff83`), script vs seed **zero righe diverse** e somme delle impronte identiche (`7d0b322`). Per transitivita i 268 giudizi presi a mano sono gli stessi nei tre posti, e **cade la riserva A10** sotto cui stava l'analisi delle durate |
 | Il seed dei 268 alias contro la produzione | 11 valori su 11 | Confronto dell'11.09: `n`, la somma delle impronte per riga, i cinque flag, le note, i codici distinti e le due somme di lunghezze. **Combacia tutto**, quindi i 268 giudizi presi a mano sono quelli in produzione e la qualificazione «i file dicono» cade sul seed. Il primo tentativo, un `md5(string_agg(... order by))`, dava hash diversi: ordinamento e collation, non deriva — vedi **A11** |
 | Divergenze fra migrazioni e database | 0 su 21 | Su `figura_requisito`, in due letture confrontate — ricostruita dai file e letta dal database (`b50003f`). **Prova che il metodo di ricostruzione funziona**, non che ogni tabella combaci: i 40 codici curati della `0004` restano un'ipotesi finche non si confrontano allo stesso modo |
+| La `0001` → `0006` caricata su PostgreSQL | 12 conteggi su 12 · 8 prove su 8 | Carico dell'11.09 da AppFormazione su un cluster **nuovo**, fatto con `initdb` nello scratchpad di sessione (porta 5455, auth `trust`, poi cancellato): **nessuna credenziale di nessuno**. I sette della `0006` e i cinque della `0004` tornano tutti, e i tre vincoli sono provati **nei due versi** — un vincolo che rifiuta tutto non e un vincolo. **Nessun bug trovato**, a differenza del carico precedente. Le due cose temute prima e misurate dopo: 0 apostrofi rimasti doppi su 31 note, il punto e virgola dentro una nota e arrivato intero, nota piu lunga 411 caratteri |
 | I 180 titoli di AppFormazione contro i 268 alias | 180 su 180 | Giunto della `0006`. Il confronto ingenuo ne perde **dieci**, e sono **tutti e dieci antincendio**: la loro pipeline **cancella** i caratteri non ASCII (`ATTIVITA'` -> `ATTIVIT`) dove chi usa `unaccent` li traslittera (`ATTIVITA`). Con una chiave che toglie da entrambi i lati ogni carattere non ASCII e non alfanumerico: 180 su 180. Quella chiave collassa 268 alias in **262**, e le cinque collisioni sono innocue **perche verificate**, non perche improbabili: tutte e cinque puntano allo stesso codice di corso |
 | Coppie ruolo -> corso su cui le due fonti concordano | 14 su 14 | Sulle **figure**, dove sia il modello di AppFormazione sia `figura_requisito` possono parlare. Fuori dalle figure non c'e incrocio e non e un difetto: il campo dichiara nelle sue `045` e `058` che le abilitazioni non sono figure dell'organigramma, quindi le 14 righe di attrezzature e attivita della `0006` hanno **una fonte sola** e portano la sua qualificazione, «i file dicono» |
 | Righe scritte in `corso_assolve` | 31 | Su 39 coppie derivabili: **-7** antincendio e primo soccorso (scheda 11), **-3** divergenze non scritte, **+2** con una fonte sola e dichiarata. Coprono **20 dei 36 ruoli**; i 16 vuoti sono di quattro nature diverse e la `0006` le separa, perche un motore che non le distingue dichiara non conforme chi non ha un corso da fare |
@@ -384,6 +385,23 @@ Come funziona, per non trasformarlo in un collo di bottiglia:
   e una cosa che si scrive qui e che qualcuno puo rileggere, aggirare e una cosa
   che non lascia traccia.
 
+**~~Serviva la password~~ — no, e l'errore e mio, dello stesso tipo di A9.** Ho messo
+davanti a Francesco tre opzioni — dimmela, la lanci tu, la assegni a loro — e
+**nessuna delle tre era quella giusta**. AppFormazione non ha usato il PostgreSQL
+sulla 5433 e non ne ha cercato la password: ha fatto `initdb` di un **cluster nuovo**
+nello scratchpad di sessione, porta 5455, auth `trust`, vuoto, cancellato a fine
+lavoro. Nessuna credenziale di nessuno, niente che tocchi la 5433 ne la produzione.
+`initdb` sta nella stessa cartella di `psql`, dove avevo gia guardato.
+
+Avevo trasformato «non ho la password di **quel** database» in «non posso caricare
+**un** database», che e la stessa scorciatoia logica di A9 e della nota qui sotto
+sull'assenza di `psql`: **la terza volta oggi che generalizzo un ostacolo specifico
+in un impedimento generale.** La regola sopra resta giusta e ha funzionato — la
+domanda e andata a Francesco invece che a una corsia — ma una domanda ben posta su
+una premessa sbagliata resta una domanda sbagliata, e gli ho fatto scegliere fra tre
+opzioni quando la risposta era una quarta. **Prima di chiedere un permesso, chiedersi
+se serva il permesso o lo strumento.**
+
 ### Prossimo passo per corsia · all'11 settembre 2026, notte
 
 Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
@@ -391,7 +409,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
-| **AppOverall** | ~~la `0006`~~ **chiusa**: `corso_assolve` ha **31 righe**, 14 sulle quali le due fonti concordano, 2 con una fonte sola e dichiarata, 3 divergenze **non scritte** e 16 ruoli su 36 lasciati vuoti per misura → **la migrazione dati**: le 808 righe di sorveglianza e il corpus nel nuovo schema. Il **carico** della `0006` non e piu mio: e assegnato ad AppFormazione, e finche non torna la `0006` resta «verificata staticamente» e non «caricata» | la Fase 3 vera e propria, quando il carico ha detto di si | La `0006` e verificata **staticamente** — chiavi esterne, i due `check`, l'indice unico e i sette conteggi, letti dai file con un parser — e staticamente non basta: e la qualificazione che A10 impone, e la `0004` aveva gia scritto che il controllo mancante e uno solo. Il carico e passato di corsia perche la password del PostgreSQL sulla 5433 io non ce l'ho, **e chiederla a chi ce l'ha non era una mia decisione**: l'ha presa Francesco l'11 settembre. La regola sotto sta in fondo a questa sezione |
+| **AppOverall** | ~~la `0006`~~ **chiusa e CARICATA** (`f0fd4f4` in AppFormazione): `corso_assolve` ha **31 righe**, e i sette conteggi, i cinque della `0004` e **otto prove sui vincoli nei due versi** tornano tutti. Il carico **non ha trovato nessun bug** → **la migrazione dati**: le 808 righe di sorveglianza e il corpus nel nuovo schema | la Fase 3 vera e propria | La `0006` era verificata **staticamente** — chiavi esterne, `check`, indice unico e conteggi, letti dai file con un parser mio — e staticamente non bastava: e la qualificazione che A10 impone. Adesso non e piu quella la qualificazione. Le due cose che temevo non si sono rotte, **e con la misura invece che con «e andata»**: zero note con apostrofi rimasti doppi, la nota che contiene un punto e virgola e arrivata intera, la piu lunga e di 411 caratteri |
 | **AppSopralluoghi** | ~~quanto morde il `continue`~~ **chiuso** (`f1184f6`): **zero oggi** — `nomina` e a zero righe — e **quattro al primo import**, che non sono SHAMS ma quattro societa **senza ATECO**. Il caso insidioso non e la massa: la massa e il 57% gia noto, visto da una terza angolazione → **le quattro celle con due codici su divisioni diverse, guardate sul LIVELLO e non sul modulo.** Voi avete controllato che nessuna delle otto scarti una divisione speciale, ed e vero. Ma il livello **non** l'avete guardato, e li ANTICHI SAPORI (10 `alto` / 47 `basso`) e MIGLIORINI (46 `basso` / 33 `alto`) **divergono di due classi**. Serve: (1) confermarlo contro la libreria e il database, tutte e otto; (2) **quante persone** hanno quei due clienti, perche le ore di `LAV_SPEC` vanno a **tutti i lavoratori** e non al solo RSPP; (3) quale dei due codici sia il primario — e se la risposta non e nei dati, si scrive che non c'e. **Sola lettura** | **separare i tre stati** e **conservare la cella d'origine**: il terzo stato non lo distingue nessun tipo di ritorno, lo distingue solo il confronto con cio che era scritto, e in archivio non c'e piu | Perche avete trovato la cosa giusta e vi siete fermati un passo prima. «Vince il primo che compare nel testo, e non e un criterio: e l'ordine in cui qualcuno ha incollato le righe» — se l'ordine di un incollaggio decide il **modulo di settore**, decide anche il **livello di rischio**, e il livello e a monte di tutto. MIGLIORINI e archiviato `basso` con l'altro codice `alto`: e il verso in cui l'errore **non** si vede, e vale 4 ore di formazione specifica invece di 12 **per ogni lavoratore**. ANTICHI SAPORI sbaglia nel verso opposto ed e meno grave. Due su 267, e non toccano la vostra dimostrazione che il livello e derivato: quella regge, perche il livello e derivato dal codice **archiviato**. E il codice archiviato a essere uno dei due |
 | **AppFormazione** | **caricare la `0001` → `0006` di AppOverall piu il seed** su un database usa e getta del PostgreSQL 16 locale (5433), far tornare i **sette conteggi** in fondo alla `0006` e i cinque della `0004`, **provare i due `check` nei due versi**, e cancellare il database. Poi il **giunto `dipendenti_rls` ↔ durata dell'aggiornamento RLS** (scheda 12), che era gia assegnato e non iniziato: il catalogo tiene **un solo** aggiornamento da 4 ore e negli attestati reali le durate sono **due**, 4h su 128 righe e 8h su 31, e le 31 sono le aziende oltre i cinquanta | **la classificazione asimmetrica dei due titoli del datore**, sola lettura sulle vostre migrazioni (vedi sotto) | Il carico prima del giunto perche e **corto e blocca un'altra corsia**, e perche l'impalcatura minima di Supabase su Postgres nudo ce l'avete gia costruita una volta. Il giunto subito dopo perche l'RLS e l'unico obbligo che questo repo **sa gia** di dichiarare assolto quando non lo e — la riga `rls -> RLS` della `0006` porta la nota che lo dice — e la durata giusta non la decide `corso_assolve`, la decide il numero di dipendenti, che sta da voi |
 
@@ -404,7 +422,27 @@ resta fermo finche non lo toglie Francesco. Sta scritto qui perche la prossima
 sessione non aspetti un lavoro che nessuno sta facendo: una corsia ferma e diversa da
 una corsia lenta, e dal foglio non si distinguono.
 
-**Due righe della `0006` hanno un modo noto di sbagliare, e non sta nella `0006`.**
+**Una nota della `0006` cita una norma abrogata, e la `0006` non si tocca lo stesso.**
+La riga `rls -> RLS` porta scritto «4 fino a 50 lavoratori, 8 oltre»: e la regola di
+**prima del 31 dicembre 2025**, superata dall'art. 5 del D.L. 159/2025 convertito con
+L. 198/2025. I casi sono **tre e non due** — sotto i 15 la legge non fissa nessuna
+durata e rinvia al CCNL — e le 4 e le 8 sono **un pavimento** e non la durata.
+Segnalato da AppFormazione l'11 settembre mentre caricava la migrazione, e hanno
+ragione: **la scheda 12 di questo repo lo scrive gia**, nella sezione «L'RLS ha tre
+casi, non due». E una riga di catalogo che **sopravvive alla scheda che l'ha
+corretta**, che e la forma domestica di R5.
+
+Aggravante rispetto a un commento sbagliato: quella frase non e un commento, **e il
+valore della colonna `note`**, quindi e un dato caricato in tabella e non una riga
+di file. Una norma abrogata dentro una colonna e peggio di una norma abrogata dentro
+un commento.
+
+E nonostante questo **il file non si corregge**, per due ragioni che vanno insieme:
+la `0006` e appena stata **caricata e misurata**, e riscriverla farebbe riferire quei
+sette conteggi a un file che non esiste piu — si distruggerebbe una misura fresca per
+sistemare una frase. E perche la correzione vera non e riscrivere la nota: e
+**modellare le tre varianti**, che e il giunto assegnato ad AppFormazione. La nota
+sparira quando ci sara la regola, e fino ad allora il posto dove sta scritta e questo.
 `rspp -> RSPP_MOD_B_SETTORE` e `datore_lavoro_rspp -> DL_RSPP_SETTORE` dicono che il
 modulo di settore e dovuto; **quante ore** lo decide l'ATECO del cliente, e l'ATECO
 del cliente e una cella di testo libero. La misura dell'11 settembre
