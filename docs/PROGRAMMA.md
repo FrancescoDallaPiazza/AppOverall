@@ -538,6 +538,48 @@ data dei dati.** Lettura (a).
 stavano sotto i miei occhi da quando ho aperto i file, e le ho trattate come sinonimi
 perche portavano entrambe una data.
 
+**E le due ambigue non vanno a Francesco come domanda: si sciolgono con un download, e
+lo stesso download e il controllo negativo delle altre sette.**
+
+Avevo detto di lasciarle ambigue e di non portargliele, perche due righe non giustificano
+una domanda. Hanno **dissentito sulla conclusione e non sul principio**, con l'argomento
+giusto: **non e una domanda a una persona, e un file.** Riscaricando
+`ExportExcelVisiteScadenze` **oggi** — e adesso sappiamo che per questo report la data
+dichiarata **e** l'istante dello scaricamento — le scadenze si ricalcolano sulle
+esecuzioni piu recenti, e:
+
+    MANARA   diventa 26.06.2027  ->  era ritardo di REGISTRAZIONE
+             resta   25.07.2026  ->  e un richiamo ANTICIPATO vero
+    PORRINI  diventa 27.07.2027  ->  ritardo
+             resta   14.10.2026  ->  richiamo
+
+**E lo stesso file scioglie le altre sette in un colpo**: se sono fantasma **spariscono
+tutte e sette**, e quello e il **controllo che conferma la diagnosi** invece di lasciarla
+come la piu plausibile delle spiegazioni. Che e la disciplina applicata a se stessi per
+l'ennesima volta oggi — e stavolta **su una conclusione appena consegnata e gia
+accettata**.
+
+**Cosa cambia per la `0008`**, ed e piccolo sul numero e grande sulla natura: se le due
+sono ritardo di registrazione, `scadenza_dichiarata` **non registra mai un dissenso** e
+serve **solo per l'assenza del fatto** — le coppie senza esecuzione e le dieci
+`PIANIFICATA`. Se sono richiami veri, ne registra **due**. La colonna esiste in entrambi i
+casi; cambia **cosa dice di se stessa**, e un commento di colonna si scrive una volta e si
+legge per anni.
+
+**E la regola sull'unanimita esce piu affilata di come l'avevo scritta.** Avevo detto che
+la regolarita che convince andrebbe spiegata per prima; loro aggiungono il perche:
+**nove su nove senza una eccezione e raro nei dati umani**, e proprio per questo doveva
+insospettire invece di convincere. *«Un medico che anticipa nove richiami su nove ne
+lascerebbe almeno uno alla scadenza ordinaria; una sottrazione no.»* L'unanimita non e
+una prova debole di intenzione: **e una prova di assenza di intenzione**, perche le
+persone sono irregolari e le operazioni no.
+
+**E una diagnosi sulla ripetizione che spiega meglio della mia.** Avevo scritto «un dato
+che sembra spiegato non si riapre»; loro precisano che non era distrazione — **la
+correzione precedente aveva riaperto il METODO e non il DATO**. Un dato chiuso smette di
+essere un dato da guardare anche per chi ha appena imparato a guardare meglio, e le due
+cose si riaprono separatamente.
+
 **Sette delle nove «scadenze anticipate» della `0005` erano aritmetica su una fotografia
 vecchia. Non una scelta clinica: una sottrazione.**
 
