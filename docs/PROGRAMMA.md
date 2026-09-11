@@ -439,9 +439,9 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
-| **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`): **29 testi, 34 asserzioni, 9 regole**, e **81 righe** che vanno su `datore_lavoro_rspp` invece che su `rspp`. Verificata staticamente, **non caricata** → **il carico della `0007`**, con gli otto conteggi, e poi la migrazione **dati**: le 808 righe di sorveglianza e il corpus | un codice in piu per i confinati, che la misura di `b0f630c` rende dovuto (vedi sotto) | Il carico l'ho imparato a non dare per scontato due giorni fa. E la `0007` ha una cosa che la `0006` non aveva: **due `check` con sei e sette valori ammessi** e un indice unico su una colonna nullable, cioe tre modi nuovi di rompersi in caricamento che un parser non vede |
-| **AppSopralluoghi** | ~~i titoli con lo spazio doppio~~ **chiusi, e il mio allarme era falso** (`a997859`): l'import normalizza **tutti e due i lati**, quindi non si rompe niente. Ma non erano nove, erano **quindici** — e su 268 alias **211 non sono il testo dell'origine** → **due scritture piccole, in casa vostra**: il `comment on column` che corregge «la stringa esatta esportata» della `055`, che avete offerto e che accetto; e i **268 testi verbatim dall'export**, che mi servono per decidere se `corso_alias` debba conservare `testo_origine` | la riparazione dell'ATECO: **tre stati** e la **cella d'origine conservata** | Perche avete fermato una riparazione diretta nel posto sbagliato, e l'avete fatto guardando il codice invece del commento — che e precisamente cio che io non avevo fatto. E perche il conto vero e piu grande di quello che cercavo: gli spazi doppi erano la punta, sotto c'e che **teniamo la chiave e non il testo**, e questo da un caso vero a una domanda che finora non ne aveva |
-| **AppFormazione** | ~~la correzione del datore e l'estensione a ponteggi~~ **chiuse** (`0058`, `0059`, `4c1db99`): le sei ore non spostano piu la decadenza dal 2028 al 2036, e la persona **mantiene** in una riga separata l'aggiornamento dell'art. 37 che ha davvero fatto. **Tre commit locali aspettano il push di Francesco**: `f73eb1b`, `cf9cba6`, `4c1db99` → **i confinati come quattro requisiti**, che e la forma che avete proposto voi e che la misura adesso autorizza: le durate sono **due** — 4 ore ai lavoratori, **12 a preposto, DL-RSPP e RSPP modulo B** — e la linea che le separa e la **platea** | il resto della partizione in cinque specie, obbligo per obbligo | Perche la vostra frase e quella giusta: «platee diverse sono ruoli diversi, e un obbligo che vale per quattro ruoli con quattro corsi distinti non e un codice con quattro alias, e **quattro requisiti**». Aveva davanti una misura e adesso la misura c'e. E il lavoro sul catalogo e mio e non vostro: `ATTR_AMB_CONFINATI` e **un codice solo che ne nasconde due**, e quello lo ripara una `0008` di qua |
+| **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`): 29 testi, 34 asserzioni, 9 regole, **81 righe** che vanno su `datore_lavoro_rspp` invece che su `rspp` → **la `0008`, che fa tre cose e non una**: il **secondo codice** dei confinati — giustificato dal catalogo, perche due corsi diversi esistono davvero, e **senza** una riga in piu in `corso_assolve`, che avrebbe bisogno di una norma; `testo_origine` su `corso_alias` piu il commento corretto, adesso che i **268 verbatim** esistono con la loro impronta; e la **marcatura della grandezza** sui sedici codici il cui `4` e parte pratica e non totale | il carico di `0007` e `0008`, poi la migrazione **dati** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato: la prima assegnando a un'altra corsia una regola dedotta dal catalogo, la seconda concludendo da un commento di schema invece che dal codice |
+| **AppSopralluoghi** | ~~il commento e i 268 verbatim~~ **chiusi** (`ede5112`): la `064` corregge **solo commenti** — nessuna colonna, nessun dato — e `alias-testi-origine.json` porta i 268 testi come il gestionale li emette, con lo **SHA256** in testa perche chi lo rilegge sappia se guarda la stessa estrazione → **la riparazione dell'ATECO**: tre stati e la **cella d'origine conservata** sul cliente, accanto a `codice_ateco`. E una scrittura, ed e assegnata | il `null` di `oreModuloSettore`, che e lo stesso difetto un piano piu su | Perche e l'ultimo dei tre difetti della stessa famiglia rimasto aperto, e adesso ha tre casi veri sotto invece di uno: SHAMS, MIGLIORINI e i 211 alias che non sono il testo. E perche il JSON e in JSON **apposta** — un formato a righe non puo portare il titolo con il ritorno a capo senza perderlo o senza inventare una convenzione di escape, e un file che esiste per conservare la forma non puo avere un formato che la distrugge |
+| **AppFormazione** | **passo rifiutato, e il rifiuto e accolto**: le quattro platee non hanno una citazione, e la misura che avevo portato diceva cosa si **vende** e non cosa si **deve**. Cercandola hanno trovato le **due formule della parte III** e scritto la `0060`, che marca dodici righe e **rifiuta di giudicarle qualunque cosa dica il perimetro** → **portare il DPR 177/2011 in `reference/fonti/` e trascriverne gli articoli sulle figure.** E la prima delle due strade che hanno indicato, ed e quella che chiude la domanda invece di aggirarla. **Quattro commit locali aspettano il push di Francesco**: `f73eb1b`, `cf9cba6`, `4c1db99`, `9ffbe43` | le quattro platee **se** la fonte le distingue; altrimenti la strada 2, che e di Francesco perche impegna Overall | Perche oggi quel DPR e **citato in una colonna `norma` da chi non l'ha letto**, e questo vale oltre la riga dei confinati: una citazione che nessuno ha aperto e una promessa non mantenuta nella stessa colonna che la promette. E perche il guardrail della `0060` e provato **nei due versi** — simulando l'errore futuro, con e senza — che e la disciplina dei due `check` della `0006` restituita |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -511,6 +511,65 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**Le quattro platee non sono entrate, e il passo l'avevo assegnato male io.**
+AppFormazione ha rifiutato l'assegnazione con l'argomento giusto: sugli ambienti
+confinati **l'ASR 2025 conosce una figura sola** — la parte II punto 7 e la parte VII
+nominano «lavoratori, datori di lavoro e lavoratori autonomi» come **un gruppo**,
+l'Allegato III ha **una colonna** («LAVORATORE sospetto di inquinamento»), la parte III
+punto 5 **una riga**. La distinzione, se esiste, sta nel **DPR 177/2011**, che il loro
+`obblighi.spazi_confinati` cita gia e che **nessuno ha letto**: non e in `reference/`.
+
+**L'errore e mio ed e preciso: ho preso una misura di cio che si VENDE e l'ho proposta
+come modello di cio che si DEVE.** Che Overall eroghi 12 ore al preposto e un fatto sul
+**catalogo**; che la legge gliene chieda 12 e un'affermazione sulla **norma**, e non ce
+l'ha nessuno. Scritta nei loro `requisiti` — che portano `fonte`, e quella colonna e una
+promessa — direbbe la seconda cosa avendo misurato la prima. Il giorno dell'estensione
+il motore direbbe `insufficienti` a un preposto con un corso da 4 ore **conforme al
+punto 5**: falso nel verso severo, prodotto codificando un formato commerciale come
+requisito di legge.
+
+**E la distinzione che lo spiega e quella della scheda 9, che ho scritto io.** «Il corso
+resta come catalogo di **erogazione** agganciato all'obbligo che assolve, **non come
+soggetto della regola**.» Un codice in piu nel mio `corso` si giustifica col catalogo —
+due corsi diversi esistono davvero — e **quello resta da fare**. Una riga in piu nei
+loro `requisiti` si giustifica solo con la norma. Avevo chiesto la seconda cosa
+mostrando la prova della prima.
+
+**Cercando la citazione hanno trovato il difetto vero, ed e piu grosso: la parte III usa
+DUE formule diverse.**
+
+    punto 1.1  lavoratori           durata minima di 6 ore
+    punto 1.2  preposti             biennale, durata minima 6 ore
+    punto 2    DL-RSPP              quinquennale, 8 ore
+    punto 5    ambienti confinati   durata minima 4 ore DI PARTE PRATICA
+    punto 6    attrezzature art. 73 durata minima 4 ore DI PARTE PRATICA
+
+Sulle prime tre il numero e un pavimento sulla **durata del corso**; sulle ultime due e
+un pavimento sulla **sola parte pratica**, e il totale la fonte **non lo dice**. Che sia
+una distinzione vera e non una sfumatura di trascrizione lo prova l'allegato XXI, che
+per i ponteggi scrive l'altra formula: «durata minima di 4 ore **di cui 3** di contenuti
+tecnico pratici». **Stesso numero, grandezza diversa.**
+
+**E il mio catalogo ha lo stesso difetto, su sedici codici.** `ore_aggiornamento = 4`
+sta su diciotto righe della `0004`, e sono tre cose diverse:
+
+    15 art. 73    ATTR_CARRELLO, ATTR_PLE, i tre ATTR_GRU_*, i tre ATTR_TRATT_*,
+                  ATTR_ESCAVATORI, ATTR_CARROPONTE, ATTR_CMM, ATTR_CRF,
+                  ATTR_POMPE_CLS, ATTR_AUTORIBALTABILI, ATTR_GENERICO
+                                                    -> 4 ore di PARTE PRATICA
+     1 punto 5    ATTR_AMB_CONFINATI                -> 4 ore di PARTE PRATICA
+     1 all. XXI   PONTEGGI                          -> 4 ore TOTALI, di cui 3 pratiche
+     2 altre      ATTR_LAV_ELETTRICI (CEI 11-27), ATTR_LAV_QUOTA (dove i 60 mesi
+                  sono gia dichiarati prassi e non norma)
+
+**Sedici di quei diciotto numeri non sono confrontabili con le ore di un attestato**, che
+riporta il totale — e `PONTEGGI`, che porta lo stesso `4`, lo e. Oggi nessuno li
+confronta e non e un difetto attivo: e **una mina su ogni estensione futura**, ed e la
+stessa mina in due cataloghi diversi, perche il numero e stato copiato dalla stessa
+fonte **senza la sua grandezza**.
+
+**Da cui l'assunzione che mancava, e viene prima delle altre due: vedi A13.**
 
 **~~Al primo import quei nove titoli non si troverebbero~~ — falso, e mi hanno fermato
 prima che lo riparassi nel posto sbagliato.** L'import di AppSopralluoghi
@@ -1038,3 +1097,17 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   artefatto del metodo. **Un controllo che conferma qualunque ipotesi gli si dia non
   e un controllo**, e la differenza fra «plausibile» e «misurato» sta in questo passo
   in piu.
+
+- **A13** **Un confronto fra due numeri presuppone che misurino la stessa grandezza, e
+  questa condizione viene prima di tutte le altre.** Aggiunta l'11 settembre 2026 dalla
+  corsia AppFormazione, che l'ha pagata **cercando una citazione**: il loro documento
+  sulle durate multiple chiedeva due prove per ammettere un obbligo al confronto —
+  attesa unica e durate reali uniche — e **ne mancava una terza a monte**. La parte III
+  dell'ASR scrive «durata minima 6 ore» per il preposto e «durata minima 4 ore **di
+  parte pratica**» per le attrezzature: stesso formato, due grandezze. Un attestato
+  riporta il **totale**. Confrontare il secondo numero con le ore di un attestato non
+  da un risultato sbagliato per poco: **da un risultato che non significa niente**, e lo
+  da **in silenzio**, perche due numeri si confrontano sempre. La difesa non e la
+  prudenza, e **marcare la grandezza accanto al numero** — `requisiti
+  .aggiornamento_solo_parte_pratica` da loro, e da qui una colonna che la `0004` non ha:
+  sedici codici di questo catalogo portano un `4` che non dice di che cosa.
