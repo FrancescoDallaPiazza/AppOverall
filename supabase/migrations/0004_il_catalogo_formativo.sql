@@ -474,20 +474,52 @@ comment on column corso_assolve.categoria is
 --             ogni 5 anni, decadenza del titolo a dieci anni. D.Lgs. 81/2008 art.
 --             34, ASR 17/04/2025
 --
--- I due aggiornamenti hanno **ore diverse**, e questo catalogo lo porta gia: qui
--- sopra `DATORE_LAVORO` ha `ore_aggiornamento` **6** e `DL_RSPP_COMUNE` ha **8**.
--- Quindi la riga di `corso_assolve` non e ambigua e **DATORE_LAVORO entra**: il corso
--- da 16 ore e il suo aggiornamento da 6 assolvono l'obbligo dell'**art. 37**, cioe
--- `datore_lavoro`. La lettura di AppFormazione, che mandava il titolo nudo all'art.
--- 34, era storicamente difendibile — prima dell'ASR 2025 l'art. 37 non aveva
--- aggiornamento — ma era una regola **sul titolo**, e il titolo non e il dato.
+-- Nel **nostro** catalogo i due aggiornamenti hanno ore diverse — qui sopra
+-- `DATORE_LAVORO` ha `ore_aggiornamento` **6** e `DL_RSPP_COMUNE` ha **8** — e la
+-- prima versione di questa nota ne aveva ricavato una regola di instradamento: «6
+-- ore -> art. 37, 8 ore -> art. 34». **Era sbagliata, e rovesciata proprio sul 6**;
+-- misurata e fermata dalla corsia AppSopralluoghi l'11 settembre 2026 (`18366ae`)
+-- prima che diventasse un import.
 --
--- **Resta un problema, ed e dell'import e non di questa tabella:** un attestato con
--- il titolo nudo «AGGIORNAMENTO DATORE DI LAVORO» e **8 ore** e un art. 34 scritto
--- male, e va instradato sulle ore. Da verificare prima dell'import: **se l'export
--- del gestionale porti le ore per riga**. Se non le porta, il ripiego e la
--- **nomina** — l'obbligo segue il ruolo, che e la grana della scheda 9 — e dove
--- manca anche quella si segnala, come nel terzo stato della scheda 11.
+-- L'export **porta** le ore (colonna «Durata Formazione», 13.350 righe, 2 vuote e
+-- zero non numeriche), quindi il dato c'era. Ma le ore **non separano** i due
+-- articoli:
+--
+--   6 ore   1.651 righe, 14 tipi distinti — il piu frequente e «Aggiornamento
+--           Lavoratori 6 ore» con 1.031 righe, poi primo soccorso e preposto
+--   8 ore   1.749 righe, 21 tipi distinti
+--
+-- E il colpo di grazia: **l'unico tipo a 6 ore che riguardi il datore e
+-- «AGGIORNAMENTO R.S.P.P. DATORE DI LAVORO RISCHIO BASSO», 76 righe — che e
+-- art. 34**, esattamente cio che la regola voleva mandare dall'altra parte. Nel
+-- gestionale gli aggiornamenti dell'art. 34 seguono il **rischio** (6 basso, 10
+-- medio, 14 alto), non il numero del nostro modello semplificato. Il 6 dell'art. 37
+-- e il 6 dell'art. 34-rischio-basso **sono lo stesso numero**, e collidono proprio
+-- dove la regola doveva tagliare: 76 aggiornamenti dell'art. 34 sarebbero finiti
+-- nell'art. 37 in silenzio, con la riga che sembra giusta.
+--
+-- **Il discriminante e il TITOLO, e ce l'abbiamo gia.** I quattro tipi si
+-- distinguono dal testo senza ambiguita, ed e esattamente cio che `corso_alias`
+-- mappa: «AGGIORNAMENTO DATORE DI LAVORO» -> `DATORE_LAVORO`, «AGGIORNAMENTO DATORE
+-- DI LAVORO **CHE SVOLGE I COMPITI DI RSPP**» -> `DL_RSPP_BASE`, «AGGIORNAMENTO
+-- R.S.P.P. DATORE DI LAVORO RISCHIO *» -> `DL_RSPP_BASE`. Non serviva un
+-- discriminatore nuovo: serviva **non sostituire quello che c'e con uno piu debole**.
+--
+-- Quindi **`DATORE_LAVORO` entra** in `corso_assolve` sull'obbligo dell'**art. 37**,
+-- e la lettura di AppFormazione che mandava il titolo nudo all'art. 34 resta la
+-- divergenza risolta: storicamente difendibile — prima dell'ASR 2025 l'art. 37 non
+-- aveva aggiornamento — ma superata dall'esistenza di un titolo esplicito per l'art.
+-- 34.
+--
+-- **Le ore restano utili, come controllo e non come chiave:** verificare che un
+-- attestato mappato abbia la durata attesa, e **segnalare** quando non l'ha.
+--
+-- **E il ripiego della nomina resta, per una ragione migliore di quella per cui
+-- l'avevo proposto.** Non serve perche manchino le ore — non mancano. Serve perche
+-- un attestato dice cosa una persona **ha fatto** e la nomina dice cosa **deve
+-- fare**: per decidere se un aggiornamento sia dovuto come art. 37 o come art. 34, la
+-- fonte e la seconda. E la grana della scheda 9 — l'obbligo sta sul ruolo — applicata
+-- a un caso concreto.
 --
 -- Nota che il gestionale distingue gia i due mondi, e pende contro la lettura per
 -- titolo: esiste un testo separato ed esplicito, «AGGIORNAMENTO DATORE DI LAVORO
