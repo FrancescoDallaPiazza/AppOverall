@@ -293,6 +293,7 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Difetti del campo confermati · riparati | 4 · 3 | Resta D2, che vuole un deploy |
 | Righe a 6 ore nell'export · di cui del datore | 1.651 · 76 | **La regola «6 ore = art. 37» era rovesciata.** A 6 ore ci sono 14 tipi distinti (il piu frequente e l'aggiornamento lavoratori, 1.031 righe), e l'unico del datore e «AGGIORNAMENTO R.S.P.P. DATORE DI LAVORO RISCHIO BASSO», che e **art. 34**. Nel gestionale gli aggiornamenti dell'art. 34 seguono il rischio: 6, 10, 14. Il discriminante resta il **titolo**, che `corso_alias` mappa gia; le ore sono un **controllo**, non una chiave |
 | Famiglie di corso del sito che combaciano col catalogo | 9 su 11 | Confronto dell'11.09 fra le pagine di `overallgroup.info/corsi-sicurezza/` e i 40 codici della `0004` — **prima fonte esterna al sistema**. Esatte al numero anche le due che si sbagliano piu facilmente: preposto a **2** anni, primo soccorso a **3**. I quattro buchi in `docs/riscontro-catalogo-sito.md`: `RLS` con aggiornamento che dipende dalla dimensione, i corsi combinati senza codice, la periodicita dei lavori in quota che e **prassi** e non norma, e l'accesso con funi che manca |
+| Il seed dei 268 alias contro la produzione | 11 valori su 11 | Confronto dell'11.09: `n`, la somma delle impronte per riga, i cinque flag, le note, i codici distinti e le due somme di lunghezze. **Combacia tutto**, quindi i 268 giudizi presi a mano sono quelli in produzione e la qualificazione «i file dicono» cade sul seed. Il primo tentativo, un `md5(string_agg(... order by))`, dava hash diversi: ordinamento e collation, non deriva — vedi **A11** |
 | Divergenze fra migrazioni e database | 0 su 21 | Su `figura_requisito`, in due letture confrontate — ricostruita dai file e letta dal database (`b50003f`). **Prova che il metodo di ricostruzione funziona**, non che ogni tabella combaci: i 40 codici curati della `0004` restano un'ipotesi finche non si confrontano allo stesso modo |
 | Insiemi distinti di «fattori di rischio» | 76 | Su **162 righe** con almeno un fattore, 3.501 totali. 122 righe condividono l'insieme con un'altra: **112 nella stessa societa**, 45 con la stessa mansione. La cella ha **un solo valore distinto**, `X`, in 2.447 occorrenze su 79 colonne, e nessuna colonna porta un grado o una fascia. Misurato il 10.09 da AppSopralluoghi (`39fb586`) |
 
@@ -513,6 +514,17 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   controllo che l'ha smascherata e guardare **la stringa grezza sotto l'hash**: un
   digest dice *se* due cose differiscono e non *in cosa*, e per questo non va usato
   da solo per dare una notizia.
+  **Seconda applicazione il giorno dopo, e da li viene una regola operativa:** il
+  confronto del dizionario dei 268 alias col database usava
+  `md5(string_agg(... order by testo))` e dava hash diversi. Un digest su
+  un'aggregazione **ordinata non e confrontabile fra sistemi** — l'`order by` di
+  PostgreSQL segue la **collation** del database, un ordinamento in Python segue i
+  codepoint — e sulle stesse 268 righe i due ordini differiscono in **71 posizioni**.
+  Si confronta con una **somma di impronte per riga**, che non dipende dall'ordine, e
+  si accompagna a **conteggi per campo**, che dicono *dove* sta la differenza invece
+  di dire solo *che c'e*. Fatto cosi ha dato **undici valori su undici identici**: la
+  tabella era la stessa dall'inizio, e «qualcuno ha ritoccato a mano» era a un passo
+  dall'essere scritto.
 
 - **A12** **Un test che non sbaglia mai non prova niente: serve un controllo
   negativo.** Aggiunta l'11 settembre 2026 dalla corsia AppSopralluoghi, e ha

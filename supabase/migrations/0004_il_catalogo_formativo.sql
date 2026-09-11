@@ -379,6 +379,29 @@ comment on column corso_alias.is_aggiornamento is
 
 -- Il seed sta in `supabase/seed/corso_alias.sql` e si carica dopo questa
 -- migrazione: 268 righe, 237 mappate su 39 codici, 31 ignorate.
+--
+-- ---------- e non e piu una ricostruzione non verificata ----------
+--
+-- Quel file e nato come **ricostruzione** dagli script e dalle migrazioni di un altro
+-- repo, e si dichiarava tale: «resta da confermare contro il database vivo». L'11
+-- settembre 2026 il confronto e stato fatto, e **combacia riga per riga**:
+--
+--   n 268 · somma delle impronte -8115840040 · ignorato 31 · is_aggiornamento 98
+--   parziale 7 · pregressa 2 · evidenza_incompleta 1 · con note 1
+--   codici distinti 39 · somma lunghezze dei testi 21055 · dei codici 2953
+--
+-- Undici valori su undici. **I 268 giudizi presi a mano sono quelli che stanno in
+-- produzione**, e la qualificazione cade: non «i file dicono», ma i file **e** il
+-- database.
+--
+-- **Il primo confronto aveva detto il contrario, ed era il confronto a essere rotto.**
+-- Usava `md5(string_agg(... order by testo))`, e un digest su un'aggregazione
+-- **ordinata** non e confrontabile fra sistemi: l'`order by` di PostgreSQL segue la
+-- collation del database, un ordinamento in Python segue i codepoint. Misurato sulle
+-- stesse 268 righe, i due ordini differiscono in **71 posizioni**, e i tre hash
+-- calcolati erano tre valori diversi della stessa identica tabella. La conclusione
+-- «qualcuno ha ritoccato a mano dall'interfaccia» era a un passo dall'essere scritta.
+-- Vedi **A11**, che questa e la sua seconda applicazione nello stesso giorno.
 
 -- ============================================================================
 --  L'AGGANCIO ALL'OBBLIGO — la tabella che la grana richiede, e resta vuota
