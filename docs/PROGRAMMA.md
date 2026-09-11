@@ -411,8 +411,8 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0006`~~ **chiusa e CARICATA** (`f0fd4f4` in AppFormazione): `corso_assolve` ha **31 righe**, e i sette conteggi, i cinque della `0004` e **otto prove sui vincoli nei due versi** tornano tutti. Il carico **non ha trovato nessun bug** → **la migrazione dati**: le 808 righe di sorveglianza e il corpus nel nuovo schema | la Fase 3 vera e propria | La `0006` era verificata **staticamente** — chiavi esterne, `check`, indice unico e conteggi, letti dai file con un parser mio — e staticamente non bastava: e la qualificazione che A10 impone. Adesso non e piu quella la qualificazione. Le due cose che temevo non si sono rotte, **e con la misura invece che con «e andata»**: zero note con apostrofi rimasti doppi, la nota che contiene un punto e virgola e arrivata intera, la piu lunga e di 411 caratteri |
-| **AppSopralluoghi** | ~~il livello delle celle multi-codice~~ **chiuso** (`56ae424`): confermato con **88 divisioni lette due volte** da due repository — zero divergenze — e misurato in persone: **27 in eccesso e 3 in difetto**. Il primario **non e nei dati** e va a Francesco → **quanti ruoli stanno nel campo sbagliato.** La mansione del titolare di MIGLIORINI e `TITOLARE- RSPP`, e nel foglio «Ruoli SSL» quella societa non ha **nessuna** colonna di ruolo valorizzata. Quanti altri ruoli sono scritti dentro la **mansione** invece che nella loro colonna, su tutte e 65 le societa del foglio. **Sola lettura** | **separare i tre stati** e **conservare la cella d'origine** — sul cliente, accanto a `codice_ateco` | Perche l'import delle nomine **non e ancora scritto**, e questa e l'ultima finestra in cui la misura cambia un progetto invece di riparare un danno. Se i ruoli stanno anche altrove, un import che legge solo le colonne di ruolo li perde **in silenzio** — e quel silenzio arriva fino a `corso_assolve`, dove le righe `rspp` e `datore_lavoro_rspp` non scattano per qualcuno che il ruolo ce l'ha. E la stessa malattia dell'ATECO su un campo diverso: un valore in un campo di testo libero che lo schema non si aspetta li. Si lega alla domanda gia aperta sulla colonna «RSPP» del gestionale: quella chiede **cosa significhi** la colonna, questa chiede **quanto stia fuori** dalla colonna |
-| **AppFormazione** | **caricare la `0001` → `0006` di AppOverall piu il seed** su un database usa e getta del PostgreSQL 16 locale (5433), far tornare i **sette conteggi** in fondo alla `0006` e i cinque della `0004`, **provare i due `check` nei due versi**, e cancellare il database. Poi il **giunto `dipendenti_rls` ↔ durata dell'aggiornamento RLS** (scheda 12), che era gia assegnato e non iniziato: il catalogo tiene **un solo** aggiornamento da 4 ore e negli attestati reali le durate sono **due**, 4h su 128 righe e 8h su 31, e le 31 sono le aziende oltre i cinquanta | **la classificazione asimmetrica dei due titoli del datore**, sola lettura sulle vostre migrazioni (vedi sotto) | Il carico prima del giunto perche e **corto e blocca un'altra corsia**, e perche l'impalcatura minima di Supabase su Postgres nudo ce l'avete gia costruita una volta. Il giunto subito dopo perche l'RLS e l'unico obbligo che questo repo **sa gia** di dichiarare assolto quando non lo e — la riga `rls -> RLS` della `0006` porta la nota che lo dice — e la durata giusta non la decide `corso_assolve`, la decide il numero di dipendenti, che sta da voi |
+| **AppSopralluoghi** | ~~il livello delle celle multi-codice~~ **chiuso** (`56ae424`): confermato con **88 divisioni lette due volte** da due repository — zero divergenze — e misurato in persone: **27 in eccesso e 3 in difetto**. Il primario **non e nei dati** e va a Francesco → **quanti ruoli stanno nel campo sbagliato.** La mansione del titolare di MIGLIORINI e `TITOLARE- RSPP`, e nel foglio «Ruoli SSL» quella societa non ha **nessuna** colonna di ruolo valorizzata. Quanti altri ruoli sono scritti dentro la **mansione** invece che nella loro colonna, su tutte e 65 le societa del foglio. **Sola lettura** | **tre conteggi che solo voi potete fare**, e sbloccano le altre due corsie: (a) quante delle 619 hanno `N DIPENDENTI` e quante superano i **50** — perche da AppFormazione `clienti.dipendenti` non la riempie nessuno in blocco; (b) **le 31 righe a 8 ore dell'aggiornamento RLS appartengono a quelle aziende?** La frase «sono le aziende oltre i cinquanta» sta in `eddbb44` e **non e mai stata contata**; (c) quanti eventi hanno oggi i due titoli `AGGIORNAMENTO DATORE DI LAVORO` e `... CON MODULO AGGIUNTIVO CANTIERI`. Poi la riparazione: **separare i tre stati** e **conservare la cella d'origine**, sul cliente accanto a `codice_ateco` | Perche l'import delle nomine **non e ancora scritto**, e questa e l'ultima finestra in cui la misura cambia un progetto invece di riparare un danno. Se i ruoli stanno anche altrove, un import che legge solo le colonne di ruolo li perde **in silenzio** — e quel silenzio arriva fino a `corso_assolve`, dove le righe `rspp` e `datore_lavoro_rspp` non scattano per qualcuno che il ruolo ce l'ha. E la stessa malattia dell'ATECO su un campo diverso: un valore in un campo di testo libero che lo schema non si aspetta li. Si lega alla domanda gia aperta sulla colonna «RSPP» del gestionale: quella chiede **cosa significhi** la colonna, questa chiede **quanto stia fuori** dalla colonna |
+| **AppFormazione** | ~~il carico, il giunto RLS e la divergenza del datore~~ **tutti e tre chiusi** (`f73eb1b`, **locale**: il push e di Francesco e non e assegnato). Il giunto distingue `rinvio_al_ccnl` — l'ignoranza **della legge** — da `dimensione_ignota`, che e **la nostra**, e le 4 e le 8 le tratta da pavimento → **le altre durate multiple, per chiudere la scheda 12.** Il vostro `ore_sufficienti` giudica **solo** `rls_art37`, e 0 righe fuori: giusto. La domanda che ne segue e mia e ve la giro perche il dato e vostro: **per quali altri obblighi quel confronto, se esteso, produrrebbe un giudizio falso, e cosa manca a ciascuno prima di poterlo estendere.** Le candidate sono misurate — `DL_RSPP_BASE` con quattro regimi, `DIRIGENTE` 0 su 12, `PREPOSTO` due regimi separati nel tempo, `LAV_SPEC` con le ore dal rischio | la correzione dei due titoli del datore, **quando esiste il numero degli eventi**: quello lo chiedo ad AppSopralluoghi | Perche avete costruito il controllo negativo giusto — «sul dirigente la seconda durata e un regime passato, e giudicarlo col metro di oggi e il difetto che la scheda 12 dice di non introdurre» — e adesso quel controllo va **girato in avanti**: non «cosa non giudico», ma «cosa mi impedisce di giudicare, obbligo per obbligo». La scheda 12 e mia ed e aperta; questa misura e cio che le manca per chiudersi, e le colonne `ore_dovute`/`ore_svolte` che avete valorizzato anche fuori dall'RLS sono gia il posto dove la risposta atterra |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -422,6 +422,40 @@ meta, punto di ripresa scritto nella `0004`), e l'import dei ruoli era gia in pa
 resta fermo finche non lo toglie Francesco. Sta scritto qui perche la prossima
 sessione non aspetti un lavoro che nessuno sta facendo: una corsia ferma e diversa da
 una corsia lenta, e dal foglio non si distinguono.
+
+**«Le 31 sono le aziende oltre i cinquanta» non e una misura, e l'ho propagata io.**
+Contestata da AppFormazione l'11 settembre con l'argomento giusto: `clienti.dipendenti`
+da loro **non ha nessuno che la riempia in blocco** — la scrive solo `carica_scheda.py`,
+un cliente alla volta — quindi quel confronto da li non puo essere stato fatto.
+
+Risalita alla fonte, e hanno ragione. Sta in `durate-come-controllo.md` di
+AppSopralluoghi (`eddbb44`), e la tabella li misura **una cosa sola**: le durate degli
+attestati, `4h x128` e `8h x31`. La frase che segue — «le 31 righe a 8 ore non sono un
+errore del gestionale, **sono le aziende oltre i 50 lavoratori**» — e **l'unica lettura
+che dia un senso al dato**, e non e un conteggio: nessuno ha unito quelle 31 righe a
+un numero di dipendenti. E la forma dell'assunzione **A7** applicata a me stesso, la
+stessa che avevo scritto nella `0004` per `ATTR_LAV_QUOTA`: **una prassi presentata
+come dato**. Da li e passata nel commento della `0004`, in questa tabella, e in un
+messaggio a una corsia che l'ha ricevuta come fatto.
+
+**E c'e di peggio del non averla verificata: e poco probabile.** La scheda 12 dice che
+**la maggior parte delle 480 aziende sta sotto i 15 lavoratori**. Se e vero, le aziende
+oltre i 50 sono poche, e 31 aggiornamenti su 159 — **il 19%** — sono troppi per venire
+da quelle. Non e una smentita: 31 righe non sono 31 aziende, e un'azienda grande fa piu
+aggiornamenti negli anni. Ma il conto non torna a occhio, e un'interpretazione che non
+torna a occhio **non e quella prudente**: ce ne sono altre che spiegherebbero le 8 ore
+altrettanto bene — un corso su due giornate, il formato di un altro erogatore, un
+iniziale scambiato per aggiornamento.
+
+Che cosa resta vero: che le durate reali sono **due** e il catalogo ne porta **una**.
+Quello e misurato e il giunto della `0057` risponde comunque — a chi non ha la
+dimensione risponde `dimensione_ignota`, che e la verita. Cade solo la spiegazione del
+**perche** siano due.
+
+La `0004` non si corregge, per la stessa ragione della nota dell'RLS qui sotto. Ma va
+detto che **la `0006` da quella frase e salva**: la nota di `rls -> RLS` porta
+`(4h x128, 8h x31)` e si ferma li, senza dire di chi siano le 31. Non per merito —
+non me ne ero accorto — ma perche scrivere in una colonna costringe a scrivere meno.
 
 **Una nota della `0006` cita una norma abrogata, e la `0006` non si tocca lo stesso.**
 La riga `rls -> RLS` porta scritto «4 fino a 50 lavoratori, 8 oltre»: e la regola di
@@ -500,6 +534,33 @@ sei ore. Qui la riga non e entrata, perche `figura_requisito` non ha niente di s
 la sua `049` ha cancellato proprio la riga del DL-RSPP verso il corso base. **Non va
 compensata da questo lato**: va guardata dove nasce, ed e un difetto che tocca il loro
 motore delle scadenze prima del nostro schema.
+
+**Confermata l'11 settembre (`f73eb1b`), ed e peggio: non e una scelta discutibile, e
+meta di una correzione.** La loro `0022` aveva messo tutti e 17 i titoli sotto l'art.
+34 **annotando** che «DATORE DI LAVORO» andava riguardato; la `0035` e andata a
+riguardarlo — ha creato `datore_lavoro_art37`, **ha spostato i due iniziali**, ha
+rifatto la matrice dei crediti — e nella propria testata scrive «aggiornamento
+diverso: 6 ore per il datore di lavoro, 8 per il datore di lavoro RSPP». **Sapeva, e
+ha spostato meta.** Lo confermano anche le note: i due titoli spostati ne portano una
+ciascuno, i due rimasti indietro non portano niente. E il gestionale sta con la norma
+e non con loro — in `staging.mappa_aggiornamenti` i due aggiornamenti contesi ricevono
+**solo** da corsi dell'art. 37 e **mai** dalla famiglia RSPP: tredici righe, zero
+eccezioni sul verso che conta.
+
+**E il costo non sono le ore, e la decadenza.** `datore_lavoro_rspp` ha
+`decadenza_mesi = 120`, `datore_lavoro_art37` non ha decadenza. Due percorsi identici
+dell'art. 34 del marzo 2018, una sola differenza — sei ore di AGGIORNAMENTO DATORE DI
+LAVORO nel marzo 2026 — e la decadenza si sposta **dal 2028 al 2036**: `scaduto`
+diventa `valido`. Quella riga non chiude solo un obbligo che non ha titolo di
+chiudere: **rinvia di otto anni l'unico stato che dice «rifare da capo»**. Tenerla
+fuori dalla `0006` era giusto per una ragione piu grossa di quella che avevo.
+
+**La correzione non e stata fatta, e il motivo e migliore di «era sola lettura».** Sta
+in due righe di `staging.classificazione_corsi`, e `promuovi.sql` le applicherebbe **da
+solo al prossimo import**: rimapperebbe lo **storico** senza che nessuno esegua altro.
+Prima serve un numero — quanti eventi hanno oggi quei due titoli. Se e zero la
+correzione e gratis; se non e zero, **cosa fare dello storico viene prima della
+correzione**. Il numero e chiesto ad AppSopralluoghi, che ha l'export.
 
 **~~Un task che nessuna corsia puo prendere~~ — era falso, e l'ho scoperto per caso.**
 Avevo scritto che far girare le migrazioni su PostgreSQL potesse farlo solo
