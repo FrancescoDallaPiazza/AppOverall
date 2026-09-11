@@ -538,6 +538,34 @@ data dei dati.** Lettura (a).
 stavano sotto i miei occhi da quando ho aperto i file, e le ho trattate come sinonimi
 perche portavano entrambe una data.
 
+**E la mia regola sulle due diciture andava corretta prima di entrare nella `0008`.**
+Avevo scritto «*Dati aggiornati* = freschezza, *Report aggiornato* = produzione», e
+implicitamente «quindi se dice *Dati* e vecchio». **Il secondo pezzo e falso**, e il
+controesempio e in casa: `elencoAnagraficaFormazioni` dice «**Dati** aggiornati al
+30/07/2026 17:04» ed e stato salvato **il 30/07 alle 17:01** — coincide con l'estrazione
+a tre minuti.
+
+**La dicitura dice QUALE DELLE DUE COSE la data misura; non dice se le due coincidano.**
+Lo dice solo il confronto con un **timestamp esterno**, e per i tre del 3 settembre
+quel timestamp e stato lo zip. Anzi, `elencoAnagrafica` lo rafforza: una data interna
+**tre minuti dopo** l'mtime del file e impossibile come momento di produzione, quindi
+«Dati aggiornati al» non descrive **mai** il file — descrive **sempre** il dato, e puo
+cadere prima o dopo l'istante in cui il file esiste.
+
+Da cui la conseguenza sulla colonna: **si riempie con la data dichiarata e non con un
+giudizio su quanto sia vecchia.** E un **valore**, non una valutazione. Il giudizio lo fa
+chi legge, confrontando due colonne di file diversi — che e esattamente il motivo per cui
+la colonna serve.
+
+**E il corollario che nessuno dei due aveva detto, ed e il verso che mancava.** Se «Dati
+aggiornati» e la freschezza del dataset **a monte**, allora due export della stessa
+famiglia scaricati in **momenti diversi** possono portare la **stessa data interna** — e
+sarebbero **la stessa fotografia, non due**. Quindi la colonna non serve solo a dire
+«questi due file non sono confrontabili»: serve anche a dire «**questi due sono lo stesso
+istante**, anche se li ho scaricati a un mese di distanza». **La seconda informazione oggi
+si perde del tutto**, e non e la meno utile delle due: e quella che permette di
+**combinare** invece di limitarsi a diffidare.
+
 **Quindi il consiglio cambia, e cambia in peggio.** Riscaricare allinea il **momento
 dell'estrazione** e non il **momento dei dati**: se il gestionale aggiorna quei tre
 insiemi con la propria cadenza, tre file scaricati insieme continueranno a portare tre
