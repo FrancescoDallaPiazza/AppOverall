@@ -466,13 +466,43 @@ comment on column corso_assolve.categoria is
 -- una lettura a occhio: hanno **rieseguito 56 migrazioni su 56** su un PostgreSQL
 -- locale, e il grep ha contato **cento punti di scrittura su venticinque file**.
 --
+-- **Il join non si puo fare da qui, ed e stato misurato invece di essere tentato.**
+-- I loro 180 `titolo_norm` sono passati per la **loro** funzione di normalizzazione
+-- (`staging.norm`: maiuscole, punteggiatura via, accenti via — «DELL EMERGENZA»,
+-- «ATTIVIT A RISCHIO D INCENDIO»); i miei 268 alias sono il **testo grezzo** del
+-- gestionale. Confrontati l'11 settembre 2026: **63 su 180 combaciano verbatim**, e
+-- gli altri 117 no. A meno di spazi e maiuscole il numero non cambia: 63.
+--
+-- Quindi un join fatto qui reinventando la loro normalizzazione perderebbe in
+-- silenzio **117 titoli su 180** — un risultato coerente con se stesso e falso, che
+-- e la forma di A11. La funzione vive nel loro repo, quindi **il join e loro**: a
+-- loro i miei 268 testi, a me la corrispondenza. Non si ricostruisce una funzione di
+-- normalizzazione a occhio dai suoi effetti.
+--
 -- **Cosa NON si copia dalle 180 righe, e sono tre cose misurate:**
 --
 --   1. `nessuno` **non e un obbligo: e il cestino**, e ha **12 titoli** — qualita,
 --      privacy, ABC rifiuti, qualifica saldatore, gli otto moduli `MV` della
 --      manutenzione ferroviaria. Si escludono, non si traducono.
 --   2. i **7 titoli parziali**: vedi la colonna `parziale` qui sopra.
---   3. **sei obblighi che nessun corso assolve**, e per questa tabella sono vuoti
+--   3. **i due casi che rompono una traduzione 1:1**, consegnati insieme alla
+--      traduzione obbligo -> ruolo (loro `5d684e6`, 34 obblighi su 34 tradotti, zero
+--      codici inventati): `rspp_aspp` -> **`rspp` + `aspp`** (un obbligo loro, due
+--      codici miei: condividono il modulo A e si distinguono sulle ore di
+--      aggiornamento, 40 e 20 — tradurre 1:1 perde una figura); e
+--      `lavoratore_generale` + `lavoratore_specifica` -> **`lavoratore`** (due
+--      obblighi loro, un codice mio: la generale **non scade**, la specifica si
+--      aggiorna a 60 mesi — collassarle fa scadere la generale o non fa scadere la
+--      specifica).
+--
+--      E il fatto che rende quella tabella necessaria invece di ovvia: **il codice
+--      dell'obbligo non e il codice del ruolo**. `haccp` -> `alimenti`,
+--      `ponteggi_art136` -> `ponteggi`, `lavori_quota_dpi3` -> `lavori_quota`,
+--      `datore_lavoro_art37` -> `datore_lavoro`, e tutte e undici le
+--      `attrezzatura_*` -> `conduce_*`. Chi avesse assunto `obbligo.codice =
+--      ruolo.codice` **avrebbe sbagliato su 19 righe su 34**.
+--
+--   4. **sei obblighi che nessun corso assolve**, e per questa tabella sono vuoti
 --      **per misura**: `attrezzatura_cmm`, `attrezzatura_pompe_calcestruzzo`,
 --      `attrezzatura_raccoglifrutta`, `coordinatore_sicurezza`, `lavori_funi`,
 --      `sorveglianza_funi`. I primi tre sono le abilitazioni nuove dell'ASR 2025
