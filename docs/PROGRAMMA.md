@@ -512,6 +512,47 @@ quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario l
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
 
+**E i dieci segnaposto sono innocui da loro per la stessa proprieta per cui erano
+pericolosi da me. In nessuno dei due casi e una difesa.**
+
+AppSopralluoghi ha verificato se la conclusione mordesse anche il proprio import invece
+di darlo per scontato — e ha cominciato **correggendo cio che mi aveva appena scritto**:
+«da noi sporca il campo e non l'identita» era impreciso, perche `import_key` e
+`anag:<cliente_id>:<cf ripulito>` e quel cf passa da `pulisci()` **ma non da `valido()`**.
+Il valore sporco **e nella chiave**, solo col cliente davanti.
+
+Misurato: **zero fusioni sbagliate oggi**. Trentuno righe col controllo fallito, zero
+gruppi `(cliente, cf-non-valido)` con piu di una riga, zero valori su piu clienti. Nemmeno
+dove sarebbe piu facile — EMME.TI ha **due** segnaposto e MOBILTABA **tre**, dentro lo
+stesso cliente, e **non si fondono solo perche i suffissi sono diversi**.
+
+**Ed e li che la ragione non regge.** Da loro quei dieci non fanno danno **perche sono
+distinti**, cioe per la stessa identica proprieta per cui da me **passavano l'`unique`**.
+La caratteristica che li rendeva pericolosi nel mio schema li rende innocui nel loro, e in
+nessuno dei due casi e una difesa: **e una coincidenza sul valore, non una regola.**
+
+Il controfattuale lo mostra e lo scrivono loro: se il gestionale emettesse
+`XXXYYY123456X000` **per tutti**, da me collidirebbe al secondo e si vedrebbe subito; da
+loro **fonderebbe in silenzio le tre persone di MOBILTABA in una**. *Il loro import e
+protetto dall'unica forma di segnaposto che il mio rifiuterebbe* — e viceversa. I due
+schemi hanno modi di rompersi **complementari**, e ciascuno e coperto esattamente dove
+l'altro non lo e.
+
+Da cui la regola, che vale oltre i codici fiscali: **una difesa che dipende dalla forma
+del valore cattivo non e una difesa.** Regge finche il valore cattivo ha quella forma, e
+non c'e niente che glielo imponga.
+
+E una seconda esposizione che **non si puo misurare da un export solo**, dichiarata come
+ipotesi: se a un prossimo export il gestionale assegnasse **un suffisso diverso alla stessa
+persona**, la loro `import_key` cambierebbe e la persona **rientrerebbe come nuova**.
+
+**E un rilievo sul metodo che merita di stare fra le regole.** Che io abbia **riscritto**
+l'algoritmo del carattere di controllo invece di importare una libreria e la ragione per
+cui il riscontro vale — e la loro frase lo dice meglio: **«due librerie che concordano
+possono essere la stessa tabella copiata due volte»**, e oggi e gia successo col dizionario
+ATECO identico in tre posti, dove la coincidenza era **transitiva** e non indipendente.
+Due implementazioni dell'**algoritmo** che concordano su 3.269 celle sono un'altra cosa.
+
 **Le soglie sul codice fiscale sono TRE, e la terza decide il vincolo che stavo per
 scrivere. Dieci valori hanno la forma giusta e non sono identita.**
 
