@@ -538,6 +538,56 @@ data dei dati.** Lettura (a).
 stavano sotto i miei occhi da quando ho aperto i file, e le ho trattate come sinonimi
 perche portavano entrambe una data.
 
+**«Visite Fatte» esiste, e lo storico c'e. L'import cambia forma prima di essere
+scritto, che era il punto della domanda.** Francesco l'ha trovato e scaricato l'11
+settembre alle 15:23; misurato qui e da AppSopralluoghi **separatamente**.
+
+    righe dati                                  1.383   tutte Genere = 'Visita'
+    societa                                        66
+    dal                                    14/06/2016   al 09/09/2026
+    coppie (C.F., tipo)                         1.053
+    con PIU DI UNA data                           167
+
+E la distribuzione, **identica nelle due misure**: 91 coppie con due date, 47 con tre, 13
+con quattro, 4 con cinque, 7 con sei, 4 con sette, e **una con otto** — otto visite
+mediche annuali consecutive dal 2018 al 2026 sulla stessa persona.
+
+**Il confronto chiude la domanda**: il nuovo file e un **superinsieme stretto** del foglio
+— 800 coppie in comune, **zero** solo nel foglio, **250** solo nel nuovo. Quindi
+importando cio che avevamo, **per 167 persone avremmo tenuto l'ultima visita e buttato le
+precedenti — e i conti sarebbero tornati lo stesso.** E esattamente il caso che la domanda
+cercava, e la ragione per cui valeva dieci secondi di menu.
+
+**E `sorveglianza_una_per_data` smette di essere una porta su un muro**: il vincolo
+`(persona, accertamento, data)` era stato scritto per reggere entrambe le risposte, e
+adesso e la risposta giusta ad essere quella che lo esercita.
+
+**Una cosa in piu che ho trovato contando: i tipi sono DIECI, non nove.** Nel foglio del
+09/09 `Visita oculistica quinquennale` aveva **zero** righe, e nella storia ne ha **due**.
+Il decimo accertamento del vocabolario della `0005` non era una voce inutilizzata: era una
+voce **senza esecuzioni correnti**. Un vocabolario giudicato su una fotografia sembra
+sempre piu grande del necessario.
+
+**E un piccolo scarto da tenere**: io conto **1.019** codici fiscali distinti e **1.053**
+coppie, loro **1.016** e **1.050**. Lo scarto e **tre** in tutti e due i numeri, quindi e
+**una regola di normalizzazione** e non un errore — la stessa differenza di soglia che
+stamattina valeva due righe sugli spazi interni. Va sciolto prima dell'import, non perche
+tre righe contino, ma perche due conti che differiscono sempre della stessa quantita
+**hanno una causa sola** e conviene saperla.
+
+**E il controesempio che ribalta una mia conclusione di un'ora fa.** I due file nuovi
+dichiarano «Dati aggiornati al **11/09/2026 15:23**» — **l'istante dello scaricamento**.
+Quindi **«riscaricare non allinea» era troppo forte**: lo zip resta la prova per quei tre
+file, prodotti il 03/09 e dichiarati 06/08, ma **non e una legge del gestionale**, dipende
+dal report. **Cade la frase, non la colonna** — anzi la colonna serve **di piu**: se la
+freschezza dipende dal report e non dal momento, **non c'e nessuna regola che permetta di
+dedurla**, e l'unico modo di saperla e leggerla da ogni file e conservarla.
+
+E la scelta delle **due colonne** regge anche qui, ed e la prova che serviva: «Dati
+aggiornati al 11/09/2026 **15:23**» ha l'ora, «Report aggiornato al 09/09/2026» no.
+**Stesso gestionale, stesso giorno, due formati** — un `timestamp` unico avrebbe dovuto
+inventare mezzanotte su uno dei due **gia oggi**.
+
 **Il 31 non e stato dichiarato: e stato misurato. Dodici sono tempo, diciannove no.**
 (`bfdbb6b`.)
 
