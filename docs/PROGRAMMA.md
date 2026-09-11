@@ -607,6 +607,25 @@ correzione precedente aveva riaperto il METODO e non il DATO**. Un dato chiuso s
 essere un dato da guardare anche per chi ha appena imparato a guardare meglio, e le due
 cose si riaprono separatamente.
 
+**Spinti l'11 settembre sera, e li ho spinti io.** `41b4192..d6c6d4c`, fast-forward,
+nove commit. Francesco ha detto «pusha» **a questa sessione**, e l'ho eseguito **da qui**
+invece di riferirlo: la regola di quella corsia dice che **loro** eseguono `push` solo su
+richiesta del proprio utente, e quella regola **resta intatta** — non e stata infranta e
+nessuno ha chiesto di infrangerla. **Un'istruzione di prima mano a chi compie l'azione non
+e una parola riportata**, ed e la stessa distinzione che l'11 settembre mattina aveva
+fatto fermare quella corsia davanti a un'autorizzazione relaiata.
+
+**Il commit della libreria NON e stato spinto**, ed e una scelta: porta il PDF da 6,2 MB,
+un binario in git e per sempre, ed era stato messo a parte da tutti e tre. **Un'istruzione
+breve non estende da sola il suo perimetro a una cosa irreversibile che era appena stata
+dichiarata separata.**
+
+**Cosa cambia: da adesso lo stato di quella corsia si legge da `origin` come per le
+altre.** Cosa non cambia: la sua regola, e quindi il **prossimo** blocco di commit
+restera locale allo stesso modo. **Oggi e stata risolta la volta, non il meccanismo** — e
+la scelta fra «spinge Francesco periodicamente» e «per questa corsia lo stato si chiede e
+non si legge» resta aperta e resta sua.
+
 **Nove commit non spinti per sei ore, e il difetto non e loro: e che non ho mai chiesto
 perche.**
 
