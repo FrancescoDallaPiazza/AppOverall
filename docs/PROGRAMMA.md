@@ -607,6 +607,63 @@ correzione precedente aveva riaperto il METODO e non il DATO**. Un dato chiuso s
 essere un dato da guardare anche per chi ha appena imparato a guardare meglio, e le due
 cose si riaprono separatamente.
 
+**I segnaposto cercati di proposito sono quarantasette, con settantaquattro persone
+vere dentro — e la terza forma non e ne ripetuta ne incrementale.**
+
+`XXXXXXXXXXXX` era stato trovato **per caso**, seguendo un codice fiscale duplicato.
+Cercati di proposito su ElencoSedi, con un rilevatore **dichiarato prima dei numeri**
+(un solo carattere distinto, lunghezza almeno 4 — la soglia serve: a 3 prenderebbe
+`VR`, `bg`, `SONA`):
+
+    righe attive                      619
+    con zero campi segnaposto         572
+    con un campo                       11
+    con due campi                      34      sempre la stessa coppia: sede + P.IVA
+    con tre campi                       2      'Prova' e 'XXXXXXXXXXXX'
+    ---
+    sede 36 · P.IVA 47 · ragione sociale 2 · codice fiscale del cliente 0
+
+**E la mia ipotesi e stata esclusa, che e un risultato.** Avevo chiesto se ci fosse una
+famiglia sulla **ragione sociale**, il campo su cui non avevamo mai guardato: **e il piu
+pulito dei quattro** — due righe in tutto, ed entrambe sono segnaposto anche altrove.
+Nessuna riga ha il segnaposto **solo** sul nome. Cercare di proposito ha **tolto**
+un'ipotesi invece di confermarne una.
+
+**La forma e una terza, e si comporta in due modi nello stesso campo.** Sulla sede i
+sette valori distinti sono **tutti la stessa X ripetuta a lunghezze diverse** — 5, 6, 10,
+11, 12, 15 caratteri. Non e ripetizione pura come il `00000000000` delle P.IVA, e non e
+incrementale come gli `XXXYYY` dei codici fiscali: e **ripetuta dentro la variante e
+multi-variante fra una e l'altra**. Un `unique` ne prende **l'80%** — 40 righe sullo
+stesso valore, 22 sullo stesso — e **lascia passare la coda**, le cinque varianti da una
+riga sola.
+
+**E le varianti di lunghezza fanno da discriminante accidentale**: `XXXXXXXXXX` e
+`XXXXXXXXXXX` sono stringhe diverse, quindi chiavi diverse. Due aziende omonime con la
+sede segnaposto **si separerebbero o no a seconda di quante volte qualcuno ha premuto X**.
+E la stessa forma dei dieci segnaposto distinti di stamattina: **la proprieta che salva e
+la stessa che rende il difetto invisibile**.
+
+**Contro il `check` della `0001` — `partita_iva ~ '^[0-9]{11}$'` — diciassette dei
+diciotto valori distinti sono rifiutati**, `O2759230242` compreso, che comincia con la
+**lettera O** e sembra una P.IVA a chiunque guardi la lunghezza. **Ne passa uno solo**:
+`00000000000`, che di cifre ne ha undici. E poiche e `unique`, **la seconda riga fallisce
+e la prima no**: quaranta righe portano lo stesso valore e **una entrerebbe come P.IVA
+buona**. Terza volta oggi che **la prima istanza di un segnaposto e invisibile** e la
+seconda no.
+
+**Quello che il mio schema NON ha, ed e il punto.** `cliente.ragione_sociale` **non ha
+nessun vincolo di unicita**, quindi le **36 righe** in cui ne la P.IVA ne la sede
+identificano **non rompono niente**: rompono la capacita dell'**import** di riconoscerle.
+Il vincolo non codifica l'identita, la codifica l'import — **identico a `persona`**. Quindi
+`cliente` chiede lo stesso trattamento della `0008`: `partita_iva` **null quando non e una
+P.IVA**, e `partita_iva_origine` accanto. **Quinta tabella, stessa forma**, e questa volta
+il caso e arrivato **dopo** che il modello era gia stato scritto per un'altra tabella.
+
+**E settantaquattro persone vere stanno dentro quelle 47 righe** — 69 con un codice
+fiscale valido — fra cui **tre dentro un cliente che si chiama `Prova`**. Non sono righe
+da scartare: vanno importate **sapendo che il loro cliente non identifica**, che e una cosa
+diversa dallo scartarle e diversa dall'importarle e basta.
+
 **Sette delle nove «scadenze anticipate» della `0005` erano aritmetica su una fotografia
 vecchia. Non una scelta clinica: una sottrazione.**
 
