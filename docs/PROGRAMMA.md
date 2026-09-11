@@ -441,7 +441,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la migrazione dati, e comincia dalle persone e non dalle 808 righe**: `sorveglianza.persona_id` punta a una tabella vuota, e le 808 esecuzioni appartengono a **787 persone** che prima devono esistere, coi loro clienti. Misurato, non stimato. Poi la `0008` (secondo codice dei confinati, `testo_origine`, la grandezza su due colonne) e il carico di `0007` e `0008` col `domini_orfani.py` di AppFormazione | la Fase 3 vera e propria | Perche il numero piu grande nascondeva quello piu piccolo: «le 808 righe» stava scritto come se fosse il primo passo. E perche l'ordine giusto lo decide una dipendenza di schema, non l'importanza del dato — e la dipendenza si vede solo aprendo il file, che e cio che nessuno aveva fatto da questa parte |
 | **AppSopralluoghi** | ~~il progetto dell'import~~ **scritto**, e ~~l'art. 16~~ **letto** → **quale dei due file e la fonte delle scadenze dichiarate.** Adesso i candidati sono **due e incompatibili**: `VisiteScadenze` con 804 coppie e `ExportExcel (7)` con 315, **tutte gia dentro le prime**. Perche ne ha meno — scadenze passate, cessati, perimetro? — cosa distingue le 8 righe `PIANIFICATA` dalle 311 vuote, e se le **nove date che non tornano** reggano rifatte contro il **(6)** invece che contro il foglio. **Sola lettura** | scrivere l'import delle nomine, quando la `0007` e caricata | Perche `sorveglianza.scadenza_dichiarata` e `scadenza_fonte` non hanno un valore da scrivere finche non si sa quale file parli — e quella colonna esiste perche **una scadenza che nessuno sa da dove venga non e opponibile**. E perche l'avete aperta voi segnalando il (7) e dichiarando di non averlo inseguito: e la sola cosa ignota rimasta prima dell'import della sorveglianza. Se la risposta e «sono due oggetti diversi e non si confrontano», **e la migliore delle quattro** |
-| **AppFormazione** | ~~la lettura della `0007` e della `0008`~~ **chiusa**: **sei rilievi**, e il primo — i **crediti formativi** che a questo schema mancano — non potevo vederlo da qui → **in attesa**: l'accesso in lettura al vostro progetto per `domini_orfani.py` sul database applicato, e il push dei **nove commit** piu quello nella libreria. Sono tutti e due di Francesco | i crediti, quando la `0009` li porta: la riga `datore_lavoro_rspp -> datore_lavoro_art37 = totale` e vostra e la citazione pure | Perche la lettura ha reso piu della misura: il `default` invertito e il conto sulla sovrapposizione sono entrati nella `0008` **prima** che la caricassi, e il credito mancante e diventato la `0009` invece di sette persone con sedici ore di troppo. **Non e un difetto della `0007`: e un difetto che la `0007` attiva** |
+| **AppFormazione** | ~~la lettura della `0007` e della `0008`~~ **chiusa**: sei rilievi, due entrati nella `0008` prima del carico e uno diventato la `0009` → **ferma per costruzione, e non e la stessa cosa che essere ferma.** Quella corsia **non spinge di propria iniziativa**: esegue `commit` e `push` solo su richiesta del proprio utente, e l'assegnazione di una corsia pari **non lo sblocca** — giustamente. Nove commit dalle 12:43 alle 14:28 sono **invisibili da `origin`**, dove risulta ancora la 08:28 | il push, che e di Francesco; e i crediti, quando la `0009` li porta | Perche **la regola di coordinamento di questo progetto presuppone che tutte e tre le corsie possano pubblicare, e una non puo**. Finche resta cosi, per questa corsia `origin` **non descrive lo stato**: chi legge il fetch legge una cosa falsa in un posto che il programma indica come autorevole. Due strade, e la scelta e di Francesco — **spingere lui**, o **dichiarare che per questa corsia lo stato si chiede e non si legge** |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -642,8 +642,48 @@ E non e astratto: la `0006` cita il loro modello, la loro `0060` ha cambiato le
 grandezze, la decisione sui confinati poggia sul loro documento 14. **Niente di tutto
 questo e verificabile da `origin`.**
 
-**La domanda e andata a loro** — se ci sia una ragione, si scrive; se non c'e, il push
-dei nove e loro ed e assegnato. **E una distinzione va tenuta**: il commit nella
+**La ragione c'era, e non e nessuna delle tre che avevo ipotizzato: e una regola del
+loro ambiente.** Quella corsia **esegue `commit` e `push` solo quando glielo chiede il
+proprio utente** — non una policy di AppFormazione, non un'istruzione di Francesco che
+non avevo visto, non un vincolo tecnico: **hanno verificato e non c'e niente che lo
+impedisca**, nessun hook, nessun ramo protetto, e un `push --dry-run` passa pulito in
+fast-forward.
+
+E che abbiano committato nove volte e spinto zero **non e incoerenza**: un commit e
+locale e reversibile, e senza commit quel repo non lavora. **Il push esce**, e li si
+fermano.
+
+**L'assegnazione l'ho ritirata, e la ragione che danno e migliore della mia.** Se
+spingessero perche l'ha chiesto **una corsia pari** invece del proprio utente,
+aggirerebbero una decisione che **non e mia da prendere** — e la loro frase e quella
+giusta: *«la sede della decisione conta piu del suo contenuto. Se un giorno vi dicessi
+«l'ha detto l'altra corsia» per fare una cosa che il mio utente non ha autorizzato,
+dovreste non credermi.»* E la stessa regola che questo programma applica alle
+autorizzazioni sui dati veri, vista dal lato di chi esegue.
+
+**Quindi il rilievo resta, ed e un altro: hanno presentato un vincolo del proprio
+ambiente come se fosse una regola del progetto, senza dire perche.** Una frase come «il
+push lo chiedo a Francesco» va accompagnata dalla sua ragione **la prima volta che si
+dice**, altrimenti **diventa una regola del progetto per adozione** — ed e esattamente
+quello che e successo, in dieci ripetizioni mie.
+
+**E la conseguenza strutturale e piu grande dei nove commit.** La regola di coordinamento
+di questo progetto — *lo stato delle tre corsie si legge da `origin` dopo un fetch* —
+**presuppone che tutte e tre possano pubblicare. Una non puo, per costruzione.** Quindi
+la regola ha un buco che e stato invisibile finche non e costato una giornata: per
+AppFormazione `origin` **non descrive lo stato e non puo descriverlo**, e chi legge
+«AppFormazione e ferma alle 08:28» sta leggendo una cosa falsa in un posto che il
+programma indica come autorevole.
+
+**Va scritto nella tabella delle corsie e non in una nota**, perche chiunque legga deve
+poter distinguere **«e ferma»** da **«aspetta una firma per costruzione»**: sono due
+stati diversi e dal foglio si somigliano — che e la stessa frase che questo programma usa
+per «una corsia ferma e diversa da una lenta», applicata un livello piu in basso.
+
+Le strade sono due e la scelta e di Francesco: **spingere lui** i commit di quella corsia,
+periodicamente o a richiesta; oppure **dichiarare che per AppFormazione lo stato si chiede
+e non si legge**, e allora il fetch smette di essere il canale per un terzo del progetto.
+La seconda costa zero ed e onesta; la prima e migliore e costa un comando. **E una distinzione va tenuta**: il commit nella
 **libreria** e un'altra cosa e li si fermavano a ragione — porta un PDF da **6,2 MB**, e
 un binario in git e per sempre. Quello resta un push che Francesco guarda prima, e
 l'avevano segnalato loro per primi.
