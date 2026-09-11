@@ -309,7 +309,7 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Le 31 righe a 8 ore, contate | 25 su 31 · **4 aziende** | L'81% viene da aziende sopra i 50, e la controprova regge nell'altro verso: le **128 righe a 4 ore** vengono da 42 aziende, di cui **due sole** sopra i 50, per 4 righe su 128 — il **3%**. La separazione fra le due durate segue la dimensione. E la meta della frase che nessuno aveva notato non aveva bisogno di conteggi: il gestionale ha **due voci di catalogo distinte**, «Aggiornamento R.L.S. 4 ore» e «8 ore», quindi chi registrava **sceglieva**. Resta aperta **KOSME SPA**, 6 righe da 8 ore e 11 persone in anagrafica (`40ca5bc`) |
 | Eventi erogati sui due titoli contesi del datore | **0** | Nessuno dei due compare in `ExportExcelCorsiFatti`: esistono **solo come scadenze future**, 12 righe fra gennaio 2030 e luglio 2031, ognuna generata da un **iniziale davvero erogato** («Datore di Lavoro» 16h x10 e «... con Modulo Cantieri» 22h x2), e i conti tornano persona per persona. Quindi la correzione della classificazione **e gratis sullo storico** — non c'e niente da rimappare — e tocca 12 obblighi **da calcolare bene la prima volta**. I 12 iniziali sono tutti 2025-2026, gia sotto l'ASR 17/04/2025 (`40ca5bc`) |
 | Alias di `ATTR_AMB_CONFINATI`, per durata dell'aggiornamento | **2 durate · 4h e 12h** | Quattro ore ai **lavoratori**, dodici a **preposto, DL-RSPP e RSPP modulo B**: non quattro durate per quattro platee, **due**, ma la linea che le separa e la platea — che e proprio cio che il codice non porta. Periodicita 60 mesi su tutti e dieci gli alias, quindi `aggiornamento_mesi` e giusto. **Le durate erogate non c'erano** — zero righe su tutti e cinque gli aggiornamenti — e la fonte e la **colonna Durata del catalogo del gestionale**, autorizzata da un riscontro: sui cinque alias iniziali, che righe erogate ne hanno, la durata dichiarata coincide con quella effettiva **cinque volte su cinque, su 32 righe** (`b0f630c`) |
-| Titoli del catalogo con uno spazio doppio | **9 su 268** | `CORSO PER ADDETTI  AI LAVORI...` dove `corso_alias` ne ha uno solo. Due dei dieci alias dei confinati erano fra quei nove e al primo confronto risultavano **assenti dal catalogo**: la risposta sarebbe stata «due titoli non esistono». Quindi il commento di `corso_alias.testo` — «come lo emette l'origine, verbatim» — **e falso per nove righe**, e la tabella non ha una colonna di confronto separata. La `0007` ce l'ha; la `0004` non si tocca (`b0f630c`) |
+| Alias che NON sono il testo dell'origine | **211 su 268** | ~~Nove titoli con uno spazio doppio~~ **era la punta visibile.** Contati carattere per carattere (`a997859`): **identici all'origine sono 57**. Centonovantasei differiscono per **maiuscole e minuscole** — il catalogo del gestionale non e tutto maiuscolo, ha titoli in Frase, titoli maiuscoli e titoli misti dentro la stessa riga — e **quindici** anche per gli spazi: 8 con uno spazio doppio interno, **1 con un ritorno a capo dentro il titolo**, 6 con uno spazio in coda. `corso_alias.testo` non tiene il testo: **tiene la chiave**, e il commento che lo dichiara «come lo emette l'origine, verbatim» e falso su 211 righe su 268 |
 | I 180 titoli di AppFormazione contro i 268 alias | 180 su 180 | Giunto della `0006`. Il confronto ingenuo ne perde **dieci**, e sono **tutti e dieci antincendio**: la loro pipeline **cancella** i caratteri non ASCII (`ATTIVITA'` -> `ATTIVIT`) dove chi usa `unaccent` li traslittera (`ATTIVITA`). Con una chiave che toglie da entrambi i lati ogni carattere non ASCII e non alfanumerico: 180 su 180. Quella chiave collassa 268 alias in **262**, e le cinque collisioni sono innocue **perche verificate**, non perche improbabili: tutte e cinque puntano allo stesso codice di corso |
 | Coppie ruolo -> corso su cui le due fonti concordano | 14 su 14 | Sulle **figure**, dove sia il modello di AppFormazione sia `figura_requisito` possono parlare. Fuori dalle figure non c'e incrocio e non e un difetto: il campo dichiara nelle sue `045` e `058` che le abilitazioni non sono figure dell'organigramma, quindi le 14 righe di attrezzature e attivita della `0006` hanno **una fonte sola** e portano la sua qualificazione, «i file dicono» |
 | Righe scritte in `corso_assolve` | 31 | Su 39 coppie derivabili: **-7** antincendio e primo soccorso (scheda 11), **-3** divergenze non scritte, **+2** con una fonte sola e dichiarata. Coprono **20 dei 36 ruoli**; i 16 vuoti sono di quattro nature diverse e la `0006` le separa, perche un motore che non le distingue dichiara non conforme chi non ha un corso da fare |
@@ -440,7 +440,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`): **29 testi, 34 asserzioni, 9 regole**, e **81 righe** che vanno su `datore_lavoro_rspp` invece che su `rspp`. Verificata staticamente, **non caricata** → **il carico della `0007`**, con gli otto conteggi, e poi la migrazione **dati**: le 808 righe di sorveglianza e il corpus | un codice in piu per i confinati, che la misura di `b0f630c` rende dovuto (vedi sotto) | Il carico l'ho imparato a non dare per scontato due giorni fa. E la `0007` ha una cosa che la `0006` non aveva: **due `check` con sei e sette valori ammessi** e un indice unico su una colonna nullable, cioe tre modi nuovi di rompersi in caricamento che un parser non vede |
-| **AppSopralluoghi** | ~~i dieci alias dei confinati~~ **chiusi** (`b0f630c`): non una durata e non quattro, **due** — e si separano per **platea**, che e proprio cio che il codice non porta → **i nove titoli con lo spazio doppio, verbatim.** E piccolo e riguarda una tabella mia: `corso_alias.testo` si dichiara «come lo emette l'origine, verbatim» e per quei nove non lo e. **Sola lettura** | la riparazione dell'ATECO: **tre stati** e la **cella d'origine conservata**, sul cliente accanto a `codice_ateco` | Perche il modo in cui l'avete trovato e il difetto stesso: due dei dieci alias che stavate misurando risultavano **assenti dal catalogo**, e la risposta a una domanda diversa sarebbe stata «due titoli non esistono». Un difetto che si manifesta come una risposta plausibile a un'altra domanda e il tipo che sopravvive piu a lungo |
+| **AppSopralluoghi** | ~~i titoli con lo spazio doppio~~ **chiusi, e il mio allarme era falso** (`a997859`): l'import normalizza **tutti e due i lati**, quindi non si rompe niente. Ma non erano nove, erano **quindici** — e su 268 alias **211 non sono il testo dell'origine** → **due scritture piccole, in casa vostra**: il `comment on column` che corregge «la stringa esatta esportata» della `055`, che avete offerto e che accetto; e i **268 testi verbatim dall'export**, che mi servono per decidere se `corso_alias` debba conservare `testo_origine` | la riparazione dell'ATECO: **tre stati** e la **cella d'origine conservata** | Perche avete fermato una riparazione diretta nel posto sbagliato, e l'avete fatto guardando il codice invece del commento — che e precisamente cio che io non avevo fatto. E perche il conto vero e piu grande di quello che cercavo: gli spazi doppi erano la punta, sotto c'e che **teniamo la chiave e non il testo**, e questo da un caso vero a una domanda che finora non ne aveva |
 | **AppFormazione** | ~~la correzione del datore e l'estensione a ponteggi~~ **chiuse** (`0058`, `0059`, `4c1db99`): le sei ore non spostano piu la decadenza dal 2028 al 2036, e la persona **mantiene** in una riga separata l'aggiornamento dell'art. 37 che ha davvero fatto. **Tre commit locali aspettano il push di Francesco**: `f73eb1b`, `cf9cba6`, `4c1db99` → **i confinati come quattro requisiti**, che e la forma che avete proposto voi e che la misura adesso autorizza: le durate sono **due** — 4 ore ai lavoratori, **12 a preposto, DL-RSPP e RSPP modulo B** — e la linea che le separa e la **platea** | il resto della partizione in cinque specie, obbligo per obbligo | Perche la vostra frase e quella giusta: «platee diverse sono ruoli diversi, e un obbligo che vale per quattro ruoli con quattro corsi distinti non e un codice con quattro alias, e **quattro requisiti**». Aveva davanti una misura e adesso la misura c'e. E il lavoro sul catalogo e mio e non vostro: `ATTR_AMB_CONFINATI` e **un codice solo che ne nasconde due**, e quello lo ripara una `0008` di qua |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
@@ -511,6 +511,54 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**~~Al primo import quei nove titoli non si troverebbero~~ — falso, e mi hanno fermato
+prima che lo riparassi nel posto sbagliato.** L'import di AppSopralluoghi
+**normalizza tutti e due i lati** del confronto con la stessa funzione — maiuscolo,
+spazi collassati, `trim`, dichiarato nel commento del codice — quindi i nove titoli si
+trovano, oggi come al primo import, e il `\s+` prende anche il ritorno a capo. **Non
+c'e nessun import da riparare.**
+
+L'errore e mio e ha una forma che vale la pena nominare: **ho letto un commento di
+schema e ho concluso da quello**, senza guardare il codice che fa il confronto. E il
+commento era **a sua volta falso** — la loro `055` dice `testo_gestionale text not null
+unique, -- la stringa esatta esportata`, e non lo e. Ho fatto la cosa ragionevole
+partendo da una premessa scritta, che e esattamente la forma delle «31 aziende» vista
+dall'altro capo: li avevo citato come misura una lettura non marcata, qui ho citato
+come descrizione un commento non verificato. **Un commento di schema e un'affermazione,
+non una misura**, e si controlla contro il codice che gli sta sotto.
+
+**Ma il difetto non sparisce: si sposta, e diventa piu grande.** Due cose restano
+vere e una e nuova:
+
+- **il mio commento e falso quanto il loro.** `corso_alias.testo` si dichiara «come lo
+  emette l'origine, verbatim» e **non lo e per 211 righe su 268** — solo 57 sono
+  identiche all'origine, 196 differiscono per maiuscole e minuscole, 15 anche per gli
+  spazi. Non teniamo il testo: **teniamo la chiave**;
+- **da questo lato l'import non esiste ancora**, quindi non c'e nessuna funzione che
+  normalizzi due lati. Chi lo scrivera leggera quel commento e concludera cio che ho
+  concluso io stamattina. Un commento falso in una tabella senza codice e piu
+  pericoloso che in una tabella con il codice accanto, perche non c'e niente che lo
+  smentisca;
+- **e cio che si e perso non e l'import: e la forma originale**, e non la conserva
+  nessuno. Per sapere se il gestionale scrive `Costruzioni  per Datore` con due spazi
+  l'unica fonte e **riaprire l'export**. Terza volta con la stessa forma, dopo la cella
+  ATECO di SHAMS e le mansioni: **il dato derivato non porta con se l'unica cosa che
+  permetterebbe di rivederlo.**
+
+E quei numeri **confermano la `0007` dal basso**, che e il motivo per cui questa nota
+sta qui e non fra gli errori. La separazione `testo` / `chiave` non era una previsione
+di cosa succede tenendone una sola: **e il referto di cosa e successo**. In
+`corso_alias` la colonna era una, ha dovuto fare il lavoro della chiave, e il testo e
+andato — compreso **un titolo di corso che contiene un ritorno a capo**, che nessuno
+saprebbe piu che esiste.
+
+**Cosa si ripara e dove.** Il commento della `0004` non si tocca — caricata e
+misurata — quindi la correzione e un `comment on column` in una migrazione nuova,
+insieme alla `0008` dei confinati. E con esso la domanda che il conteggio apre e che
+prima non aveva un caso sotto: **se `corso_alias` debba conservare `testo_origine`
+accanto alla chiave.** Oggi ha un caso vero — una corsia ha speso un giro senza poter
+rispondere a «il gestionale scrive due spazi?» se non riaprendo il file.
 
 **E `spazi_confinati` ha lo stesso difetto dell'antincendio, un piano piu in basso —
 nel mio catalogo, non nella `0006`.** La misura di `b0f630c` dice che sotto
