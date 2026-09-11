@@ -47,7 +47,7 @@
 -- script, non esportato da produzione. Se in produzione qualche riga e' stata
 -- decisa a mano dalla UI dopo l'esecuzione degli script, quella decisione qui
 -- non c'e'. Prima di considerarlo autoritativo, confrontarlo riga per riga con
--- un `select testo_gestionale, corso_codice, note, ignorato, pregressa,
+-- un `select testo, corso_codice, note, ignorato, pregressa,
 -- is_aggiornamento, parziale, evidenza_incompleta from corso_alias order by 1`
 -- sul database vivo.
 --
@@ -55,7 +55,7 @@
 -- CARATTERE con quelli esportati dal gestionale (apostrofi tipografici U+2019,
 -- lettere accentate). File in UTF-8 senza BOM.
 --
--- Idempotente: `on conflict (testo_gestionale) do nothing`. Per riportare una
+-- Idempotente: `on conflict (testo) do nothing`. Per riportare una
 -- tabella gia' popolata a questo stato, svuotarla prima (vedi azzera_anagrafiche.sql).
 
 insert into corso_alias
@@ -329,7 +329,7 @@ values
   ('R.S.P.P. DATORE DI LAVORO RISCHIO MEDIO', 'DL_RSPP_BASE', null, false, false, false, false, false),
   ('RISCHIO CHIMICO E BIOLOGICO, SANIFICAZIONE DEGLI AMBIENTI DI LAVORO, CORRETTO USO DEI DPI E PROCEDURE ANTICONTAGIO CORONAVIRUS.', null, null, true, false, false, false, false),
   ('SVOLGIMENTO DI ATTIVITA'' IN QUOTA PER LAVORATORI ADDETTI ALL''INSTALLAZIONE E MANUTENZIONE DI PANNELLI FV', 'ATTR_LAV_QUOTA', null, false, false, false, false, false)
-on conflict (testo_gestionale) do nothing;
+on conflict (testo) do nothing;
 
 -- Verifica: attesi da mappare 0, mappati 237, ignorati 31, totale 268.
 select count(*) filter (where corso_codice is null and not ignorato) as damappare,

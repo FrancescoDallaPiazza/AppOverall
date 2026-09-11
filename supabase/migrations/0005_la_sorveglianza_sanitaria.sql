@@ -34,11 +34,36 @@
 -- hanno la periodicita nel titolo**, quindi senza quella riga entrerebbero qui
 -- senza regola o con una inventata.
 --
--- Misurato sulle date vere prima di scriverlo, non dedotto dai nomi: **796 scadenze
--- su 796** coincidono esattamente con `data + intervallo dichiarato`, zero
--- deviazioni. Le differenze 365/366, 730/731, 1826/1827 non sono deviazioni: sono
--- gli anni bisestili, e infatti l'aritmetica qui e **sul calendario** (`+ interval
--- 'N months'`), non in giorni.
+-- L'aritmetica e **sul calendario** (`+ interval 'N months'`) e non in giorni, cosi
+-- le differenze 365/366, 730/731, 1826/1827 tornano senza casi speciali.
+--
+-- **Un comportamento che va dichiarato perche non e una nostra regola.** Su una
+-- esecuzione del **29 febbraio** di un anno bisestile, `+ interval '60 months'` in
+-- PostgreSQL **tronca all'ultimo giorno valido** — 2024-02-29 diventa 2029-02-28,
+-- non il 1 marzo. Provato l'11 settembre 2026 su PostgreSQL 16. E una decisione
+-- dell'operatore, non una riga scritta qui: se un giorno la regola dovesse essere
+-- «rotola al 1 marzo», questa vista **non lo fa** e nessuno se ne accorgerebbe,
+-- perche il caso si presenta solo su un accertamento eseguito il 29 febbraio.
+--
+-- ---------- i tre vocabolari esterni coincidono, verificato ----------
+--
+-- `nome_gestionale` porta il testo **verbatim** del gestionale, maiuscole
+-- incoerenti comprese — «Visita Medica Biennale» con la B grande e «Visita medica
+-- quinquennale» con la m piccola, nello stesso export. Non si normalizza, perche e
+-- la chiave con cui l'import riconosce la colonna.
+--
+-- I testi arrivano da tre posti, e l'11 settembre 2026 sono stati confrontati tutti
+-- e tre: le **intestazioni del foglio «Visite»**, i **nove tipi dello scadenzario**
+-- (identici al foglio carattere per carattere, misura del campo) e le **dieci
+-- descrizioni di `staging.catalogo_gestionale`** di AppFormazione. Le dieci righe
+-- qui sotto coincidono con le loro dieci **carattere per carattere**, zero
+-- differenze in entrambi i versi.
+--
+-- **Quindi non serve una tabella di alias per gli accertamenti**, e va scritto
+-- perche e stato proposto e sarebbe stato costruire per una previsione: `corso_alias`
+-- esiste perche i 268 testi dei corsi **divergono** dai codici, qui i testi
+-- coincidono. Servira il giorno in cui un quarto vocabolario dira la stessa cosa in
+-- un altro modo — e quel giorno ci sara un caso vero sotto.
 
 create table accertamento (
   codice text primary key,

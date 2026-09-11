@@ -361,7 +361,7 @@ senza la seconda, chi finisce alle sette di sera si ferma o si inventa un compit
 |---|---|---|---|
 | **AppOverall** | ~~`0004` il catalogo~~ **scritta** · **`0005` la sorveglianza sanitaria: SCRITTA l'11.09** — vocabolario dei 10 accertamenti con la periodicita dichiarata, esecuzioni per persona, **scadenza calcolata nella vista e non memorizzata**. Adesso: `corso_assolve`, **bloccata** — aspetta le regole di AppFormazione, che e ferma | la migrazione **dati**: le 808 righe della sorveglianza e il corpus nel nuovo schema | La `0005` si poteva scrivere senza nessuno: la scheda 10 e decisa e le misure c'erano tutte. Porta la **forma** e non i dati, e lo dice: il conteggio 808 contro 1.148 non e sciolto, e l'avevo scritto io che una migrazione su un conteggio aperto nasce storta. `corso_assolve` invece resta vuota perche una fonte sola sarebbe coerente con se stessa e non per questo vera |
 | **AppSopralluoghi** | ~~la riconciliazione delle visite~~ **chiusa dal suo lato l'11.09** (`b647389`) → **riconciliare i DUE export delle visite fra loro**: il foglio ha 808 accertamenti e 801 coppie (CF, tipo), lo scadenzario 814 righe e 805 coppie. Quali righe differiscono, e **quale dei due e la fonte migliore per l'import** della `0005` | l'import dei ruoli, quando Francesco toglie la pausa | Ha trovato un **secondo export dedicato alle visite** che nessuno sapeva di avere, e insieme i due dicono cosa sia il dato: **l'ultima esecuzione per persona e per tipo** — non le aperte (311 gia scadute), non lo storico (801 coppie su 808 righe). Nella `0005` importo da uno dei due, e devo sapere da quale |
-| **AppFormazione** | **le regole obbligo -> corso**, misurate, documento in scrittura. La seconda lettura **non e stata possibile** — Docker non c'e, quindi il database applicato non e leggibile — e resta qualificata «i file dicono» (A10), ma la ricostruzione e **vera**: 56 migrazioni su 56 riprodotte su un PostgreSQL locale | **caricare `0001` -> `0005` piu il seed su quel PostgreSQL locale**: e la prova che manca alla `0004` e alla `0005`, e si scopre adesso che non serviva Francesco | Ha sciolto il conteggio delle visite in una riga: i 1.148 erano la somma di `occorrenze` su dieci righe di catalogo, da un'estrazione che copre i cessati dal 2018 — un oggetto diverso, non una divergenza. E ha corretto, senza volerlo, una mia affermazione sul piano |
+| **AppFormazione** | ~~le regole obbligo -> corso~~ **consegnate** (`75d10ee`, 180 righe) · ~~il carico su PostgreSQL~~ **fatto**, con un bug trovato → **la traduzione obbligo -> `ruolo_sicurezza`**: i loro **35 obblighi** contro i **36 codici** della `0002`, uno per uno, dove non c'e corrispondenza dirlo. E la meta che mi manca per riempire `corso_assolve` | la seconda lettura del loro stato, **se** Francesco decide di installare Docker | Hanno consegnato con il limite in testa — una lettura sola, qualificata «i file dicono» (A10) — e la trappola simmetrica alla nostra: 7 titoli **parziali** che sbaglierebbero per **eccesso** dove `per_categoria` sbaglia per difetto. E hanno eseguito le mie migrazioni, che nessuno aveva mai eseguito |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco ha fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -377,11 +377,23 @@ riprodotto 56 migrazioni su 56 per ricostruire il proprio stato. Non l'avevo
 verificato — avevo generalizzato l'assenza di `psql` in **questa** sessione a tutte e
 tre, che e la forma domestica di A9.
 
-Quindi il task **e assegnabile**, ed e assegnato: caricare `0001` -> `0005` piu
-`seed/corso_alias.sql` su un PostgreSQL locale e vuoto, e verificare 40 righe in
-`corso`, 268 in `corso_alias` di cui 31 `ignorato`, 10 in `accertamento`. Non serve
-Supabase e non serve toccare la produzione: le chiavi esterne fanno da prova, e se un
-codice non torna l'insert si rifiuta invece di scrivere una riga muta.
+**Fatto l'11 settembre 2026, e la `0004` e la `0005` non sono piu solo scritte.**
+Caricate su un PostgreSQL 16 locale e vuoto dalla corsia AppFormazione: **le cinque
+migrazioni passano tutte e cinque in ordine**, e i cinque conteggi attesi combaciano
+— 40 in `corso`, 268 in `corso_alias`, 31 `ignorato`, 237 mappate su 39 codici, 10 in
+`accertamento`. `v_sorveglianza` calcola le scadenze giuste, e il vincolo
+`alias_senza_corso_ha_un_motivo` e stato provato **nei due versi**: rifiuta la riga
+senza motivo e accetta la stessa riga con una nota. Un vincolo che rifiuta tutto non
+e un vincolo.
+
+Il carico ha trovato **un bug vero**: il seed dei 268 alias chiudeva con `on conflict
+(testo_gestionale)`, il nome che la colonna aveva prima che la rinominassi `testo`.
+L'elenco delle colonne dell'`insert` era gia giusto — la deriva era fra il generatore
+del seed e la migrazione, e sarebbe stata invisibile fino al primo carico.
+
+Nota per la Fase 3: quelle migrazioni hanno bisogno di **quattro righe** di
+impalcatura Supabase (due `auth.uid()` e i `to authenticated`), quindi girano su un
+Postgres nudo. Non e una dipendenza da Supabase.
 
 Resta di Francesco **solo** cio che vuole le credenziali vere: applicare in
 produzione, quando si decidera di farlo.
