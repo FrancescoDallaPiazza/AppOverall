@@ -440,7 +440,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`): 29 testi, 34 asserzioni, 9 regole, **81 righe** che vanno su `datore_lavoro_rspp` invece che su `rspp` → **la `0008`, che fa tre cose e non una**: il **secondo codice** dei confinati — giustificato dal catalogo, perche due corsi diversi esistono davvero, e **senza** una riga in piu in `corso_assolve`, che avrebbe bisogno di una norma; `testo_origine` su `corso_alias` piu il commento corretto, adesso che i **268 verbatim** esistono con la loro impronta; e la **marcatura della grandezza** sui sedici codici il cui `4` e parte pratica e non totale | il carico di `0007` e `0008`, poi la migrazione **dati** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato: la prima assegnando a un'altra corsia una regola dedotta dal catalogo, la seconda concludendo da un commento di schema invece che dal codice |
-| **AppSopralluoghi** | ~~il commento e i 268 verbatim~~ **chiusi** (`ede5112`): la `064` corregge **solo commenti** — nessuna colonna, nessun dato — e `alias-testi-origine.json` porta i 268 testi come il gestionale li emette, con lo **SHA256** in testa perche chi lo rilegge sappia se guarda la stessa estrazione → **la riparazione dell'ATECO**: tre stati e la **cella d'origine conservata** sul cliente, accanto a `codice_ateco`. E una scrittura, ed e assegnata | il `null` di `oreModuloSettore`, che e lo stesso difetto un piano piu su | Perche e l'ultimo dei tre difetti della stessa famiglia rimasto aperto, e adesso ha tre casi veri sotto invece di uno: SHAMS, MIGLIORINI e i 211 alias che non sono il testo. E perche il JSON e in JSON **apposta** — un formato a righe non puo portare il titolo con il ritorno a capo senza perderlo o senza inventare una convenzione di escape, e un file che esiste per conservare la forma non puo avere un formato che la distrugge |
+| **AppSopralluoghi** | ~~la riparazione dell'ATECO~~ **chiusa** (`3c8b84e`, `065`): tre stati, la cella conservata, e il terzo stato messo **nel confronto** invece che in un valore. Il numero che conta e **214 -> 213**: SHAMS e passato dal silenzio alla riga che dice di non sapere → **l'azione di livello cliente, come passo suo.** L'avete dichiarata fuori perimetro e avevate ragione: un'azione intestata a una persona che si chiude registrando un attestato non e il posto per una che si chiude compilando un campo dell'azienda. Ma senza, 358 righe `da_verificare` compaiono nei riepiloghi e non hanno dove essere chiuse | l'import delle nomine, quando la `0007` e caricata | Perche avete fermato l'improvvisazione nel punto giusto — «metterla li manderebbe il consulente a cercare un corso invece che una visura» — e una cosa dichiarata fuori perimetro **e un passo, non un buco**. Vincolo: **non deve diventare la campagna di riempimento**, che resta rinviata. Deve rendere l'assenza **raggiungibile**, non colmarla |
 | **AppFormazione** | ~~il DPR 177/2011~~ **letto, e la risposta e no** (`4548621` nella libreria, `8ba2edd`, `0061`): non distingue le figure, non fissa durate, e rimanda all'ASR — che ne conosce una sola. **Le quattro platee sono commerciali, e cade anche la strada 2** → **applicare A13 agli altri 32 obblighi**: quali attese misurano una grandezza **diversa** da quella che un attestato riporta. Le dodici «parte pratica» le avete gia marcate; ne resta almeno un'altra specie — `rspp_aspp` ha `metodo = monte ore`, e un monte ore quinquennale non e la durata di un corso. **Sola lettura** | il resto della partizione in cinque specie | Perche avete trovato una grandezza diversa **cercando altro**, e una cosa trovata per caso due volte non e un caso: va cercata di proposito sulle righe rimaste. E perche A13 dice che questa condizione viene **prima** delle altre due — quindi il documento 14 va riletto in quell'ordine, non integrato in coda. **Cinque commit locali** aspettano il push di Francesco — `f73eb1b`, `cf9cba6`, `4c1db99`, `9ffbe43`, `8ba2edd` — **piu `4548621` nella libreria**, che e un repo diverso e va spinto per conto suo |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
@@ -511,6 +511,74 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**La famiglia dei tre difetti e chiusa, e la riparazione ha messo il terzo stato dove
+non me l'aspettavo: nel confronto, non in un valore.** AppSopralluoghi ha chiuso la
+riparazione dell'ATECO l'11 settembre (`3c8b84e`, migrazione `065`).
+
+Avevo chiesto «tre stati separati». La soluzione e migliore della richiesta: **lo stato
+«questa divisione potrebbe essere sbagliata» non e un membro di un enum, e il confronto
+fra `codice_ateco` e la cella conservata**. Un enum con un valore `incerto` avrebbe
+richiesto che **qualcuno decidesse quali righe marcare**, e quella e esattamente la
+decisione che nessuno puo prendere a tavolino; cosi invece si ricalcola dalla cella ogni
+volta, e **se domani la cella cambia cambia la risposta**. Un giudizio conservato invecchia,
+un confronto no.
+
+**E ne discende una terza parola che non avevo previsto.** Le 262 righe anteriori alla
+`065` la cella non ce l'hanno, quindi il loro stato e `noto` con riscontro
+**`NON_VERIFICABILE`**: niente le smentisce e niente le conferma. Scrivere «confermato»
+su righe che non si possono verificare sarebbe **la stessa bugia del commento della
+`055`** — una descrizione che afferma piu di quanto il sistema sappia.
+
+**Cosa fa il motore, e perche il silenzio resta giusto in un caso su tre.**
+
+    non_dovuto        213 clienti   si salta, IN SILENZIO — un requisito qui sarebbe un
+                                    falso «mancante» su un obbligo che non esiste
+    non_calcolabile   358 clienti   una riga `da_verificare` che porta la ragione E cosa
+                                    la risolve: «si risolve compilando l'ATECO del
+                                    cliente, non registrando un attestato»
+    dovuto             48 clienti   come sempre, con le sue ore
+
+Il pezzo che vale e l'ultimo rigo del secondo: non e `critico` — dire «mai svolto»
+affermerebbe che il corso serve, e non lo sappiamo — e non e l'assenza della riga, che
+direbbe che non serve, e **non lo sappiamo nemmeno**. Fra «manca» e «non serve» c'era
+un terzo posto e non aveva un nome.
+
+**E il numero che dice a cosa e servita la riparazione e uno solo: 214 -> 213.** Prima i
+«non dovuti» erano 214 perche **SHAMS ci stava dentro**, con il suo `37` preso da un CAP.
+Adesso e passato dal silenzio alla riga che dice di non sapere. Una riga su 619, ed e il
+caso per cui esiste tutto il resto.
+
+**Un giudizio che hanno preso e che condivido**: se la cella e ambigua ma **tutte** le
+divisioni plausibili danno lo stesso esito, la risposta **e determinata** e dire «non lo
+so» sarebbe un falso allarme. Vale per BP CHIMICA (due codici, stessa divisione) e per
+MIGLIORINI **sul modulo** (ne 46 ne 33 sono settore speciale). **Non** vale per SHAMS,
+dove `37` non da modulo e `41` ne da 16. E di MIGLIORINI **resta aperto il livello** — 46
+basso, 33 alto — e quella incertezza il motore non la chiude: la mostra, e la risolve
+qualcuno con una visura. Un motore che sa dire quali domande non sono sue e meglio di uno
+che le risolve male.
+
+**Misurato sul codice vero e non su una reimplementazione**: `ateco.ts` compilato con
+esbuild ed esercitato sulle celle **verbatim** dell'export. E l'ultimo dei nove controlli
+e **la regola stessa** — «non lo so» e «non dovuto» devono restare esiti **diversi**, e se
+un giorno qualcuno li riunisce quel test fallisce. E un guardrail sull'invariante e non
+sul comportamento, che e la forma piu duratura.
+
+**Non riempie niente e non c'e backfill possibile**: la cella non era conservata da
+nessuna parte, quindi le 262 righe esistenti restano senza e si popolano da sole al
+prossimo import. **E la misura di cosa costa non aver conservato il testo la prima
+volta**, e vale la pena tenerla come cifra e non come morale.
+
+**La famiglia, e la regola che ne esce e una sola per tutti e tre:**
+
+    ATECO   `codice_ateco` / la cella dell'export     «questa divisione potrebbe essere sbagliata»
+    ruoli   la colonna di ruolo / la mansione         «RSPP- NO TITOLARE», il refuso `TITOLRE`
+    alias   `testo_gestionale` / il titolo verbatim   «il gestionale scrive due spazi», e un a capo
+
+**Quando si deriva un dato da un testo altrui, il testo altrui e parte del dato**: il
+derivato da solo non sa dire se sia affidabile, e **chi arriva dopo non ha modo di
+chiederglielo**. Tre difetti trovati in due giorni su tre tabelle diverse, e nessuno dei
+tre era visibile guardando l'archivio.
 
 **Il DPR 177/2011 e stato letto, e non distingue le figure: la questione e chiusa e
 non arriva a Francesco.** Letto l'11 settembre 2026 (`4548621` nella libreria,
