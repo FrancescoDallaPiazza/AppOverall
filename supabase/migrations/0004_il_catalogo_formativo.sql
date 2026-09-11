@@ -375,7 +375,24 @@ create unique index corso_assolve_unico
 comment on table corso_assolve is
   'Quale obbligo — cioe quale riga di `ruolo_sicurezza` — un corso assolve. Vuota per scelta: si riempie incrociando il modello di AppFormazione (fonte principale, perche la grana e l''obbligo) con `figura_requisito` del campo (riscontro), non deducendola dalla categoria del corso.';
 comment on column corso_assolve.categoria is
-  'La famiglia che assolve l''obbligo, quando non e un corso singolo: vale **qualsiasi** corso di `corso.categoria` uguale a questo valore.';
+  'La famiglia che assolve l''obbligo, quando non e un corso singolo: vale **qualsiasi** corso di `corso.categoria` uguale a questo valore. **Non basta per antincendio e primo soccorso**: vedi la scheda 11 — «qualsiasi corso della categoria» accetta un livello 1 dove serve un livello 3, ed e il difetto che AppFormazione ha misurato dal proprio lato.';
+
+-- ---------- e questa forma ha un limite noto, scritto prima di scoprirlo ----------
+--
+-- «Qualsiasi corso della categoria» chiude la trappola del rappresentante — non
+-- dichiara piu scoperti i livelli 1 e 3 dell'antincendio — ma **ne riproduce una
+-- opposta**: accetta `AI_LIV1` dove la sede richiede il livello 3. Il difetto
+-- speculare, misurato l'11 settembre 2026 in AppFormazione, dove tutti gli 11 titoli
+-- antincendio puntano allo stesso obbligo e il livello scritto nel testo di sei di
+-- essi viene buttato via.
+--
+-- Non si chiude qui e non per pigrizia: chiuderlo vuol dire decidere **quale livello
+-- assolve quale**, che e norma (DM 02/09/2021, DM 388/2003) e sotto A7 aspetta parte,
+-- punto e pagina — e per i gruppi di primo soccorso non e nemmeno un ordinamento
+-- nello stesso verso. E la **scheda 11**, aperta, e blocca il motore e non questo
+-- schema. Finche e aperta, questa colonna non va usata per antincendio e primo
+-- soccorso: la forma prudente e la corrispondenza esatta, che sbaglia per difetto —
+-- il verso in cui un errore si vede.
 
 -- ---------- la trappola che questa forma esiste per evitare ----------
 --
