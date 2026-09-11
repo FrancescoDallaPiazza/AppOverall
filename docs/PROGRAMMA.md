@@ -441,7 +441,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`): 29 testi, 34 asserzioni, 9 regole, **81 righe** che vanno su `datore_lavoro_rspp` invece che su `rspp` → **la `0008`, che fa tre cose e non una**: il **secondo codice** dei confinati — giustificato dal catalogo, perche due corsi diversi esistono davvero, e **senza** una riga in piu in `corso_assolve`, che avrebbe bisogno di una norma; `testo_origine` su `corso_alias` piu il commento corretto, adesso che i **268 verbatim** esistono con la loro impronta; e la **marcatura della grandezza** sui sedici codici il cui `4` e parte pratica e non totale | il carico di `0007` e `0008`, poi la migrazione **dati** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato: la prima assegnando a un'altra corsia una regola dedotta dal catalogo, la seconda concludendo da un commento di schema invece che dal codice |
 | **AppSopralluoghi** | ~~il commento e i 268 verbatim~~ **chiusi** (`ede5112`): la `064` corregge **solo commenti** — nessuna colonna, nessun dato — e `alias-testi-origine.json` porta i 268 testi come il gestionale li emette, con lo **SHA256** in testa perche chi lo rilegge sappia se guarda la stessa estrazione → **la riparazione dell'ATECO**: tre stati e la **cella d'origine conservata** sul cliente, accanto a `codice_ateco`. E una scrittura, ed e assegnata | il `null` di `oreModuloSettore`, che e lo stesso difetto un piano piu su | Perche e l'ultimo dei tre difetti della stessa famiglia rimasto aperto, e adesso ha tre casi veri sotto invece di uno: SHAMS, MIGLIORINI e i 211 alias che non sono il testo. E perche il JSON e in JSON **apposta** — un formato a righe non puo portare il titolo con il ritorno a capo senza perderlo o senza inventare una convenzione di escape, e un file che esiste per conservare la forma non puo avere un formato che la distrugge |
-| **AppFormazione** | **passo rifiutato, e il rifiuto e accolto**: le quattro platee non hanno una citazione, e la misura che avevo portato diceva cosa si **vende** e non cosa si **deve**. Cercandola hanno trovato le **due formule della parte III** e scritto la `0060`, che marca dodici righe e **rifiuta di giudicarle qualunque cosa dica il perimetro** → **portare il DPR 177/2011 in `reference/fonti/` e trascriverne gli articoli sulle figure.** E la prima delle due strade che hanno indicato, ed e quella che chiude la domanda invece di aggirarla. **Quattro commit locali aspettano il push di Francesco**: `f73eb1b`, `cf9cba6`, `4c1db99`, `9ffbe43` | le quattro platee **se** la fonte le distingue; altrimenti la strada 2, che e di Francesco perche impegna Overall | Perche oggi quel DPR e **citato in una colonna `norma` da chi non l'ha letto**, e questo vale oltre la riga dei confinati: una citazione che nessuno ha aperto e una promessa non mantenuta nella stessa colonna che la promette. E perche il guardrail della `0060` e provato **nei due versi** — simulando l'errore futuro, con e senza — che e la disciplina dei due `check` della `0006` restituita |
+| **AppFormazione** | ~~il DPR 177/2011~~ **letto, e la risposta e no** (`4548621` nella libreria, `8ba2edd`, `0061`): non distingue le figure, non fissa durate, e rimanda all'ASR — che ne conosce una sola. **Le quattro platee sono commerciali, e cade anche la strada 2** → **applicare A13 agli altri 32 obblighi**: quali attese misurano una grandezza **diversa** da quella che un attestato riporta. Le dodici «parte pratica» le avete gia marcate; ne resta almeno un'altra specie — `rspp_aspp` ha `metodo = monte ore`, e un monte ore quinquennale non e la durata di un corso. **Sola lettura** | il resto della partizione in cinque specie | Perche avete trovato una grandezza diversa **cercando altro**, e una cosa trovata per caso due volte non e un caso: va cercata di proposito sulle righe rimaste. E perche A13 dice che questa condizione viene **prima** delle altre due — quindi il documento 14 va riletto in quell'ordine, non integrato in coda. **Cinque commit locali** aspettano il push di Francesco — `f73eb1b`, `cf9cba6`, `4c1db99`, `9ffbe43`, `8ba2edd` — **piu `4548621` nella libreria**, che e un repo diverso e va spinto per conto suo |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -511,6 +511,75 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**Il DPR 177/2011 e stato letto, e non distingue le figure: la questione e chiusa e
+non arriva a Francesco.** Letto l'11 settembre 2026 (`4548621` nella libreria,
+`8ba2edd` in AppFormazione), e la risposta non e un silenzio ma un testo:
+
+- **art. 2 c. 1 lett. d) e f)** — formazione e addestramento sono «di tutto il
+  personale, **ivi compreso il datore di lavoro**»: una platea sola, nominata per
+  **estensione** e non per figure;
+- **art. 2 c. 1 lett. c)** — il preposto **e nominato**, una volta sola, e per
+  l'**esperienza triennale**: non per le ore di corso.
+
+**Il decreto sa distinguere il preposto quando gli serve, e quando parla di formazione
+non lo distingue.** E un argomento **dal testo** e non dal silenzio — non «non ne
+parla», ma «ne parla altrove e qui no» — ed e la differenza fra una conclusione e una
+mancanza di prove.
+
+E il DPR **non fissa nessuna durata**: rimanda contenuti e modalita a un accordo
+Stato-Regioni, e quell'accordo per gli ambienti confinati e **l'ASR 2025**, che lo
+dichiara in proprio nella Parte VII. La catena e chiusa ai due estremi: il DPR rimanda
+all'accordo, l'accordo conosce **una figura**, e nessuno dei due da durate per platea.
+
+**Quindi cade anche la strada 2, ed e la parte che cambia la lista di Francesco.**
+Avevo scritto che, se la fonte non avesse distinto, le 12 ore al preposto sarebbero
+state una **decisione commerciale da dichiarare**, e che dichiararla impegna Overall
+quindi tocca a lui. **Non tocca a nessuno**: una decisione aziendale si scrive dove la
+norma **tace**, e qui la norma **parla** — dice una figura sola. Non c'e una lacuna da
+colmare, c'e una risposta. Che il gestionale eroghi 4 ore ai lavoratori e 12 alle altre
+tre platee **resta vero e resta sensato** — un preposto che entra in uno spazio confinato
+ha piu cose da imparare — ma e un fatto sul **catalogo**, e li resta.
+
+**E il problema di catalogo resta intero e resta mio**: un codice che ne nasconde due va
+spezzato, e **si giustifica col catalogo senza bisogno di nessuna citazione**. E la
+`0008`.
+
+**Art. 3 c. 4, e alza la gravita senza alzare la probabilita.** «Il mancato rispetto
+delle previsioni di cui al presente regolamento determina il **venir meno della
+qualificazione** necessaria per operare, direttamente o indirettamente, nel settore.»
+La sanzione e sull'**impresa** e non sul singolo: una formazione mancante toglie
+all'azienda il titolo per lavorarci. Il motore non lo modella e non deve — ma la mia
+riga unica `spazi_confinati -> ATTR_AMB_CONFINATI`, che lascia un aggiornamento da
+lavoratore chiudere l'obbligo di un preposto, **e peggio di quanto sembrasse quando
+l'ho trovata**. Da dire con precisione: **non e piu probabile** — zero aggiornamenti
+erogati e `nomina` a zero righe — **e piu grave se accade**, ed e la distinzione che di
+solito si perde dicendo «e piu urgente».
+
+**E una figura che la `0002` non ha.** L'art. 3 c. 2 crea il **rappresentante del datore
+di lavoro committente**, che vigila sul cantiere per conto di chi appalta; il decreto
+gli chiede competenze e attivita svolte, **non una durata**. Non entra in
+`ruolo_sicurezza`: e una figura del **committente** e non del datore formato, e prima va
+saputo se Overall la segua. Sta scritta nella trascrizione della libreria, che e il
+posto dove una domanda aspetta — e va detto che le **15 figure** della `0002` sono la
+tassonomia di **cio che formiamo**, non di tutto cio che le norme nominano.
+
+**E un refuso del legislatore, lasciato dov'e.** Il rimando dell'art. 3 alle «lettere c)
+ed f)» non torna: la c) non e un'attivita di formazione, e il requisito dei **tre anni
+di esperienza**, quindi il periodo chiede letteralmente di aver «svolto» un requisito di
+anzianita. Verificato in **entrambe** le fonti, quindi e del testo e non della
+trascrizione, e **non e stato corretto**: la lettura sensata — «d) ed f)» — e
+un'interpretazione, e va marcata come tale invece che scritta come se fosse la fonte.
+
+**Come e stato verificato, che su una fonte nuova conta quanto il testo.** Due
+estrazioni indipendenti — Normattiva articolo per articolo e il PDF del fascicolo GU
+260/2011 — e **sul periodo che decide sono identiche parola per parola**: 758 caratteri
+contro 754, e le quattro differenze sono «a» accentate che l'estrazione dal PDF non ha
+reso. Con un limite dichiarato: **la lettura a video pagina per pagina non e stata
+fatta**, perche su quella macchina manca il renderer, e il doppio riscontro
+programmatico ne ha preso il posto. Detto perche quella regola esiste per una ragione
+pagata — `pdftotext -layout` aveva gia prodotto una matrice sbagliata — e qui non c'e
+nessuna tabella, e prosa.
 
 **Le quattro platee non sono entrate, e il passo l'avevo assegnato male io.**
 AppFormazione ha rifiutato l'assegnazione con l'argomento giusto: sugli ambienti
