@@ -399,9 +399,24 @@ Postgres nudo. Non e una dipendenza da Supabase.
 Resta di Francesco **solo** cio che vuole le credenziali vere: applicare in
 produzione, quando si decidera di farlo.
 
-**Nota che vale per la Fase 5:** Docker **non** e installato, quindi un Supabase
-locale non si alza e il database *applicato* di AppFormazione non e leggibile da qui.
-Le loro ricostruzioni restano qualificate «i file dicono», come impone A10.
+**~~Serve Docker~~ — no, e la confusione era mia.** Avevo scritto che senza Docker il
+database *applicato* di AppFormazione non fosse leggibile. E falso in un modo che
+conta: Docker alzerebbe un Supabase **locale**, cioe un database **vuoto** su cui
+riapplicare le migrazioni — che e una **terza ricostruzione**, non il database
+applicato. Sotto A10 non proverebbe niente: A10 chiede di confrontare i file con
+**cio che e stato applicato in produzione**, e quello vive nel progetto Supabase
+remoto.
+
+Quindi lo strumento giusto non e Docker, e l'**SQL Editor del progetto**, in sola
+lettura e dal browser — che e esattamente come la corsia AppSopralluoghi ha letto il
+proprio (`pvbwcfrgatkqashstxjc`, `main`) e ha prodotto lo «zero divergenze su 21» e
+la divergenza sul `049`/`050`. Non serve installare niente e non serve spostare
+macchina: **serve l'accesso in lettura al progetto di AppFormazione**, che quella
+corsia non ha.
+
+E per le **mie** migrazioni Docker non serviva mai: la `0001` -> `0005` piu il seed e
+stata caricata su un **PostgreSQL 16 nudo**, e quelle migrazioni chiedono quattro
+righe di impalcatura (`auth.uid()` e i `to authenticated`) e nient'altro di Supabase.
 
 **E due che aspettano una persona, non un turno.** Entrambe vanno a chi compila il
 gestionale, e conviene farle **nella stessa conversazione**:
