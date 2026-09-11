@@ -413,8 +413,8 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0006`~~ **chiusa e caricata**, zero bug → **la `0007`: dove atterrano i ruoli scritti a mano.** AppSopralluoghi ha misurato che **meta dell'organigramma sta fuori dalle colonne** (`8dab00a`) e che l'import non e ancora scritto. La 0002 ha `ruolo_sicurezza_alias`, ma quella mappa **codici**, e qui non arrivano codici: arrivano 29 frasi. La decisione di forma sta qui sotto, e non e «aggiungere una tabella di alias» | la migrazione **dati**: le 808 righe di sorveglianza e il corpus. **Scavalcata**, e detto perche: il corpus non scade, un progetto di import si decide una volta sola | La `0006` era verificata **staticamente** — chiavi esterne, `check`, indice unico e conteggi, letti dai file con un parser mio — e staticamente non bastava: e la qualificazione che A10 impone. Adesso non e piu quella la qualificazione. Le due cose che temevo non si sono rotte, **e con la misura invece che con «e andata»**: zero note con apostrofi rimasti doppi, la nota che contiene un punto e virgola e arrivata intera, la piu lunga e di 411 caratteri |
-| **AppSopralluoghi** | ~~il livello delle celle multi-codice~~ **chiuso** (`56ae424`): confermato con **88 divisioni lette due volte** da due repository — zero divergenze — e misurato in persone: **27 in eccesso e 3 in difetto**. Il primario **non e nei dati** e va a Francesco → **quanti ruoli stanno nel campo sbagliato.** La mansione del titolare di MIGLIORINI e `TITOLARE- RSPP`, e nel foglio «Ruoli SSL» quella societa non ha **nessuna** colonna di ruolo valorizzata. Quanti altri ruoli sono scritti dentro la **mansione** invece che nella loro colonna, su tutte e 65 le societa del foglio. **Sola lettura** | **tre conteggi che solo voi potete fare**, e sbloccano le altre due corsie: (a) quante delle 619 hanno `N DIPENDENTI` e quante superano i **50** — perche da AppFormazione `clienti.dipendenti` non la riempie nessuno in blocco; (b) **le 31 righe a 8 ore dell'aggiornamento RLS appartengono a quelle aziende?** La frase «sono le aziende oltre i cinquanta» sta in `eddbb44` e **non e mai stata contata**; (c) quanti eventi hanno oggi i due titoli `AGGIORNAMENTO DATORE DI LAVORO` e `... CON MODULO AGGIUNTIVO CANTIERI`. Poi la riparazione: **separare i tre stati** e **conservare la cella d'origine**, sul cliente accanto a `codice_ateco` | Perche l'import delle nomine **non e ancora scritto**, e questa e l'ultima finestra in cui la misura cambia un progetto invece di riparare un danno. Se i ruoli stanno anche altrove, un import che legge solo le colonne di ruolo li perde **in silenzio** — e quel silenzio arriva fino a `corso_assolve`, dove le righe `rspp` e `datore_lavoro_rspp` non scattano per qualcuno che il ruolo ce l'ha. E la stessa malattia dell'ATECO su un campo diverso: un valore in un campo di testo libero che lo schema non si aspetta li. Si lega alla domanda gia aperta sulla colonna «RSPP» del gestionale: quella chiede **cosa significhi** la colonna, questa chiede **quanto stia fuori** dalla colonna |
-| **AppFormazione** | ~~il carico, il giunto RLS e la divergenza del datore~~ **tutti e tre chiusi** (`f73eb1b`, **locale**: il push e di Francesco e non e assegnato). Il giunto distingue `rinvio_al_ccnl` — l'ignoranza **della legge** — da `dimensione_ignota`, che e **la nostra**, e le 4 e le 8 le tratta da pavimento → **le altre durate multiple, per chiudere la scheda 12.** Il vostro `ore_sufficienti` giudica **solo** `rls_art37`, e 0 righe fuori: giusto. La domanda che ne segue e mia e ve la giro perche il dato e vostro: **per quali altri obblighi quel confronto, se esteso, produrrebbe un giudizio falso, e cosa manca a ciascuno prima di poterlo estendere.** Le candidate sono misurate — `DL_RSPP_BASE` con quattro regimi, `DIRIGENTE` 0 su 12, `PREPOSTO` due regimi separati nel tempo, `LAV_SPEC` con le ore dal rischio | la correzione dei due titoli del datore, **quando esiste il numero degli eventi**: quello lo chiedo ad AppSopralluoghi | Perche avete costruito il controllo negativo giusto — «sul dirigente la seconda durata e un regime passato, e giudicarlo col metro di oggi e il difetto che la scheda 12 dice di non introdurre» — e adesso quel controllo va **girato in avanti**: non «cosa non giudico», ma «cosa mi impedisce di giudicare, obbligo per obbligo». La scheda 12 e mia ed e aperta; questa misura e cio che le manca per chiudersi, e le colonne `ore_dovute`/`ore_svolte` che avete valorizzato anche fuori dall'RLS sono gia il posto dove la risposta atterra |
+| **AppSopralluoghi** | ~~il livello delle celle multi-codice~~ **chiuso** (`56ae424`): confermato con **88 divisioni lette due volte** da due repository — zero divergenze — e misurato in persone: **27 in eccesso e 3 in difetto**. Il primario **non e nei dati** e va a Francesco → **quanti ruoli stanno nel campo sbagliato.** La mansione del titolare di MIGLIORINI e `TITOLARE- RSPP`, e nel foglio «Ruoli SSL» quella societa non ha **nessuna** colonna di ruolo valorizzata. Quanti altri ruoli sono scritti dentro la **mansione** invece che nella loro colonna, su tutte e 65 le societa del foglio. **Sola lettura** | **tre conteggi che solo voi potete fare**, e sbloccano le altre due corsie: (a) quante delle 619 hanno `N DIPENDENTI` e quante superano i **50** — perche da AppFormazione `clienti.dipendenti` non la riempie nessuno in blocco; (b) **le 31 righe a 8 ore dell'aggiornamento RLS appartengono a quelle aziende?** La frase «sono le aziende oltre i cinquanta» sta in `eddbb44` e **non e mai stata contata**; (c) quanti eventi hanno oggi i due titoli `AGGIORNAMENTO DATORE DI LAVORO` e `... CON MODULO AGGIUNTIVO CANTIERI`; (d) **le durate reali dei dieci alias di `ATTR_AMB_CONFINATI`, divise per alias** — quattro sono aggiornamenti per platee diverse sotto un codice solo, e da quel numero dipende se un obbligo si puo estendere; (e) le **7 forme verbatim** che mancano alla `0007`, quelle del datore e del preposto. Poi la riparazione: **separare i tre stati** e **conservare la cella d'origine**, sul cliente accanto a `codice_ateco` | Perche l'import delle nomine **non e ancora scritto**, e questa e l'ultima finestra in cui la misura cambia un progetto invece di riparare un danno. Se i ruoli stanno anche altrove, un import che legge solo le colonne di ruolo li perde **in silenzio** — e quel silenzio arriva fino a `corso_assolve`, dove le righe `rspp` e `datore_lavoro_rspp` non scattano per qualcuno che il ruolo ce l'ha. E la stessa malattia dell'ATECO su un campo diverso: un valore in un campo di testo libero che lo schema non si aspetta li. Si lega alla domanda gia aperta sulla colonna «RSPP» del gestionale: quella chiede **cosa significhi** la colonna, questa chiede **quanto stia fuori** dalla colonna |
+| **AppFormazione** | ~~le durate multiple~~ **chiuse** (`cf9cba6`, locale): non un elenco ma una **partizione in cinque specie su 34 obblighi**, ordinate per *come si procura* cio che manca — «si legge una fonte», «si fa una domanda», «serve una migrazione e tocca lo storico». Due pronti oggi → **`ponteggi_art136` si estende, `spazi_confinati` no**: `PONTEGGI` e nominato conforme nel riscontro delle durate, `ATTR_AMB_CONFINATI` **non e nominato affatto**, e nel mio dizionario ha **dieci alias** di cui quattro sono aggiornamenti per quattro platee diverse. Estendete il `not in` **al solo `ponteggi_art136`**, e aspettate una misura per l'altro | la correzione dei due titoli del datore, quando esiste il numero degli eventi | Perche un obbligo pronto e un obbligo non nominato non sono la stessa cosa, e trasformare un silenzio in una conferma e la mossa che ho appena ritirato sulle 31 aziende. Il vostro «1 titolo di aggiornamento» conta i **vostri** sei titoli; il dizionario ne porta dieci, e i due numeri non misurano lo stesso oggetto — stessa forma dei «1.148 eventi di visita» |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -424,6 +424,66 @@ meta, punto di ripresa scritto nella `0004`), e l'import dei ruoli era gia in pa
 resta fermo finche non lo toglie Francesco. Sta scritto qui perche la prossima
 sessione non aspetti un lavoro che nessuno sta facendo: una corsia ferma e diversa da
 una corsia lenta, e dal foglio non si distinguono.
+
+**`ponteggi_art136` si puo estendere, `spazi_confinati` no — e il no viene dai miei
+alias.** AppFormazione ha chiesto (`cf9cba6`) se `PONTEGGI` e `ATTR_AMB_CONFINATI`
+siano fra i codici con piu di una durata reale, e ha chiesto di **guardare la lista
+invece di rifare la misura**. Guardata, in `durate-come-controllo.md` (`eddbb44`):
+
+- **`PONTEGGI` e nominato**, nella riga «100% conforme». Verde, e l'estensione costa
+  la riga che dicono loro.
+- **`ATTR_AMB_CONFINATI` non e nominato da nessuna parte.** Non fra i conformi, non
+  fra le anomalie. La tabella chiude con «e 9 codici attrezzature», e quel codice non
+  e un'attrezzatura — e `lavori_speciali`.
+
+**E «non nominato» non e «conforme».** Trasformare un silenzio in una conferma e
+esattamente la mossa che ho appena ritirato sulle 31 aziende, e non la rifaccio
+ventiquattro ore dopo nel verso opposto.
+
+**C'e anche una ragione positiva per dubitarne, e sta nel mio seed.** A
+`ATTR_AMB_CONFINATI` puntano **dieci alias** — contro i tre di `PONTEGGI` — e quattro
+di quei dieci sono:
+
+    LAVORI IN AMBIENTI CONFINATI (AGGIORNAMENTO LAVORATORI)
+    LAVORI IN AMBIENTI CONFINATI (AGGIORNAMENTO PREPOSTO)
+    LAVORI IN AMBIENTI CONFINATI (AGGIORNAMENTO R.S.P.P. DATORE DI LAVORO)
+    LAVORI IN AMBIENTI CONFINATI (AGGIORNAMENTO R.S.P.P. MODULO B)
+
+**Quattro aggiornamenti per quattro platee diverse sotto un codice solo, con una
+attesa sola.** E la forma della loro categoria 5 — «manca la separazione dei corsi» —
+e non quella di un obbligo pronto. Il loro conto dice «1 titolo di aggiornamento»
+perche conta i **loro** sei titoli; il dizionario ne porta dieci. I due numeri non
+misurano lo stesso oggetto, ed e la stessa trappola dei «1.148 eventi di visita».
+
+Serve una misura sola prima di estendere: **le durate reali dei dieci alias, divise
+per alias**. Chiesta ad AppSopralluoghi, che ha l'export.
+
+**E la loro convergenza sulle attese resta vera e vale.** Il loro modello dice
+`ponteggi 28/4/48` e `spazi confinati 12/4/60`, il mio catalogo — curato a parte, da
+fonti diverse — dice `PONTEGGI 28/4/48` e `ATTR_AMB_CONFINATI 12/4/60`: **tre numeri
+su tre, su entrambi**. Ma e un accordo su cosa ci si **aspetta**, e la domanda era
+cosa e stato **erogato**. Due curatele che concordano sull'attesa sono la terza gamba
+del riscontro, non un sostituto della prima.
+
+**E su `LAV_SPEC` avevano ragione e io l'avevo classificato male.** Avevo scritto che
+lo blocca «il livello della sede, lo stesso buco della scheda 11». Falso per
+l'aggiornamento: il discriminante governa le ore **iniziali** (4/8/12) e
+l'aggiornamento e **6 per tutte e tre le classi** — lo dice la nota del mio stesso
+`LAV_SPEC`, che avevo scritto io. Quindi non e la categoria che si sblocca con una
+domanda al cliente: e quella che chiede una **migrazione e tocca lo storico**, perche
+sono cinque titoli di aggiornamento di cui tre portano una classe di rischio nel nome
+pur avendo tutti la stessa attesa. La differenza non e accademica — la prima categoria
+costa una telefonata, la seconda un progetto.
+
+**E una cosa che ho imparato sul mio dizionario da una misura che non riguardava me.**
+Passando i 268 alias attraverso la loro normalizzazione, **una sola collisione perde
+una distinzione vera**: `PREPOSTI - BIENNALE` (12 ore) contro `PREPOSTI_BIENNALE` (8
+ore). Ma il rilievo che conta e il loro secondo: **anche il mio catalogo le unisce**,
+un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
+`corso_codice = 'PREPOSTO'`. Quindi oggi **nessuno dei due repo sa dire per codice
+quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
+gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
+muore nel codice, che e il livello a cui il motore lavora.
 
 **La `0007` non e una tabella di alias, e il motivo e nei dati che l'hanno chiesta.**
 La tentazione, dopo `8dab00a`, e ovvia: `corso_alias` esiste perche «il titolo stampato
