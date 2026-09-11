@@ -264,6 +264,46 @@ insert into corso (codice, nome, categoria, ore, aggiornamento_mesi, ore_aggiorn
   ('RSPP_MOD_C', 'RSPP - Modulo C', 'rspp_aspp', 24, null, null, 'RSPP_MOD_B', true,
    'Solo per RSPP.');
 
+-- ---------- il riscontro esterno, e i quattro buchi che ha trovato ----------
+--
+-- L'11 settembre 2026 queste 40 righe sono state confrontate con le **undici pagine
+-- di corso** del sito di Overall — la prima fonte **esterna** al sistema, perche non
+-- l'ha scritta chi ha scritto il catalogo. Dettaglio in
+-- `docs/riscontro-catalogo-sito.md`.
+--
+-- **Nove famiglie su undici combaciano al numero**, aggiornamenti e periodicita
+-- compresi, incluse le due che si sbagliano piu facilmente: il preposto a **due**
+-- anni e il primo soccorso a **tre**. Quattro buchi, in ordine di conseguenza:
+--
+--   1. `RLS` — il sito dice aggiornamento **annuale differenziato**: 4 ore da 15 a
+--      50 lavoratori, **8 oltre 50**, e sotto 15 la norma non fissa durata. Questa
+--      riga ne tiene **uno solo**, il 4, quindi **dice 4 a tutti**: in un'azienda
+--      sopra i 50 dichiarerebbe assolto un aggiornamento che non lo e. E una
+--      conformita apparente, e il dato che serve — il numero di dipendenti — nell'
+--      anagrafe **c'e** (letto su 481 delle 619 attive). Va sciolto prima che il
+--      motore giudichi gli RLS.
+--   2. **i corsi combinati non hanno un codice.** Carrello 12 h per tipo ma **16 h
+--      per entrambi**; PLE **8 h** per una variante e 10 per il percorso completo;
+--      carroponte 10 h e **11 h** con cabina e radiocomando. Qui le ore sono quelle
+--      della variante combinata, quindi un attestato PLE da 8 ore risulterebbe
+--      **sotto-durata** pur essendo completo. Il controllo delle durate produrra
+--      divergenze che **non sono errori**: sono varianti.
+--   3. `ATTR_LAV_QUOTA` — il sito e esplicito: «la norma **non fissa scadenze
+--      specifiche**», i cinque anni sono **prassi** allineata ai lavoratori, e
+--      l'addestramento si ripete quando cambiano dispositivi, luogo o mansione.
+--      Questa riga scrive 60 mesi come qualunque altra: **una prassi presentata come
+--      dato**, e sotto A7 va marcata derivata.
+--   4. **manca l'accesso con funi**, 32 ore nell'allegato XXI. E combacia con una
+--      misura arrivata da AppFormazione per un'altra strada: fra i sei obblighi senza
+--      corso ci sono `lavori_funi` e `sorveglianza_funi`. Due fonti che non si sono
+--      parlate dicono la stessa cosa — l'obbligo esiste, il corso a catalogo no,
+--      perche Overall non lo eroga. E un'informazione commerciale, non un difetto.
+--
+-- **Cosa il riscontro non copre, e va detto:** il sito ha undici famiglie, qui ci
+-- sono 40 codici. Restano senza terza fonte i tre moduli RSPP professionali, i due
+-- BLSD e undici attrezzature che il sito non vende come pagina propria. Per quelle
+-- valgono i due riscontri interni, non tre.
+
 -- ============================================================================
 --  IL DIZIONARIO DEGLI ALIAS — di prima classe, non una tabella di servizio
 -- ============================================================================
