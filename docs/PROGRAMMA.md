@@ -457,7 +457,15 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   la prova: mai solo dentro il dato che si sta verificando.
 
 - **A10** **Le migrazioni descrivono il database, tranne dove un file e stato
-  modificato dopo essere stato applicato.** Aggiunta il 10 settembre 2026 e pagata
+  modificato dopo essere stato applicato — o non e stato applicato affatto.** La
+  seconda meta e arrivata l'11 settembre 2026, misurata in SQL sul progetto di
+  AppFormazione: **54 migrazioni applicate su 56 file**, e le due che mancano sono la
+  `0055` e la `0056`. Nessuna rinumerata, nessuna applicata senza file: il difetto e
+  piu semplice e piu grosso della deriva del `049`/`050`. Conseguenza: **la `0055`
+  recepiva la decisione 5**, e in produzione le divisioni **30, 86 e 87 sono ancora
+  `null`** — un cliente con quell'ATECO oggi non ha classe di rischio, e le colonne
+  `fonte` e `dedotto` non esistono. La voce era dichiarata **chiusa** nel loro
+  `STATO.md`: il commit c'era, il file c'era, e il database non lo sapeva.** Aggiunta il 10 settembre 2026 e pagata
   sul caso benigno: `DL_RSPP_BASE` porta «DEPRECATO dalla **050**» nel database e
   «dalla **049**» nel file, perche quella migrazione e nata 050, e stata applicata,
   poi rinumerata a 049 con la nota aggiornata — e il database non e stato

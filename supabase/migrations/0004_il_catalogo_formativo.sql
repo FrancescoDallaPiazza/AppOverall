@@ -504,10 +504,17 @@ comment on column corso_assolve.categoria is
 -- `corso_alias`), i loro 35 obblighi si risolvono sui 36 codici di
 -- `ruolo_sicurezza`, e i codici del campo con `ruolo_sicurezza_alias` della 0002.
 --
--- **Qualificata, non vera** (A10): la loro seconda lettura non e stata possibile —
--- Docker non e installato, quindi il database applicato non e leggibile — ma non e
--- una lettura a occhio: hanno **rieseguito 56 migrazioni su 56** su un PostgreSQL
--- locale, e il grep ha contato **cento punti di scrittura su venticinque file**.
+-- **La qualificazione «i file dicono» e caduta l'11 settembre 2026.** La seconda
+-- lettura e stata fatta — non con Docker, che avrebbe alzato una terza ricostruzione,
+-- ma con l'**SQL Editor del progetto** in sola lettura — e le quattro tabelle su cui
+-- poggiano queste consegne **combaciano**: `staging.classificazione_corsi` 180 e 180,
+-- `obblighi` 35 e 35, `requisiti` 43 e 43, `staging.catalogo_gestionale` 167 e 167,
+-- `ruoli` 34 e 34, terza colonna vuota da entrambi i lati. Su quelle tabelle «le
+-- migrazioni descrivono il database», e in quel repo nessuno poteva dirlo prima.
+--
+-- Resta un controllo aperto e va detto: il confronto **per `version`** e completo, il
+-- confronto **per `name`** no — ed e proprio quello che troverebbe un file modificato
+-- dopo essere stato applicato, cioe A10 in senso stretto.
 --
 -- **Il join non si puo fare da qui, ed e stato misurato invece di essere tentato.**
 -- I loro 180 `titolo_norm` sono passati per la **loro** funzione di normalizzazione

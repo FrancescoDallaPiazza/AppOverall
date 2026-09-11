@@ -196,7 +196,16 @@ l'ultima pagina del testo vigente e' la stessa pagina rotta in cui un OCR ha let
 
 **Dove si applica.** Il valore entra **a monte**, in `formazione-81-utils-src`, che
 e' il generatore unico (decisione [7](7-base-normativa.md)); `ateco.ts` di
-AppSopralluoghi si **rigenera**. Scriverlo a valle sarebbe la quinta copia della
+AppSopralluoghi si **rigenera**.
+
+> **Applicata nei file, non ancora in produzione — misurato l'11 settembre 2026.**
+> A monte la libreria porta le tre righe con `fonte` e `dedotto: true` (`736699e`) e
+> AppSopralluoghi ha rigenerato `ateco.ts` (`3a68c13`). Ma la migrazione di
+> AppFormazione che recepisce la decisione, la `0055`, **non e mai stata applicata**:
+> nel loro progetto Supabase le divisioni **30, 86 e 87 sono ancora `null`** e le due
+> colonne nuove non esistono. Quindi **un cliente con ATECO 30, 86 o 87 oggi non ha
+> classe di rischio**, esattamente come prima di questa decisione. Serve una
+> scrittura in produzione, che decide Francesco. Scriverlo a valle sarebbe la quinta copia della
 stessa tabella — cioe' esattamente il difetto da cui e' nato il repo unico.
 
 **Cosa sblocca.** I 32 codici ATECO che oggi non hanno una classe. Insieme ai 9 del
