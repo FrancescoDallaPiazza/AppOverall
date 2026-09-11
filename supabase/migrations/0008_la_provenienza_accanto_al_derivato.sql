@@ -275,16 +275,39 @@ comment on column persona.codice_fiscale_origine is
 -- marcato la riga **descrivendo male meta dei suoi numeri**, che e la forma esatta
 -- del difetto che la colonna doveva chiudere.
 
+-- ---------- e il `default` e `assente`, che e il pezzo che avevo sbagliato ----------
+--
+-- La prima stesura aveva `default 'durata_corso'`, e AppFormazione l'ha fermata
+-- leggendo la migrazione **prima del carico**. La regola sul nome e un **proxy**: la
+-- grandezza viene dalla **fonte** — parte III punto 6 — e la regola legge una stringa
+-- nel **titolo commerciale**. Funziona perche quel catalogo e stato costruito citando
+-- l'articolo, e non c'e niente che glielo imponga.
+--
+-- Il difetto non era il proxy: era **cosa succede quando manca**.
+--
+--   default 'durata_corso'   un corso non marcato e CONFRONTABILE   -> fallisce APERTO
+--   default 'assente'        un corso non marcato NON si giudica    -> fallisce CHIUSO
+--
+-- Con il primo, il giorno in cui Overall aggiunge un corso dell'art. 73 senza
+-- scrivere «(art. 73)» nel nome, quel codice **eredita un'affermazione che nessuno ha
+-- fatto**. Con il secondo, «nessuno ha marcato questa riga» smette di essere
+-- un'affermazione e **torna a essere una domanda** — e il conteggio degli `assente`
+-- smette di essere una constatazione e diventa un filo teso.
+--
+-- Invertirlo non costa niente, ed e la stessa cosa che questo repo ha gia deciso tre
+-- volte oggi su tre tabelle: fra «non lo so» e un valore di comodo, **si sceglie il
+-- non lo so**.
+
 alter table corso
-  add column ore_grandezza text not null default 'durata_corso'
+  add column ore_grandezza text not null default 'assente'
     constraint ore_grandezza_nota check (ore_grandezza in (
       'durata_corso', 'parte_pratica', 'modulo_teorico', 'monte_ore_quinquennio', 'assente')),
-  add column ore_aggiornamento_grandezza text not null default 'durata_corso'
+  add column ore_aggiornamento_grandezza text not null default 'assente'
     constraint ore_agg_grandezza_nota check (ore_aggiornamento_grandezza in (
       'durata_corso', 'parte_pratica', 'modulo_teorico', 'monte_ore_quinquennio', 'assente'));
 
 comment on column corso.ore_grandezza is
-  'Di che cosa sono le ore di `ore`. Esiste perche'' un confronto fra due numeri presuppone che misurino la stessa grandezza, e questa condizione viene **prima** delle altre (A13). `assente` e'' un **valore** e non l''assenza della colonna: «non lo so» e «non c''e''» sono due cose diverse, e tenerle uguali e'' il difetto che questo repo ha gia'' incontrato tre volte.';
+  'Di che cosa sono le ore di `ore`. Esiste perche'' un confronto fra due numeri presuppone che misurino la stessa grandezza, e questa condizione viene **prima** delle altre (A13). `assente` e'' un **valore** e non l''assenza della colonna, ed e'' anche il **default**: una riga non marcata non e'' confrontabile, cosi'' quando la regola non riconosce un codice il motore si ferma invece di giudicare. **Dice di che cosa sia il numero, non se sia completo**: `ATTR_CARRELLO.ore = 12` e'' una durata di corso — grandezza giusta — ma e'' la durata di **una variante**, e il percorso combinato ne vuole 16. Quell''altro asse e'' «quale corso», non «quale grandezza», e questa colonna non lo porta.';
 comment on column corso.ore_aggiornamento_grandezza is
   'Come sopra, per `ore_aggiornamento`. Sono **due** colonne e non una perche'' su `ATTR_CARRELLO` le due attese hanno grandezze diverse: 12 ore totali di corso iniziale, 4 ore di sola parte pratica in aggiornamento.';
 
@@ -298,6 +321,10 @@ comment on column corso.ore_aggiornamento_grandezza is
 -- `Carrello elevatore (art. 73)`, `Gru mobili (art. 73)` — perche quel catalogo e
 -- stato costruito citando l'articolo nel titolo.
 
+-- **Si marca solo in positivo.** Partendo da `assente`, ogni riga che finisce
+-- marcata lo e perche una regola l'ha **riconosciuta**, e nessuna lo e per averlo
+-- ereditato da un `default`.
+
 update corso set ore_aggiornamento_grandezza = 'parte_pratica'
  where ore_aggiornamento is not null
    and (nome like '%(art. 73)%' or codice = 'ATTR_AMB_CONFINATI');
@@ -306,9 +333,16 @@ update corso set ore_aggiornamento_grandezza = 'parte_pratica'
 -- **punto 5** e non al 6, quindi l'art. 73 nel titolo non ce l'ha e nessuna regola
 -- sul nome lo prenderebbe. Un'eccezione dichiarata e diversa da un elenco: e una, e
 -- porta scritto perche.
+--
+-- Nota su chi entra: fra i sedici c'e **`ATTR_GENERICO`**, «Attrezzatura abilitante
+-- (art. 73)», che questa stessa migrazione chiama orfano — nessuno dei 268 alias lo
+-- referenzia. E corretto che ci sia, ed e utile sapere che i sedici **ne contengono
+-- uno che non e un corso** ma il rappresentante di una famiglia.
 
-update corso set ore_grandezza = 'assente' where ore is null;
-update corso set ore_aggiornamento_grandezza = 'assente' where ore_aggiornamento is null;
+update corso set ore_grandezza = 'durata_corso' where ore is not null;
+update corso set ore_aggiornamento_grandezza = 'durata_corso'
+ where ore_aggiornamento is not null
+   and ore_aggiornamento_grandezza = 'assente';
 
 -- ============================================================================
 --  LE RLS, COME LE ALTRE TABELLE DI VOCABOLARIO
@@ -342,6 +376,26 @@ grant select on origine_estrazione to authenticated;
 -- continuano a non dire di che cosa siano. **Cinque, e questi cinque**: e il solo
 -- esito che dice che la regola ha separato e non spostato — un controllo che puo
 -- fallire in una direzione sola non e un controllo.
+--
+-- ---------- e un conto che NON e un vincolo, e va detto perche ----------
+--
+-- `ruolo_da_parola_unico` della `0007` impedisce **due righe identiche**, e non
+-- impedisce che per la stessa parola coesistano una riga con `posizione = null` —
+-- «qualunque posizione» — e una con una posizione specifica. Il predicato che
+-- risolve, `(r.posizione is null or r.posizione = t.posizione)`, **le matcherebbe
+-- tutte e due**: il totale delle asserzioni crescerebbe, continuerebbe a sembrare
+-- plausibile, e l'import creerebbe **due nomine per la stessa persona**.
+--
+-- Un `check` non puo vederlo — e una condizione **fra righe** — quindi resta un
+-- conto, e va girato insieme agli altri:
+--
+--   select parola from ruolo_da_parola group by parola
+--    having count(*) filter (where posizione is null) > 0 and count(*) > 1;   -- 0 righe
+--
+-- **Oggi torna vuoto. Il giorno in cui non torna vuoto, i 168 della `0007` sono gia
+-- sbagliati e nessuno se n'e accorto.** E la stessa forma del `not in` scritto a mano
+-- che la `0060` di AppFormazione ha dovuto proteggere: una struttura che **si allunga
+-- per sbaglio** e non ha modo di accorgersene. Segnalata da loro leggendo la `0007`.
 --
 -- E dopo il seed, in `supabase/seed/corso_alias_origine.sql`:
 --

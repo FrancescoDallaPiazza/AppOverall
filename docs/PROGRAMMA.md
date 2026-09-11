@@ -441,7 +441,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la migrazione dati, e comincia dalle persone e non dalle 808 righe**: `sorveglianza.persona_id` punta a una tabella vuota, e le 808 esecuzioni appartengono a **787 persone** che prima devono esistere, coi loro clienti. Misurato, non stimato. Poi la `0008` (secondo codice dei confinati, `testo_origine`, la grandezza su due colonne) e il carico di `0007` e `0008` col `domini_orfani.py` di AppFormazione | la Fase 3 vera e propria | Perche il numero piu grande nascondeva quello piu piccolo: «le 808 righe» stava scritto come se fosse il primo passo. E perche l'ordine giusto lo decide una dipendenza di schema, non l'importanza del dato — e la dipendenza si vede solo aprendo il file, che e cio che nessuno aveva fatto da questa parte |
 | **AppSopralluoghi** | ~~il progetto dell'import~~ **scritto**, e ~~l'art. 16~~ **letto** → **quale dei due file e la fonte delle scadenze dichiarate.** Adesso i candidati sono **due e incompatibili**: `VisiteScadenze` con 804 coppie e `ExportExcel (7)` con 315, **tutte gia dentro le prime**. Perche ne ha meno — scadenze passate, cessati, perimetro? — cosa distingue le 8 righe `PIANIFICATA` dalle 311 vuote, e se le **nove date che non tornano** reggano rifatte contro il **(6)** invece che contro il foglio. **Sola lettura** | scrivere l'import delle nomine, quando la `0007` e caricata | Perche `sorveglianza.scadenza_dichiarata` e `scadenza_fonte` non hanno un valore da scrivere finche non si sa quale file parli — e quella colonna esiste perche **una scadenza che nessuno sa da dove venga non e opponibile**. E perche l'avete aperta voi segnalando il (7) e dichiarando di non averlo inseguito: e la sola cosa ignota rimasta prima dell'import della sorveglianza. Se la risposta e «sono due oggetti diversi e non si confrontano», **e la migliore delle quattro** |
-| **AppFormazione** | ~~le viste che hanno smesso di spiegare~~ **chiuse** (`f124b8e`): **zero orfani su 128 letterali**, e lo zero discrimina perche il controllo negativo e stato **ricostruito** invece che trovato. Lo strumento sbaglia **tacendo** e lo dichiara → **in attesa, e l'attesa non e solo mia.** Non c'e un passo che non dipenda da una decisione o da un accesso, e non ne invento uno di ripiego | girare `domini_orfani.py` sul **database applicato**, il giorno in cui l'accesso in lettura c'e | Perche i 36 esclusi dal conto sono colonne **vuote in ricostruzione e piene in produzione**, quindi lo zero di oggi vale su cio che si puo vedere da li. **Il blocco dell'accesso smette di essere generico**: c'e uno strumento, e sola lettura, esce con un codice, e ci vuole un minuto. E perche i loro **otto commit locali piu uno nella libreria** aspettano un push che non e mio |
+| **AppFormazione** | ~~la lettura della `0007` e della `0008`~~ **chiusa**: **sei rilievi**, e il primo — i **crediti formativi** che a questo schema mancano — non potevo vederlo da qui → **in attesa**: l'accesso in lettura al vostro progetto per `domini_orfani.py` sul database applicato, e il push dei **nove commit** piu quello nella libreria. Sono tutti e due di Francesco | i crediti, quando la `0009` li porta: la riga `datore_lavoro_rspp -> datore_lavoro_art37 = totale` e vostra e la citazione pure | Perche la lettura ha reso piu della misura: il `default` invertito e il conto sulla sovrapposizione sono entrati nella `0008` **prima** che la caricassi, e il credito mancante e diventato la `0009` invece di sette persone con sedici ore di troppo. **Non e un difetto della `0007`: e un difetto che la `0007` attiva** |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -606,6 +606,79 @@ che sembra spiegato non si riapre»; loro precisano che non era distrazione — 
 correzione precedente aveva riaperto il METODO e non il DATO**. Un dato chiuso smette di
 essere un dato da guardare anche per chi ha appena imparato a guardare meglio, e le due
 cose si riaprono separatamente.
+
+**La `0007` e la `0008` lette prima del carico: sei rilievi, e il primo non potevo
+vederlo da qui.**
+
+**1. Sette righe prendono due obblighi, e qui non c'e niente che li collassi.** Quattro
+frasi nominano `rspp` **e** `datore_lavoro` con `posizione = 'datore'` — «RSPP - Datori
+di Lavoro», «DATORE DI LAVORO- RSPP», «AMMINISTRATORE/DATORE DI LAVORO/RSPP» — e le mie
+regole le risolvono **due volte**, giustamente **come ruoli**: quella persona **e** il
+datore **ed e** il datore che fa l'RSPP.
+
+Ma diventano **due obblighi formativi**, e non lo sono: il modello di AppFormazione ha
+`crediti_formativi` con la riga `datore_lavoro_rspp -> datore_lavoro_art37 = 'totale'`,
+**ASR Allegato III pag. 130** — «chi ha fatto l'art. 34 non deve rifare l'art. 37». **In
+questo schema una tabella dei crediti non c'e**, cercata e assente. Quindi quelle sette
+persone risulterebbero dovere il percorso dell'art. 34 **piu** le 16 ore dell'art. 37, e
+`corso_assolve` funzionerebbe **perfettamente producendo il risultato sbagliato**.
+
+E la loro formulazione e quella che conta: **non e un difetto della `0007`, e un difetto
+che la `0007` ATTIVA.** Finche le nomine non entravano, il credito mancante non costava
+niente. **Va nella `0009`**, e non e una colonna: e una tabella.
+
+**2. L'indice unico della `0007` non impedisce la sovrapposizione.** Impedisce due righe
+identiche, non che per la stessa parola coesistano `(rspp, null)` e `(rspp, titolare)`: il
+predicato che risolve **le matcherebbe entrambe**, il totale crescerebbe restando
+plausibile, e l'import creerebbe **due nomine per la stessa persona**. Un `check` non
+puo vederlo — e una condizione **fra righe** — quindi entra come **conto** nella `0008`,
+dichiarato come conto e non come vincolo.
+
+**3. `esterno` risolve dove `socio` si astiene, e l'asimmetria non ha un motivo scritto.**
+Le due ignoranze sono diverse e l'astensione regge — su quello non hanno obiezioni. Ma
+`posizione = 'esterno'` e **il fatto piu azionabile che il testo libero abbia prodotto**,
+quello che la colonna non poteva dire: un RSPP esterno **non e un dipendente**, e la sua
+formazione **non e a carico di quell'azienda**. E si ferma in `ruolo_testo`: **non viaggia
+con la nomina**. Avevo scritto che il campo libero dice piu della colonna — **questa e
+l'unica riga in cui quel «di piu» viene raccolto e poi lasciato indietro.**
+
+**4. Il 28% delle asserzioni atterra sull'obbligo che una nomina non basta a
+dimensionare.** `ADD. ANTINCENDIO` sono **47 righe su 168**, e `antincendio` ha un
+discriminante — il livello — che viene dalla **scheda di ingresso**, cioe da una risposta
+del cliente. Dopo l'import quelle 47 daranno «obbligo dovuto, **ore ignote**» finche
+quella societa non risponde. Non e un difetto: e che **il blocco piu grande di nomine
+nuove atterra sull'unico obbligo che una nomina non quantifica**, e l'organigramma
+sembrera completo mentre il fabbisogno resta vuoto.
+
+**5. La regola sul nome non e un elenco travestito, ma il `default` la disfaceva.** E il
+rilievo che ha cambiato la migrazione. La regola e un **proxy** — la grandezza viene dalla
+fonte, la regola legge il **titolo commerciale** — e il difetto non era il proxy, era
+**cosa succede quando manca**:
+
+    default 'durata_corso'   il corso non marcato e CONFRONTABILE   -> fallisce APERTO
+    default 'assente'        il corso non marcato NON si giudica    -> fallisce CHIUSO
+
+**Quando la loro regola sbaglia il motore si rifiuta di giudicare; quando sbagliava la mia,
+giudicava.** Invertito: `default 'assente'`, e si marca **solo in positivo**. Cosi il
+conteggio degli `assente` smette di essere una constatazione e **diventa un filo teso**.
+
+**6. Il guardrail assente e una scelta, e la difendono** — non c'e un motore da proteggere
+e una vista che nessuno interroga sarebbe impalcatura — **ma reggeva solo se lo stato non
+marcato fosse quello prudente, e non lo era.** Quindi: niente vista adesso, **default
+invertito adesso**. E quando il guardrail si scrivera, va scritto come **whitelist** — «e
+`durata_corso`?» e non «non e `parte_pratica`?» — che e l'errore che la loro `0060` ha
+fatto e la `0062` ha dovuto disfare.
+
+**E una cosa che non avevo chiesto**: `ATTR_CARRELLO.ore = 12` e marcato `durata_corso`, e
+**la grandezza e giusta** — ma e la durata di **una variante**, e il percorso combinato ne
+vuole 16. La colonna nuova puo dare l'impressione che quel numero sia **completamente
+qualificato**, e non lo e: l'altro asse e «quale corso», non «quale grandezza». E
+l'indeterminazione morde **nel verso indulgente** — chi ha fatto le 12 di una tipologia
+quando gliene servivano 16 passa il confronto. Scritto nel commento della colonna.
+
+**La `0008` e stata corretta prima del carico, e la regola del «merged non si tocca» non
+vale qui**: quella regola esiste per non invalidare **misure gia prese**, e di misure su
+questa migrazione non ce n'era nessuna. **E il motivo per cui gliel'ho fatta leggere.**
 
 **I segnaposto cercati di proposito sono quarantasette, con settantaquattro persone
 vere dentro — e la terza forma non e ne ripetuta ne incrementale.**
