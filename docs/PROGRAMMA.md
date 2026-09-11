@@ -441,7 +441,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la `0008`, che fa tre cose**: il **secondo codice** dei confinati, giustificato dal catalogo e **senza** una riga in piu in `corso_assolve`; `testo_origine` su `corso_alias` coi **268 verbatim** e la loro impronta, piu il commento corretto; e la **grandezza marcata su DUE colonne e non una** — `ore` e `ore_aggiornamento` sono grandezze diverse sulla stessa riga, e una colonna sola avrebbe descritto male meta dei numeri che doveva descrivere | la **Decisione della scheda 12**, che adesso ha il suo numero: il confronto delle ore copre **11 obblighi su 34** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato, e la terza me l'ha corretta un'altra corsia **prima** che la scrivessi |
 | **AppSopralluoghi** | ~~il progetto dell'import~~ **scritto** (`7820c90`) e **corretto da loro** (`2b51eef`) → **l'art. 16 e l'art. 37 c. 7 in `reference/`, con la trascrizione.** Non e un passo di ripiego e non l'ho inventato io: **e arrivato perche l'avete segnalato voi**. La vostra `053` ha gia deciso che il delegato assume gli obblighi del datore, e quella decisione e in produzione; qui la domanda e aperta e nessuno ha letto la fonte. **Metodo: quello che AppFormazione ha usato sul DPR** — due estrazioni indipendenti, limiti dichiarati | scrivere l'import piu le due migrazioni del progetto, quando la `0007` e caricata | Perche la conclusione **puo andare contro una vostra riga applicata**, e in quel caso e vostra da rivedere — l'avete scritto voi per primi, ed e la ragione per cui il passo sta bene a voi e non altrove: chi ha spedito la decisione legge la norma che la giudica. E perche l'unica cosa con una scadenza vera oggi resta **fuori da tutte e tre le corsie**: MIGLIORINI aspetta una visura, non una migrazione |
-| **AppFormazione** | ~~le due proposte~~ **chiuse** (`1b1ce9f`): la colonna per grandezza sta su **ciascuna attesa**, e popolata **per regola e non per elenco**; il guardrail rifiuta un `G5` mai visto; `rinvio_al_ccnl` e passato da etichetta a spiegazione → **cercare le altre viste che hanno smesso di spiegare.** Il carico ne ha trovata **una** — un `case` che nominava un valore rinominato, vista verde, stesso numero di righe, motivo vuoto. **Non e un caso isolato per costruzione**: ogni `case` che nomina un valore di dominio ha la stessa esposizione. Sola lettura: enumerate le viste e i rami che producono etichette, e confrontateli coi domini di oggi | la scheda 12, quando le quattro decisioni sono prese — e **una non e nostra** | Perche l'avete trovata **caricando** e non leggendo, e una cosa che il carico trova una volta la trova ancora. E perche il difetto e della famiglia peggiore: non rompe, **tace** — un `count(*)` non se ne accorge, e il posto dove si vede non e il carico ma il contenuto |
+| **AppFormazione** | ~~le viste che hanno smesso di spiegare~~ **chiuse** (`f124b8e`): **zero orfani su 128 letterali**, e lo zero discrimina perche il controllo negativo e stato **ricostruito** invece che trovato. Lo strumento sbaglia **tacendo** e lo dichiara → **in attesa, e l'attesa non e solo mia.** Non c'e un passo che non dipenda da una decisione o da un accesso, e non ne invento uno di ripiego | girare `domini_orfani.py` sul **database applicato**, il giorno in cui l'accesso in lettura c'e | Perche i 36 esclusi dal conto sono colonne **vuote in ricostruzione e piene in produzione**, quindi lo zero di oggi vale su cio che si puo vedere da li. **Il blocco dell'accesso smette di essere generico**: c'e uno strumento, e sola lettura, esce con un codice, e ci vuole un minuto. E perche i loro **otto commit locali piu uno nella libreria** aspettano un push che non e mio |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -511,6 +511,69 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**Zero viste orfane, e lo zero discrimina — che e la sola cosa che lo rende un
+risultato.** (`f124b8e`.)
+
+    letterali nominati in viste, script e app   128
+    risolti su un vocabolario controllato        62
+    coerenti                                     62
+    ORFANI                                        0
+    non risolvibili, esclusi dal conto           66
+
+**Il controllo negativo e costruito e non trovato.** Il difetto vero e esistito **pochi
+minuti** e non e mai stato committato, quindi hanno **ricostruito quell'istante** — le
+62 migrazioni piu la vista com'era prima della rinomina — e l'hanno dato allo stesso
+strumento con gli stessi parametri, **un solo oggetto diverso**. Lo trova, e lo trova
+anche su una ricostruzione **senza dati finti**: stessi 128, stessi 62, stessi 0. Un
+analizzatore che risponde sempre «tutto a posto» e indistinguibile da uno rotto.
+
+**E i vocabolari li raccoglie dai domini, non da un elenco scritto a mano**: enum,
+`check`, chiavi esterne, e **i domini che le viste producono, seguiti transitivamente**.
+Quest'ultimo era il caso da cui e nato tutto — il vocabolario di `formazione_dovuta
+.stato` non e fatto dai letterali del suo `case`, e quello **piu tutto cio che arriva
+dall'`else`**, che e un `coalesce` fra altre quattro cose. **Tredici valori che nessuno
+ha scritto nello stesso posto.**
+
+**I due errori che lo strumento ha fatto prima di funzionare valgono quanto il
+risultato**, e sono due volte la stessa forma — *un conteggio si crede finche non si
+guarda cosa conta*:
+
+- la prima versione trovava **27 orfani**, quasi tutti falsi: risolveva le colonne per
+  **nome nudo**, quindi `requisiti_persona.ruolo` finiva sul vocabolario di
+  `operatori.ruolo`, che e un enum di permessi con tre valori;
+- la seconda ne trovava **1**, anche quello falso: uno script cerca `ruolo = 'rspp'` e
+  in quella tabella oggi **non c'e nessuna riga con quel valore** — le ha cancellate lo
+  script stesso, **e il suo mestiere**. Lo strumento leggeva il vocabolario **osservato**
+  e concludeva che il valore non esiste.
+
+Da cui la frase che tengo, e che e la stessa distinzione che questo repo applica alle
+norme: **un vocabolario osservato e un campione, e un campione non puo smentire
+un'appartenenza.** Uno **dichiarato** — chiave esterna, `enum`, `check` — e la verita.
+Cio che si legge vale, cio che si osserva aspetta.
+
+**E lo strumento sbaglia tacendo, non gridando**, perche i vocabolari sono **per
+eccesso**: seguendo `else` e `coalesce` ci finiscono dentro valori che non
+appartengono, e un vocabolario troppo grande **fa passare per vivo un valore morto**.
+Direzione giusta per non inventare difetti, **sbagliata per fidarsi di uno zero** — ed e
+esattamente il motivo per cui il controllo negativo non e un ornamento.
+
+**E la riga che mi riguarda: una chiave esterna non e solo una protezione, e anche un
+vocabolario dichiarato.** E la ragione per cui il loro strumento risolve certe colonne e
+non altre — e il motivo per cui la `0007`, che risolve con una **join** e non con un
+`case`, e protetta **due volte: a scrivere e a verificare**. Non e piu solo fortuna: e
+una proprieta che si puo usare. Al carico della `0007` il controllo sul contenuto ha gia
+il suo candidato piu economico — **`scripts/domini_orfani.py` girato sul mio schema**,
+che legge `pg_views` e `pg_constraint` e **non sa niente di AppFormazione**. Esce con 1
+se trova un orfano, quindi sta accanto al carico invece che dopo.
+
+**E un limite che diventa una richiesta.** I 66 esclusi non sono contati come sani, e 36
+di quelli sono colonne di tabelle **vuote su una ricostruzione**, i cui valori esistono
+**solo in produzione**. Quindi quel controllo, per valere davvero, **va girato sul
+database applicato** — in sola lettura, `set transaction read only`. E qui torna il
+blocco che il programma porta da giorni: **la corsia AppFormazione non ha l'accesso in
+lettura al proprio progetto Supabase.** Finora era una richiesta generica; adesso ha un
+uso preciso e una durata di un minuto.
 
 **Sull'art. 16 una corsia ha gia deciso e l'altra no, e l'ho scoperto perche loro
 hanno corretto se stessi.** (`2b51eef`.)
