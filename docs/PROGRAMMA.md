@@ -512,6 +512,65 @@ quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario l
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
 
+**Le soglie sul codice fiscale sono TRE, e la terza decide il vincolo che stavo per
+scrivere. Dieci valori hanno la forma giusta e non sono identita.**
+
+Segnalato da AppSopralluoghi **prima** che il vincolo fosse scritto, e **ricalcolato qui
+da zero** — l'algoritmo del carattere di controllo implementato invece che importato,
+cosi se sbaglia sbaglia in modo ispezionabile. **I tre numeri coincidono al pezzo:**
+
+    A  16 alfanumerici sul GREZZO ................  3.261   (ne scarta   8)
+    B  16 alfanumerici DOPO la pulizia ...........  3.266   (ne scarta   3)
+    C  pulizia + forma + CARATTERE DI CONTROLLO ..  3.238   (ne scarta  31)
+
+`A` e il `check` della `0001` come sta oggi. `B` e la normalizzazione che avevo proposto,
+e rende quel che dicevo: **5 righe su 8 rientrano**. **Fra `B` e `C` ci sono 28 righe che
+sono sedici alfanumerici e non sono codici fiscali**, e si dividono in due gruppi con
+conseguenze diverse.
+
+**Dieci sono un segnaposto fabbricato dal gestionale**, e sono il caso peggiore possibile
+per un `unique`:
+
+    XXXYYY123456X126  X187  X190  X199  X203  X204  X205  X208  X236  X237
+
+**Dieci righe, dieci valori distinti**: il suffisso e un **contatore**. Hanno esattamente
+la forma che il mio `check` pretende, **non collidono mai fra loro per costruzione**, e
+quindi `codice_fiscale unique` **non puo rifiutarli**: entrerebbero come **dieci identita
+buone**. E l'osservazione che lo rende una regola e loro: **un segnaposto che si ripete si
+vede, uno incrementale no** — la P.IVA `00000000000` si scopre al primo conflitto, questo
+non produce mai un conflitto.
+
+**Le altre diciotto sono persone vere con un refuso**: diciassette hanno il **carattere di
+controllo sbagliato** — `CRNNRC79D18L781V` per CORNALE ENRICO, dove l'ultima lettera
+dovrebbe essere `Y`; `CNNGPP59C23F464N` per CANOVA GIUSEPPE, `N` invece di `X` — e una,
+`CHWSKD92E01Z2490`, finisce con una cifra dove il codice fiscale vuole una lettera.
+
+**Da cui la decisione, e non e irrigidire il `check`.** Mettere il carattere di controllo
+nel vincolo rifiuterebbe **diciassette persone vere** per una lettera sbagliata, e perdere
+una riga e peggio che tenerla imprecisa. La soglia del **formato** resta dov'e; quella
+dell'**identita** si sposta nell'import, che calcola il controllo e tratta ogni fallimento
+come **assente** — i dieci segnaposto finiscono nel ripiego cognome+nome invece che in
+dieci identita inventate.
+
+**E per non perdere cio che c'era scritto, la risposta e quella che oggi e gia stata
+trovata tre volte**: `persona` prende un `codice_fiscale_origine` accanto al campo
+normalizzato, e `codice_fiscale` **e null quando il valore non e un codice fiscale**. Cosi
+«non ce n'era» e «ce n'era uno e non era un C.F.» restano **distinguibili** — la stessa
+cosa di `ateco_origine` sul cliente, di `testo_origine` su `corso_alias`, e della coppia
+`testo`/`chiave` della `0007`. **Quarta tabella, stessa forma, e questa volta la
+soluzione era gia in casa prima che il problema arrivasse.**
+
+**E loro hanno corretto se stessi in un verso che vale la pena registrare.** Avevano
+scritto «sei righe malformate»; sono otto, e la frase e loro: *«contate, non stimate: e la
+seconda volta oggi che sbaglio nel verso di far sembrare un problema piu piccolo»*. Un
+errore ha un verso, e questo e il verso che non si corregge da solo — perche un problema
+che sembra piccolo non viene riguardato.
+
+**E sul disacordo di prima hanno dato ragione a me con un'aggiunta che vale piu della
+concessione**: che da loro la stessa persona su due organigrammi resti due schede **non e
+una proprieta del loro modello, e un limite** — e l'avevano descritta come una proprieta.
+E la distinzione fra le due cose e tutto il valore di averla guardata in due.
+
 **L'identita delle persone: i numeri di AppSopralluoghi tornano, io ne trovo due in
 piu, e la conclusione sullo schema NON e la stessa per i due modelli.**
 
