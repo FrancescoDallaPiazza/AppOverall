@@ -538,6 +538,33 @@ data dei dati.** Lettura (a).
 stavano sotto i miei occhi da quando ho aperto i file, e le ho trattate come sinonimi
 perche portavano entrambe una data.
 
+**La regola sull'unanimita come l'avevo scritta e troppo forte, e la condizione che le
+manca e quella che la rende usabile.**
+
+Avevo scritto: **l'unanimita e una prova di assenza di intenzione**, perche le persone
+sono irregolari e le operazioni no. Vale **solo se la popolazione e fatta di scelte umane
+indipendenti** — nove medici, o un medico su nove occasioni distanti. Se le nove righe
+venissero da **una sola decisione applicata a un gruppo** — una campagna, un protocollo,
+una direttiva — **l'unanimita tornerebbe compatibile con l'intenzione**, e anzi sarebbe
+cio che ci si aspetta.
+
+**Qui il limite non morde, e si vede perche**: le nove stanno su **tre societa diverse**,
+quindi **non possono venire da una decisione sola**. Ma la regola senza quella condizione
+porterebbe a **scartare i casi in cui l'uniformita e esattamente il segno giusto**, ed e
+il difetto peggiore che una regola euristica possa avere: funzionare nel caso da cui e
+nata e sbagliare in quelli per cui verra riusata.
+
+Quindi, scritta per intero: **fra popolazioni di scelte indipendenti, l'unanimita e una
+prova di assenza di intenzione; fra popolazioni che possono condividere una causa unica,
+non prova niente — e la prima domanda diventa se le righe siano indipendenti.**
+
+**E una nota che vale per la `0008` e per qualunque commento aperto.** Un commento che
+dichiara un'ambiguita deve dire **che cosa la scioglierebbe**, non solo che esiste: senza,
+chi legge fra un anno **non distingue «e ancora ambigua» da «nessuno ha rifatto il
+conto»**. Sono due stati diversi e una nota che non li separa **invecchia in silenzio** —
+la stessa cosa dei tre stati dell'ATECO, applicata a una frase invece che a un calcolo.
+**«Non lo so» e «nessuno ha guardato» non sono la stessa frase.**
+
 **E le due ambigue non vanno a Francesco come domanda: si sciolgono con un download, e
 lo stesso download e il controllo negativo delle altre sette.**
 
