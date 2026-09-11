@@ -128,53 +128,51 @@ esterno esiste, e sono **tre fonti concordi** su tutti e nove gli accertamenti c
 dati — il titolo dove c'è, la sotto-intestazione per tutti e dieci, e 796 coppie di
 date vere. Dove il titolo tace, parlano le altre due.
 
-### Il numero che non torna con AppFormazione
+### Il numero che non torna con AppFormazione, e la domanda cambiata
 
-Sullo stesso dominio le due corsie contano cose diverse: **808** qui, **1.148** nel
-`staging.catalogo_gestionale` di AppFormazione (167 righe di catalogo, 10 marcate
-`tipo = 'VISITA'`).
+Sullo stesso dominio le due corsie contavano cose diverse: **808** nel foglio del
+campo, **1.148** nel `staging.catalogo_gestionale` di AppFormazione. La prima
+versione di questa sezione proponeva due letture — «aperte contro storiche» oppure
+«perimetri diversi» — e **misurando sono cadute tutte e due** (misura del campo
+dell'11 settembre 2026, `b647389`).
 
-| accertamento | AppFormazione | campo |
-| --- | ---: | ---: |
-| annuale | 961 | 670 |
-| biennale | 151 | 106 |
-| quinquennale | 24 | 23 |
-| trimestrale | 2 | **2** |
-| quadriennale | 2 | **2** |
-| audiometrico | 2 | **2** |
-| spirometrico | 1 | **1** |
-| elettrocardiogramma | 1 | **1** |
-| oculistica biennale | 1 | **1** |
-| oculistica quinquennale | 3 | **0** |
-| **totale** | **1.148** | **808** |
+**Cos'è davvero il conteggio del campo: l'ultima esecuzione per persona e per tipo.**
+Non le scadenze aperte, non lo storico. Tutte le 808 esecuzioni sono nel passato, e
+delle scadenze **311 sono già scadute**, 485 valide, 12 assenti: se fossero «solo le
+aperte» non ce ne sarebbero 311 scadute; se fosse uno storico ci sarebbero più
+esecuzioni per la stessa persona e lo stesso tipo, e non ce ne sono — 801 coppie
+(CF, tipo) su 808 righe. È esattamente ciò che dichiara l'intestazione che stavamo
+per scartare come rumore: **«Ultima Esecuzione»**.
 
-**La prima versione di questa sezione poggiava su una coincidenza che non esisteva.**
-Diceva: «le quinquennali coincidono esatte, 24 e 24», e ci costruiva sopra la lettura
-«818 sono le aperte, 1.148 le storiche». Con i numeri corretti sono **24 e 23**: la
-coincidenza era un artefatto del conteggio gonfiato di uno.
+**Un secondo export, che non sapevamo di avere, conferma il perimetro.**
+`ExportExcelVisiteScadenze.xlsx` è un export dedicato alle visite, indipendente dal
+foglio: 814 righe, 62 società, 805 coppie (CF, tipo), e la sua colonna data arriva al
+2031 — è la scadenza, non l'esecuzione. Le società in comune sono **62**, zero solo
+nello scadenzario, una sola nel foglio. Due forme diverse dello stesso gestionale che
+coprono lo stesso insieme, ed entrambe tengono **una riga per persona e per tipo**.
 
-Il pattern vero è un altro, e dice più di quella coincidenza: **gli accertamenti rari
-coincidono esatti** — trimestrale, quadriennale, audiometrico, spirometrico, ECG,
-oculistica biennale, tutti uno a uno — **e i frequenti no**, con l'annuale a 961
-contro 670. È esattamente la forma che avrebbe «storico contro aperto»: chi fa una
-visita annuale accumula molti eventi e ha una sola scadenza aperta, chi ha fatto una
-volta un audiometrico ha 1 e 1.
+**E il fatto che chiude la strada allo «storico»:** negli export degli eventi le
+visite **non ci sono affatto**. La colonna `Genere` vale «Formazione» su 13.348
+righe di 13.348 in `ExportExcelCorsiFatti` e su 127 di 127 in `ExportExcel`.
+Enumerato, non supposto.
 
-**Una riga però va contro quella lettura**, e non la nascondo: oculistica
-quinquennale **3 di là e 0 qui**. Se il campo raccogliesse le scadenze aperte dello
-stesso insieme, tre accertamenti storici dovrebbero lasciare almeno una scadenza
-aperta. Le spiegazioni possibili — perimetri di clienti diversi, o quelle tre su
-clienti che il campo non ha — sono le stesse che il pattern rende improbabili. Non si
-scioglie leggendo: si misura contando i **clienti distinti** dei due insiemi e
-guardando se le righe del campo abbiano date passate.
+Quindi i 1.148 **non possono** essere lo storico di queste visite, non possono essere
+un perimetro più largo, e contengono 3 accertamenti di un tipo — l'oculistica
+quinquennale — che in **entrambi** gli export delle visite ha zero righe, e che non
+esiste in nessuno dei cinque export del gestionale.
 
-Si scioglie **prima della `0005`**: una migrazione che nasce su un conteggio non
-sciolto nasce storta.
+**Cosa manca per chiudere, ed è una riga sola da AppFormazione:** da quale file e da
+quale colonna nascono i 1.148, e quante righe di quel file hanno `tipo = 'VISITA'`.
+Se quel file è uno dei cinque export conosciuti il confronto si chiude da sé, perché
+lì le visite sono 808 e 812 e mai 1.148. L'ipotesi più semplice compatibile con tutto
+è che i 1.148 non contino accertamenti della stessa natura — una riga di catalogo,
+o una somma su un'estrazione diversa — ma **non è dichiarata vera**: la verifica sta
+nel loro staging, che il campo non ha letto e non legge.
 
 **Il modello di AppFormazione tiene già le visite fuori dalla formazione, per
-costruzione**, e questo è un riscontro al «accanto e non dentro» di questa scheda:
-`scripts/promuovi.sql` le esclude nel punto esatto in cui diventerebbero corsi —
-`where coalesce(c.e_visita, false) = false` — quindi non entrano mai in `corsi`.
+costruzione**, e questo resta un riscontro al «accanto e non dentro» di questa
+scheda: `scripts/promuovi.sql` le esclude nel punto esatto in cui diventerebbero
+corsi — `where coalesce(c.e_visita, false) = false`.
 
 ### Cosa resta da decidere, ma non blocca
 
