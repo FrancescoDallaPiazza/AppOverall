@@ -440,7 +440,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la `0008`, che fa tre cose**: il **secondo codice** dei confinati, giustificato dal catalogo e **senza** una riga in piu in `corso_assolve`; `testo_origine` su `corso_alias` coi **268 verbatim** e la loro impronta, piu il commento corretto; e la **grandezza marcata su DUE colonne e non una** — `ore` e `ore_aggiornamento` sono grandezze diverse sulla stessa riga, e una colonna sola avrebbe descritto male meta dei numeri che doveva descrivere | la **Decisione della scheda 12**, che adesso ha il suo numero: il confronto delle ore copre **11 obblighi su 34** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato, e la terza me l'ha corretta un'altra corsia **prima** che la scrivessi |
-| **AppSopralluoghi** | ~~il progetto dell'import~~ **scritto** (`7820c90`) e **corretto da loro** (`2b51eef`) → **l'art. 16 e l'art. 37 c. 7 in `reference/`, con la trascrizione.** Non e un passo di ripiego e non l'ho inventato io: **e arrivato perche l'avete segnalato voi**. La vostra `053` ha gia deciso che il delegato assume gli obblighi del datore, e quella decisione e in produzione; qui la domanda e aperta e nessuno ha letto la fonte. **Metodo: quello che AppFormazione ha usato sul DPR** — due estrazioni indipendenti, limiti dichiarati | scrivere l'import piu le due migrazioni del progetto, quando la `0007` e caricata | Perche la conclusione **puo andare contro una vostra riga applicata**, e in quel caso e vostra da rivedere — l'avete scritto voi per primi, ed e la ragione per cui il passo sta bene a voi e non altrove: chi ha spedito la decisione legge la norma che la giudica. E perche l'unica cosa con una scadenza vera oggi resta **fuori da tutte e tre le corsie**: MIGLIORINI aspetta una visura, non una migrazione |
+| **AppSopralluoghi** | ~~l'art. 16 e l'art. 37 c. 7~~ **letti e trascritti** (`a1827fd`): l'art. 16 **non nomina mai la formazione**, e la lettura «datore» sta in piedi **per convergenza di quattro articoli** e non per una frase → **la citazione nella vostra guida, e con essa la dichiarazione del caso totale.** L'avete offerta invece di farla, ed e assegnata. Il secondo pezzo e quello che conta: la `053` assume la **delega totale** e non lo dice, e **non e sbagliata, e non dichiarata** | l'import piu le due migrazioni del progetto, quando la `0007` e caricata | Perche una guida che porta «converge» invece di «lo prevede» e utilizzabile da chi verra, e una che porta una nota non lo e. E perche la seconda cosa **il testo ve la chiede davvero**: e l'unica delle due aperte su cui una riga vostra gia dice qualcosa senza averlo scritto. Oggi non morde su nessuno — `nomina` e a zero — quindi si fa bene invece che in fretta |
 | **AppFormazione** | ~~le viste che hanno smesso di spiegare~~ **chiuse** (`f124b8e`): **zero orfani su 128 letterali**, e lo zero discrimina perche il controllo negativo e stato **ricostruito** invece che trovato. Lo strumento sbaglia **tacendo** e lo dichiara → **in attesa, e l'attesa non e solo mia.** Non c'e un passo che non dipenda da una decisione o da un accesso, e non ne invento uno di ripiego | girare `domini_orfani.py` sul **database applicato**, il giorno in cui l'accesso in lettura c'e | Perche i 36 esclusi dal conto sono colonne **vuote in ricostruzione e piene in produzione**, quindi lo zero di oggi vale su cio che si puo vedere da li. **Il blocco dell'accesso smette di essere generico**: c'e uno strumento, e sola lettura, esce con un codice, e ci vuole un minuto. E perche i loro **otto commit locali piu uno nella libreria** aspettano un push che non e mio |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
@@ -511,6 +511,71 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**L'art. 16 e letto, e la prima risposta e un'assenza: non nomina mai la formazione.**
+(`a1827fd` nella libreria.)
+
+Avevo posto la domanda in due modi — se «gli obblighi» del delegato includano quelli
+formativi, **oppure** se la formazione sia un requisito **presupposto** alla delega — e
+il testo ha una **terza** risposta che non era fra le due: **ne l'uno ne l'altro**.
+L'art. 16 di formazione **non parla**, ne come obbligo che ne discende ne come requisito
+che la precede; cio che il delegato deve gia possedere e «professionalita ed esperienza»
+(lett. b), che il decreto non definisce e **che non e il corso**. Quindi l'obbligo del
+delegato, se c'e, **non nasce li**: nasce dall'art. 37 c. 7, e solo attraverso la
+**qualifica** che gli si riconosce. «Datore o dirigente?» non era una sfumatura della
+domanda: **era tutta la domanda**.
+
+E l'art. 37 c. 7 **nomina tre soggetti** — datore, dirigenti, preposti — e il delegato
+non e fra loro. **Non per esclusione: per silenzio.**
+
+**La risposta, col suo limite messo per primo: il testo non dice mai «il delegato e un
+datore di lavoro».** Espressamente, **la norma non decide**. Ma **quattro articoli
+convergono da una parte sola**: l'art. 2 c. 1 lett. b) definisce datore anche chi ha la
+responsabilita dell'organizzazione **«in quanto esercita i poteri decisionali e di
+spesa»**; l'art. 16 lett. c) e d) attribuisce al delegato **«tutti i poteri di
+organizzazione, gestione e controllo»** e **«l'autonomia di spesa»** — esattamente i due
+attributi di quella definizione; l'art. 2 c. 1 lett. d) dice che il dirigente invece
+**«attua le direttive del datore di lavoro»**, e un delegato non ha direttive da attuare
+perche la delega **trasferisce** le funzioni invece di eseguirle; e l'art. 299 fa gravare
+le posizioni di garanzia **«su colui il quale, pur sprovvisto di regolare investitura,
+eserciti in concreto i poteri giuridici»** — **la qualifica segue i poteri, non il nome
+dell'atto**.
+
+Quindi la `053` di AppSopralluoghi **regge**, e ha una citazione dove aveva una nota —
+ma la citazione dice **«converge»**, non «lo prevede». E la distinzione e quella che
+questo repo impone dappertutto.
+
+**E le due cose che il testo lascia aperte valgono piu della risposta, perche nessuno le
+aveva nominate.**
+
+**1. La delega puo essere PARZIALE, e la riga che la modella assume il caso totale senza
+dirlo.** L'art. 16 parla sempre di «funzioni delegate» e di poteri «richiesti dalla
+**specifica natura** delle funzioni delegate»: la delega puo coprire **una parte**. Un
+delegato che riceve una fetta **non diventa datore per tutto il resto**, e il decreto non
+dice a che punto la fetta sia abbastanza grande. La loro `053` ha **una figura sola** che
+assume il caso totale — **e non e sbagliata, e non dichiarata**, che e una diagnosi piu
+sottile di quella che cercavo.
+
+**2. Due orologi sullo stesso soggetto.** L'art. 16 lett. b) chiede professionalita ed
+esperienza **al momento della delega**; l'art. 37 c. 7 fa scattare **un termine** — e per
+il datore l'ASR 2025 lo fissa al **19/05/2027**. Il decreto ne fa scattare **uno solo**.
+Un delegato formato **dopo** soddisfa il c. 7 mentre la validita della delega resta una
+questione a parte, **che non e piu formazione, e diritto**.
+
+**Cosa cambia per la `0006`: l'esclusione resta, e adesso ha una ragione migliore.** Non
+piu «non sappiamo se datore o dirigente» — su quello la convergenza sta da una parte
+sola — ma **«non sappiamo quanta parte delle funzioni»**, e una riga
+`datore_lavoro_art16 -> DATORE_LAVORO` **asserirebbe "tutte"**. E lo stesso difetto della
+`053`, con la differenza che qui non e stato scritto. La domanda vera non e quella che
+avevo messo nella lista di Francesco, ed e **una che nessuna delle tre corsie si era
+posta**.
+
+**E una divergenza tipografica tenuta invece che appianata**: in art. 16 c. 1 la lett. d)
+finisce con un **punto** nel testo coordinato e con un **punto e virgola** su tussl. E il
+residuo dell'aggiunta della lett. e) nel dicembre 2025 — prima la d) chiudeva l'elenco, e
+l'edizione coordinata ha inserito la nuova **senza ritoccare la punteggiatura della
+precedente**. Non cambia il senso; non annotata, **la prossima volta fa dubitare della
+fonte sbagliata**.
 
 **Zero viste orfane, e lo zero discrimina — che e la sola cosa che lo rende un
 risultato.** (`f124b8e`.)
