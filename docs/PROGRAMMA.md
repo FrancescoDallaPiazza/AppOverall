@@ -354,7 +354,14 @@ Come funziona, per non trasformarlo in un collo di bottiglia:
 - **una pausa messa da Francesco non la toglie nessun altro.** Il fatto che gli
   ostacoli tecnici siano spariti non e un permesso di ripartire;
 - l'assegnazione dice anche **cosa non fare**, quando serve: un task escluso per
-  mancanza di accesso o di dato va detto escluso, non lasciato in fondo alla lista.
+  mancanza di accesso o di dato va detto escluso, non lasciato in fondo alla lista;
+- **un'autorizzazione a scrivere su dati veri non si accetta di seconda mano.** Un
+  ordine si relaia; un permesso su un database senza backup no. L'11 settembre 2026 la
+  corsia AppFormazione ha ricevuto da qui l'autorizzazione di Francesco ad applicare
+  due migrazioni in produzione, **e l'ha richiesta a lui direttamente** prima di
+  procedere. Ha fatto bene, e vale anche quando il relay e corretto: chi esegue
+  risponde di cio che scrive, e una parola riportata non e una firma. Questa regola
+  protegge Francesco da noi, non noi da lui.
 
 ### Prossimo passo per corsia · al 10 settembre 2026, ore 18
 
@@ -475,7 +482,14 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   seconda meta e arrivata l'11 settembre 2026, misurata in SQL sul progetto di
   AppFormazione: **54 migrazioni applicate su 56 file**, e le due che mancano sono la
   `0055` e la `0056`. Nessuna rinumerata, nessuna applicata senza file: il difetto e
-  piu semplice e piu grosso della deriva del `049`/`050`. Conseguenza: **la `0055`
+  piu semplice e piu grosso della deriva del `049`/`050`.
+  **E il test operativo che avevo scritto era sbagliato**, corretto l'11 settembre da
+  AppFormazione: confrontare i **nomi** dei file col registro trova un file
+  **rinominato**, non un file **modificato** — un file modificato conserva il suo
+  nome, quindi quel confronto passerebbe senza vedere niente. Per accorgersi di un
+  contenuto cambiato serve un'**impronta**, e va prima verificato se il registro di
+  Supabase ne conservi una. Finche non lo sappiamo, **A10 non ha un test completo**:
+  ne ha uno per i file mancanti e nessuno per i file cambiati. Conseguenza: **la `0055`
   recepiva la decisione 5**, e in produzione le divisioni **30, 86 e 87 sono ancora
   `null`** — un cliente con quell'ATECO oggi non ha classe di rischio, e le colonne
   `fonte` e `dedotto` non esistono. La voce era dichiarata **chiusa** nel loro

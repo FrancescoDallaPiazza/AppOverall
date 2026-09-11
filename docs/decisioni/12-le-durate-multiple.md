@@ -15,11 +15,13 @@ almeno **tre**, e questo è il punto della scheda:
 | causa | esempio | cosa serve per esprimerla |
 | --- | --- | --- |
 | **il tempo** | `DIRIGENTE`: 16 ore fino all'ASR 2025, 12 dopo | una **validità temporale** sulla riga |
-| **la dimensione dell'azienda** | `RLS`: aggiornamento 4 ore da 15 a 50 lavoratori, **8 oltre 50** | una **condizione sul cliente**, non sul tempo |
+| **la dimensione dell'azienda** | `RLS`: **tre** casi, e in uno la durata non è un numero | una **condizione sul cliente** — e un caso in cui la regola rinvia altrove |
 | **il contenuto del corso** | carrello 12 ore per tipo, **16 per entrambi**; escavatori 16 contro 10; gru torre 14 contro 12 | **un codice in più**, uno per variante |
+| **un codice che raccoglie corsi diversi** | `PREPOSTO`: **sette titoli**, di cui **tre corsi iniziali distinti** erogati negli stessi anni | **separare i codici**, e il titolo non basta per farlo |
 
 **Un solo meccanismo non le copre**, e applicarne uno dove non c'entra introduce un
-difetto invece di chiuderlo.
+difetto invece di chiuderlo. La quarta causa è arrivata per ultima, dopo che una
+frase di questa scheda è stata smentita dai dati che pretendeva di spiegare.
 
 ## Le misure, e il controllo che le rende affidabili
 
@@ -69,45 +71,103 @@ La domanda è **quanti meccanismi il catalogo deve avere**, sapendo che ne servo
 per coprire tre cause — e che il terzo (un codice per variante) è l'unico già
 esprimibile senza toccare la forma delle tabelle.
 
-**E resta un caso che nessun meccanismo spiega**, il `PREPOSTO` — ma la frase con cui
-questa scheda lo descriveva era **una deduzione presentata come un fatto**, e va
-corretta prima di tutto il resto.
+## Il `PREPOSTO` non è un regime cambiato: è un codice che raccoglie tre corsi
 
-Diceva: «perché sono stati erogati corsi da 12 ore *prima che l'Accordo li
-richiedesse*». Quel «prima che l'Accordo li richiedesse» presuppone che il regime
-precedente fosse di 8 ore, e **nessuna fonte nei repo lo dice**. L'asimmetria con il
-dirigente è il campanello: lì la nota del catalogo dichiara il regime vecchio —
-«12h, **erano 16h con accordo 2011**» — qui la nota dice solo «ASR 17/04/2025:
-aggiornamento biennale 6h», e nemmeno la pagina del sito parla di 8 ore. Chi ha
-scritto questa scheda sapeva che l'Accordo 2011 dava 8 ore al preposto e lo ha usato
-come se fosse citato. Sotto **R2** non lo è.
+Questa scheda aveva scritto che il preposto era il caso «due regimi nel tempo che si
+sovrappongono», e che «12 ore erano state erogate prima che l'Accordo le
+richiedesse». **Era una deduzione presentata come un fatto** — nessuna fonte nei repo
+dice che il regime precedente fosse di 8 ore, e l'asimmetria col dirigente lo
+segnalava: lì la nota del catalogo dichiara «erano 16h con accordo 2011», qui no.
 
-Quel che si sa per misura è solo questo: **8 ore ×276** (248 prima dell'ASR, 28 dopo,
-l'ultima il 19 maggio 2026) e **12 ore ×38** (30 prima, la più vecchia il 20 maggio
-2024, 8 dopo). Le letture compatibili sono **quattro**, non due, e i conteggi non le
-distinguono:
+Chiesti gli esempi, i **titoli** hanno sciolto tutto (`c15feab`). Le 30 righe a 12 ore
+prima dell'Accordo hanno **un titolo solo** e **due sole date** — 5 il 20.05.2024 e 25
+il 05.09.2024: non una popolazione diffusa nel tempo, **due aule**.
 
-1. una **finestra transitoria** dell'Accordo che lascia concludere i percorsi avviati;
-2. **12 ore come somma** — 8 di preposto più 4 d'altro, registrate in una riga sola;
-3. un **requisito di committente o di CCNL** che già chiedeva 12 ore a certi clienti;
-4. **la data non è quella che si crede** — se fosse quella dell'attestato e non del
-   corso, un corso di marzo con attestato di maggio cade dalla parte sbagliata dello
-   spartiacque.
+    FORMAZIONE PARTICOLARE AGGIUNTIVA PREPOSTI - BIENNALE    12 h   mag 2024 - dic 2025
+    FORMAZIONE PARTICOLARE AGGIUNTIVA PREPOSTI                8 h   mar 2011 - mag 2026
+    CORSO DI FORMAZIONE PER PREPOSTI                         12 h   dal 19.02.2026
 
-Il **titolo verbatim** di quelle 68 righe probabilmente scioglie la cosa, e nessuno lo
-ha guardato. Se ne emergesse che sono **due corsi diversi sotto lo stesso codice**,
-il preposto non sarebbe il caso «due regimi nel tempo»: sarebbe una **quarta causa** —
-un codice che raccoglie due corsi — e questa scheda, che ne elenca tre, andrebbe
-riscritta e non aggiustata.
+**Il dato che uccide la lettura per regimi** è uno solo: il corso da 8 ore va dal
+**marzo 2011 al maggio 2026, ininterrotto**. Non si è fermato all'Accordo e tredici
+mesi dopo era ancora erogato — nessuna finestra transitoria copre tredici mesi di
+erogazione continua. E il «- BIENNALE» da 12 ore **scavalca l'Accordo in entrambi i
+versi**. Non c'è un prima e un dopo: ci sono **corsi diversi erogati negli stessi
+anni**.
 
-Resta vero che l'ultima parola non è del codice: **è di chi conosce l'erogazione.**
+Il terzo titolo è l'unico che somiglia al regime nuovo: sette righe, tutte dal
+**19 febbraio 2026**. **Confidenza media**, e va detto: la forma è giusta, sette righe
+sono poche, e nessuna fonte nei repo lo dichiara.
+
+Sotto `PREPOSTO` ci sono quindi **sette titoli**: tre corsi iniziali distinti, due di
+aggiornamento, una integrazione.
+
+### E il titolo non è una chiave perfetta
+
+    ... PREPOSTI - BIENNALE   (trattino)     12 ore
+    ... PREPOSTI_BIENNALE     (underscore)    8 ore
+
+**Stesse parole, punteggiatura diversa, durata diversa.** Il dizionario dei 268 alias
+le tiene già come due voci — la curatela del campo aveva visto la differenza — ma
+chiunque «normalizzi» quei titoli collassa due corsi di durata diversa in uno. È la
+forma della normalizzazione aggressiva che ha già colpito una volta: sostituire
+`[^a-zA-Z0-9]` con uno spazio fa sparire trattino e underscore **insieme alla loro
+differenza**.
+
+### La colonna della data non dichiara cosa contiene
+
+Chiesto per terzo, e vale oltre questa scheda: la colonna si chiama **`Data`** e
+basta. Le altre tre che contengono «data» sono nascita, assunzione, licenziamento.
+**L'export non dichiara** se sia la data del corso, dell'attestato o della
+registrazione, e non esiste una seconda data con cui incrociarla. Il
+`formazioneImport.ts:230` del campo la mappa su `data_completamento`, cioè **assume**
+sia la data del corso: assunzione nostra, non fatto della fonte. Per questa scheda non
+serve — la separazione è nei titoli — ma resta un'assunzione non dichiarata **sotto
+ogni scadenza che calcoliamo**.
+
+## L'`RLS` ha tre casi, non due, e la regola che avevo scritto è vecchia
+
+Questa scheda diceva «4 ore da 15 a 50 lavoratori, 8 oltre 50», dalla pagina di corso
+di Overall. **È la regola di prima del 31 dicembre 2025.** L'ultimo periodo dell'art.
+37 c. 11 è stato modificato dall'art. 5 del **D.L. 31 ottobre 2025 n. 159**,
+convertito con **L. 29 dicembre 2025 n. 198**, in vigore dal **31/12/2025** —
+trascritto verbatim a monte in
+`formazione-81-utils-src/reference/dlgs-81-2008-articoli-citati.md`.
+
+| lavoratori | durata dell'aggiornamento annuale |
+| --- | --- |
+| **meno di 15** | **la legge non la fissa**: la fissa il CCNL, «nel rispetto del principio di proporzionalità» |
+| da 15 a 50 | **4 ore** annue |
+| oltre 50 | **8 ore** annue |
+
+**E le 4 e le 8 non sono la durata: sono un pavimento.** Il testo dice che il CCNL
+«disciplina le modalità dell'obbligo di aggiornamento periodico, la cui durata **non
+può essere inferiore a** 4 ore annue… e a 8 ore annue». Quindi si citano come norma —
+sono minimi vincolanti — ma **la durata effettiva la fissa il contratto e può essere
+maggiore**. Sotto i 15 lavoratori non c'è nessun numero da citare.
+
+Due conseguenze pratiche: l'aggiornamento dell'RLS è **annuale** e non quinquennale;
+e **la maggior parte delle 480 aziende in archivio sta sotto i 15 lavoratori**, cioè
+nel caso in cui la risposta non è un numero. Sapere quanti dipendenti ha un cliente
+**non chiude** questa variante: la manda in un caso che rinvia al contratto.
+
+**La forma esiste già in AppFormazione, come vocabolario e non come regola:**
+`clienti.dipendenti` (integer, loro `0039`, col commento che cita la norma) e un
+discriminante dedicato nella `0052`, `dipendenti_rls`, con **tre varianti** —
+`meno_15`, `15_50`, `oltre_50`. C'è l'ingresso, c'è la citazione, **manca il giunto
+fra i due**: identico nella forma al buco dei livelli antincendio della scheda 11.
 
 ## Decisione
 
-*(da scrivere. Tre righe, e sono indipendenti: se il catalogo porti una validità
-temporale; se porti una condizione sulla dimensione dell'azienda — il dato in
-anagrafe c'è, `N° DIPENDENTI` su 481 delle 619 attive; e se le varianti combinate
-prendano un codice proprio. Più la domanda sul preposto, che non è di schema.*
+*(da scrivere. **Quattro** righe, e sono indipendenti: se il catalogo porti una
+validità temporale; se porti una condizione sulla dimensione dell'azienda — sapendo
+che in un caso su tre la risposta **non è un numero** ma un rinvio al CCNL; se le
+varianti combinate prendano un codice proprio; e se `PREPOSTO` vada **separato in tre
+codici**, uno per corso iniziale.*
+
+*Sulla quarta: separare i codici è la sola che tocca i **dati già scritti**, perché
+gli attestati esistenti andrebbero ri-mappati. E ha sotto una domanda che non è di
+schema: i tre corsi sono tre cose diverse, o lo stesso corso che l'erogazione ha
+chiamato in tre modi? Lo sa chi li ha erogati.*
 
 *Va scritto anche **quali casi la decisione non risolve**: una regola che copre un
 terzo dei casi e non dichiara gli altri due è il modo in cui si crede di aver chiuso
