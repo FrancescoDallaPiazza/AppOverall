@@ -293,6 +293,7 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Difetti del campo confermati · riparati | 4 · 3 | Resta D2, che vuole un deploy |
 | Righe a 6 ore nell'export · di cui del datore | 1.651 · 76 | **La regola «6 ore = art. 37» era rovesciata.** A 6 ore ci sono 14 tipi distinti (il piu frequente e l'aggiornamento lavoratori, 1.031 righe), e l'unico del datore e «AGGIORNAMENTO R.S.P.P. DATORE DI LAVORO RISCHIO BASSO», che e **art. 34**. Nel gestionale gli aggiornamenti dell'art. 34 seguono il rischio: 6, 10, 14. Il discriminante resta il **titolo**, che `corso_alias` mappa gia; le ore sono un **controllo**, non una chiave |
 | Famiglie di corso del sito che combaciano col catalogo | 9 su 11 | Confronto dell'11.09 fra le pagine di `overallgroup.info/corsi-sicurezza/` e i 40 codici della `0004` — **prima fonte esterna al sistema**. Esatte al numero anche le due che si sbagliano piu facilmente: preposto a **2** anni, primo soccorso a **3**. I quattro buchi in `docs/riscontro-catalogo-sito.md`: `RLS` con aggiornamento che dipende dalla dimensione, i corsi combinati senza codice, la periodicita dei lavori in quota che e **prassi** e non norma, e l'accesso con funi che manca |
+| Il dizionario dei 268 alias, in tre posti | 3 su 3 identici | Script di AppSopralluoghi, seed di AppOverall e produzione, chiusi in due confronti indipendenti: seed vs produzione **undici valori su undici** (`f94ff83`), script vs seed **zero righe diverse** e somme delle impronte identiche (`7d0b322`). Per transitivita i 268 giudizi presi a mano sono gli stessi nei tre posti, e **cade la riserva A10** sotto cui stava l'analisi delle durate |
 | Il seed dei 268 alias contro la produzione | 11 valori su 11 | Confronto dell'11.09: `n`, la somma delle impronte per riga, i cinque flag, le note, i codici distinti e le due somme di lunghezze. **Combacia tutto**, quindi i 268 giudizi presi a mano sono quelli in produzione e la qualificazione «i file dicono» cade sul seed. Il primo tentativo, un `md5(string_agg(... order by))`, dava hash diversi: ordinamento e collation, non deriva — vedi **A11** |
 | Divergenze fra migrazioni e database | 0 su 21 | Su `figura_requisito`, in due letture confrontate — ricostruita dai file e letta dal database (`b50003f`). **Prova che il metodo di ricostruzione funziona**, non che ogni tabella combaci: i 40 codici curati della `0004` restano un'ipotesi finche non si confrontano allo stesso modo |
 | Insiemi distinti di «fattori di rischio» | 76 | Su **162 righe** con almeno un fattore, 3.501 totali. 122 righe condividono l'insieme con un'altra: **112 nella stessa societa**, 45 con la stessa mansione. La cella ha **un solo valore distinto**, `X`, in 2.447 occorrenze su 79 colonne, e nessuna colonna porta un grado o una fascia. Misurato il 10.09 da AppSopralluoghi (`39fb586`) |
@@ -525,6 +526,17 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   di dire solo *che c'e*. Fatto cosi ha dato **undici valori su undici identici**: la
   tabella era la stessa dall'inizio, e «qualcuno ha ritoccato a mano» era a un passo
   dall'essere scritto.
+  **Due cose da tenere, e la seconda vale piu della prima.** La query non era
+  sbagliata: era **giusta per un altro uso**. Confrontare un database **con se stesso
+  nel tempo** con quell'hash funziona, perche l'ordinamento e lo stesso da entrambe le
+  parti; confrontarlo con un'**altra implementazione** no. Uno strumento corretto
+  applicato a un uso diverso da quello per cui e corretto.
+  E la regola che dice **quando** sospettare, perche e l'opposto dell'istinto: nei due
+  casi **la notizia falsa era piu interessante di quella vera**. «Quaranta codici su
+  quaranta divergono» e «qualcuno ha ritoccato 268 giudizi a mano» sono titoli;
+  «combacia tutto» non lo e. **Un confronto che produce una notizia grossa merita piu
+  sospetto di uno che non ne produce nessuna**, e la fretta di riportarla e il momento
+  in cui il controllo non si fa.
 
 - **A12** **Un test che non sbaglia mai non prova niente: serve un controllo
   negativo.** Aggiunta l'11 settembre 2026 dalla corsia AppSopralluoghi, e ha

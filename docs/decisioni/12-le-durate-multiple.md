@@ -176,7 +176,13 @@ un difetto.)*
 ---
 
 *Misure dell'11 settembre 2026, corsia AppSopralluoghi: `eddbb44` (le distribuzioni
-delle durate) e `f4f2802` (le date, con il controllo negativo sull'RLS). Il limite
-dichiarato: in quelle misure il dizionario è **simulato dai file** e non letto dal
-database, perché l'SQL Editor di Supabase ha smesso di accettare input. Sotto A10
-vale «i file dicono».*
+delle durate) e `f4f2802` (le date, con il controllo negativo sull'RLS).*
+
+*Quelle misure portavano una riserva — il dizionario era **simulato dai file** e non
+letto dal database — ed è **caduta l'11 settembre 2026**. I 268 giudizi sono ora
+identici in **tre posti**: gli script di AppSopralluoghi, il seed di AppOverall e la
+produzione. Il triangolo è chiuso in due passi indipendenti: seed ↔ produzione con
+undici valori su undici (`f94ff83`), e script ↔ seed con zero righe diverse e le somme
+delle impronte identiche (`7d0b322`). Quindi l'analisi delle durate — l'`RLS`
+sotto-specificato, i combinati, i quattro regimi di `DL_RSPP_BASE`, il dirigente —
+**non è più qualificata**: si cita senza riserva.*

@@ -394,6 +394,12 @@ comment on column corso_alias.is_aggiornamento is
 -- produzione**, e la qualificazione cade: non «i file dicono», ma i file **e** il
 -- database.
 --
+-- **E il triangolo e chiuso in tre posti**: gli script di AppSopralluoghi, questo seed
+-- e la produzione. Il terzo lato — script contro seed, due file sullo stesso disco —
+-- da zero righe diverse e somme delle impronte identiche (`7d0b322` in
+-- AppSopralluoghi). Quindi anche l'analisi delle durate che poggiava sul dizionario
+-- **non e piu simulata**.
+--
 -- **Il primo confronto aveva detto il contrario, ed era il confronto a essere rotto.**
 -- Usava `md5(string_agg(... order by testo))`, e un digest su un'aggregazione
 -- **ordinata** non e confrontabile fra sistemi: l'`order by` di PostgreSQL segue la
