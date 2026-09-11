@@ -439,7 +439,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
-| **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la `0008`, che fa tre cose**: il **secondo codice** dei confinati, giustificato dal catalogo e **senza** una riga in piu in `corso_assolve`; `testo_origine` su `corso_alias` coi **268 verbatim** e la loro impronta, piu il commento corretto; e la **grandezza marcata su DUE colonne e non una** — `ore` e `ore_aggiornamento` sono grandezze diverse sulla stessa riga, e una colonna sola avrebbe descritto male meta dei numeri che doveva descrivere | la **Decisione della scheda 12**, che adesso ha il suo numero: il confronto delle ore copre **11 obblighi su 34** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato, e la terza me l'ha corretta un'altra corsia **prima** che la scrivessi |
+| **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la migrazione dati, e comincia dalle persone e non dalle 808 righe**: `sorveglianza.persona_id` punta a una tabella vuota, e le 808 esecuzioni appartengono a **787 persone** che prima devono esistere, coi loro clienti. Misurato, non stimato. Poi la `0008` (secondo codice dei confinati, `testo_origine`, la grandezza su due colonne) e il carico di `0007` e `0008` col `domini_orfani.py` di AppFormazione | la Fase 3 vera e propria | Perche il numero piu grande nascondeva quello piu piccolo: «le 808 righe» stava scritto come se fosse il primo passo. E perche l'ordine giusto lo decide una dipendenza di schema, non l'importanza del dato — e la dipendenza si vede solo aprendo il file, che e cio che nessuno aveva fatto da questa parte |
 | **AppSopralluoghi** | ~~l'art. 16 e l'art. 37 c. 7~~ **letti e trascritti** (`a1827fd`): l'art. 16 **non nomina mai la formazione**, e la lettura «datore» sta in piedi **per convergenza di quattro articoli** e non per una frase → **la citazione nella vostra guida, e con essa la dichiarazione del caso totale.** L'avete offerta invece di farla, ed e assegnata. Il secondo pezzo e quello che conta: la `053` assume la **delega totale** e non lo dice, e **non e sbagliata, e non dichiarata** | l'import piu le due migrazioni del progetto, quando la `0007` e caricata | Perche una guida che porta «converge» invece di «lo prevede» e utilizzabile da chi verra, e una che porta una nota non lo e. E perche la seconda cosa **il testo ve la chiede davvero**: e l'unica delle due aperte su cui una riga vostra gia dice qualcosa senza averlo scritto. Oggi non morde su nessuno — `nomina` e a zero — quindi si fa bene invece che in fretta |
 | **AppFormazione** | ~~le viste che hanno smesso di spiegare~~ **chiuse** (`f124b8e`): **zero orfani su 128 letterali**, e lo zero discrimina perche il controllo negativo e stato **ricostruito** invece che trovato. Lo strumento sbaglia **tacendo** e lo dichiara → **in attesa, e l'attesa non e solo mia.** Non c'e un passo che non dipenda da una decisione o da un accesso, e non ne invento uno di ripiego | girare `domini_orfani.py` sul **database applicato**, il giorno in cui l'accesso in lettura c'e | Perche i 36 esclusi dal conto sono colonne **vuote in ricostruzione e piene in produzione**, quindi lo zero di oggi vale su cio che si puo vedere da li. **Il blocco dell'accesso smette di essere generico**: c'e uno strumento, e sola lettura, esce con un codice, e ci vuole un minuto. E perche i loro **otto commit locali piu uno nella libreria** aspettano un push che non e mio |
 
@@ -511,6 +511,52 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**La migrazione dati non puo cominciare dalle 808 righe, e il prerequisito non era
+scritto da nessuna parte.** Misurato l'11 settembre sul foglio «Visite» di
+`ExportExcel (4).xlsx`, che e su questo disco insieme all'altro file che serve.
+
+    righe persona                    3.501   su 480 societa
+    ESECUZIONI                         808   esatte, il numero del programma confermato
+    persone che ne hanno almeno una     787
+    accertamenti che compaiono            9   su dieci a vocabolario
+
+Le dieci periodicita lette dalla sottointestazione — 12/24/12/24/12/24/3/48/60/60 —
+**combaciano con le dieci della `0005`**, che le aveva prese dallo stesso posto: e una
+rilettura indipendente della stessa fonte, non una conferma esterna, e vale per quello.
+
+**E la colonna «Prossima Scadenza» del foglio e derivata, misurato: 796 su 796 identiche
+a esecuzione + periodicita, zero diverse, 12 mancanti.** Quindi la `0005` aveva ragione
+a non prenderla da li e a cercare le scadenze **dichiarate** nell'altro file, dove sono
+9 su 769 e tutte anticipate. I due numeri — 808 e 769 — **non erano in contraddizione**:
+contano due cose diverse su due file diversi, e messi in fila lo si vede.
+
+**Il prerequisito.** `sorveglianza.persona_id` e una chiave esterna su `persona(id)`, e
+in questo repo `persona` **e vuota**. Le 808 righe appartengono a **787 persone**:
+prima delle 808 vanno le 787, e prima ancora i loro clienti. «La migrazione dati: le 808
+righe di sorveglianza» stava scritta in questa tabella **come se fosse il primo passo**,
+e non lo e. Non e un errore di stima: e una dipendenza che nessuno aveva nominato perche
+il numero piu grande nascondeva quello piu piccolo.
+
+**E la distribuzione dice che costa meno di quanto sembri.** Sulle 3.501 righe mancano
+**232 codici fiscali**; sulle **787 che hanno una esecuzione** ne mancano **sette**. Il
+problema dell'identita e molto piu piccolo sulla popolazione che conta — la forma
+dell'import non cambia, il suo costo si.
+
+**Due cose sono andate a chi le puo misurare.** Ad AppSopralluoghi le regole d'identita
+del loro import — hanno scritto 3.420 persone da questi stessi file e chiuso i sette
+buchi, quindi il conto delle righe non agganciate ce l'hanno — e i **sette codici
+fiscali che compaiono su piu di una riga** (3.269 con C.F., 3.262 distinti), che decidono
+se `persona.codice_fiscale unique` regga l'import o lo rifiuti. Ad AppFormazione la
+domanda aperta della **scheda 10**, che da oggi e operativa: **l'ultima esecuzione o
+tutte?** Il foglio ha **una coppia di colonne sola** per accertamento e la chiama
+«Ultima Esecuzione»; se il gestionale tenesse la storia, importare 808 righe la
+**perderebbe in silenzio** e il conto tornerebbe lo stesso. Loro hanno l'estrazione
+completa dal 2018, che e l'unica finestra piu larga dei cinque export dell'attivo.
+
+Il vincolo `sorveglianza_una_per_data` ammette la storia ed e stato scritto per reggere
+entrambe le risposte. **Nessuna delle due e un difetto; sapere quale delle due e la
+differenza fra un import che sa cosa lascia fuori e uno che crede di aver preso tutto.**
 
 **L'art. 16 e letto, e la prima risposta e un'assenza: non nomina mai la formazione.**
 (`a1827fd` nella libreria.)
