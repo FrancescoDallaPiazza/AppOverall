@@ -399,7 +399,19 @@ impalcatura Supabase (due `auth.uid()` e i `to authenticated`), quindi girano su
 Postgres nudo. Non e una dipendenza da Supabase.
 
 Resta di Francesco **solo** cio che vuole le credenziali vere: applicare in
-produzione, quando si decidera di farlo.
+produzione. **Autorizzato l'11 settembre 2026** — «applica le due migrazioni in
+produzione» — per la `0055` e la `0056` di AppFormazione, cioe la decisione 5 che il
+database non aveva e il `security_invoker` sull'unica vista scoperta.
+
+Ordinata con la disciplina che il piano free impone: misura del **prima**, i due file
+letti per sapere se sono **idempotenti**, applicazione in ordine, misura del **dopo**
+— incluso **quanti clienti cambiano classe di rischio**, che e il numero che dice cosa
+e cambiato per l'azienda e non per lo schema. E una trappola dichiarata in anticipo:
+applicare incollando SQL nell'editor **non registra** le versioni in
+`supabase_migrations.schema_migrations`, quindi ripara il dato e crea una nuova deriva
+fra file e registro — la classe di difetto per cui esiste A10. Se la CLI non c'e, va
+scritto che sono state applicate a mano e non registrate; **non** si inventano righe
+nel registro di sistema.
 
 **~~Serve Docker~~ — no, e la confusione era mia.** Avevo scritto che senza Docker il
 database *applicato* di AppFormazione non fosse leggibile. E falso in un modo che
