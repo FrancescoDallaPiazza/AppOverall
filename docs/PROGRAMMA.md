@@ -361,7 +361,7 @@ senza la seconda, chi finisce alle sette di sera si ferma o si inventa un compit
 |---|---|---|---|
 | **AppOverall** | ~~`0004` il catalogo~~ **scritta** · **`0005` la sorveglianza sanitaria: SCRITTA l'11.09** — vocabolario dei 10 accertamenti con la periodicita dichiarata, esecuzioni per persona, **scadenza calcolata nella vista e non memorizzata**. Adesso: `corso_assolve`, **bloccata** — aspetta le regole di AppFormazione, che e ferma | la migrazione **dati**: le 808 righe della sorveglianza e il corpus nel nuovo schema | La `0005` si poteva scrivere senza nessuno: la scheda 10 e decisa e le misure c'erano tutte. Porta la **forma** e non i dati, e lo dice: il conteggio 808 contro 1.148 non e sciolto, e l'avevo scritto io che una migrazione su un conteggio aperto nasce storta. `corso_assolve` invece resta vuota perche una fonte sola sarebbe coerente con se stessa e non per questo vera |
 | **AppSopralluoghi** | ~~la riconciliazione delle visite~~ **chiusa dal suo lato l'11.09** (`b647389`) → **riconciliare i DUE export delle visite fra loro**: il foglio ha 808 accertamenti e 801 coppie (CF, tipo), lo scadenzario 814 righe e 805 coppie. Quali righe differiscono, e **quale dei due e la fonte migliore per l'import** della `0005` | l'import dei ruoli, quando Francesco toglie la pausa | Ha trovato un **secondo export dedicato alle visite** che nessuno sapeva di avere, e insieme i due dicono cosa sia il dato: **l'ultima esecuzione per persona e per tipo** — non le aperte (311 gia scadute), non lo storico (801 coppie su 808 righe). Nella `0005` importo da uno dei due, e devo sapere da quale |
-| **AppFormazione** | **corsia fermata da Francesco la sera del 10.09, e il passo NON e iniziato.** Assegnato e non aperto: le **regole obbligo -> corso**, stato finale, in due letture confrontate. Chi riapre riparte da qui — non e in corso, non e in attesa di dati, e nessuno la sta facendo | la sua meta della riconciliazione delle visite: su quanti **clienti distinti** stanno i 1.148 eventi, se sono storici o aperti, e su **quali clienti e in che anni** stanno le tre oculistiche quinquennali che vanno contro il pattern | `reference/` a monte e chiuso e riportato (`4d7ab3e`, `182783e` nella libreria, `b5afc64` da loro), con la ragione della forma nel README della libreria. Le regole servono a me: sono la fonte **principale** di `corso_assolve`, e finche non arrivano quella tabella resta vuota per scelta e non per attesa |
+| **AppFormazione** | **le regole obbligo -> corso**, misurate, documento in scrittura. La seconda lettura **non e stata possibile** — Docker non c'e, quindi il database applicato non e leggibile — e resta qualificata «i file dicono» (A10), ma la ricostruzione e **vera**: 56 migrazioni su 56 riprodotte su un PostgreSQL locale | **caricare `0001` -> `0005` piu il seed su quel PostgreSQL locale**: e la prova che manca alla `0004` e alla `0005`, e si scopre adesso che non serviva Francesco | Ha sciolto il conteggio delle visite in una riga: i 1.148 erano la somma di `occorrenze` su dieci righe di catalogo, da un'estrazione che copre i cessati dal 2018 — un oggetto diverso, non una divergenza. E ha corretto, senza volerlo, una mia affermazione sul piano |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco ha fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -369,11 +369,26 @@ meta, punto di ripresa scritto nella `0004`), e l'import dei ruoli era gia in pa
 un lavoro che nessuno sta facendo: una corsia ferma e diversa da una corsia lenta, e
 dal foglio non si distinguono.
 
-**Un task che nessuna corsia puo prendere, e va detto invece di restare in fondo a
-una lista.** Far girare `0001` -> `0004` piu il seed su PostgreSQL: nessuna delle tre
-sessioni ha `psql`, Docker o le credenziali del progetto. Lo puo fare **solo
-Francesco**, o una sessione a cui apra quell'accesso. Finche non succede, la `0004`
-e scritta e non provata, e la migrazione lo dichiara al posto di lasciarlo credere.
+**~~Un task che nessuna corsia puo prendere~~ — era falso, e l'ho scoperto per caso.**
+Avevo scritto che far girare le migrazioni su PostgreSQL potesse farlo solo
+Francesco, perche «nessuna delle tre sessioni ha `psql`, Docker o le credenziali».
+**Su questa macchina un PostgreSQL locale c'e**: la corsia AppFormazione ci ha
+riprodotto 56 migrazioni su 56 per ricostruire il proprio stato. Non l'avevo
+verificato — avevo generalizzato l'assenza di `psql` in **questa** sessione a tutte e
+tre, che e la forma domestica di A9.
+
+Quindi il task **e assegnabile**, ed e assegnato: caricare `0001` -> `0005` piu
+`seed/corso_alias.sql` su un PostgreSQL locale e vuoto, e verificare 40 righe in
+`corso`, 268 in `corso_alias` di cui 31 `ignorato`, 10 in `accertamento`. Non serve
+Supabase e non serve toccare la produzione: le chiavi esterne fanno da prova, e se un
+codice non torna l'insert si rifiuta invece di scrivere una riga muta.
+
+Resta di Francesco **solo** cio che vuole le credenziali vere: applicare in
+produzione, quando si decidera di farlo.
+
+**Nota che vale per la Fase 5:** Docker **non** e installato, quindi un Supabase
+locale non si alza e il database *applicato* di AppFormazione non e leggibile da qui.
+Le loro ricostruzioni restano qualificate «i file dicono», come impone A10.
 
 **E due che aspettano una persona, non un turno.** Entrambe vanno a chi compila il
 gestionale, e conviene farle **nella stessa conversazione**:
