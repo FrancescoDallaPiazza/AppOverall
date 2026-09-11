@@ -607,6 +607,53 @@ correzione precedente aveva riaperto il METODO e non il DATO**. Un dato chiuso s
 essere un dato da guardare anche per chi ha appena imparato a guardare meglio, e le due
 cose si riaprono separatamente.
 
+**Nove commit non spinti per sei ore, e il difetto non e loro: e che non ho mai chiesto
+perche.**
+
+Segnalato da Francesco l'11 settembre sera, e prima ancora da AppSopralluoghi. I fatti:
+`origin/main` di AppFormazione fermo a **41b4192 delle 08:28**, il loro HEAD a **d6c6d4c
+delle 14:28**, e in mezzo **nove commit** — dalle 12:43 alle 14:28. Niente di non
+committato.
+
+Al primo commit di stamattina quella corsia ha scritto «il push lo chiedo a Francesco,
+non lo do per assegnato». **Ho preso quella frase per buona e l'ho ripetuta una decina di
+volte** — a Francesco e all'altra corsia — **senza mai verificare se fosse una regola o
+un'assunzione**. Il coordinamento e di questo repo, e questa e la cosa che il
+coordinamento doveva prendere.
+
+**Perche e un'asimmetria e non una regola.** Le altre due corsie spingono ogni commit da
+sole; oggi da qui saranno trenta push. La regola del progetto sull'autorizzazione
+riguarda **lo scrivere su dati veri** — «un permesso su un database senza backup non si
+relaia» — e un push su un repo git non e quello. E soprattutto: **lo stato delle tre
+corsie si legge da `origin` dopo un fetch**, ed e il meccanismo con cui questo progetto
+sa cosa succede. Nove commit non spinti non sono lavoro in attesa: sono **lavoro
+invisibile**.
+
+**E il costo l'ho pagato io senza accorgermene.** Per otto ore ho coordinato leggendo il
+**loro disco** invece di `origin`: le migrazioni `0057`-`0062`, i documenti 14 e 16, e
+`domini_orfani.py`, che su `origin` **non c'e**. Il programma dice che lo stato si legge
+da `origin` e non dal disco, e **ho fatto l'opposto per mezza giornata senza dirlo**. Ha
+funzionato perche erano **avanti** e non indietro — ma e la stessa regola violata, e nel
+verso che non produce un errore visibile. La regola esiste contro il disco **vecchio**;
+qui il disco era **nuovo**, e il risultato e stato lo stesso: `origin` non descriveva la
+realta e nessuno se n'e accorto.
+
+E non e astratto: la `0006` cita il loro modello, la loro `0060` ha cambiato le
+grandezze, la decisione sui confinati poggia sul loro documento 14. **Niente di tutto
+questo e verificabile da `origin`.**
+
+**La domanda e andata a loro** — se ci sia una ragione, si scrive; se non c'e, il push
+dei nove e loro ed e assegnato. **E una distinzione va tenuta**: il commit nella
+**libreria** e un'altra cosa e li si fermavano a ragione — porta un PDF da **6,2 MB**, e
+un binario in git e per sempre. Quello resta un push che Francesco guarda prima, e
+l'avevano segnalato loro per primi.
+
+**La regola che ne esce, e vale per chi coordina piu che per chi esegue: una corsia che
+si autolimita va chiesta, non ratificata.** Un «non lo do per assegnato» e prudenza da
+parte di chi lo dice e diventa una regola inventata nel momento in cui chi coordina la
+ripete senza verificarla. Oggi e successo dieci volte di fila, e ogni ripetizione l'ha
+resa piu solida.
+
 **La `0007` e la `0008` lette prima del carico: sei rilievi, e il primo non potevo
 vederlo da qui.**
 
