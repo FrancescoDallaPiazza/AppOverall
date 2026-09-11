@@ -441,7 +441,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la `0008`, che fa tre cose**: il **secondo codice** dei confinati, giustificato dal catalogo e **senza** una riga in piu in `corso_assolve`; `testo_origine` su `corso_alias` coi **268 verbatim** e la loro impronta, piu il commento corretto; e la **grandezza marcata su DUE colonne e non una** — `ore` e `ore_aggiornamento` sono grandezze diverse sulla stessa riga, e una colonna sola avrebbe descritto male meta dei numeri che doveva descrivere | la **Decisione della scheda 12**, che adesso ha il suo numero: il confronto delle ore copre **11 obblighi su 34** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato, e la terza me l'ha corretta un'altra corsia **prima** che la scrivessi |
 | **AppSopralluoghi** | ~~l'azione di livello cliente~~ **chiusa** (`81f6903`, `066`): nasce da un **calcolo fermo** e non da un campo vuoto, quindi oggi vale **zero clienti** e al primo import **quattro** — e il vincolo e rispettato per costruzione → **il progetto dell'import delle nomine, non il codice.** La `0007` non e ancora caricata, ma la sua **forma** e pubblicata e basta per decidere. Tre cose che voglio decise e scritte: cosa fa l'import con le **7 asserzioni non risolte**; se una nomina dedotta dalla **mansione** resti distinguibile da una letta dalla **colonna** dopo essere entrata; e cosa succede alla **trentesima forma**, che arrivera — 29 forme su 160 righe vuol dire una riga su cinque scritta in modo nuovo | scrivere l'import, quando la `0007` e caricata | Perche progettare non dipende dal carico e scrivere si, e perche il terzo punto e quello che decide se questo lavoro invecchia bene: un import che riconosce 29 forme e **tace** sulla trentesima ricrea in un anno il difetto che questa misura ha appena chiuso. E perche la provenienza e la stessa domanda dell'ATECO e degli alias, alla terza tabella: **una nomina dedotta da un testo libero e una nomina dichiarata non sono la stessa cosa, e dopo l'import non si distinguono piu se nessuno lo scrive** |
-| **AppFormazione** | ~~A13 sugli altri 32~~ **chiusa** (`b2b4e0c`): le grandezze sono **quattro**, si classificano **per attesa e non per obbligo**, e il tetto del confronto e **11 obblighi su 34** → **le due proposte, e prima della prossima estensione e non dopo**: (1) sostituire il booleano su G2 con una colonna che dica **quale grandezza** misura ciascuna attesa, e far diventare il guardrail «e G1?» invece di «non e G2?»; (2) far leggere al ramo `null` la colonna `ore_mancano_perche` che esiste dalla `0041`, cosi che `rinvio_al_ccnl` smetta di essere il nome di un raccoglitore | la scheda 12, che adesso ha il suo numero e aspetta quattro decisioni — una delle quali e di Francesco | Perche le avete trovate voi e le avete dichiarate **non fatte**, ed e l'ordine giusto: e l'estensione a renderle attive, quindi si fanno prima. E perche la diagnosi vale oltre le due righe — **un flag che marca le eccezioni note e sempre vecchio di una scoperta**, e va sostituito da uno che dichiara la regola. **Sette commit** aspettano il push: `f73eb1b`, `cf9cba6`, `4c1db99`, `9ffbe43`, `8ba2edd`, `b2b4e0c`, piu `4548621` nella libreria |
+| **AppFormazione** | ~~le due proposte~~ **chiuse** (`1b1ce9f`): la colonna per grandezza sta su **ciascuna attesa**, e popolata **per regola e non per elenco**; il guardrail rifiuta un `G5` mai visto; `rinvio_al_ccnl` e passato da etichetta a spiegazione → **cercare le altre viste che hanno smesso di spiegare.** Il carico ne ha trovata **una** — un `case` che nominava un valore rinominato, vista verde, stesso numero di righe, motivo vuoto. **Non e un caso isolato per costruzione**: ogni `case` che nomina un valore di dominio ha la stessa esposizione. Sola lettura: enumerate le viste e i rami che producono etichette, e confrontateli coi domini di oggi | la scheda 12, quando le quattro decisioni sono prese — e **una non e nostra** | Perche l'avete trovata **caricando** e non leggendo, e una cosa che il carico trova una volta la trova ancora. E perche il difetto e della famiglia peggiore: non rompe, **tace** — un `count(*)` non se ne accorge, e il posto dove si vede non e il carico ma il contenuto |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -511,6 +511,57 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**Il guardrail rifiuta una grandezza mai vista, e il carico ha trovato una vista che
+aveva smesso di spiegare.** (`1b1ce9f`.)
+
+La prova che avevo chiesto — un `G5` finto, per vedere se il guardrail **dichiara la
+regola** invece di allungare l'elenco — e passata nei due versi: rifiutata dal vincolo,
+e **`misura_non_confrontabile`** quando si allarga il dominio e la si scrive lo stesso,
+che e cio che accadrebbe a una scoperta vera. Ma la riga che convince e un'altra, e non
+l'aveva chiesta nessuno: **nella stessa simulazione l'attesa INIZIALE dello stesso
+obbligo continua a essere giudicata `sufficienti`**. Il guardrail e per **attesa** e non
+per riga — cioe l'insegnamento di `coordinatore_sicurezza` **visto funzionare** invece
+che rispettato in fase di scrittura. Un disegno si prova cosi, non con il caso per cui
+e stato fatto.
+
+E sono **popolate per regola e non per elenco** — «il metodo dell'obbligo e monte ore?
+la fonte e la parte III punto 5 o 6? il numero non c'e? per esclusione, durata del
+corso» — **senza nominare nessun codice**. Un obbligo nuovo con una fonte di quella
+famiglia **si marca da solo**, che era esattamente il difetto da chiudere.
+
+**Il difetto che il carico ha trovato e che la lettura non vedeva, e vale oltre il
+caso.** Una vista a valle — `rls_ore_aggiornamento` — **aveva smesso di spiegare una
+riga**: il suo `case` nominava `rinvio_al_ccnl`, un valore che non esiste piu. La vista
+**girava senza errori**, tornava **lo stesso numero di righe**, e il motivo era **vuoto**.
+
+    Un `count(*)` non se ne accorge.
+
+Rinominare un valore rompe in silenzio ogni `case` che lo nomina, e **il posto dove si
+vede non e il carico ma il contenuto**. La riparazione e quella giusta: il motivo lo
+**prende dalla colonna** invece di riscriverlo, cosi la prossima causa nuova ci arriva
+da sola — di nuovo la regola al posto dell'elenco, un livello piu in la.
+
+**E mi riguarda subito.** I sette conteggi della `0006` e gli otto della `0007` sono
+**conteggi**: proverebbero che le righe ci sono, non che dicano ancora qualcosa. Su
+questo sono fortunato e non bravo — nella `0007` la risoluzione e una **join** fra
+`ruolo_testo_parola` e `ruolo_da_parola`, non un `case`, quindi un valore rinominato
+**rompe la chiave esterna** invece di svuotare una stringa. E la stessa forma della
+`0041` che lascio `ore_iniziali` a null: **una struttura giusta protegge da un errore
+che non e ancora stato nominato**, e questa volta la struttura giusta l'ho scelta per
+un'altra ragione. Al carico della `0007` va aggiunto **un controllo sul contenuto** e
+non solo sui numeri.
+
+**E la frase sul CCNL non e persa: e passata da etichetta a spiegazione**, che e
+l'unico posto a cui apparteneva. Un raccoglitore battezzato col nome del suo inquilino
+si ripara cosi — non cancellando il nome, ma spostandolo dove descriveva davvero
+qualcosa.
+
+**Sulla scheda 12, un dato che restringe la domanda di Francesco invece di aggiungerne
+una.** I tre titoli da preposto hanno periodi di erogazione **che si sovrappongono**, e
+uno dei tre va dal marzo 2011 al maggio 2026 **ininterrotto**. Chi risponde non deve
+ricostruire niente: deve dire **se in aula si insegnavano cose diverse**. E una domanda
+da due minuti per la persona giusta, e non lo e nessuna delle tre corsie.
 
 **L'azione di livello cliente e chiusa, e il vincolo che avevo dettato e rispettato per
 costruzione invece che per disciplina.** (`81f6903`, migrazione `066`.)
