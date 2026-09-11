@@ -111,12 +111,40 @@ Zero deviazioni, nemmeno di un giorno. Le differenze 365/366, 730/731, 1826/1827
 sono deviazioni: sono gli anni bisestili, e calcolando sul calendario invece che in
 giorni tornano tutte.
 
-**Quindi la scadenza si deriva, non si memorizza.** Nessuna riga la corregge a mano,
-e lo «zero scadenze senza data» esclude anche il caso che sembrava plausibile — una
-scadenza imposta dal medico su una visita non registrata. Le 12 senza scadenza non
-sono un controesempio: non contengono un'informazione **diversa**, contengono
-un'informazione **in meno**. Derivandola si ottiene esattamente ciò che il gestionale
-avrebbe scritto, e quelle 12 smettono di essere un buco.
+**~~Quindi la scadenza si deriva, non si memorizza.~~ Si deriva *per default*, e si
+può dichiarare — e la prima versione di questa sezione era un difetto grave.**
+
+Il «796 su 796» è giusto come numero e non era una verifica. La colonna «Prossima
+Scadenza» del foglio **è calcolata dal gestionale** da esecuzione + intervallo:
+confrontarla con esecuzione + intervallo verifica **una formula contro sé stessa**, e
+un risultato che non poteva non tornare non prova niente. Non era una terza fonte:
+era la stessa fonte guardata due volte.
+
+**La prima fonte davvero esterna dissente in 9 casi su 769**, e non è rumore:
+`ExportExcelVisiteScadenze.xlsx` dà nove scadenze **tutte più vicine** di quella
+calcolata, zero più lontane, e nessuna corrisponde a un ciclo precedente (verificato
+fino a otto cicli indietro). Una differenza casuale andrebbe nei due sensi; una con
+una direzione sola ha una causa — e la causa ha un nome: il **richiamo anticipato**
+deciso dal medico competente su una persona da rivedere prima della periodicità
+ordinaria. Un caso misurato: esecuzione 31.08.2026, calcolata 31.08.2027,
+**dichiarata 21.11.2026**.
+
+È il caso clinicamente più importante che esista in questo dominio, ed è esattamente
+quello che una scadenza solo derivata **cancella in silenzio**: la riga resta e
+sembra giusta. Nove persone da rivedere prima sarebbero diventate nove persone in
+regola, e nessun conteggio lo avrebbe segnalato.
+
+Quindi nella `0005`: la scadenza è **derivata** dove nessuno dice altro — e le 12
+righe senza scadenza restano un'informazione **in meno**, non diversa — e
+**dichiarata** dove una fonte dissente, con la fonte scritta accanto. La vista mostra
+calcolata, dichiarata e un `anticipata` booleano, perché un anticipo non si deve
+poter nascondere dentro un `coalesce`.
+
+**E i due export sono complementari, non ridondanti**: l'import leggerà due file. Il
+foglio è primario — porta l'esecuzione, cioè il fatto, e ha una società e 31 coppie
+in più — lo scadenzario porta le 35 coppie che il foglio non ha e l'informazione che
+dal foglio non si può derivare. I nomi dei nove tipi coincidono **carattere per
+carattere**, quindi nessuna tabella di corrispondenza.
 
 **Quel che invece va memorizzato è l'intervallo per tipo di accertamento**, perché è
 un dato di **regola** e non di fatto — e nel file sta in un posto fragile: fra

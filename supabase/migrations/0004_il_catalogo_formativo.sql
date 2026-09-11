@@ -346,9 +346,25 @@ create table corso_assolve (
   -- la fonte porta, e copiarla come coppia sarebbe un errore di merito.
   corso_codice text references corso(codice),
   categoria text,
+  -- **Una riga parziale non assolve da sola.** Viene dalla trappola simmetrica a
+  -- quella di `per_categoria`, consegnata da AppFormazione l'11 settembre 2026: 7
+  -- dei loro 180 titoli hanno `assolve_obbligo = false` perche sono **moduli
+  -- parziali** — «MODULO AGGIUNTIVO CANTIERI», «FORMAZIONE SPECIFICA RISCHIO ALTO
+  -- PARZIALE 6H 1 2». Importarli come righe piene direbbe che una persona a meta
+  -- percorso e in regola.
+  --
+  -- Le due trappole sbagliano in direzioni opposte, e per questo servono entrambe:
+  -- `categoria` senza questa colonna sbaglia **per difetto** (un rappresentante
+  -- rende obbligatorio il livello 2 e dichiara scoperti gli altri); questa colonna
+  -- senza `categoria` sbaglia **per eccesso** (mezzo corso chiude l'obbligo).
+  parziale boolean not null default false,
   note text,
   constraint assolve_un_corso_o_una_categoria
-    check ((corso_codice is not null) <> (categoria is not null))
+    check ((corso_codice is not null) <> (categoria is not null)),
+  -- Un parziale e sempre di un corso preciso: «meta di una categoria» non vuol
+  -- dire niente.
+  constraint parziale_solo_su_un_corso
+    check (not parziale or corso_codice is not null)
 );
 
 -- I null non collidono fra loro in un vincolo di unicita, quindi senza questo
@@ -418,9 +434,39 @@ comment on column corso_assolve.categoria is
 -- `b50003f`). Non prova che le migrazioni descrivano ogni tabella: prova che il
 -- **metodo** di ricostruzione funziona, e quindi che confrontare allo stesso modo
 -- i 40 codici curati di questa migrazione ha senso e non e stato ancora fatto.
--- Manca l'altra meta: le regole obbligo -> corso di AppFormazione. Le 21 righe del
--- campo si traducono con `ruolo_sicurezza_alias` della 0002 — `dl_rspp` ->
--- `datore_lavoro_rspp`, e non a mano.
+-- **L'altra meta e arrivata l'11 settembre 2026** (AppFormazione `75d10ee`,
+-- `docs/08-le-regole-obbligo-corso.md` e la mappa di 180 righe). Ha una forma
+-- diversa da quella del campo, e la differenza e la ragione per cui la grana
+-- obbligo e quella giusta: **loro non legano il ruolo al corso.** `requisiti` (43
+-- righe) lega ruolo + livello -> **obbligo**; `staging.classificazione_corsi` (180)
+-- lega **titolo** -> obbligo. Quindi la traduzione verso questa tabella passa per
+-- due dizionari e non per uno: i loro titoli sono **alias** (e si risolvono con
+-- `corso_alias`), i loro 35 obblighi si risolvono sui 36 codici di
+-- `ruolo_sicurezza`, e i codici del campo con `ruolo_sicurezza_alias` della 0002.
+--
+-- **Qualificata, non vera** (A10): la loro seconda lettura non e stata possibile —
+-- Docker non e installato, quindi il database applicato non e leggibile — ma non e
+-- una lettura a occhio: hanno **rieseguito 56 migrazioni su 56** su un PostgreSQL
+-- locale, e il grep ha contato **cento punti di scrittura su venticinque file**.
+--
+-- **Cosa NON si copia dalle 180 righe, e sono tre cose misurate:**
+--
+--   1. `nessuno` **non e un obbligo: e il cestino**, e ha **12 titoli** — qualita,
+--      privacy, ABC rifiuti, qualifica saldatore, gli otto moduli `MV` della
+--      manutenzione ferroviaria. Si escludono, non si traducono.
+--   2. i **7 titoli parziali**: vedi la colonna `parziale` qui sopra.
+--   3. **sei obblighi che nessun corso assolve**, e per questa tabella sono vuoti
+--      **per misura**: `attrezzatura_cmm`, `attrezzatura_pompe_calcestruzzo`,
+--      `attrezzatura_raccoglifrutta`, `coordinatore_sicurezza`, `lavori_funi`,
+--      `sorveglianza_funi`. I primi tre sono le abilitazioni nuove dell'ASR 2025
+--      (8.3.8-8.3.10): l'obbligo esiste dal 2025 e non sono mai stati erogati.
+--
+-- **E una conferma che vale come una decisione.** Da loro la distinzione iniziale /
+-- aggiornamento **non esiste nella regola**, esattamente come nel campo: esiste a
+-- valle in `corsi.tipo`, **derivata da una stringa** — `case when titolo like
+-- '%AGGIORNAMENTO%'`, che sui 180 titoli da 74 e 106. E una convenzione di titolo
+-- del gestionale, non un dato dichiarato. Togliere `is_aggiornamento` da questa
+-- tabella era giusto, e ora lo dicono due modelli invece di uno.
 
 -- ============================================================================
 --  IL CONFINE: QUESTA MIGRAZIONE NON PORTA LA SORVEGLIANZA SANITARIA

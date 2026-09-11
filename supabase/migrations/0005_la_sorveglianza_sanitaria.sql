@@ -10,12 +10,14 @@
 --
 --   porta:     la **forma** — il vocabolario degli accertamenti con la loro
 --              periodicita, e le esecuzioni per persona
---   NON porta: le **808 righe**. Non per prudenza: perche il conteggio non e
---              sciolto. Sullo stesso dominio AppFormazione ne conta **1.148**, e
---              la scheda 10 dice cosa misurare per capire se sono lo stesso
---              insieme letto in due modi (storico contro aperto) o due perimetri
---              diversi. **Una migrazione dati che nasce su un conteggio aperto
---              nasce storta**, e l'import e il passo successivo, non questo.
+--   NON porta: le **righe**. L'import e il passo successivo e legge **due file**,
+--              non uno: `ExportExcel (4).xlsx` foglio «Visite» come primario —
+--              porta l'esecuzione, che e il fatto, e copre il perimetro piu largo
+--              (63 societa contro 62, 31 coppie in piu) — e
+--              `ExportExcelVisiteScadenze.xlsx` come fonte delle scadenze
+--              **dichiarate**, che dal foglio non si possono derivare. I nomi dei
+--              nove tipi coincidono carattere per carattere fra i due, quindi
+--              nessuna tabella di corrispondenza da scrivere.
 --
 -- ============================================================================
 --  IL VOCABOLARIO — e l'intervallo si memorizza perche e una regola
@@ -78,30 +80,60 @@ insert into accertamento (codice, nome_gestionale, nome, periodicita_mesi, perio
    'Come sopra: «(1 anno)» solo nella sotto-intestazione.');
 
 -- ============================================================================
---  LE ESECUZIONI — e la scadenza NON e una colonna
+--  LE ESECUZIONI — e la scadenza si calcola, salvo quando qualcuno la dichiara
 -- ============================================================================
 --
--- **La scadenza si deriva**, e non e una preferenza di stile: e una misura. Nelle
--- 808 righe del gestionale non ce n'e **una** scritta a mano — 796 su 796 uguali a
--- `data + intervallo`, e **zero righe con la scadenza e senza la data**, che
--- esclude anche il caso che sembrava plausibile: una scadenza imposta dal medico su
--- una visita non registrata.
+-- **La scadenza si deriva per default, e si puo dichiarare.** La prima versione di
+-- questa migrazione la derivava e basta, e sarebbe stata un difetto grave: va
+-- raccontato per intero perche il ragionamento sbagliato era mio e sembrava solido.
 --
--- Le 12 righe con la data e senza la scadenza non sono un controesempio: non
--- portano un'informazione **diversa**, ne portano una **in meno**. Derivandola si
--- ottiene esattamente cio che il gestionale avrebbe scritto, e quelle 12 smettono
--- di essere un buco.
+-- La misura diceva: «796 scadenze su 796 uguali a `data + intervallo`, zero
+-- deviazioni», e la chiamavamo terza fonte indipendente. **Non lo era.** La colonna
+-- «Prossima Scadenza» del foglio **e calcolata dal gestionale** da esecuzione piu
+-- intervallo: verificarla contro esecuzione piu intervallo verifica **una formula
+-- contro se stessa**, e un risultato che non poteva non tornare non e una verifica.
+-- Era la stessa fonte guardata due volte.
 --
--- Memorizzarla sarebbe **la stessa cosa scritta due volte**, cioe il difetto che
--- questo repo esiste per chiudere: due copie divergono, e a divergere per prima
--- sarebbe quella che nessuno ricalcola.
+-- **La prima fonte davvero esterna dissente in 9 casi su 769.** E
+-- `ExportExcelVisiteScadenze.xlsx`, l'export dedicato, e le nove differenze non
+-- sono rumore: **sono tutte e nove piu VICINE** della scadenza calcolata, zero piu
+-- lontane, e nessuna e un ciclo precedente (verificato fino a otto cicli indietro).
+-- Una differenza casuale andrebbe nei due sensi; questa ha una direzione sola,
+-- quindi ha una causa. E la causa ha un nome: il **richiamo anticipato** deciso dal
+-- medico competente su una persona da rivedere prima della periodicita ordinaria.
+--
+-- Esempio misurato: esecuzione 31.08.2026, calcolata 31.08.2027, **dichiarata
+-- 21.11.2026**.
+--
+-- E il caso **clinicamente piu importante** che esista in sorveglianza sanitaria, ed
+-- e esattamente quello che una scadenza solo calcolata cancella — **in silenzio**,
+-- perche la riga resta e sembra giusta. Nove persone da rivedere prima sarebbero
+-- diventate nove persone in regola, e nessun conteggio lo avrebbe segnalato.
+--
+-- Quindi: la scadenza resta **derivata** dove nessuno dice altro — e le 12 righe
+-- senza scadenza restano un'informazione **in meno**, non diversa — ma dove una
+-- fonte la **dichiara** il valore dichiarato vince, e la vista mostra entrambi
+-- perche l'anticipo si veda invece di essere assorbito.
 
 create table sorveglianza (
   id uuid primary key default gen_random_uuid(),
   persona_id uuid not null references persona(id) on delete cascade,
   accertamento text not null references accertamento(codice),
   data_esecuzione date not null,
+  -- **null vuol dire «nessuno l'ha dichiarata», non «non c'e scadenza»**: la
+  -- scadenza in quel caso e quella calcolata, e si legge in `v_sorveglianza`.
+  -- Valorizzata solo dove una fonte esterna dissente dal calcolo — 9 righe su 769
+  -- nella misura dell'11 settembre 2026, tutte e nove **anticipate**.
+  scadenza_dichiarata date,
+  -- Da dove viene la dichiarazione, perche una scadenza che nessuno sa da dove
+  -- venga non e opponibile e non si puo riverificare.
+  scadenza_fonte text,
   note text,
+  constraint scadenza_dichiarata_ha_una_fonte
+    check ((scadenza_dichiarata is null) = (scadenza_fonte is null)),
+  -- Una scadenza prima dell'esecuzione non e un anticipo: e un dato rotto.
+  constraint scadenza_dopo_esecuzione
+    check (scadenza_dichiarata is null or scadenza_dichiarata > data_esecuzione),
   creato_il timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   -- La stessa persona puo rifare lo stesso accertamento negli anni: la chiave
@@ -150,7 +182,18 @@ create view v_sorveglianza as
          s.accertamento,
          a.nome as accertamento_nome,
          s.data_esecuzione,
-         (s.data_esecuzione + (a.periodicita_mesi || ' months')::interval)::date as scadenza,
+         -- la scadenza che vale
+         coalesce(s.scadenza_dichiarata,
+                  (s.data_esecuzione + (a.periodicita_mesi || ' months')::interval)::date)
+           as scadenza,
+         -- e le due componenti, perche un anticipo non si deve poter nascondere
+         (s.data_esecuzione + (a.periodicita_mesi || ' months')::interval)::date
+           as scadenza_calcolata,
+         s.scadenza_dichiarata,
+         s.scadenza_fonte,
+         (s.scadenza_dichiarata is not null
+          and s.scadenza_dichiarata < (s.data_esecuzione + (a.periodicita_mesi || ' months')::interval)::date)
+           as anticipata,
          a.periodicita_mesi,
          s.note,
          s.updated_at
@@ -158,7 +201,7 @@ create view v_sorveglianza as
     join accertamento a on a.codice = s.accertamento;
 
 comment on view v_sorveglianza is
-  'Le esecuzioni con la scadenza **calcolata**, non memorizzata: `data_esecuzione + periodicita_mesi` sul calendario. E l''unico posto dove la scadenza esiste, e per questo non puo divergere dalla regola che la produce.';
+  'La scadenza che vale, piu le due componenti da cui viene: quella **calcolata** sul calendario e quella eventualmente **dichiarata** da una fonte. `anticipata` e vero quando la dichiarata e piu vicina della calcolata — cioe il richiamo anticipato del medico competente, il caso che una scadenza solo derivata cancellerebbe in silenzio.';
 
 alter view v_sorveglianza set (security_invoker = on);
 
