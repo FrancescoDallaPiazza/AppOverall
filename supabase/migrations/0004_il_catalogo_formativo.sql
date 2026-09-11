@@ -299,6 +299,30 @@ insert into corso (codice, nome, categoria, ore, aggiornamento_mesi, ore_aggiorn
 --      parlate dicono la stessa cosa — l'obbligo esiste, il corso a catalogo no,
 --      perche Overall non lo eroga. E un'informazione commerciale, non un difetto.
 --
+-- **La terza gamba e arrivata lo stesso giorno** (`eddbb44`): le durate attese di
+-- queste 40 righe contro la **distribuzione** di quelle reali su 13.348 righe di
+-- export. Il sito dice cosa prevede l'accordo, questo catalogo cosa ci aspettiamo,
+-- l'export cosa e stato erogato. In sintesi:
+--
+--   - **zero titoli dell'export fuori dal dizionario**: i 268 alias coprono tutto;
+--   - `RLS` **confermato sotto-specificato**: 4 h x128 **e 8 h x31**, e le 31 sono le
+--     aziende oltre i cinquanta;
+--   - primo soccorso e antincendio **puliti al 100%**, dieci righe su dieci: il dubbio
+--     che il sito aveva sollevato sulla triennalita era infondato, c'era gia;
+--   - le **seconde durate legittime** — carrello 16 x30, escavatori 16 x32, gru torre
+--     14 x22 — chiedono **un codice in piu**, non un numero diverso: sono i corsi
+--     combinati, e la nota di `ATTR_ESCAVATORI` li citava gia;
+--   - `PS_BLSD_SANITARIO` e invece un'**attesa sbagliata**: qui non ha aggiornamento e
+--     nei dati ne ha 20 righe;
+--   - `DL_RSPP_BASE` raccoglie **quattro regimi** (6/10/14 per rischio piu l'8
+--     generico) su un codice **deprecato**, con 161 aggiornamenti e 166 iniziali che ci
+--     mappano. Fa quello per cui la deprecazione lo aveva conservato — reggere gli
+--     attestati storici — ma non ha un successore per le varianti di rischio;
+--   - `DIRIGENTE` (atteso 12, reale 16 x12) e `PREPOSTO` (8 x276 e 12 x38) **non sono
+--     attese sbagliate**: sono due regimi separati **nel tempo**, e la nota di
+--     `DIRIGENTE` qui sopra lo dice — «erano 16h con accordo 2011». Il test e la
+--     **data** degli attestati, non la loro durata.
+--
 -- **Cosa il riscontro non copre, e va detto:** il sito ha undici famiglie, qui ci
 -- sono 40 codici. Restano senza terza fonte i tre moduli RSPP professionali, i due
 -- BLSD e undici attrezzature che il sito non vende come pagina propria. Per quelle

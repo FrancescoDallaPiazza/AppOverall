@@ -110,3 +110,78 @@ il catalogo resta con i due riscontri interni che aveva, e **non con tre**.
 
 Non è un buco del riscontro: è il suo perimetro, e conoscerlo vale più che avere un
 numero in più.
+
+---
+
+# La terza gamba: cosa è stato erogato davvero
+
+Il sito dice cosa **prevede** l'accordo, il catalogo cosa ci **aspettiamo**, l'export
+cosa è **stato erogato**. La terza misura è arrivata l'11 settembre 2026 dalla corsia
+AppSopralluoghi (`eddbb44`), confrontando le durate attese delle 40 righe con la
+**distribuzione** delle durate reali su 13.348 righe.
+
+**Un risultato che vale da solo: zero titoli dell'export sono fuori dal dizionario.**
+I 268 alias coprono tutte le righe — esclusi i 7 parziali e le 461 con alias senza
+codice. La curatela del campo non ha buchi di copertura.
+
+## Le quattro righe che il sito aveva messo in dubbio
+
+| | atteso | reale | esito |
+| --- | --- | --- | --- |
+| `RLS` aggiornamento | 4 h | **4 h ×128 e 8 h ×31** | **confermato sotto-specificato** |
+| `PS_GRA` / `PS_GRBC` | 16/6 e 12/4, 36 mesi | 16 ×269 · 6 ×290 · 12 ×390 · 4 ×525 | **nessun difetto**, 4 su 4 al 100% |
+| antincendio 1/2/3 | 4/2 · 8/5 · 16/8, 60 mesi | 105/80 · 630/508 · 12/6 | **pulito**, 6 su 6 al 100% |
+| `ATTR_CARRELLO` | 12 h | 12 ×298 e **16 ×30** | le 30 sono il **combinato** |
+
+**Il mio timore sul primo soccorso era infondato nei fatti**, e va detto: la
+triennalità c'era già, `aggiornamento_mesi` è 36 su entrambi i codici. Le 31 righe
+dell'RLS a 8 ore invece non sono un errore del gestionale: **sono le aziende oltre i
+cinquanta lavoratori**, cioè il numero che il sito prevede e che il catalogo non sa
+scrivere.
+
+## La distinzione che un conteggio secco avrebbe nascosto
+
+Fra una **seconda durata legittima** e un'**attesa sbagliata**: le prime chiedono un
+codice in più, le seconde chiedono di cambiare un numero. Con «quante divergono»
+sarebbero finite nello stesso mucchio.
+
+- **seconda durata legittima** — `ATTR_CARRELLO` 16 h ×30, `ATTR_ESCAVATORI` 16 h ×32
+  contro 10 ×13 (il combinato con pale e terne, che la nota del catalogo **già
+  cita**), `ATTR_GRU_TORRE` 14 h ×22 contro 12 ×12;
+- **attesa sbagliata** — `PS_BLSD_SANITARIO`, che a catalogo non ha aggiornamento e
+  nei dati ne ha 20 righe.
+
+## Tre cose più grosse, che nessuna delle due fonti precedenti aveva visto
+
+### `DL_RSPP_BASE` raccoglie quattro regimi, su un codice deprecato
+
+    aggiornamento (atteso 6):  6 h ×76 · 14 h ×36 · 8 h ×26 · 10 h ×23
+    iniziale      (atteso 16): 16 h ×103 · 48 h ×33 · 32 h ×23 · 8 h ×4 · 24 h ×3
+
+Sono gli aggiornamenti dell'art. 34 **per classe di rischio** — 6 basso, 10 medio, 14
+alto — più l'8 generico: esattamente i numeri che hanno rovesciato la regola delle
+ore. E quel codice ha `attivo = false` dalla `049`: **161 aggiornamenti e 166 iniziali
+mappano su un corso deprecato**. Fa quello per cui la deprecazione lo aveva
+conservato — reggere gli attestati storici — ma non ha un successore per le varianti
+di rischio.
+
+### `DIRIGENTE`: non è un'attesa sbagliata, è il regime vecchio
+
+Atteso 12 ore, reale **16 h ×12**, zero su dodici. La corsia l'ha classificata come
+«attesa sbagliata», e **la prova che non lo è sta in una nota di questo stesso
+catalogo**: «ASR 17/04/2025: 12h (**erano 16h con accordo 2011**)». Le dodici righe a
+16 ore sono attestati del regime precedente — la stessa forma del `PREPOSTO`, che ha
+**8 h ×276 e 12 h ×38**: il regime pre-accordo e quello nuovo sotto un codice solo,
+separati **nel tempo e non nello spazio**.
+
+Il test che distingue le due letture è **la data**: se le dodici righe a 16 ore
+precedono il 17 aprile 2025, è il regime vecchio e il catalogo ha ragione.
+
+## Il limite dichiarato, e non è del metodo
+
+Il dizionario, in questa misura, è **simulato dai file** del repo e non letto dal
+database: l'SQL Editor di Supabase ha smesso di accettare input a metà lavoro — i
+tasti finiscono nelle scorciatoie e la pagina salta altrove, quattro volte. La
+simulazione riproduce i **tre aggregati** letti dal database (237 mappati, 98
+aggiornamenti, 7 parziali) e su quelli coincide, ma non è una verifica riga per riga.
+Sotto **A10** vale «i file dicono».
