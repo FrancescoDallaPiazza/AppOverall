@@ -308,6 +308,8 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Aziende sopra i 50 lavoratori | **8 su 619** | `N DIPENDENTI` e valorizzata su **tutte** le 619 attive (138 a zero, 481 con un numero). **Sotto i 15 sono 432 su 481, il 90%**, e la scheda 12 e confermata con margine largo. Le otto si contano a mano: Rittal RCS 408, VELOX HOTELLERIE 227, VELOX SERVIZI 190, FRESENIUS KABI 113, CROCE VERDE 76, ZUCCHELLI FORNI 66, CAFFINI 53, SERVIZI SICUREZZA ITALIA 52. **Riserva dichiarata da chi l'ha misurata, e va con il dato ovunque vada**: quel numero **non e una dichiarazione della forza lavoro**, e il conteggio delle persone che abbiamo in anagrafica — coincide col conteggio righe in **601 casi su 619** — quindi risponde a «quante ne gestiamo», non a «quanti lavoratori ha l'impresa». Per un artigiano le due domande coincidono; per una societa di cui seguiamo un reparto no, ed e **proprio sulla soglia dei 50** che la differenza morde |
 | Le 31 righe a 8 ore, contate | 25 su 31 · **4 aziende** | L'81% viene da aziende sopra i 50, e la controprova regge nell'altro verso: le **128 righe a 4 ore** vengono da 42 aziende, di cui **due sole** sopra i 50, per 4 righe su 128 — il **3%**. La separazione fra le due durate segue la dimensione. E la meta della frase che nessuno aveva notato non aveva bisogno di conteggi: il gestionale ha **due voci di catalogo distinte**, «Aggiornamento R.L.S. 4 ore» e «8 ore», quindi chi registrava **sceglieva**. Resta aperta **KOSME SPA**, 6 righe da 8 ore e 11 persone in anagrafica (`40ca5bc`) |
 | Eventi erogati sui due titoli contesi del datore | **0** | Nessuno dei due compare in `ExportExcelCorsiFatti`: esistono **solo come scadenze future**, 12 righe fra gennaio 2030 e luglio 2031, ognuna generata da un **iniziale davvero erogato** («Datore di Lavoro» 16h x10 e «... con Modulo Cantieri» 22h x2), e i conti tornano persona per persona. Quindi la correzione della classificazione **e gratis sullo storico** — non c'e niente da rimappare — e tocca 12 obblighi **da calcolare bene la prima volta**. I 12 iniziali sono tutti 2025-2026, gia sotto l'ASR 17/04/2025 (`40ca5bc`) |
+| Alias di `ATTR_AMB_CONFINATI`, per durata dell'aggiornamento | **2 durate · 4h e 12h** | Quattro ore ai **lavoratori**, dodici a **preposto, DL-RSPP e RSPP modulo B**: non quattro durate per quattro platee, **due**, ma la linea che le separa e la platea — che e proprio cio che il codice non porta. Periodicita 60 mesi su tutti e dieci gli alias, quindi `aggiornamento_mesi` e giusto. **Le durate erogate non c'erano** — zero righe su tutti e cinque gli aggiornamenti — e la fonte e la **colonna Durata del catalogo del gestionale**, autorizzata da un riscontro: sui cinque alias iniziali, che righe erogate ne hanno, la durata dichiarata coincide con quella effettiva **cinque volte su cinque, su 32 righe** (`b0f630c`) |
+| Titoli del catalogo con uno spazio doppio | **9 su 268** | `CORSO PER ADDETTI  AI LAVORI...` dove `corso_alias` ne ha uno solo. Due dei dieci alias dei confinati erano fra quei nove e al primo confronto risultavano **assenti dal catalogo**: la risposta sarebbe stata «due titoli non esistono». Quindi il commento di `corso_alias.testo` — «come lo emette l'origine, verbatim» — **e falso per nove righe**, e la tabella non ha una colonna di confronto separata. La `0007` ce l'ha; la `0004` non si tocca (`b0f630c`) |
 | I 180 titoli di AppFormazione contro i 268 alias | 180 su 180 | Giunto della `0006`. Il confronto ingenuo ne perde **dieci**, e sono **tutti e dieci antincendio**: la loro pipeline **cancella** i caratteri non ASCII (`ATTIVITA'` -> `ATTIVIT`) dove chi usa `unaccent` li traslittera (`ATTIVITA`). Con una chiave che toglie da entrambi i lati ogni carattere non ASCII e non alfanumerico: 180 su 180. Quella chiave collassa 268 alias in **262**, e le cinque collisioni sono innocue **perche verificate**, non perche improbabili: tutte e cinque puntano allo stesso codice di corso |
 | Coppie ruolo -> corso su cui le due fonti concordano | 14 su 14 | Sulle **figure**, dove sia il modello di AppFormazione sia `figura_requisito` possono parlare. Fuori dalle figure non c'e incrocio e non e un difetto: il campo dichiara nelle sue `045` e `058` che le abilitazioni non sono figure dell'organigramma, quindi le 14 righe di attrezzature e attivita della `0006` hanno **una fonte sola** e portano la sua qualificazione, «i file dicono» |
 | Righe scritte in `corso_assolve` | 31 | Su 39 coppie derivabili: **-7** antincendio e primo soccorso (scheda 11), **-3** divergenze non scritte, **+2** con una fonte sola e dichiarata. Coprono **20 dei 36 ruoli**; i 16 vuoti sono di quattro nature diverse e la `0006` le separa, perche un motore che non le distingue dichiara non conforme chi non ha un corso da fare |
@@ -437,9 +439,9 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
-| **AppOverall** | ~~la `0006`~~ **chiusa e caricata**, zero bug → **la `0007`: dove atterrano i ruoli scritti a mano.** AppSopralluoghi ha misurato che **meta dell'organigramma sta fuori dalle colonne** (`8dab00a`) e che l'import non e ancora scritto. La 0002 ha `ruolo_sicurezza_alias`, ma quella mappa **codici**, e qui non arrivano codici: arrivano 29 frasi. La decisione di forma sta qui sotto, e non e «aggiungere una tabella di alias» | la migrazione **dati**: le 808 righe di sorveglianza e il corpus. **Scavalcata**, e detto perche: il corpus non scade, un progetto di import si decide una volta sola | La `0006` era verificata **staticamente** — chiavi esterne, `check`, indice unico e conteggi, letti dai file con un parser mio — e staticamente non bastava: e la qualificazione che A10 impone. Adesso non e piu quella la qualificazione. Le due cose che temevo non si sono rotte, **e con la misura invece che con «e andata»**: zero note con apostrofi rimasti doppi, la nota che contiene un punto e virgola e arrivata intera, la piu lunga e di 411 caratteri |
-| **AppSopralluoghi** | ~~i ruoli fuori dalla colonna, i tre conteggi e le 29 forme~~ **tutti chiusi** (`8dab00a`, `40ca5bc`) → **le durate reali dei dieci alias di `ATTR_AMB_CONFINATI`, divise per alias.** E l'unica cosa rimasta della tornata, ed e piccola: quattro di quei dieci sono aggiornamenti per **quattro platee diverse** — lavoratori, preposto, DL-RSPP, RSPP modulo B — sotto un codice solo con un'attesa sola. **Sola lettura** | la riparazione dell'ATECO: **tre stati** e **la cella d'origine conservata**, sul cliente accanto a `codice_ateco` | Perche da quel numero dipende se un obbligo si estende o aspetta, e perche e l'ultimo pezzo che manca ad AppFormazione per chiudere la scheda 12. Se le dieci durate sono una sola, `spazi_confinati` e il terzo pronto; se sono quattro, e la stessa forma di `RLS` e serve un codice in piu, non un numero diverso |
-| **AppFormazione** | ~~le durate multiple~~ **chiuse** (`cf9cba6`): una **partizione in cinque specie su 34 obblighi**, ordinate per *come si procura* cio che manca → **la correzione dei due titoli del datore, che e gratis.** Contati: **zero eventi erogati**, quindi non c'e storico da rimappare — solo 12 scadenze future e i 12 iniziali che le generano. Insieme: estendere il confronto al **solo `ponteggi_art136`**, non a `spazi_confinati` | il push di `0057` e `cf9cba6`, che e di Francesco e non e assegnato | Perche la correzione ha smesso di essere rischiosa nel momento in cui il numero e uscito zero, ed e la ragione per cui il numero andava chiesto **prima**: non «era sola lettura», ma «una correzione di due righe che `promuovi.sql` applica da sola puo rimappare lo storico, e lo storico non l'avevamo contato». Adesso il rischio e l'opposto — dodici obblighi calcolati male **in avanti** — e su una decadenza a dieci anni conviene sbagliarli adesso che nel 2030 |
+| **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`): **29 testi, 34 asserzioni, 9 regole**, e **81 righe** che vanno su `datore_lavoro_rspp` invece che su `rspp`. Verificata staticamente, **non caricata** → **il carico della `0007`**, con gli otto conteggi, e poi la migrazione **dati**: le 808 righe di sorveglianza e il corpus | un codice in piu per i confinati, che la misura di `b0f630c` rende dovuto (vedi sotto) | Il carico l'ho imparato a non dare per scontato due giorni fa. E la `0007` ha una cosa che la `0006` non aveva: **due `check` con sei e sette valori ammessi** e un indice unico su una colonna nullable, cioe tre modi nuovi di rompersi in caricamento che un parser non vede |
+| **AppSopralluoghi** | ~~i dieci alias dei confinati~~ **chiusi** (`b0f630c`): non una durata e non quattro, **due** — e si separano per **platea**, che e proprio cio che il codice non porta → **i nove titoli con lo spazio doppio, verbatim.** E piccolo e riguarda una tabella mia: `corso_alias.testo` si dichiara «come lo emette l'origine, verbatim» e per quei nove non lo e. **Sola lettura** | la riparazione dell'ATECO: **tre stati** e la **cella d'origine conservata**, sul cliente accanto a `codice_ateco` | Perche il modo in cui l'avete trovato e il difetto stesso: due dei dieci alias che stavate misurando risultavano **assenti dal catalogo**, e la risposta a una domanda diversa sarebbe stata «due titoli non esistono». Un difetto che si manifesta come una risposta plausibile a un'altra domanda e il tipo che sopravvive piu a lungo |
+| **AppFormazione** | ~~la correzione del datore e l'estensione a ponteggi~~ **chiuse** (`0058`, `0059`, `4c1db99`): le sei ore non spostano piu la decadenza dal 2028 al 2036, e la persona **mantiene** in una riga separata l'aggiornamento dell'art. 37 che ha davvero fatto. **Tre commit locali aspettano il push di Francesco**: `f73eb1b`, `cf9cba6`, `4c1db99` → **i confinati come quattro requisiti**, che e la forma che avete proposto voi e che la misura adesso autorizza: le durate sono **due** — 4 ore ai lavoratori, **12 a preposto, DL-RSPP e RSPP modulo B** — e la linea che le separa e la **platea** | il resto della partizione in cinque specie, obbligo per obbligo | Perche la vostra frase e quella giusta: «platee diverse sono ruoli diversi, e un obbligo che vale per quattro ruoli con quattro corsi distinti non e un codice con quattro alias, e **quattro requisiti**». Aveva davanti una misura e adesso la misura c'e. E il lavoro sul catalogo e mio e non vostro: `ATTR_AMB_CONFINATI` e **un codice solo che ne nasconde due**, e quello lo ripara una `0008` di qua |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -509,6 +511,49 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**E `spazi_confinati` ha lo stesso difetto dell'antincendio, un piano piu in basso —
+nel mio catalogo, non nella `0006`.** La misura di `b0f630c` dice che sotto
+`ATTR_AMB_CONFINATI` vivono **due corsi di aggiornamento diversi**: 4 ore ai
+lavoratori, **12 a preposto, DL-RSPP e RSPP modulo B**. La riga
+`spazi_confinati -> ATTR_AMB_CONFINATI` della `0006` e **una sola** e dice che un
+qualunque corso di ambienti confinati chiude l'obbligo — quindi un aggiornamento da 4
+ore chiude l'obbligo di un preposto che ne deve 12. E la stessa cosa che ho tenuto
+fuori per l'antincendio, e qui e entrata perche il livello non era nel nome del
+**codice** ma solo in quello degli **alias**: dal codice non si vedeva.
+
+E cosa **non** e: non e il caso del carrello. Li la seconda durata esiste perche
+esiste un corso **combinato** — manca un codice per una cosa diversa. Qui la stessa
+cosa dura diversamente secondo **chi la fa**, che e la forma dell'`RLS`. La
+distinzione e di AppSopralluoghi e regge l'intera decisione: portare
+`ore_aggiornamento` da 4 a 12 sarebbe **sbagliato quanto lasciarlo a 4**, perche
+renderebbe giusti tre alias su cinque invece di due.
+
+La riparazione sta in due posti e nessuno dei due e la `0006`: **un codice in piu nel
+catalogo** — una `0008` di qua — e, nel modello di AppFormazione, **quattro requisiti
+invece di un obbligo con quattro alias**, che e la forma che hanno proposto loro
+notando che «platee diverse sono ruoli diversi». **Non morde oggi**: zero aggiornamenti
+erogati e `nomina` a zero righe, quindi nessuno e nominato in nessuna delle tre figure
+da 12 ore. Decisione di progetto, non riparazione urgente — la stessa qualifica che
+aveva il modulo di settore, e per la stessa ragione.
+
+**E il paragrafo non immunizza.** La svista che ha promosso `spazi_confinati` a
+obbligo pronto — contare i propri 180 titoli e concludere sul catalogo altrui — e la
+**terza volta in due giorni** che quella forma si presenta, dopo i «1.148 eventi di
+visita» e le «31 righe a 8 ore». Ed e capitata alla corsia che aveva appena finito di
+scriverne il paragrafo, e l'ha lasciata scritta nel proprio documento invece di
+correggerla via. Vale la pena tenerla accanto alle altre due: **aver descritto un
+difetto non protegge dal commetterlo**, e l'unica difesa che ha funzionato tutte e tre
+le volte e stata qualcun altro che contava.
+
+**E una cosa che nessuno dei due ha fatto, e che costava meno di tutto il resto.** La
+questione delle 31 righe a 8 ore si chiudeva guardando il **catalogo del gestionale**,
+che ha due voci distinte — «Aggiornamento R.L.S. 4 ore» e «8 ore». Quelle due voci
+stanno nelle migrazioni `0022` e `0007` di AppFormazione **da giorni**, e sono le
+stesse che il giunto della `0057` distingue. Nessuno dei due ha pensato di aprire il
+dizionario per rispondere a una domanda che sembrava riguardare le aziende. **Una
+domanda sulla realta puo avere la risposta nel vocabolario**, e si guarda prima perche
+costa meno.
 
 **La `0007` ha un caso di bordo, trovato prima che la scrivessi.** Due delle 29 forme
 — `TITOLARE ASPP e RSPP` e `AMMINISTRATORE/DATORE DI LAVORO/RSPP` — mostrano che il
