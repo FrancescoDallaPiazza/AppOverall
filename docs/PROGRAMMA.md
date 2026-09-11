@@ -439,9 +439,9 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
-| **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`): 29 testi, 34 asserzioni, 9 regole, **81 righe** che vanno su `datore_lavoro_rspp` invece che su `rspp` → **la `0008`, che fa tre cose e non una**: il **secondo codice** dei confinati — giustificato dal catalogo, perche due corsi diversi esistono davvero, e **senza** una riga in piu in `corso_assolve`, che avrebbe bisogno di una norma; `testo_origine` su `corso_alias` piu il commento corretto, adesso che i **268 verbatim** esistono con la loro impronta; e la **marcatura della grandezza** sui sedici codici il cui `4` e parte pratica e non totale | il carico di `0007` e `0008`, poi la migrazione **dati** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato: la prima assegnando a un'altra corsia una regola dedotta dal catalogo, la seconda concludendo da un commento di schema invece che dal codice |
+| **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la `0008`, che fa tre cose**: il **secondo codice** dei confinati, giustificato dal catalogo e **senza** una riga in piu in `corso_assolve`; `testo_origine` su `corso_alias` coi **268 verbatim** e la loro impronta, piu il commento corretto; e la **grandezza marcata su DUE colonne e non una** — `ore` e `ore_aggiornamento` sono grandezze diverse sulla stessa riga, e una colonna sola avrebbe descritto male meta dei numeri che doveva descrivere | la **Decisione della scheda 12**, che adesso ha il suo numero: il confronto delle ore copre **11 obblighi su 34** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato, e la terza me l'ha corretta un'altra corsia **prima** che la scrivessi |
 | **AppSopralluoghi** | ~~la riparazione dell'ATECO~~ **chiusa** (`3c8b84e`, `065`): tre stati, la cella conservata, e il terzo stato messo **nel confronto** invece che in un valore. Il numero che conta e **214 -> 213**: SHAMS e passato dal silenzio alla riga che dice di non sapere → **l'azione di livello cliente, come passo suo.** L'avete dichiarata fuori perimetro e avevate ragione: un'azione intestata a una persona che si chiude registrando un attestato non e il posto per una che si chiude compilando un campo dell'azienda. Ma senza, 358 righe `da_verificare` compaiono nei riepiloghi e non hanno dove essere chiuse | l'import delle nomine, quando la `0007` e caricata | Perche avete fermato l'improvvisazione nel punto giusto — «metterla li manderebbe il consulente a cercare un corso invece che una visura» — e una cosa dichiarata fuori perimetro **e un passo, non un buco**. Vincolo: **non deve diventare la campagna di riempimento**, che resta rinviata. Deve rendere l'assenza **raggiungibile**, non colmarla |
-| **AppFormazione** | ~~il DPR 177/2011~~ **letto, e la risposta e no** (`4548621` nella libreria, `8ba2edd`, `0061`): non distingue le figure, non fissa durate, e rimanda all'ASR — che ne conosce una sola. **Le quattro platee sono commerciali, e cade anche la strada 2** → **applicare A13 agli altri 32 obblighi**: quali attese misurano una grandezza **diversa** da quella che un attestato riporta. Le dodici «parte pratica» le avete gia marcate; ne resta almeno un'altra specie — `rspp_aspp` ha `metodo = monte ore`, e un monte ore quinquennale non e la durata di un corso. **Sola lettura** | il resto della partizione in cinque specie | Perche avete trovato una grandezza diversa **cercando altro**, e una cosa trovata per caso due volte non e un caso: va cercata di proposito sulle righe rimaste. E perche A13 dice che questa condizione viene **prima** delle altre due — quindi il documento 14 va riletto in quell'ordine, non integrato in coda. **Cinque commit locali** aspettano il push di Francesco — `f73eb1b`, `cf9cba6`, `4c1db99`, `9ffbe43`, `8ba2edd` — **piu `4548621` nella libreria**, che e un repo diverso e va spinto per conto suo |
+| **AppFormazione** | ~~A13 sugli altri 32~~ **chiusa** (`b2b4e0c`): le grandezze sono **quattro**, si classificano **per attesa e non per obbligo**, e il tetto del confronto e **11 obblighi su 34** → **le due proposte, e prima della prossima estensione e non dopo**: (1) sostituire il booleano su G2 con una colonna che dica **quale grandezza** misura ciascuna attesa, e far diventare il guardrail «e G1?» invece di «non e G2?»; (2) far leggere al ramo `null` la colonna `ore_mancano_perche` che esiste dalla `0041`, cosi che `rinvio_al_ccnl` smetta di essere il nome di un raccoglitore | la scheda 12, che adesso ha il suo numero e aspetta quattro decisioni — una delle quali e di Francesco | Perche le avete trovate voi e le avete dichiarate **non fatte**, ed e l'ordine giusto: e l'estensione a renderle attive, quindi si fanno prima. E perche la diagnosi vale oltre le due righe — **un flag che marca le eccezioni note e sempre vecchio di una scoperta**, e va sostituito da uno che dichiara la regola. **Sette commit** aspettano il push: `f73eb1b`, `cf9cba6`, `4c1db99`, `9ffbe43`, `8ba2edd`, `b2b4e0c`, piu `4548621` nella libreria |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
@@ -511,6 +511,74 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**Le grandezze sono quattro, il tetto e 11 su 34, e A13 va corretta: la grandezza e un
+attributo dell'ATTESA e non dell'obbligo.** Misura dell'11 settembre (`b2b4e0c`).
+
+    G1  durata complessiva del corso      confrontabile con un attestato, ed e l'unica
+    G2  durata della sola parte pratica   un pezzo del corso
+    G3  durata del solo modulo teorico    l'altro pezzo
+    G4  monte ore nel quinquennio         una somma su cinque anni e su piu attestati
+    G0  nessuna attesa
+
+G4 l'avevo indicata io; **G3 e la quarta e non l'aveva vista nessuno**: viene dalle otto
+attrezzature dove `ore_iniziali` e null e il solo numero disponibile sta in
+`ore_teoriche` — un'attesa che misura **la meta opposta** di G2.
+
+**E il risultato strutturale, che corregge l'assunzione che avevo appena scritto**: le
+due attese di un obbligo — iniziale e aggiornamento — **vanno classificate
+separatamente**, e cinque obblighi stanno in classi diverse sui due lati.
+`coordinatore_sicurezza` ha l'iniziale in ore **totali** e l'aggiornamento in monte ore
+**quinquennale**: G1 di qua e G4 di la, **dentro la stessa riga**. Quindi A13 non e un
+attributo dell'obbligo: e un attributo dell'**attesa**, e ce ne sono due per obbligo.
+
+    aggiornamento   11 G1   12 G2    2 G4    9 G0
+    iniziale        16 G1    8 G3   10 G0
+
+**E mi corregge la `0008` prima che la scrivessi.** Avevo previsto **una** colonna di
+marcatura sui sedici codici col `4` di parte pratica. Ma `corso` ha **due** attese per
+riga — `ore` e `ore_aggiornamento` — e su `ATTR_CARRELLO` sono grandezze diverse: `12`
+e un totale, `4` e la sola parte pratica. **Una colonna sola avrebbe marcato la riga e
+descritto male meta dei suoi numeri**, che e la forma esatta del difetto che la colonna
+doveva chiudere.
+
+**Il numero che la scheda 12 aspettava, ed e piu duro di come lo immaginavo.** Dei 34
+obblighi, **11 hanno un'attesa di aggiornamento confrontabile**, 2 sono nel perimetro, e
+**uno dei due c'e entrato solo perche il giunto della `0057` risolve il suo
+discriminante**. Il confronto delle ore, in questo modello, e uno strumento per **un
+terzo dei casi**: il tetto e **11, non 34**. La scheda 12 chiedeva gia, prima di
+saperlo, che si scrivesse **quali casi la decisione non risolve** — «una regola che
+copre un terzo dei casi e non dichiara gli altri due e il modo in cui si crede di aver
+chiuso un difetto». Quel «un terzo» era una figura retorica e adesso e una misura.
+
+**Due difetti latenti, nessuno attivo, trovati simulando l'errore futuro:**
+
+- **il guardrail della `0060` non prende G4**: un RSPP con una giornata da 8 ore contro
+  un'attesa di 40 nel quinquennio esce `insufficienti`. La diagnosi e la parte che vale
+  — **il flag marca le eccezioni note invece di dichiarare la regola**, quindi ogni
+  grandezza nuova gli sfugge **per costruzione**. Un elenco di eccezioni e sempre
+  vecchio di una scoperta;
+- **`rinvio_al_ccnl` e un raccoglitore battezzato col nome del suo unico inquilino**: un
+  transpallet con attesa nulla perche la fonte non c'e ne esce con quell'etichetta. Non
+  e un giudizio falso, **e una spiegazione falsa** — e in un sistema il cui valore e
+  spiegarsi, e la stessa famiglia di difetto. La colonna che distingue le tre cause
+  esiste **dalla loro `0041`** e il ramo non la legge.
+
+**E una cosa che funziona, ed e il rovescio esatto di R5.** Gli otto iniziali G3 non
+producono nessun giudizio falso, e non per fortuna: la `0041` ha messo le ore di teoria
+in `ore_teoriche` **lasciando `ore_iniziali` a null** invece di riempirla col numero che
+aveva sottomano. **Una buona decisione di modello protegge da un errore che non era
+ancora stato nominato** — A13 non esisteva, ma chi scriveva sapeva che quel numero non
+era il totale e non l'ha messo dove si mettono i totali. R5 dice che un record vero
+invecchia; questa dice che una **struttura** giusta no.
+
+**E il DPR in `reference/fonti/` e al suo posto, contro il mio sospetto.** Avevano
+segnalato che il PDF pesa 6,2 MB e che quel push conviene guardarlo prima. Guardato:
+`reference/fonti/` **contiene gia una dozzina di PDF** — gli ASR, i DM, gli accordi
+2011 e 2012, le tavole di raccordo — quindi il DPR non introduce una pratica nuova, la
+segue. La segnalazione era giusta e la conclusione e che non c'e niente da decidere: la
+libreria e **fatta per contenere le fonti**, ed e la ragione per cui i suoi 26 MB stanno
+nel repo e non in una chat.
 
 **La famiglia dei tre difetti e chiusa, e la riparazione ha messo il terzo stato dove
 non me l'aspettavo: nel confronto, non in un valore.** AppSopralluoghi ha chiuso la
