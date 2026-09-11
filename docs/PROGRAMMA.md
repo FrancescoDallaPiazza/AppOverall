@@ -512,6 +512,54 @@ quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario l
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
 
+**«Riscarica tutto lo stesso giorno» era un consiglio sbagliato, e lo zip lo dimostra.**
+
+AppSopralluoghi ha guardato **quando i file sono stati salvati** prima di girare quel
+consiglio a Francesco, e ha trovato che due su cinque hanno la data interna uguale al
+momento dello scaricamento e **tre ce l'hanno di un mese prima**. Due letture possibili,
+e non potevano sceglierne una: **(a)** quei tre portano la data dell'ultimo
+**aggiornamento dei dati a monte** e riscaricarli non allineerebbe niente; **(b)** sono
+stati prodotti il 6 agosto e solo **salvati** il 3 settembre.
+
+**Il discriminante c'era, ed e uno zip in `Downloads`.** `ExportExcelCorsiScadenze.zip`
+e stato salvato il **03/09 alle 13:12** e contiene quattro `.xlsx` i cui timestamp
+interni allo zip sono del **03/09 alle 13:11** — cioe i file **sono nati il 3 settembre**
+e dichiarano in fondo «Dati aggiornati al **06/08**/2026». Un file non puo essere stato
+prodotto prima di esistere: **quella data in fondo non e la data dell'estrazione, e la
+data dei dati.** Lettura (a).
+
+**E la conferma sta in una differenza di parole che avevo letto e non visto.**
+
+    ExportExcel (4)                        «Report aggiornato al 09/09/2026»
+    gli altri cinque                       «Dati aggiornati al 06/08/2026 07:44»
+
+**«Report aggiornato» e «Dati aggiornati» non dicono la stessa cosa**: il primo data la
+**produzione del foglio**, il secondo la **freschezza del contenuto**. Le due formule
+stavano sotto i miei occhi da quando ho aperto i file, e le ho trattate come sinonimi
+perche portavano entrambe una data.
+
+**Quindi il consiglio cambia, e cambia in peggio.** Riscaricare allinea il **momento
+dell'estrazione** e non il **momento dei dati**: se il gestionale aggiorna quei tre
+insiemi con la propria cadenza, tre file scaricati insieme continueranno a portare tre
+freschezze diverse, e **non c'e volonta di nessuno che li allinei**. «Tre file letti
+insieme producono uno stato che non e mai esistito» smette di essere un avvertimento e
+diventa **una condizione permanente dell'import**.
+
+Da cui la conseguenza, che e loro e che accetto: non «li riscarichiamo insieme» ma
+**l'import registra la data interna di ogni file da cui ha letto** — la fotografia
+accanto al dato che ne viene, che e la stessa forma di `ateco_origine`, `testo_origine`,
+`codice_fiscale_origine` e della coppia `testo`/`chiave`. **Quinta volta oggi.**
+
+E il **31** delle coppie «solo nel foglio» perde l'opzione economica: se le date non si
+possono allineare, **riverificarlo su file della stessa data non sara possibile**, e
+dichiararlo «misurato su fotografie a cinque settimane di distanza» diventa **l'unica**
+strada invece della piu conveniente.
+
+**E nemmeno «3 di testa e 2 di piede» e un guard universale**: `ExportExcel (4)` ha le
+intestazioni alla riga 2, i dati dalla 3 e **una sola** riga di piede. Tre file su sei
+seguono una regola, uno ne segue un'altra, uno non ne segue nessuna. Il riconoscimento
+va fatto **per forma**, o dichiarato **per file**.
+
 **I due conti delle due corsie differiscono di esattamente due righe per file, e non
 sbagliava nessuno dei due: «righe» non era stato definito.**
 
