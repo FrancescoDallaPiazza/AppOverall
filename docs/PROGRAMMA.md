@@ -440,7 +440,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la `0008`, che fa tre cose**: il **secondo codice** dei confinati, giustificato dal catalogo e **senza** una riga in piu in `corso_assolve`; `testo_origine` su `corso_alias` coi **268 verbatim** e la loro impronta, piu il commento corretto; e la **grandezza marcata su DUE colonne e non una** — `ore` e `ore_aggiornamento` sono grandezze diverse sulla stessa riga, e una colonna sola avrebbe descritto male meta dei numeri che doveva descrivere | la **Decisione della scheda 12**, che adesso ha il suo numero: il confronto delle ore copre **11 obblighi su 34** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato, e la terza me l'ha corretta un'altra corsia **prima** che la scrivessi |
-| **AppSopralluoghi** | ~~la riparazione dell'ATECO~~ **chiusa** (`3c8b84e`, `065`): tre stati, la cella conservata, e il terzo stato messo **nel confronto** invece che in un valore. Il numero che conta e **214 -> 213**: SHAMS e passato dal silenzio alla riga che dice di non sapere → **l'azione di livello cliente, come passo suo.** L'avete dichiarata fuori perimetro e avevate ragione: un'azione intestata a una persona che si chiude registrando un attestato non e il posto per una che si chiude compilando un campo dell'azienda. Ma senza, 358 righe `da_verificare` compaiono nei riepiloghi e non hanno dove essere chiuse | l'import delle nomine, quando la `0007` e caricata | Perche avete fermato l'improvvisazione nel punto giusto — «metterla li manderebbe il consulente a cercare un corso invece che una visura» — e una cosa dichiarata fuori perimetro **e un passo, non un buco**. Vincolo: **non deve diventare la campagna di riempimento**, che resta rinviata. Deve rendere l'assenza **raggiungibile**, non colmarla |
+| **AppSopralluoghi** | ~~l'azione di livello cliente~~ **chiusa** (`81f6903`, `066`): nasce da un **calcolo fermo** e non da un campo vuoto, quindi oggi vale **zero clienti** e al primo import **quattro** — e il vincolo e rispettato per costruzione → **il progetto dell'import delle nomine, non il codice.** La `0007` non e ancora caricata, ma la sua **forma** e pubblicata e basta per decidere. Tre cose che voglio decise e scritte: cosa fa l'import con le **7 asserzioni non risolte**; se una nomina dedotta dalla **mansione** resti distinguibile da una letta dalla **colonna** dopo essere entrata; e cosa succede alla **trentesima forma**, che arrivera — 29 forme su 160 righe vuol dire una riga su cinque scritta in modo nuovo | scrivere l'import, quando la `0007` e caricata | Perche progettare non dipende dal carico e scrivere si, e perche il terzo punto e quello che decide se questo lavoro invecchia bene: un import che riconosce 29 forme e **tace** sulla trentesima ricrea in un anno il difetto che questa misura ha appena chiuso. E perche la provenienza e la stessa domanda dell'ATECO e degli alias, alla terza tabella: **una nomina dedotta da un testo libero e una nomina dichiarata non sono la stessa cosa, e dopo l'import non si distinguono piu se nessuno lo scrive** |
 | **AppFormazione** | ~~A13 sugli altri 32~~ **chiusa** (`b2b4e0c`): le grandezze sono **quattro**, si classificano **per attesa e non per obbligo**, e il tetto del confronto e **11 obblighi su 34** → **le due proposte, e prima della prossima estensione e non dopo**: (1) sostituire il booleano su G2 con una colonna che dica **quale grandezza** misura ciascuna attesa, e far diventare il guardrail «e G1?» invece di «non e G2?»; (2) far leggere al ramo `null` la colonna `ore_mancano_perche` che esiste dalla `0041`, cosi che `rinvio_al_ccnl` smetta di essere il nome di un raccoglitore | la scheda 12, che adesso ha il suo numero e aspetta quattro decisioni — una delle quali e di Francesco | Perche le avete trovate voi e le avete dichiarate **non fatte**, ed e l'ordine giusto: e l'estensione a renderle attive, quindi si fanno prima. E perche la diagnosi vale oltre le due righe — **un flag che marca le eccezioni note e sempre vecchio di una scoperta**, e va sostituito da uno che dichiara la regola. **Sette commit** aspettano il push: `f73eb1b`, `cf9cba6`, `4c1db99`, `9ffbe43`, `8ba2edd`, `b2b4e0c`, piu `4548621` nella libreria |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
@@ -511,6 +511,61 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**L'azione di livello cliente e chiusa, e il vincolo che avevo dettato e rispettato per
+costruzione invece che per disciplina.** (`81f6903`, migrazione `066`.)
+
+Avevo scritto: **non deve diventare la campagna di riempimento**. La soluzione non e una
+query prudente, e una scelta di origine — **la riga non nasce dal campo vuoto, nasce da
+un calcolo che si e fermato**:
+
+    clienti senza ATECO                                357
+    clienti con la riga OGGI                             0   (`nomina` e a zero righe)
+    clienti con la riga al primo import delle nomine      4
+
+I quattro hanno gia un nome dalla misura del giorno prima. **Un cliente senza ATECO e
+senza nessuno nominato in quei ruoli non produce niente**, e va bene cosi: per lui quel
+buco non sta bloccando nulla. La differenza fra «ecco i 357, comincia» e «questo cliente
+ha un buco e serve a questo» ha smesso di dipendere dal buon senso di chi scrive la
+query.
+
+**E sparisce da sola perche non c'e proprio una spunta da fare.** La riga e attesa solo
+finche un requisito porta la marcatura; quando la cella arriva la marcatura sparisce e
+la cancellazione degli orfani — **che esisteva gia** — la rimuove. Il rischio che avevo
+nominato, «358 azioni chiuse a mano che si riaprono al prossimo import», **non puo
+verificarsi**, perche non esiste una chiusura a mano da rifare. E la ragione tecnica e
+migliore della scelta: hanno messo la chiave nella **stessa colonna** delle altre azioni
+non per risparmiare una colonna ma **perche quella colonna e gia riconciliata** — una
+nuova avrebbe richiesto di riscrivere la riconciliazione, e la chiusura automatica era
+il requisito, non il contorno.
+
+**Il prefisso della chiave, che e la lezione dei due giorni applicata a un caso nuovo.**
+Le due forme sono `persona_id:corso_codice` e `cliente-ateco:<cliente_id>`, e davanti ai
+due punti c'e un uuid di **persona** nella prima e un id di **cliente** nella seconda.
+Cercare il secondo fra le persone **non da errore**: non trova niente, e la riga
+comparirebbe **senza discente e senza corso**. Un danno silenzioso invece che rumoroso —
+la forma esatta del difetto inseguito per due giorni. Il prefisso rende il caso
+riconoscibile **prima** di sbagliare, che e l'unico momento utile.
+
+**E una decisione che nessuno aveva chiesto: non e «SUBITO».** Una riga di formazione
+senza data viene mostrata come subito e messa **davanti a ogni scadenza datata**, perche
+per costruzione e un corso dovuto e mai erogato. Questa non ha data per la ragione
+**opposta** — non e un lavoro in ritardo, e un dato che manca, e nessun termine di legge
+dice entro quando compilarlo. Metterla in cima la farebbe passare davanti a formazione
+davvero dovuta. E **nessuna data inventata**, ne oggi ne oggi+30: sarebbe un dato dedotto
+indistinguibile da uno vero, cioe il difetto da cui e nata tutta questa famiglia.
+
+**Un limite dichiarato invece che implicito**: il banco di prova gira **offline sul
+codice puro**, quindi verifica che la **ragione** compaia e sparisca quando deve, e non
+che il backfill materializzi e rimuova la riga. Quello si vedra al primo cliente con una
+nomina vera, e **oggi non ce n'e nessuno**. Detto invece di lasciato intendere, che e la
+differenza fra un limite e una lacuna.
+
+**E adesso il collo di bottiglia sono io.** L'import delle nomine aspetta che la `0007`
+sia **caricata**, e le altre due corsie hanno tutte e due un passo che a valle dipende da
+questo repo. Va scritto perche e la prima volta oggi che succede, e perche la regola
+della sezione dice che una corsia ferma e diversa da una lenta: **non sono ferme, sono in
+attesa di me.**
 
 **Le grandezze sono quattro, il tetto e 11 su 34, e A13 va corretta: la grandezza e un
 attributo dell'ATTESA e non dell'obbligo.** Misura dell'11 settembre (`b2b4e0c`).
