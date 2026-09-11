@@ -440,7 +440,7 @@ Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la `0008`, che fa tre cose**: il **secondo codice** dei confinati, giustificato dal catalogo e **senza** una riga in piu in `corso_assolve`; `testo_origine` su `corso_alias` coi **268 verbatim** e la loro impronta, piu il commento corretto; e la **grandezza marcata su DUE colonne e non una** — `ore` e `ore_aggiornamento` sono grandezze diverse sulla stessa riga, e una colonna sola avrebbe descritto male meta dei numeri che doveva descrivere | la **Decisione della scheda 12**, che adesso ha il suo numero: il confronto delle ore copre **11 obblighi su 34** | Perche le tre cose hanno la stessa forma — **un numero o un testo che non dice di che cosa sia** — e perche due delle tre le ho scoperte facendo il lavoro sbagliato, e la terza me l'ha corretta un'altra corsia **prima** che la scrivessi |
-| **AppSopralluoghi** | ~~l'azione di livello cliente~~ **chiusa** (`81f6903`, `066`): nasce da un **calcolo fermo** e non da un campo vuoto, quindi oggi vale **zero clienti** e al primo import **quattro** — e il vincolo e rispettato per costruzione → **il progetto dell'import delle nomine, non il codice.** La `0007` non e ancora caricata, ma la sua **forma** e pubblicata e basta per decidere. Tre cose che voglio decise e scritte: cosa fa l'import con le **7 asserzioni non risolte**; se una nomina dedotta dalla **mansione** resti distinguibile da una letta dalla **colonna** dopo essere entrata; e cosa succede alla **trentesima forma**, che arrivera — 29 forme su 160 righe vuol dire una riga su cinque scritta in modo nuovo | scrivere l'import, quando la `0007` e caricata | Perche progettare non dipende dal carico e scrivere si, e perche il terzo punto e quello che decide se questo lavoro invecchia bene: un import che riconosce 29 forme e **tace** sulla trentesima ricrea in un anno il difetto che questa misura ha appena chiuso. E perche la provenienza e la stessa domanda dell'ATECO e degli alias, alla terza tabella: **una nomina dedotta da un testo libero e una nomina dichiarata non sono la stessa cosa, e dopo l'import non si distinguono piu se nessuno lo scrive** |
+| **AppSopralluoghi** | ~~il progetto dell'import~~ **scritto** (`7820c90`): **tre esiti e non due**, il rifiuto della scorciatoia `da_confermare`, e la meta onesta — cosa non e rilevabile e perche nessuna regola potrebbe coprirlo → **in attesa, e l'attesa e mia.** Non c'e un passo assegnato perche non ce n'e uno che non dipenda dal carico della `0007`, e **inventarne uno per tenere occupata una corsia e peggio che lasciarla ferma** | scrivere l'import, piu le due migrazioni che il progetto propone e non scrive | La regola di questa sezione dice che una corsia senza passo **lo chiede e non lo inventa**; vale anche al contrario — chi assegna non riempie il vuoto con un compito di ripiego. Il vuoto e reale, ha un nome e una durata: dura finche la `0008` e il carico non sono fatti, e sono miei |
 | **AppFormazione** | ~~le due proposte~~ **chiuse** (`1b1ce9f`): la colonna per grandezza sta su **ciascuna attesa**, e popolata **per regola e non per elenco**; il guardrail rifiuta un `G5` mai visto; `rinvio_al_ccnl` e passato da etichetta a spiegazione → **cercare le altre viste che hanno smesso di spiegare.** Il carico ne ha trovata **una** — un `case` che nominava un valore rinominato, vista verde, stesso numero di righe, motivo vuoto. **Non e un caso isolato per costruzione**: ogni `case` che nomina un valore di dominio ha la stessa esposizione. Sola lettura: enumerate le viste e i rami che producono etichette, e confrontateli coi domini di oggi | la scheda 12, quando le quattro decisioni sono prese — e **una non e nostra** | Perche l'avete trovata **caricando** e non leggendo, e una cosa che il carico trova una volta la trova ancora. E perche il difetto e della famiglia peggiore: non rompe, **tace** — un `count(*)` non se ne accorge, e il posto dove si vede non e il carico ma il contenuto |
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
@@ -511,6 +511,66 @@ un livello piu in la — sono due righe di `corso_alias` con lo **stesso**
 quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario le tiene
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
+
+**Il progetto dell'import delle nomine e scritto, e la traduzione che chiedeva esiste
+gia dalla `0002`.** (`7820c90`.)
+
+**Gli esiti sono tre e non due**, ed e la stessa forma dell'ATECO e degli alias — **terza
+tabella in tre giorni**: `risolta`; **`riconosciuta, non mappabile`** — la parola di
+ruolo c'e, la combinazione non ha una regola, quindi **nessuna nomina** e una riga che
+lo dice; `non riconosciuta`, e li tacere e giusto. «Risolta / non risolta» sarebbe stato
+il `null` a due significati da capo: «non ho una regola» e «qui non c'e nessun ruolo»
+sono fatti diversi, e **solo il primo e un lavoro per qualcuno**.
+
+**E il rifiuto della scorciatoia e la parte migliore.** Era disponibile: creare la nomina
+su `rspp` con `da_confermare` alzato, «poi qualcuno guarda». Non l'hanno presa perche
+**`da_confermare` e uno stato e gli stati si azzerano** — appena qualcuno conferma, quella
+nomina diventa indistinguibile da una letta dalla colonna **e il ruolo resta quello
+indovinato dall'import**. Parole loro: *si sarebbe scritto un dato falso con un post-it
+sopra, e il post-it si stacca.*
+
+**Da cui la distinzione che a me era sfuggita: `da_confermare` e un COMPITO, non una
+provenienza.** Dice «qualcuno guardi questa riga» e si azzera quando qualcuno la guarda,
+**portandosi via l'unica traccia che quel ruolo era stato interpretato**. E la differenza
+fra «questa cella e da rivedere» e «questa cella diceva `37054`». Oggi `nomina` non ha
+provenienza, e **160 righe su 301 verrebbero dal testo libero**: meta del totale
+indistinguibile dall'altra meta il giorno dopo l'import. La loro proposta —
+`nomina.origine` e `nomina.origine_testo`, stessa forma di `cliente.ateco_origine` — ha
+un guadagno che non si vede finche non serve: **il giorno in cui il dizionario cambia idea
+su una forma, le righe da rivedere si trovano con una query invece che riaprendo un
+Excel.**
+
+**La meta onesta: cosa il progetto NON copre, e non potrebbe.** Una forma nuova con una
+parola nota — `RSPP/amministratore delegato` — **cade nel secondo esito ed e coperta**.
+Un ruolo scritto **senza nessuna parola nota** — `resp. serv. prev. e prot.`, `capo
+squadra emergenze` — **non e rilevabile**: per il parser e una mansione come «operaio»,
+e non produce niente **ne rumore**. Nessuna regola potrebbe coprirla, e dirlo e parte
+della decisione. Il contrappeso sta **a monte del parser** e costa poco: stampare le
+stringhe di mansione **distinte comparse dall'ultima volta**. Misurato: 2.890 mansioni
+non vuote, **603 distinte**, di cui **23** contengono una parola di ruolo. Un export
+successivo ne aggiunge qualche decina, e **un occhio umano su venti stringhe nuove prende
+cio che nessun `if` avrebbe preso**.
+
+**E il dettaglio che vale 81 righe, con la risposta che sta gia in questo repo.** La
+`0007` risolve a `datore_lavoro_rspp`; il codice figura del campo e `dl_rspp`. Sono
+**esattamente le 81 righe** che quella migrazione esiste per non sbagliare, e chiedevano
+«una traduzione al confine, scritta una volta sola e in un posto solo».
+
+**C'e gia, ed e `ruolo_sicurezza_alias` della `0002`** — riga
+`('sopralluoghi', 'dl_rspp', 'datore_lavoro_rspp')`. Quella tabella e nata **per questo
+difetto e lo cita**: «se la mappa e in un `switch`, qualcuno ci mette il caso mancante a
+mano — ed e cosi che `dl_rspp` e diventato `rspp` su 26 righe». Due precisazioni che
+servono a usarla: la mappa e scritta nel verso `codice esterno -> nostro`, e per le
+nomine serve **il verso opposto**; si puo leggere all'indietro **perche e iniettiva**,
+verificato — dodici codici, dodici destinazioni distinte — **tranne una**,
+`operatore_attrezzatura -> null`, che all'indietro non ha entrata. Irrilevante per le
+mansioni (fra le 29 forme non c'e nessuna attrezzatura) e da sapere prima che qualcuno
+ci provi.
+
+**E hanno ragione su `datore_lavoro_art16`, che resta aperto.** Un nome che combacia a
+meta e piu pericoloso di uno che non c'e: finche la domanda di diritto non ha risposta
+l'import **non deve tradurlo**, e la `0002` tiene le due righe separate proprio per
+questo — `datore_lavoro` e `datore_lavoro_art16` mappano ciascuna su se stessa.
 
 **Il guardrail rifiuta una grandezza mai vista, e il carico ha trovato una vista che
 aveva smesso di spiegare.** (`1b1ce9f`.)
