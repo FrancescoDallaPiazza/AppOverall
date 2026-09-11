@@ -69,12 +69,38 @@ La domanda è **quanti meccanismi il catalogo deve avere**, sapendo che ne servo
 per coprire tre cause — e che il terzo (un codice per variante) è l'unico già
 esprimibile senza toccare la forma delle tabelle.
 
-**E resta un caso che nessun meccanismo spiega**, perché non è un problema di
-modellazione: il `PREPOSTO`. Perché sono stati erogati corsi da 12 ore **prima** che
-l'Accordo li richiedesse, e da 8 ore **dopo**? Le due letture — una finestra
-transitoria che lascia concludere i percorsi avviati, oppure 12 ore erogate
-volontariamente in anticipo — non si distinguono dai dati. **È una domanda per chi
-conosce l'erogazione, non per il codice.**
+**E resta un caso che nessun meccanismo spiega**, il `PREPOSTO` — ma la frase con cui
+questa scheda lo descriveva era **una deduzione presentata come un fatto**, e va
+corretta prima di tutto il resto.
+
+Diceva: «perché sono stati erogati corsi da 12 ore *prima che l'Accordo li
+richiedesse*». Quel «prima che l'Accordo li richiedesse» presuppone che il regime
+precedente fosse di 8 ore, e **nessuna fonte nei repo lo dice**. L'asimmetria con il
+dirigente è il campanello: lì la nota del catalogo dichiara il regime vecchio —
+«12h, **erano 16h con accordo 2011**» — qui la nota dice solo «ASR 17/04/2025:
+aggiornamento biennale 6h», e nemmeno la pagina del sito parla di 8 ore. Chi ha
+scritto questa scheda sapeva che l'Accordo 2011 dava 8 ore al preposto e lo ha usato
+come se fosse citato. Sotto **R2** non lo è.
+
+Quel che si sa per misura è solo questo: **8 ore ×276** (248 prima dell'ASR, 28 dopo,
+l'ultima il 19 maggio 2026) e **12 ore ×38** (30 prima, la più vecchia il 20 maggio
+2024, 8 dopo). Le letture compatibili sono **quattro**, non due, e i conteggi non le
+distinguono:
+
+1. una **finestra transitoria** dell'Accordo che lascia concludere i percorsi avviati;
+2. **12 ore come somma** — 8 di preposto più 4 d'altro, registrate in una riga sola;
+3. un **requisito di committente o di CCNL** che già chiedeva 12 ore a certi clienti;
+4. **la data non è quella che si crede** — se fosse quella dell'attestato e non del
+   corso, un corso di marzo con attestato di maggio cade dalla parte sbagliata dello
+   spartiacque.
+
+Il **titolo verbatim** di quelle 68 righe probabilmente scioglie la cosa, e nessuno lo
+ha guardato. Se ne emergesse che sono **due corsi diversi sotto lo stesso codice**,
+il preposto non sarebbe il caso «due regimi nel tempo»: sarebbe una **quarta causa** —
+un codice che raccoglie due corsi — e questa scheda, che ne elenca tre, andrebbe
+riscritta e non aggiustata.
+
+Resta vero che l'ultima parola non è del codice: **è di chi conosce l'erogazione.**
 
 ## Decisione
 
