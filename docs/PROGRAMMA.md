@@ -538,6 +538,52 @@ data dei dati.** Lettura (a).
 stavano sotto i miei occhi da quando ho aperto i file, e le ho trattate come sinonimi
 perche portavano entrambe una data.
 
+**Il 31 non e stato dichiarato: e stato misurato. Dodici sono tempo, diciannove no.**
+(`bfdbb6b`.)
+
+Avevo proposto la strada economica — dichiarare che quel numero era misurato su
+fotografie a cinque settimane di distanza — e loro hanno fatto la cosa migliore: hanno
+**contato quali**. Le coppie «solo nel foglio» con esecuzione **posteriore al 06/08**,
+cioe che lo scadenzario **non poteva conoscere**, sono **dodici**, su **tre date** e
+**due sole societa** — Rittal RCS sei e FOOD & SWEET sei: due **campagne di visite di
+fine agosto**. Le stesse due societa che compaiono nelle nove date che non tornano, e non
+e una coincidenza utile: quelle due aziende hanno avuto movimento in agosto, e il
+movimento si vede **in tutti e due i modi**.
+
+**Le altre diciannove sono divergenza vera, e lo dimostra la distribuzione**: nove del
+2019, una del 2020, una del 2021, una del 2025, sette del 2026 anteriori ad agosto.
+**Un'esecuzione del 2019 assente dallo scadenzario di agosto 2026 non e un problema di
+fotografie.** La dichiarazione e quindi piu stretta di come l'avevamo pensata: non «una
+parte ignota potrebbe essere tempo», ma **«dodici lo sono, diciannove no, e questi sono i
+nomi»**.
+
+**E ricontando hanno trovato quattro numeri sbagliati nel proprio documento**, e le due
+cause sono **roba di oggi**: le righe dello scadenzario erano 814 e sono **812** — le
+altre due erano **il pie di pagina contato come dato** — e i codici fiscali inutilizzabili
+erano «7 e 9» e sono **otto per parte**, cioe l'otto-contro-sei gia corretto stamattina
+**sulla stessa colonna**. Quindi 800, 804 e **769 in entrambi**, e il 760 diventa 759 —
+e adesso i conti **chiudono**: 759 + 9 + 1 = 769.
+
+La loro diagnosi vale piu della correzione: **«quel numero l'avevo sbagliato una volta e
+citato due, che e esattamente il modo in cui un errore piccolo diventa strutturale».** E
+hanno verificato che i numeri che contano **non cambino**, invece di supporlo — e
+controllato che nessuna coppia comparisse due volte da nessuna delle due parti, **zero**,
+che era affermato e non misurato.
+
+**E una nota che arriva in tempo per la `0008`: la data dichiarata non ha un formato
+solo.**
+
+    Report aggiornato al 09/09/2026            senza ora
+    Dati aggiornati al 06/08/2026 07:44        con l'ora
+
+Se la colonna fosse un `timestamp`, sui file del primo tipo bisognerebbe mettere
+**mezzanotte** — e **mezzanotte e un valore dedotto che non si distingue da uno vero**,
+cioe il difetto da cui e nata tutta questa famiglia, all'ultimo passo utile per
+evitarlo. Quindi **due colonne**: la **data** che si confronta, e il **testo verbatim**
+della riga di pie di pagina, dove l'ora resta per chi la vuole. **Sesta volta oggi** che
+la risposta ha questa forma, e la prima in cui e stata vista **prima** di scrivere la
+colonna invece che dopo averla scritta.
+
 **E la mia regola sulle due diciture andava corretta prima di entrare nella `0008`.**
 Avevo scritto «*Dati aggiornati* = freschezza, *Report aggiornato* = produzione», e
 implicitamente «quindi se dice *Dati* e vecchio». **Il secondo pezzo e falso**, e il
