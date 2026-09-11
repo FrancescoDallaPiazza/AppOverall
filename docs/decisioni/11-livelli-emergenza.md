@@ -103,10 +103,15 @@ punti, e cambia solo il tipo:
 > contenuti e la durata riportati nei punti 3.2.5 e 3.2.6 **per i corsi di tipo 3**
 > (FOR o AGG).»
 
-— e lo stesso per il tipo 2 (3.2.3 c. 2, p. 21) e il tipo 1 (3.2.4 c. 2, p. 22). Il
-3.2.1 c. 1 lega il corso al livello: i corsi «devono essere **correlati al livello di
-rischio dell'attività**». Durate al 3.2.5 (4, 8, 16 ore), aggiornamenti al 3.2.6 (2,
-5, 8).
+— e lo stesso per il tipo 2 (3.2.3 c. 2, p. 21) e il tipo 1 (3.2.4 c. 2, p. 22).
+
+Il 3.2.1 c. 1 (p. 21) lega il corso al livello, ed è la frase su cui poggia il resto:
+
+> «I contenuti minimi dei corsi di formazione e dei corsi di aggiornamento
+> antincendio per addetti al servizio antincendio devono essere **correlati al livello
+> di rischio dell'attività** così come individuato dal datore di lavoro.»
+
+Durate al 3.2.5 (4, 8, 16 ore), aggiornamenti al 3.2.6 (2, 5, 8).
 
 **Cercata e non trovata** l'equivalenza fra livelli: le disposizioni transitorie
 (art. 7 c. 1-3) riguardano solo i corsi già programmati sotto il DM 10/03/1998 e la
@@ -121,6 +126,10 @@ gravità: «assolve» non è la domanda giusta. Art. 3 (**p. 7**): il c. 3 manda
 gruppo A all'allegato 3, il c. 4 manda **i gruppi B e C allo stesso allegato 4**.
 Quindi i corsi sono **due e non tre**, e i codici del campo `PS_GRA` / `PS_GRBC` sono
 già la forma giusta: la domanda è **binaria**.
+
+L'art. 3 c. 5 (p. 7) aggiunge due cose che non riguardano l'equivalenza ma servono al
+motore: restano validi i corsi **ultimati prima** dell'entrata in vigore, e la
+formazione si **ripete ogni tre anni**, almeno per la parte pratica.
 
 **Una riga del comma 3 che nessuno ha discusso**, e che sposta il problema: il corso
 di gruppo A deve trattare «**anche la trattazione dei rischi specifici dell'attività
