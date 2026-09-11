@@ -297,6 +297,10 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Il dizionario dei 268 alias, in tre posti | 3 su 3 identici | Script di AppSopralluoghi, seed di AppOverall e produzione, chiusi in due confronti indipendenti: seed vs produzione **undici valori su undici** (`f94ff83`), script vs seed **zero righe diverse** e somme delle impronte identiche (`7d0b322`). Per transitivita i 268 giudizi presi a mano sono gli stessi nei tre posti, e **cade la riserva A10** sotto cui stava l'analisi delle durate |
 | Il seed dei 268 alias contro la produzione | 11 valori su 11 | Confronto dell'11.09: `n`, la somma delle impronte per riga, i cinque flag, le note, i codici distinti e le due somme di lunghezze. **Combacia tutto**, quindi i 268 giudizi presi a mano sono quelli in produzione e la qualificazione «i file dicono» cade sul seed. Il primo tentativo, un `md5(string_agg(... order by))`, dava hash diversi: ordinamento e collation, non deriva — vedi **A11** |
 | Divergenze fra migrazioni e database | 0 su 21 | Su `figura_requisito`, in due letture confrontate — ricostruita dai file e letta dal database (`b50003f`). **Prova che il metodo di ricostruzione funziona**, non che ogni tabella combaci: i 40 codici curati della `0004` restano un'ipotesi finche non si confrontano allo stesso modo |
+| I 180 titoli di AppFormazione contro i 268 alias | 180 su 180 | Giunto della `0006`. Il confronto ingenuo ne perde **dieci**, e sono **tutti e dieci antincendio**: la loro pipeline **cancella** i caratteri non ASCII (`ATTIVITA'` -> `ATTIVIT`) dove chi usa `unaccent` li traslittera (`ATTIVITA`). Con una chiave che toglie da entrambi i lati ogni carattere non ASCII e non alfanumerico: 180 su 180. Quella chiave collassa 268 alias in **262**, e le cinque collisioni sono innocue **perche verificate**, non perche improbabili: tutte e cinque puntano allo stesso codice di corso |
+| Coppie ruolo -> corso su cui le due fonti concordano | 14 su 14 | Sulle **figure**, dove sia il modello di AppFormazione sia `figura_requisito` possono parlare. Fuori dalle figure non c'e incrocio e non e un difetto: il campo dichiara nelle sue `045` e `058` che le abilitazioni non sono figure dell'organigramma, quindi le 14 righe di attrezzature e attivita della `0006` hanno **una fonte sola** e portano la sua qualificazione, «i file dicono» |
+| Righe scritte in `corso_assolve` | 31 | Su 39 coppie derivabili: **-7** antincendio e primo soccorso (scheda 11), **-3** divergenze non scritte, **+2** con una fonte sola e dichiarata. Coprono **20 dei 36 ruoli**; i 16 vuoti sono di quattro nature diverse e la `0006` le separa, perche un motore che non le distingue dichiara non conforme chi non ha un corso da fare |
+| Obblighi i cui unici titoli sono fra i 31 `ignorato` | 5 su 5 | `diisocianati`, `fitosanitari`, `alimenti`, `segnaletica_stradale`, `conduce_transpallet`: **nove titoli, nove `ignorato`, zero eccezioni**. Due curatele che non si sono parlate — chi ha giudicato i 268 alias e chi ha classificato i 180 titoli — hanno separato lo stesso insieme. E il riscontro piu pulito dell'incrocio, e dice una cosa commerciale e non tecnica: quei corsi Overall non li eroga |
 | Insiemi distinti di «fattori di rischio» | 76 | Su **162 righe** con almeno un fattore, 3.501 totali. 122 righe condividono l'insieme con un'altra: **112 nella stessa societa**, 45 con la stessa mansione. La cella ha **un solo valore distinto**, `X`, in 2.447 occorrenze su 79 colonne, e nessuna colonna porta un grado o una fascia. Misurato il 10.09 da AppSopralluoghi (`39fb586`) |
 
 ## 7. Le assunzioni
@@ -366,19 +370,42 @@ Come funziona, per non trasformarlo in un collo di bottiglia:
   risponde di cio che scrive, e una parola riportata non e una firma. Questa regola
   protegge Francesco da noi, non noi da lui.
 
-### Prossimo passo per corsia · all'11 settembre 2026, sera
+### Prossimo passo per corsia · all'11 settembre 2026, notte
+
+Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
+(`corso_assolve` non e piu vuota) e l'ATECO in AppSopralluoghi (`5595601`).
 
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
-| **AppOverall** | **la `0006`: `corso_assolve` riempita.** Tutti i blocchi sono caduti — la qualificazione «i file dicono» sulle quattro tabelle di AppFormazione, il dizionario verificato in tre posti, `DATORE_LAVORO` sciolto per titolo. Si scrive sui **33 codici** che arrivano a un obbligo senza ambiguita, **tenendo fuori antincendio e primo soccorso** | la migrazione **dati**: le 808 righe di sorveglianza e il corpus nel nuovo schema | Era l'unica tabella nata vuota per scelta, e adesso ha **due fonti incrociate** invece di una. Antincendio e primo soccorso restano fuori non per prudenza: la scheda 11 e decisa, ma pretende il **livello della sede**, che e vuoto su 619 righe — una riga «qualsiasi corso della categoria» riprodurrebbe il difetto che quella scheda chiude |
-| **AppSopralluoghi** | **l'ATECO: cosa avete davvero.** Quanti dei 619 clienti hanno un codice, in che **annata** (2007 o 2025), quanti sono validi contro il raccordo a monte, e se `livello_rischio` sia stato scritto a mano o derivato. **Sola lettura, nessuna scrittura** | la campagna di riempimento, **se** Francesco la autorizza: scrive su dati veri | Perche il buco piu grosso emerso oggi e che in AppFormazione `clienti.ateco` e **vuota su 480**, mentre da voi l'ATECO c'e su **267 delle 619 attive**. Il dato che manca a una corsia **esiste nell'altra**, e nessuno lo aveva messo accanto. Prima di spostarlo va misurato: un codice 2007 e uno 2025 non sono lo stesso codice |
-| **AppFormazione** | ~~l'impronta nel registro e l'origine dell'ATECO~~ **chiuse** (`41b4192`): il registro conserva **il contenuto** e non un'impronta, quindi **A10 ha un test**; e l'ATECO **non e mai entrato** — zero chiavi «ateco» su 22.591 righe grezze, e fra le cinque entita caricate **non c'e un'anagrafica aziende** → **il giunto fra `dipendenti_rls` e la durata dell'aggiornamento RLS**, che e la forma che la scheda 12 aspetta | la loro meta dell'ATECO, quando Francesco decide da dove entra | Il dato non si e perso in un mapping: **non e mai stato chiesto**, perche nessun export di anagrafica aziende e stato caricato — le cinque entita sono tutte di persone o di corsi. Quindi la domanda non e «dove si e perso» ma **«quale export lo porta»**, e la risposta sta fuori da quel repo |
+| **AppOverall** | ~~la `0006`~~ **chiusa**: `corso_assolve` ha **31 righe**, 14 sulle quali le due fonti concordano, 2 con una fonte sola e dichiarata, 3 divergenze **non scritte** e 16 ruoli su 36 lasciati vuoti per misura → **il carico su PostgreSQL**: `0001` → `0006` piu il seed su un database vuoto, e i sette conteggi in fondo alla `0006` che devono tornare. **Serve la password del PostgreSQL locale sulla 5433**, che non ho e non provo a indovinare | la migrazione **dati**: le 808 righe di sorveglianza e il corpus nel nuovo schema | La `0006` e verificata **staticamente** — chiavi esterne, i due `check`, l'indice unico e i sette conteggi, letti dai file con un parser — e staticamente non basta: e esattamente la qualificazione che A10 impone, e la `0004` aveva gia scritto che il controllo che manca e uno solo, il carico. Le altre migrazioni sono gia state caricate una volta e quel carico trovo un bug vero |
+| **AppSopralluoghi** | **i cinque clienti che non sono arrivati.** Il vostro riscontro del 9 settembre contava **267** ATECO sull'export `ElencoSedi`, il database ne ha **262**: quali sono i cinque, riga per riga, e se manchi il cliente o solo il codice. **Sola lettura** | la campagna di riempimento dell'ATECO — **rinviata da Francesco l'11 settembre: «verra fatta a posteriori»**. Non e un'attesa di autorizzazione, e un rinvio deciso: non la si ripropone | Perche e l'unico numero del vostro documento di oggi che **non torna**, e l'avete scritto voi: «cinque non sono arrivati, e non so quali — il confronto e fra un file e una tabella, non l'ho fatto riga per riga». Un conteggio che non torna di cinque su 267 e piccolo abbastanza da guardarlo tutto, ed e il caso in cui si scopre **come** si perde una riga, non solo che si perde |
+| **AppFormazione** | **il giunto fra `dipendenti_rls` e la durata dell'aggiornamento RLS** (scheda 12), assegnato e non iniziato. Con un dato in piu che arriva da qui: il catalogo tiene **un solo** aggiornamento da 4 ore, e negli attestati reali le durate sono **due** — 4h su 128 righe e 8h su 31, e le 31 sono le aziende oltre i cinquanta. Il giunto non e teorico: i numeri per provarlo ci sono gia | **la classificazione asimmetrica dei due titoli del datore**, sola lettura sulle vostre migrazioni (vedi sotto) | Perche la scheda 12 aspetta quella forma, e perche l'RLS e l'unico obbligo che questo repo sa gia di dichiarare assolto quando non lo e: la riga `rls -> RLS` della `0006` porta la nota che lo dice. La durata giusta non la decide `corso_assolve`, la decide il numero di dipendenti, che sta da voi |
 
-**Chi e fermo, e da quando.****Chi e fermo, e da quando.** La sera del 10 settembre Francesco ha fermato
+**Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
-meta, punto di ripresa scritto nella `0004`), e l'import dei ruoli era gia in pausa. Sta scritto qui perche la prossima sessione non aspetti
-un lavoro che nessuno sta facendo: una corsia ferma e diversa da una corsia lenta, e
-dal foglio non si distinguono.
+meta, punto di ripresa scritto nella `0004`), e l'import dei ruoli era gia in pausa.
+**Le prime due sono ripartite**, e si vede da `origin` e non da un permesso riferito:
+`41b4192` e `5595601` sono dell'11 settembre. L'import dei ruoli **resta fermo**, e
+resta fermo finche non lo toglie Francesco. Sta scritto qui perche la prossima
+sessione non aspetti un lavoro che nessuno sta facendo: una corsia ferma e diversa da
+una corsia lenta, e dal foglio non si distinguono.
+
+**La divergenza che AppFormazione deve guardare in casa propria.** Incrociando le due
+consegne per riempire la `0006` e uscita una riga che **non e stata scritta** e che
+spiega perche: in `staging.classificazione_corsi` i due titoli
+
+    AGGIORNAMENTO DATORE DI LAVORO
+    AGGIORNAMENTO DATORE DI LAVORO CON MODULO AGGIUNTIVO "CANTIERI"
+
+stanno sotto l'obbligo **`datore_lavoro_rspp`** (art. 34), mentre le loro due varianti
+**iniziali** — «DATORE DI LAVORO», «DATORE DI LAVORO CON MODULO AGGIUNTIVO CANTIERI» —
+stanno sotto **`datore_lavoro_art37`**. Gli stessi due corsi, l'iniziale di qua e
+l'aggiornamento di la. Se fosse vero, **l'aggiornamento da datore semplice chiuderebbe
+l'obbligo dell'art. 34**: un percorso abilitante con decadenza a dieci anni assolto da
+sei ore. Qui la riga non e entrata, perche `figura_requisito` non ha niente di simile e
+la sua `049` ha cancellato proprio la riga del DL-RSPP verso il corso base. **Non va
+compensata da questo lato**: va guardata dove nasce, ed e un difetto che tocca il loro
+motore delle scadenze prima del nostro schema.
 
 **~~Un task che nessuna corsia puo prendere~~ — era falso, e l'ho scoperto per caso.**
 Avevo scritto che far girare le migrazioni su PostgreSQL potesse farlo solo
@@ -441,7 +468,14 @@ stata caricata su un **PostgreSQL 16 nudo**, e quelle migrazioni chiedono quattr
 righe di impalcatura (`auth.uid()` e i `to authenticated`) e nient'altro di Supabase.
 
 **E due che aspettano una persona, non un turno.** Entrambe vanno a chi compila il
-gestionale, e conviene farle **nella stessa conversazione**:
+gestionale, e conviene farle **nella stessa conversazione**. Dall'11 settembre sono
+**tre**, e la terza non va a chi compila: va letta su una norma. `corso_assolve` non
+ha una riga per **`datore_lavoro_art16`**, il datore delegato, perche se al delegato
+spettino gli obblighi del **datore** o quelli del **dirigente** e una domanda di
+diritto e non di mappatura. Le fonti si dividono: il campo ha gia scritto
+`datore_lavoro_art16 -> DATORE_LAVORO` e ce l'ha in produzione, il modello di
+AppFormazione quel ruolo **non ce l'ha proprio** e dice per iscritto di non tradurlo
+finche la norma non e letta. Sotto A7 aspetta parte, punto e pagina:
 
 1. **La colonna «RSPP»** raccoglie di fatto l'art. 34, il datore che assume
    l'incarico in proprio. La prova e nei due versi — dei 28 marcati, 26 hanno un
