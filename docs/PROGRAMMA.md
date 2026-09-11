@@ -512,6 +512,57 @@ quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario l
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
 
+**I due conti delle due corsie differiscono di esattamente due righe per file, e non
+sbagliava nessuno dei due: «righe» non era stato definito.**
+
+Avevo rilanciato a Francesco «13.350 righe di corsi fatti e 4.899 di scadenze» prendendoli
+da AppFormazione **senza contarli**. AppSopralluoghi li ha contati prima di girare la
+frase e ha corretto: 13.348 e 4.897. **Contati anche qui**, e la struttura spiega tutto:
+
+    riga 1   'Elenco Visite/Formazioni'      titolo
+    riga 2   vuota
+    riga 3   intestazioni di colonna
+    ...      dati
+    penultima 'https://overall.sgslweb.com/'  pie di pagina
+    ultima    'Dati aggiornati al ...'        pie di pagina
+
+    ExportExcelCorsiFatti      13.353 lette  - 3 testa - 2 piede = 13.348
+    ExportExcelCorsiScadenze    4.902        - 3       - 2       =  4.897
+    ExportExcelVisiteScadenze     817        - 3       - 2       =    812
+
+**AppFormazione toglieva le tre righe di testa e non le due di piede; AppSopralluoghi
+toglieva entrambe.** La differenza e **esattamente due per file**, in tutti e tre.
+Nessuno dei due era distratto: la parola «righe» non aveva una definizione, e due
+convenzioni non dichiarate producono **due numeri veri che non concordano**. E la forma
+di «un vocabolario osservato e un campione» applicata a un conteggio invece che a un
+dominio.
+
+**E il quadro del pie di pagina e completo su sei file, e nessun guard unico funziona:**
+
+    elencoAnagraficaFormazioni    2 righe   URL + data
+    ExportExcelCorsiFatti         2
+    ExportExcelCorsiScadenze      2
+    ExportExcelVisiteScadenze     2
+    ExportExcel (4), ogni foglio  1         solo la data, niente URL
+    ElencoSedi                    0         l'ultima riga e un cliente vero
+
+Cinque su sei ce l'hanno, **in due forme diverse**, e il sesto no. Un guard che togliesse
+«le ultime due righe» **sbaglierebbe su due file su sei in due modi opposti**: ne
+lascerebbe una in `ExportExcel (4)` e ne **mangerebbe una vera** in `ElencoSedi`.
+
+**E la cosa che nessuno aveva guardato: i file hanno tre date diverse.**
+
+    ExportExcelCorsiFatti / CorsiScadenze / VisiteScadenze    06/08/2026
+    ExportExcel (4), tutti e quattro i fogli                  09/09/2026
+    elencoAnagraficaFormazioni                                30/07/2026
+
+Per le 808 visite non cambia niente — vengono tutte dal foglio del 09/09. Ma il confronto
+fra quel foglio e `ExportExcelVisiteScadenze` mette a paragone **due fotografie a cinque
+settimane di distanza**, e la riconciliazione gia fatta — 770 coppie in entrambi, **31
+solo nel foglio** — potrebbe contenerne qualcuna che e semplicemente **piu recente**.
+Trentuno righe di cui una parte ignota non e una divergenza ma il tempo passato: va
+riverificato su file della stessa data, o dichiarato.
+
 **L'impronta dei 268 e dell'ESTRAZIONE e non dei testi, e la `0008` deve portarsi
 dietro il numero di riga — altrimenti diventa incontrollabile.**
 
