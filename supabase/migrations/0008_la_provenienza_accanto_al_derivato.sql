@@ -351,7 +351,7 @@ update corso set ore_aggiornamento_grandezza = 'durata_corso'
 alter table origine_estrazione enable row level security;
 create policy leggono_gli_operatori on origine_estrazione for select to authenticated using (e_operatore());
 create policy scrive_amministrazione on origine_estrazione for all to authenticated
-  using (e_amministrazione()) with check (e_amministrazione());
+  using (livello_operatore() >= 4) with check (livello_operatore() >= 4);
 grant select on origine_estrazione to authenticated;
 
 -- ============================================================================

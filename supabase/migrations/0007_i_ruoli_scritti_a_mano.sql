@@ -360,11 +360,11 @@ create policy leggono_gli_operatori on ruolo_testo_parola for select to authenti
 create policy leggono_gli_operatori on ruolo_da_parola for select to authenticated using (e_operatore());
 
 create policy scrive_amministrazione on ruolo_testo for all to authenticated
-  using (e_amministrazione()) with check (e_amministrazione());
+  using (livello_operatore() >= 4) with check (livello_operatore() >= 4);
 create policy scrive_amministrazione on ruolo_testo_parola for all to authenticated
-  using (e_amministrazione()) with check (e_amministrazione());
+  using (livello_operatore() >= 4) with check (livello_operatore() >= 4);
 create policy scrive_amministrazione on ruolo_da_parola for all to authenticated
-  using (e_amministrazione()) with check (e_amministrazione());
+  using (livello_operatore() >= 4) with check (livello_operatore() >= 4);
 
 grant select on ruolo_testo, ruolo_testo_parola, ruolo_da_parola to authenticated;
 
