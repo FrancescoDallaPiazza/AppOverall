@@ -290,6 +290,7 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Formazione dentro l'app da campo | 8.876 | 36,1% di 24.576 righe di `src/` |
 | Viste nelle 62 migrazioni del campo | 0 | — |
 | Difetti del campo confermati · riparati | 4 · 3 | Resta D2, che vuole un deploy |
+| Aggiornamento datore: ore che distinguono l'obbligo | 6 vs 8 | Art. 37: corso 16 h, **aggiornamento 6 h**/5 anni, prima applicazione 19.05.2027. Art. 34: comune 8 h + settore, **aggiornamento 8 h**/5 anni, decadenza a 10 anni. Fonti: le due pagine di corso di Overall piu ASR 17/04/2025 parte II punto 3 — e il catalogo ricostruito nella `0004` le portava gia entrambe |
 | Divergenze fra migrazioni e database | 0 su 21 | Su `figura_requisito`, in due letture confrontate — ricostruita dai file e letta dal database (`b50003f`). **Prova che il metodo di ricostruzione funziona**, non che ogni tabella combaci: i 40 codici curati della `0004` restano un'ipotesi finche non si confrontano allo stesso modo |
 | Insiemi distinti di «fattori di rischio» | 76 | Su **162 righe** con almeno un fattore, 3.501 totali. 122 righe condividono l'insieme con un'altra: **112 nella stessa societa**, 45 con la stessa mansione. La cella ha **un solo valore distinto**, `X`, in 2.447 occorrenze su 79 colonne, e nessuna colonna porta un grado o una fascia. Misurato il 10.09 da AppSopralluoghi (`39fb586`) |
 

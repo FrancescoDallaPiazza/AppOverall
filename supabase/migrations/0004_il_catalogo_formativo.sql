@@ -451,6 +451,49 @@ comment on column corso_assolve.categoria is
 -- `b50003f`). Non prova che le migrazioni descrivano ogni tabella: prova che il
 -- **metodo** di ricostruzione funziona, e quindi che confrontare allo stesso modo
 -- i 40 codici curati di questa migrazione ha senso e non e stato ancora fatto.
+-- ---------- la divergenza su DATORE_LAVORO, sciolta dalle ore ----------
+--
+-- L'incrocio delle due fonti ha fatto emergere un disaccordo che da una sola non si
+-- vedeva: i quattro testi che il dizionario del campo mette sotto `DATORE_LAVORO`
+-- vanno, nel modello di AppFormazione, su **due obblighi diversi** — il corso
+-- iniziale all'**art. 37**, il suo aggiornamento all'**art. 34**.
+--
+-- Il caso concreto: un datore con RSPP esterno che frequenta «DATORE DI LAVORO»
+-- (2023) e poi «AGGIORNAMENTO DATORE DI LAVORO» (2026) risulterebbe con l'art. 37
+-- **non aggiornato** e con soddisfatto un art. 34 **che non ha**. Non conforme pur
+-- essendo in regola.
+--
+-- **Sciolto da Francesco l'11 settembre 2026 indicando le due pagine con cui Overall
+-- vende i due corsi** — e il discriminante non e il titolo, sono **le ore**:
+--
+--   art. 37   corso 16 ore, **aggiornamento 6 ore** ogni 5 anni, prima
+--             applicazione entro il **19 maggio 2027**, piu 6 ore di modulo
+--             cantieri per l'impresa affidataria (art. 97 c. 3-ter).
+--             ASR 17/04/2025, parte II punto 3
+--   art. 34   modulo comune 8 ore piu settore (12 o 16), **aggiornamento 8 ore**
+--             ogni 5 anni, decadenza del titolo a dieci anni. D.Lgs. 81/2008 art.
+--             34, ASR 17/04/2025
+--
+-- I due aggiornamenti hanno **ore diverse**, e questo catalogo lo porta gia: qui
+-- sopra `DATORE_LAVORO` ha `ore_aggiornamento` **6** e `DL_RSPP_COMUNE` ha **8**.
+-- Quindi la riga di `corso_assolve` non e ambigua e **DATORE_LAVORO entra**: il corso
+-- da 16 ore e il suo aggiornamento da 6 assolvono l'obbligo dell'**art. 37**, cioe
+-- `datore_lavoro`. La lettura di AppFormazione, che mandava il titolo nudo all'art.
+-- 34, era storicamente difendibile — prima dell'ASR 2025 l'art. 37 non aveva
+-- aggiornamento — ma era una regola **sul titolo**, e il titolo non e il dato.
+--
+-- **Resta un problema, ed e dell'import e non di questa tabella:** un attestato con
+-- il titolo nudo «AGGIORNAMENTO DATORE DI LAVORO» e **8 ore** e un art. 34 scritto
+-- male, e va instradato sulle ore. Da verificare prima dell'import: **se l'export
+-- del gestionale porti le ore per riga**. Se non le porta, il ripiego e la
+-- **nomina** — l'obbligo segue il ruolo, che e la grana della scheda 9 — e dove
+-- manca anche quella si segnala, come nel terzo stato della scheda 11.
+--
+-- Nota che il gestionale distingue gia i due mondi, e pende contro la lettura per
+-- titolo: esiste un testo separato ed esplicito, «AGGIORNAMENTO DATORE DI LAVORO
+-- **CHE SVOLGE I COMPITI DI RSPP**», che il dizionario manda su `DL_RSPP_BASE`. Se
+-- l'art. 34 ha il suo titolo, il titolo nudo probabilmente non e quello.
+--
 -- **L'altra meta e arrivata l'11 settembre 2026** (AppFormazione `75d10ee`,
 -- `docs/08-le-regole-obbligo-corso.md` e la mappa di 180 righe). Ha una forma
 -- diversa da quella del campo, e la differenza e la ragione per cui la grana
