@@ -512,6 +512,69 @@ quale sia il corso da 12 e quale quello da 8**, e la mia frase «il dizionario l
 gia come due voci» era vera e non bastava: la distinzione sopravvive nell'alias e
 muore nel codice, che e il livello a cui il motore lavora.
 
+**L'identita delle persone: i numeri di AppSopralluoghi tornano, io ne trovo due in
+piu, e la conclusione sullo schema NON e la stessa per i due modelli.**
+
+**Prima una correzione al mio 3.501, ed e loro.** Una di quelle righe **non e una
+persona**: e il **pie di pagina** dell'export — «Report aggiornato al 09/09/2026» —
+con la Societa piena e tutto il resto vuoto. Le righe persona vere sono **3.500**.
+E l'avvertimento che vale piu della correzione: un import di **clienti** che
+controllasse solo «ragione sociale non vuota» creerebbe un cliente **chiamato «Report
+aggiornato al 09/09/2026»**. E non c'e un guard unico da scrivere: `elencoAnagrafica
+Formazioni` ha **due** righe di pie di pagina — ed e la ragione per cui «il catalogo ha
+270 righe» invece di 268 — mentre `ElencoSedi` **non ne ha nessuna**, e l'ultima riga e
+un cliente vero. **Non e una regola degli export Sicurweb: va controllato file per file.**
+
+**I C.F. malformati sono otto e non sei, e i due in piu li trova il mio `check`.** La
+`0001` impone `^[A-Z0-9]{16}$`, che **rifiuta gli spazi interni**:
+
+    CNVRNT6 3S12B546 X    18   Canova Renato        REDIL COSTRUZIONI SRL
+    SNVLRS68 D10G693L     17   Sanavia Loris        REDIL COSTRUZIONI SRL
+    FNSDNL85P09F965J,     17   virgola in coda
+    PNTGNN88S14G039T,     17   virgola in coda
+    PPEMHL90E28L781Y?     17   punto interrogativo in coda
+    GRSLNE67A60L781MH     17   una lettera in piu, e non c'e niente da togliere
+    54175989000           11   e una P.IVA nella colonna del C.F.
+    PASTUSHYNA TETYANA    18   e un nome nella colonna del C.F.
+
+**Cinque degli otto tornano validi togliendo i caratteri non alfanumerici** — i due con
+gli spazi, i due con la virgola, quello col punto interrogativo — e **tre no**: la
+P.IVA, il nome, e quello con una lettera in piu. Non e un dettaglio di conteggio: dice
+che la ripulitura **si puo fare e quanto rende**, cinque righe su otto, e che le altre
+tre vanno trattate come **assenti** e non come identita.
+
+**I sette C.F. ripetuti: confermati uno per uno.** Sei sono la **stessa persona su due
+clienti** — MOUSTAHSSEN HAJAR fra le due societa del gruppo Velox, AMARI e NEGRETTI fra
+due aziende agricole — e **uno** e una **riga doppia dentro lo stesso cliente**, DE VITA
+LUIGI in CTF INTEGRATED LOGISTIC.
+
+**E qui la loro conclusione e giusta per il loro schema e sbagliata per il mio.** Loro
+scrivono che `codice_fiscale` unique **globale rifiuterebbe l'import**, e che l'unicita
+va su `(cliente, codice_fiscale)`. Vero **da loro**, dove una persona su due
+organigrammi e **due schede** per costruzione. **Qui no**: la `0001` ha `persona` e
+`rapporto_lavoro` **separate**, e una persona con due datori e **una riga di `persona` e
+due di `rapporto_lavoro`** — che e precisamente cio per cui quella tabella esiste. I sei
+casi non sono un ostacolo al mio vincolo: **sono la prova che il modello e giusto**, e
+con `(cliente, codice_fiscale)` MOUSTAHSSEN HAJAR diventerebbe **due persone**.
+
+Quindi **il vincolo non cambia; cambia l'import**, e in tre punti che adesso hanno un
+numero: ripulire il C.F. prima di scriverlo (5 su 8 rientrano); **fondere** i sei
+cross-cliente in una persona con due rapporti invece di rifiutarli; e la terza, che e la
+mia e non la loro.
+
+**Il rischio che il mio modello ha e il loro no, misurato: due righe.** Un ripiego su
+cognome+nome, nel mio modello, **fonderebbe fra clienti diversi** — e ci sono **due**
+persone senza C.F. valido che compaiono con lo stesso cognome e nome presso **due
+clienti**: `MORANDINI ACHILLE` e `TECCHIO STEFANO`. Da loro il problema non esiste
+perche il cliente e gia nella chiave. **Da me, un ripiego sul nome senza il cliente
+fonderebbe due persone che potrebbero non essere la stessa** — e non c'e modo di sapere
+se lo siano. Piu i due `PRADELLA TAZIO` **dentro lo stesso cliente**, che sono il caso
+opposto e vale per entrambi i modelli.
+
+Il loro commento lo dice meglio di come lo direi io, e vale per la mia terza regola:
+**«meglio un doppione che si vede, di due persone fuse per sbaglio, che non si vede
+piu».**
+
 **La migrazione dati non puo cominciare dalle 808 righe, e il prerequisito non era
 scritto da nessuna parte.** Misurato l'11 settembre sul foglio «Visite» di
 `ExportExcel (4).xlsx`, che e su questo disco insieme all'altro file che serve.
