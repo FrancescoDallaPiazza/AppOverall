@@ -2897,3 +2897,31 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   mentre quello che ne guadagnava 76 non era nominato. Conclusione giusta, ragione
   sbagliata; li conclusione giusta, ragione troppo piccola. **In tutti e due i casi a
   reggere era il numero che nessuno aveva contato.**
+
+- **A19** **Un fatto ricevuto su cui si sta per COSTRUIRE va verificato alla fonte;
+  uno su cui si deve solo essere d'accordo, no. La differenza non e la fiducia, e
+  quanto ci pesa sopra.** Aggiunta il 12 settembre 2026, e le due meta vengono dalle
+  due corsie che se la sono fatta a vicenda nella stessa ora.
+  **Cosa e successo.** Questa corsia ha scritto nella `0015` che
+  `rapporto_lavoro.import_key` «non e un vincolo, e una stringa» — falso: l'aveva
+  resa `unique` **due ore prima**, nella `0013`. AppSopralluoghi l'ha ricevuto come
+  fatto e ci ha costruito sopra la riga che ha chiamato «la cosa piu importante che
+  questa consegna possa dire», **senza aprire la `0013`**, che stava sullo stesso
+  disco e che aveva gia aperto quattro volte quel giorno. La verifica costava due
+  comandi.
+  **Perche la forma «un fatto» e potente e per questo pericolosa.** Poche ore prima la
+  stessa corsia aveva osservato che **dare un fatto invece di una proposta fa muovere
+  le cose** — «se avessi scritto *dovreste correggere la 0001* avreste valutato una
+  proposta invece di un fatto, e sarebbe finita in una lista». E vero, **e vale anche
+  quando il fatto e falso**: *un fatto sbagliato consegnato come fatto viaggia piu
+  veloce di una proposta sbagliata*. **La forma non ha un dispositivo di sicurezza, e
+  quello deve metterlo chi riceve.**
+  **E la soglia e quella che rende la regola applicabile invece che virtuosa:** non si
+  verifica tutto — si verifica cio su cui si sta per costruire. E la settima istanza
+  della regola della sezione 8 in due giorni, con un'aggravante che le altre sei non
+  avevano: le prime erano «non ho cercato», questa e **«mi e stato detto, e non ho
+  controllato»** — peggio, perche la fonte era a portata di mano **e aveva appena
+  dimostrato di poter sbagliare**.
+  **E la frase falsa va ritirata dove qualcuno l'ha letta, non cancellata**: chi apre
+  quel documento domani deve vedere che quella riga era sbagliata e **su cosa era
+  stata costruita**, non trovarne una giusta al suo posto come se niente fosse.
