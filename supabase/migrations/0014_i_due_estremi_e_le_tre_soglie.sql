@@ -185,7 +185,24 @@ grant select on corso_regime_precedente_ore to authenticated;
 -- sono **76 giudizi `insufficienti` falsi** su persone che avevano fatto per intero
 -- l'aggiornamento che il loro livello chiedeva.
 
+-- **E `valida_dal` vale per le ORE, non per la periodicita**, e su `PREPOSTO` la
+-- distinzione non e teorica: quella riga porta **due epoche**. Le 12 ore vengono
+-- dall'ASR 2025; l'`aggiornamento_mesi = 24` viene dall'art. 37 c. 7-ter, introdotto
+-- dalla **L. 215/2021**, e vale dal 2021. Chi datasse la biennalita dal 19/05/2025
+-- sbaglierebbe di **quattro anni** il termine di ogni preposto formato fra il 2021 e
+-- il 2025 — e quel termine e proprio quello della finestra dei dodici mesi della
+-- Parte VII. Rilievo di AppFormazione, e la colonna da sola non lo direbbe.
+
 update corso set valida_dal = date '2025-05-19' where codice in ('DIRIGENTE', 'DL_RSPP_BASE', 'PREPOSTO');
+
+-- E la nota della `0004` su questo codice va corretta, perche e' li che l'errore
+-- nasce: diceva «ASR 17/04/2025: aggiornamento biennale 6h», attribuendo
+-- all'Accordo una cadenza che era **legge da quattro anni**. Finche nessuna data
+-- stava su quella riga l'errore era inerte; questa migrazione e la prima che ce ne
+-- mette una, e da qui in poi diventa utilizzabile.
+
+update corso set note = 'Aggiornamento **biennale**, e la cadenza NON viene dall''ASR 2025: viene dall''**art. 37 c. 7-ter**, introdotto dalla **L. 215/2021** — «devono essere ripetute con cadenza almeno biennale». Le **12 ore** invece sono dell''ASR 2025 (Parte II punto 2.2, pag. 14), e prima erano 8 (221/CSR punto 5, pag. 8), con **credito formativo totale** sui percorsi del 2011 (Parte VII, pag. 112). Due epoche su una riga sola: `valida_dal` vale per le **ore**. Richiede la formazione da lavoratore.'
+ where codice = 'PREPOSTO';
 
 insert into corso_regime_precedente
   (corso_codice, colonna, valida_fino_a, discriminante, fonte, nota) values
@@ -347,8 +364,20 @@ insert into corso (codice, nome, categoria, ore, aggiornamento_mesi, ore_aggiorn
                    prerequisito_codice, attivo, note, valida_dal) values
   ('ATTR_PLE_UNA', 'Piattaforme di lavoro elevabili PLE - una sola tipologia (art. 73)',
    'attrezzature', 8, 60, 4, null, true,
-   'Teorico 4 + pratica 4 su **una** tipologia — con stabilizzatori **oppure** senza. ASR 17/04/2025, Parte II punto 8.3.1, pagg. 41-42. Il percorso completo (entrambe, pratica 6, totale 10) resta `ATTR_PLE`: **questo non e mezzo corso**, e un''abilitazione valida e completa su una tipologia.',
-   date '2025-05-19');
+   'Teorico 4 + pratica 4 su **una** tipologia — con stabilizzatori **oppure** senza. ASR 17/04/2025, Parte II punto 8.3.1, pagg. 41-42. Il percorso completo (entrambe, pratica 6, totale 10) resta `ATTR_PLE`: **questo non e mezzo corso**, e un''abilitazione valida e completa su una tipologia. `valida_dal` e **null, cioe non dichiarato, e non e una dimenticanza**: la tipologia singola da 8 ore **non nasce con l''ASR 2025** — l''Accordo 22/02/2012 allegato III dava alle PLE 8, 10 e 12 ore. Vedi la domanda aperta accanto.',
+   null);
+
+-- **E qui c'e una domanda aperta che riguarda il motore e non questa tabella.**
+-- Se il motore sceglie la riga di catalogo guardando la **data dell'attestato**, un
+-- attestato PLE da 8 ore anteriore al maggio 2025 non troverebbe `ATTR_PLE_UNA` e
+-- ricadrebbe su `ATTR_PLE` a 10 — cioe **esattamente il falso che questa riga esiste
+-- per riparare, conservato per tutti i certificati vecchi**. Per questo `valida_dal`
+-- resta **null**: dichiarare 19/05/2025 sarebbe un'affermazione che la fonte non
+-- sostiene, e in questo schema `null` vuol dire «non dichiarato» e non «da sempre».
+-- Le due uscite, quando il motore esistera: o il codice nuovo **vale da sempre**, e
+-- null e gia la risposta giusta; oppure `ATTR_PLE_UNA` prende **a sua volta** un
+-- regime precedente con la terna del 2012 (8 · 10 · 12, allegato III), e allora la
+-- data si scrive. Segnalata da AppFormazione rileggendo la riscrittura.
 
 update corso set ore_grandezza = 'durata_corso',
                  ore_aggiornamento_grandezza = 'parte_pratica'
@@ -400,8 +429,9 @@ update corso set note = coalesce(note || ' ', '') ||
 --
 --   select count(*) from corso_regime_precedente;                      -- 4
 --   select count(*) from corso_regime_precedente_ore;                  -- 8
---   select count(*) from corso where valida_dal is not null;           -- 4
---         DIRIGENTE, DL_RSPP_BASE, PREPOSTO, ATTR_PLE_UNA
+--   select count(*) from corso where valida_dal is not null;           -- 3
+--         DIRIGENTE, DL_RSPP_BASE, PREPOSTO — **non** ATTR_PLE_UNA, vedi la
+--         domanda aperta accanto alla sua riga
 --   select count(*) from corso_durata_per_dimensione;                  -- 3
 --   select count(*) from corso;                                        -- 41, ed erano 40
 --
@@ -441,6 +471,42 @@ update corso set note = coalesce(note || ' ', '') ||
 --       on o.corso_codice = r.corso_codice and o.colonna = r.colonna
 --    group by 1,2,3
 --   having (r.discriminante is null) <> (count(o.*) = 1 and min(o.variante) = 'unica');  -- 0
+--
+--   -- 5. un regime discriminato porta TUTTE le varianti del suo discriminante
+--   select r.corso_codice, r.colonna, count(o.*) as varianti
+--     from corso_regime_precedente r
+--     join corso_regime_precedente_ore o
+--       on o.corso_codice = r.corso_codice and o.colonna = r.colonna
+--    where r.discriminante = 'livello_rischio'
+--    group by 1, 2
+--   having count(*) <> 3
+--       or array_agg(o.variante order by o.variante) <> array['alto','basso','medio'];   -- 0
+--
+-- **Il quinto conto esiste perche sciogliendo la biimplicazione ho tolto anche la
+-- meta che serviva, e il buco che restava era PEGGIO di quello che avevo chiuso.**
+-- Rilievo di AppFormazione sulla riscrittura, e la responsabilita e condivisa: il
+-- rilievo che ha fatto sciogliere il vincolo era loro, e nessuno dei due ha guardato
+-- cosa quel vincolo facesse anche **di giusto**.
+--
+-- Il caso che passava: `discriminante = 'livello_rischio'` con **una sola** riga di
+-- ore, `basso 6`. Il quarto conto non lo vede — lato sinistro falso perche il
+-- discriminante c'e, lato destro falso perche la variante non si chiama `unica`,
+-- `false <> false` — e il **massimo** dell'insieme diventa **6 invece di 14**. Il
+-- massimo e la colonna che decide «sufficienti CERTO»: chi ha fatto sei ore
+-- verrebbe certificato sufficiente **con certezza** anche se il suo livello ne
+-- chiedeva quattordici.
+--
+-- **E per questo e peggio del difetto dell'insieme vuoto**: quello faceva *sparire*
+-- la riga da tutti e tre i rami, e un buco prima o poi si nota. Questo produce una
+-- risposta **confidente e sbagliata**, nella direzione che questa stessa migrazione
+-- chiama pericolosa dodici righe piu in basso — il falso «sufficienti», che non si
+-- vede perche non manca niente.
+--
+-- Il conto e scritto su `livello_rischio` perche oggi il discriminante e uno solo.
+-- **Quando ne arriva un secondo, la forma generale e un vocabolario `discriminante ->
+-- varianti`**, e questo conto diventa una differenza fra insiemi. E anche il posto
+-- giusto per quella relazione: oggi nel `check` di `variante` convivono `unica` e i
+-- tre livelli **senza che niente dica quale appartenga a quale**.
 --
 -- **Il quarto e la biimplicazione che era un `check` e non doveva esserlo.** Come
 -- vincolo rifiutava un caso vero: 221/CSR punto 9, pag. 11 — «un aggiornamento
@@ -519,6 +585,17 @@ update corso set note = coalesce(note || ' ', '') ||
 --   un regime padre legittimo                          accettato
 --   tre varianti con lo STESSO numero (il 221/CSR)     accettato
 --   una riga di dimensione legittima                   accettato
+--
+-- **E un controllo in piu sul quinto conto, che e il solo modo di sapere che serve.**
+-- Seminato un regime `livello_rischio` con **una variante sola** — il caso che la
+-- biimplicazione sciolta lasciava passare:
+--
+--   il conto 4 lo vede?    NO   (0 righe) — ed e il buco
+--   il conto 5 lo vede?    SI   (PREPOSTO/ore_aggiornamento, 1 variante)
+--
+-- **Un conto che trova quello che un altro conto gia trovava non serve a niente**, e
+-- questa e la prova che il quinto non e ridondante: gli e stato dato in pasto
+-- esattamente cio che il quarto non prende, e lo ha preso.
 --
 -- **Le tre accettate sono quelle che rendono le sei una prova**, e la penultima in
 -- particolare: e il caso che il vincolo vecchio rifiutava, e dopo averlo inserito il
