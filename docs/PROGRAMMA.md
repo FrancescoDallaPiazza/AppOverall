@@ -437,6 +437,25 @@ opposto**: li il contenuto stava in un posto che lo faceva sembrare piu di quell
 era, qui l'avvertenza stava in un posto giusto per chi l'aveva scritta e sbagliato per
 chi legge. **Dove una cosa e scritta e parte di cosa dice**, e vale nei due versi.
 
+**E la meta che dice QUANTO, senza la quale la prima si applica male.** «Un avviso
+che vive altrove non protegge chi apre il documento» dice **dove**, e da sola porta a
+mettere tutto in testa — e un elenco in testa non lo legge nessuno, quindi la regola
+si smette di seguire dopo il terzo avviso. La distinzione, nelle parole di chi l'ha
+formulata:
+
+> **L'avvertenza in testa e per chi deve decidere SE fidarsi del file; la correzione
+> dentro la riga e per chi sta gia leggendo quella riga e si fiderebbe di QUELLA.**
+> Due domande diverse, due posti diversi, e il criterio per scegliere e a quale delle
+> due il lettore sta rispondendo in quel momento.
+
+**E il posto in cui un ragionamento sbagliato si nasconde meglio ha un nome.** Il
+terzo difetto trovato in quel documento non era un numero — era un argomento che non
+reggeva — e **stava sotto un titolo che diceva «Cosa non decido»**. Un titolo che
+dichiara di non concludere e il posto perfetto per una conclusione sbagliata: nessuno
+va a controllare un ragionamento che si annuncia come non conclusivo. Un numero
+sbagliato lo trova chiunque ricontrolli; un argomento sbagliato ha l'aria di un
+ragionamento finito, e chi rilegge lo salta.
+
 E il corollario che la terza istanza aggiunge: **un dato che trasloca porta con se la
 sua etichetta.** `N DIPENDENTI` non e «quanti lavoratori ha l'impresa», e «quante
 persone ne gestiamo» — e l'uso previsto e proprio la soglia dei 50 dell'RLS, cioe il
@@ -2797,3 +2816,16 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   disco, a due comandi di distanza, in un repo che questo programma dice di guardare
   invece di chiedere. La regola contro cui ho sbagliato e' la prima riga della sezione
   8.
+
+- **A16** **Due prove che coprono meta ciascuna sembrano una prova intera finche
+  sono una sola.** Aggiunta il 12 settembre 2026 dalla corsia AppSopralluoghi, che
+  ha diviso in due comandi cio che era uno: `ruoli:check` prova la **regola** contro
+  un corpus dichiarato, `nomine:dryrun` prova il **foglio** aprendo un file vero.
+  Nessuna delle due copre l'altra — «una regola giusta su un foglio che non si apre
+  non importa niente; un foglio che si apre con una regola sbagliata importa il dato
+  sbagliato» — e finche esisteva solo la prima sembrava di avere una verifica intera.
+  **E la stessa forma vale sui vincoli, dove si e presentata lo stesso giorno**: un
+  controllo negativo prova che un vincolo **morde**, non che sia il vincolo
+  **giusto**, ed e per questo che l'insieme vuoto e passato sotto quattro controlli
+  negativi tutti superati. La domanda che le scopre e sempre la stessa: **di questa
+  cosa, quale meta sto provando?**
