@@ -185,18 +185,22 @@ grant select on corso_regime_precedente_ore to authenticated;
 -- sono **76 giudizi `insufficienti` falsi** su persone che avevano fatto per intero
 -- l'aggiornamento che il loro livello chiedeva.
 
-update corso set valida_dal = date '2025-05-19' where codice in ('DIRIGENTE', 'DL_RSPP_BASE');
+update corso set valida_dal = date '2025-05-19' where codice in ('DIRIGENTE', 'DL_RSPP_BASE', 'PREPOSTO');
 
 insert into corso_regime_precedente
   (corso_codice, colonna, valida_fino_a, discriminante, fonte, nota) values
 
   ('DIRIGENTE', 'ore', date '2026-05-19', null,
    'Accordo 21/12/2011 (221/CSR) punto 6, pag. 9: «La durata minima della formazione per i dirigenti e di 16 ore»',
-   'Registrazione e non riparazione: 16 >= 12, quindi i dodici attestati da 16 ore passavano gia contro l''attesa corrente. Il regime vecchio era **piu severo**, e questa riga non cambia nessun giudizio — dice com''era.'),
+   'Registrazione e non riparazione: 16 >= 12, quindi i dodici attestati da 16 ore passavano gia contro l''attesa corrente. Il regime vecchio era **piu severo**, e questa riga non cambia nessun giudizio — dice com''era. **E la clausola dei fatti salvi vale anche qui**: ASR 2025 Parte VII pag. 112, «per i lavoratori sono fatti salvi i percorsi... credito formativo totale», identica per i dirigenti. Quindi non e solo storia: e la ragione per cui quegli attestati non vanno integrati.'),
 
   ('DL_RSPP_BASE', 'ore_aggiornamento', date '2026-05-19', 'livello_rischio',
    'Accordo 21/12/2011 (223/CSR) Allegato A punto 7, pag. 8: «ha durata, modulata in relazione ai tre livelli di rischio»',
    '**La riga che il meccanismo esiste per portare.** 76 righe a 6 ore oggi valgono 76 `insufficienti` falsi contro l''attesa corrente di 8. Col minimo a 6 e il massimo a 14: 36 righe a 14 ore sono sufficienti CERTE, 99 restano in mezzo (76 a 6 e 23 a 10). E la fonte dice «ha durata» e non «monte ore», quindi non e la forma del punto 3 della Parte III.'),
+
+  ('PREPOSTO', 'ore', date '2026-05-19', null,
+   'Accordo 21/12/2011 (221/CSR) punto 5, pag. 8: «La durata minima del modulo per preposti e di 8 ore» — e ASR 2025 Parte VII, pag. 112: «Per i preposti sono fatti salvi i percorsi formativi effettuati in vigenza dell''accordo Stato-Regioni del 21 dicembre 2011, per il quali e riconosciuto **credito formativo totale**»',
+   '**La popolazione piu grande che questo meccanismo ripara: 276 righe da 8 ore** contro l''attesa corrente di 12, cioe 276 `insufficienti` falsi — 3,6 volte le 76 di `DL_RSPP_BASE`. E non poggia su un''inferenza: la Parte VII lo dice **in una clausola esplicita**, quindi confrontare quegli attestati con l''attesa di oggi e falso **per il testo** e non per una lettura del regime. **E vale sotto tutte e due le letture di `PREPOSTO`**: che le 276 righe siano il corso del regime vecchio o uno dei tre corsi distinti, il corso che portano e quello del 2011 in entrambi i casi, e il credito totale non dipende da quella risposta. Questa riga NON separa niente e non anticipa la scheda 12.'),
 
   ('DL_RSPP_BASE', 'ore', date '2026-05-19', 'livello_rischio',
    'Accordo 21/12/2011 (223/CSR) Allegato A punto 5, pag. 6',
@@ -204,6 +208,7 @@ insert into corso_regime_precedente
 
 insert into corso_regime_precedente_ore (corso_codice, colonna, variante, ore) values
   ('DIRIGENTE',    'ore',               'unica', 16),
+  ('PREPOSTO',     'ore',               'unica',  8),
   ('DL_RSPP_BASE', 'ore_aggiornamento', 'basso',  6),
   ('DL_RSPP_BASE', 'ore_aggiornamento', 'medio', 10),
   ('DL_RSPP_BASE', 'ore_aggiornamento', 'alto',  14),
@@ -393,10 +398,10 @@ update corso set note = coalesce(note || ' ', '') ||
 --  I CONTI CHE QUESTA MIGRAZIONE DEVE FARE TORNARE
 -- ============================================================================
 --
---   select count(*) from corso_regime_precedente;                      -- 3
---   select count(*) from corso_regime_precedente_ore;                  -- 7
---   select count(*) from corso where valida_dal is not null;           -- 3
---         DIRIGENTE, DL_RSPP_BASE, ATTR_PLE_UNA
+--   select count(*) from corso_regime_precedente;                      -- 4
+--   select count(*) from corso_regime_precedente_ore;                  -- 8
+--   select count(*) from corso where valida_dal is not null;           -- 4
+--         DIRIGENTE, DL_RSPP_BASE, PREPOSTO, ATTR_PLE_UNA
 --   select count(*) from corso_durata_per_dimensione;                  -- 3
 --   select count(*) from corso;                                        -- 41, ed erano 40
 --
@@ -414,11 +419,11 @@ update corso set note = coalesce(note || ' ', '') ||
 --   -- 2. e allora i due estremi si SOVRAPPONGONO. Se questo tornasse zero la forma
 --   --    sarebbe sbagliata: vorrebbe dire che nessun regime vecchio sopravvive al nuovo
 --   select count(*) from corso_regime_precedente r join corso c on c.codice = r.corso_codice
---    where r.valida_fino_a > c.valida_dal;                                    -- 3 su 3
+--    where r.valida_fino_a > c.valida_dal;                                    -- 4 su 4
 --
 -- **Perche in quest'ordine, e perche il primo conto e nuovo.** `valida_dal` e
 -- nullable e la tabella figlia non puo controllarlo. Senza il primo conto, una riga
--- scritta senza `valida_dal` farebbe tornare il secondo **2 su 3** — e quel 2
+-- scritta senza `valida_dal` farebbe tornare il secondo **3 su 4** — e quel 3
 -- direbbe «manca una sovrapposizione» mentre il difetto e «manca una data». Un conto
 -- che prende il difetto sbagliato e peggio di un conto che non lo prende: il primo
 -- manda a cercare nel posto sbagliato, il secondo lascia cercare.
