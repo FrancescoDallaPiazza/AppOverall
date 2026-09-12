@@ -700,8 +700,16 @@ alias.** AppFormazione ha chiesto (`cf9cba6`) se `PONTEGGI` e `ATTR_AMB_CONFINAT
 siano fra i codici con piu di una durata reale, e ha chiesto di **guardare la lista
 invece di rifare la misura**. Guardata, in `durate-come-controllo.md` (`eddbb44`):
 
-- **`PONTEGGI` e nominato**, nella riga «100% conforme». Verde, e l'estensione costa
-  la riga che dicono loro.
+- **~~`PONTEGGI` e nominato, nella riga «100% conforme». Verde, e l'estensione costa
+  la riga che dicono loro.~~ RITIRATO il 12 settembre, sera.** Quel verde **non e
+  diventato rosso: e diventato MUTO.** Il documento confronta le ore dell'export con
+  quelle del catalogo, e il gestionale ha **riscritto lo storico col catalogo** —
+  quindi una **conformita** e cio che la riscrittura **fabbrica**, e dalle ore non si
+  distingue da una vera. **AppFormazione ha esteso `ponteggi_art136` avendo letto
+  quel verde**, ed e una decisione che va rivista da chi l'ha presa — non perche sia
+  sbagliata, ma perche la prova su cui poggiava non e piu una prova. Nella stessa
+  riga stanno anche `PREPOSTO` aggiornamento, `LAV_GEN`, gli antincendio, i primo
+  soccorso e nove codici attrezzature: **nessuno di quei «conforme» e piu una prova.**
 - **`ATTR_AMB_CONFINATI` non e nominato da nessuna parte.** Non fra i conformi, non
   fra le anomalie. La tabella chiude con «e 9 codici attrezzature», e quel codice non
   e un'attrezzatura — e `lavori_speciali`.
@@ -2925,3 +2933,26 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   **E la frase falsa va ritirata dove qualcuno l'ha letta, non cancellata**: chi apre
   quel documento domani deve vedere che quella riga era sbagliata e **su cosa era
   stata costruita**, non trovarne una giusta al suo posto come se niente fosse.
+
+- **A20** **Una conferma che la fonte puo fabbricare non e una conferma; una
+  divergenza si.** Aggiunta il 12 settembre 2026, ed e la lettura al contrario di un
+  documento che nessuno dei tre repo aveva sospettato.
+  `durate-come-controllo.md` confronta le ore dell'**export** con quelle del
+  **catalogo**, e il gestionale ha **riscritto lo storico col catalogo**. Da cui,
+  meccanicamente:
+  - **divergenza** (export ≠ catalogo): **vale ancora**, e vale di piu di prima. Una
+    riga che porta il valore del regime vecchio **non puo** essere stata riscritta a
+    quello nuovo: e genuina;
+  - **conformita** (export = catalogo): **non vale piu**. E esattamente cio che la
+    riscrittura produce, e dalle ore non si distingue da una conformita vera.
+  **Le anomalie di quel documento sono il risultato solido, le sue conferme non sono
+  piu prove** — che e l'inverso di come e scritto e di come chiunque lo leggerebbe.
+  **E la cosa da cercare, quando questo si ripresenta, e se la fonte abbia un modo di
+  farsi assomigliare al riferimento.** Se ce l'ha, la meta rassicurante della misura
+  e la meta da buttare, e quella allarmante e la sola che regge. Il costo si vede in
+  chiaro: una decisione — l'estensione di `ponteggi_art136` — era stata presa su un
+  verde che adesso e **muto**.
+  E la controprova che il metodo giusto sopravvive: il **controllo negativo
+  sull'RLS** di quello stesso documento regge, perche confrontava **proporzioni nel
+  tempo** e non valori. Non e fortuna, e la ragione per cui era stato costruito
+  cosi — ed e oggi la prova che quella forma di controllo vale piu di quanto costa.
