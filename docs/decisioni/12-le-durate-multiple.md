@@ -1,6 +1,8 @@
 # 12 · Un corso con due durate: tre cause diverse, e un meccanismo non basta
 
 > **Blocca:** il **motore**, e la `0006` limitatamente ai codici coinvolti · finché è aperta, il catalogo giudica col metro di oggi attestati validi sotto il metro di ieri
+>
+> **In una riga:** **decisa il 12 settembre 2026** — i meccanismi sono **tre** e sono entrati tutti e tre (validità temporale, condizione sulla dimensione con **tre** casi, un codice per variante combinata); il **quarto** — separare `PREPOSTO` — **non si fa finché non risponde l'Area Formazione**, perché tocca i dati già scritti e la domanda sotto non è di schema
 
 **Nata da un riscontro a tre fonti**, l'11 settembre 2026: le durate che il sito di
 Overall dichiara, quelle che il catalogo della `0004` si aspetta, e quelle che
@@ -158,20 +160,64 @@ fra i due**: identico nella forma al buco dei livelli antincendio della scheda 1
 
 ## Decisione
 
-*(da scrivere. **Quattro** righe, e sono indipendenti: se il catalogo porti una
-validità temporale; se porti una condizione sulla dimensione dell'azienda — sapendo
-che in un caso su tre la risposta **non è un numero** ma un rinvio al CCNL; se le
-varianti combinate prendano un codice proprio; e se `PREPOSTO` vada **separato in tre
-codici**, uno per corso iniziale.*
+**Decisa il 12 settembre 2026.** Le quattro righe sono indipendenti e sono state
+prese come quattro, non come una: tre dicono cosa il catalogo deve saper esprimere,
+la quarta dice **chi** deve rispondere prima che si tocchino i dati già scritti.
 
-*Sulla quarta: separare i codici è la sola che tocca i **dati già scritti**, perché
-gli attestati esistenti andrebbero ri-mappati. E ha sotto una domanda che non è di
-schema: i tre corsi sono tre cose diverse, o lo stesso corso che l'erogazione ha
-chiamato in tre modi? Lo sa chi li ha erogati.*
+**1 · La validità temporale entra.** Una riga di catalogo può valere *fino a* una
+data e un'altra *da* quella data. Risolve `DIRIGENTE` per intero — 16 ore fino
+all'ASR 2025, 12 dopo — e il fatto che la regge è un **taglio netto misurato**: 12
+attestati a 16 ore prima dello spartiacque, **zero** dopo, e il più recente è del 5
+febbraio 2025, sei settimane prima dell'Accordo. Risolve anche quasi tutto
+`DL_RSPP_BASE`. Senza, il motore giudica col metro di oggi una formazione che era
+completa quando è stata fatta.
 
-*Va scritto anche **quali casi la decisione non risolve**: una regola che copre un
-terzo dei casi e non dichiara gli altri due è il modo in cui si crede di aver chiuso
-un difetto.)*
+**2 · La condizione sulla dimensione entra, e i casi sono TRE.** Non «4 ore fino a
+50, 8 oltre»: l'art. 37 c. 11, come modificato dall'art. 5 del D.L. 31/10/2025
+n. 159 (conv. L. 29/12/2025 n. 198, in vigore dal 31/12/2025), separa **sotto i 15
+lavoratori**, dove la durata la fissa il **CCNL** e non c'è nessun numero da citare,
+da **15-50** (non meno di 4 ore annue) e **oltre 50** (non meno di 8). E le 4 e le 8
+sono un **pavimento**, non la durata: il confronto è `>=`, e il contratto può
+chiedere di più.
+
+Il caso che pesa è il primo: **432 delle 481 aziende con un numero stanno sotto i
+15**, cioè il 90%. Quindi il ramo in cui la risposta *non è un numero* non è
+l'eccezione da sbrigare — è la regola. Il catalogo deve poter dire «qui la durata la
+fissa il contratto» come **stato proprio**, distinto da «non lo so».
+
+**3 · Le varianti combinate prendono un codice proprio.** Carrello 12 ore per tipo e
+**16 per entrambi**, escavatori 16 contro 10, gru a torre 14 contro 12. È l'unico
+dei tre meccanismi già esprimibile **senza toccare la forma delle tabelle** — si
+aggiungono righe, non colonne — e non tocca lo storico, perché gli attestati si
+riagganciano per titolo attraverso alias che le due voci le distinguono già.
+
+**4 · `PREPOSTO` NON si separa oggi, e la domanda ha un destinatario.** È l'unica
+delle quattro che tocca i **dati già scritti**, e sotto ha una domanda che i dati non
+possono sciogliere: i tre corsi iniziali sono **tre cose diverse**, o **lo stesso
+corso che l'erogazione ha chiamato in tre modi**? Lo sa chi li ha erogati, cioè
+l'**Area Formazione** — la stessa che la scheda del percorso attestati indica come
+titolare del giudizio di conformità dei contenuti.
+
+Fino a quella risposta il catalogo tiene **un codice solo**, e la distinzione resta
+dove già vive: negli alias, che `PREPOSTI - BIENNALE` (12 ore) e `PREPOSTI_BIENNALE`
+(8 ore) li tengono come due voci. Non è una proroga tacita: è una riga che dice che
+il buco c'è, di chi è la risposta, e cosa succede nel frattempo.
+
+### Cosa questa decisione NON risolve, che la scheda chiedeva di scrivere
+
+- **Le sei righe a 8 ore di `DL_RSPP_BASE` datate 2016-2024** restano fuori dalla
+  validità temporale: la data non le separa, e nessuno dei tre meccanismi le prende.
+  Sono poche e vanno guardate una per una, non modellate.
+- **Il `PREPOSTO` resta indistinto per codice** — e con lui l'8 ore erogato senza
+  interruzione dal marzo 2011 al maggio 2026, che nessuna finestra transitoria
+  spiega. Finché è così, **nessuno dei due repo sa dire per codice quale sia il
+  corso da 12 e quale quello da 8**.
+- **La durata effettiva sotto i 15 lavoratori non la sappiamo comunque**: sapere
+  quanti dipendenti ha un cliente manda quel cliente nel ramo del CCNL, non a un
+  numero. Il ramo va costruito sapendo che finisce in una domanda al cliente.
+- **Il meccanismo non dice quale numero sia giusto**: dice che il catalogo può
+  esprimerne più di uno. Le tre righe qui sopra decidono la **forma**; quali valori
+  entrino in quella forma resta lavoro di lettura, sotto A7 come tutto il resto.
 
 ---
 
