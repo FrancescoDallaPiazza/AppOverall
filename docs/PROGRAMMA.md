@@ -426,6 +426,19 @@ proprio — e nessuna delle due volte il difetto e stato **non avere il dato**: 
 regola si applica per abitudine di coordinamento; verso di se bisogna sospettare di
 aver gia guardato.
 
+**E la quinta istanza toglie anche l'ultima scusa, che era la piu credibile.** Le
+prime quattro si potevano raccontare come «non sapevo dove fosse»: un altro repo, un
+altro disco, un TODO di agosto, un file di cui non si conosceva il nome. La quinta no.
+Il file era `righe.json`, in `docs/c1a/` **dal 30 luglio**, ed era stato **aperto tre
+volte la sera stessa** — per contare le voci del catalogo.
+
+> **Avevo il file in mano e gli ho fatto una domanda sola.**
+
+E il difetto che ne esce non e di ricerca ma di **interrogazione**: un file gia
+letto e classificato come «quello dei conteggi» smette di essere un posto dove
+guardare. La forma operativa: quando una domanda resta senza risposta, **rifare il
+giro dei file gia aperti chiedendo la domanda NUOVA**, non cercarne di nuovi.
+
 **E il corollario, dalla stessa corsia e nella stessa ora: un avviso che vive altrove
 non protegge chi apre il documento.** La contraddizione dei «30 contro 31» era stata
 scritta nel loro `STATO.md` — che e il posto giusto per chi segue il lavoro — mentre
@@ -455,6 +468,14 @@ dichiara di non concludere e il posto perfetto per una conclusione sbagliata: ne
 va a controllare un ragionamento che si annuncia come non conclusivo. Un numero
 sbagliato lo trova chiunque ricontrolli; un argomento sbagliato ha l'aria di un
 ragionamento finito, e chi rilegge lo salta.
+
+**E un conteggio in un'intestazione e la prima cosa che qualcuno cita senza rileggere
+il corpo.** E successo due volte nella stessa sera e nello stesso documento: da questa
+parte, citando «30 righe e due date» presi dalla sezione di dettaglio mentre la
+tabella riassuntiva diceva 31; e dall'altra, lasciando in un titolo «sono quattro
+cose» dopo che una era caduta. **Il secondo e stato rifatto entro un'ora da chi aveva
+appena trovato il primo** — che e la misura di quanto poco serva sapere una regola
+senza applicarla al proprio testo.
 
 E il corollario che la terza istanza aggiunge: **un dato che trasloca porta con se la
 sua etichetta.** `N DIPENDENTI` non e «quanti lavoratori ha l'impresa», e «quante
