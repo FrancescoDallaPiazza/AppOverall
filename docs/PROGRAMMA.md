@@ -2965,8 +2965,35 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   se la fonte puo fabbricarla (il caso che A20 diceva) **o se sia la stessa cosa
   confrontata con se stessa** (il caso che era). Nel secondo la conferma non e
   fragile: **e vuota**.
+  **E la replica e stata fatta su un codice scelto DOPO, apposta per poter
+  fallire.** Il preposto l'aveva gia guardato chi ha formulato la tesi, e una
+  verifica sulla stessa evidenza non e una verifica: AppSopralluoghi ha rifatto il
+  conto su `DL_RSPP_BASE`, la distribuzione piu ricca che avesse — 6/10/14/8
+  sull'aggiornamento, 16/32/48/8/24 sull'iniziale — e ha trovato **nove titoli su
+  nove, zero non spiegati**. Non era una distribuzione di ore: era una distribuzione
+  di **titoli**. E A12 applicata a una **tesi** invece che a un vincolo.
   **E il confine dell'evidenza, che vale per ogni codice e va scritto una volta
   sola:** nessuna fonte nei tre repo puo dire **se un corso da 28 ore sia stato
   erogato in 28 ore**. L'export dice **sotto quale voce** e stato registrato; solo
   **l'attestato** dice cosa e stato fatto. Se un giorno serve saperlo, la strada non
   e una query: **e un campione di attestati.**
+
+- **A21** **Un'ipotesi sbagliata che fa guardare nel posto giusto vale piu di una
+  prudenza che non fa guardare da nessuna parte.** Aggiunta il 12 settembre 2026
+  dalla corsia AppSopralluoghi, come contropeso a tutto il resto di questa lista.
+  In tre ore la colonna `ore` dell'export e passata per **tre stati**: dato
+  affidabile, dato **falsato da una riscrittura**, dato che **non ha mai misurato
+  quello che credevamo**. Il secondo stato e durato un'ora ed era **sbagliato** — ma
+  **non inutile**: senza la riscrittura nessuno avrebbe guardato quella colonna, e la
+  cosa vera stava sotto.
+  **E l'ordine dei fatti dice come e stata trovata, e nessuno dei tre passaggi poteva
+  arrivarci da solo:** le ore le ha smentite **Francesco**, guardando due aule che
+  conosceva — non un documento, non una rilettura. La cosa vera l'ha vista
+  **AppFormazione**, contando. La replica su un terzo codice l'ha fatta
+  **AppSopralluoghi**. Tre passaggi, tre fonti diverse, tre metodi diversi.
+  **Il contropeso che questa lista aveva bisogno di avere scritto:** le altre
+  assunzioni insegnano a diffidare — di un totale, di un nome, di una conferma, di un
+  fatto ricevuto. Prese da sole portano a **non dire niente finche non si e sicuri**,
+  e una sera come questa sarebbe finita al primo passaggio. **Un'ipotesi si consegna
+  come ipotesi e si dice che lo e**: quello che non si fa e consegnarla come fatto —
+  che e A19, ed e l'unica riga di questa lista che limita questa.
