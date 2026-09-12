@@ -2,7 +2,7 @@
 
 > **Blocca:** il **motore**, e la `0006` limitatamente ai codici coinvolti · finché è aperta, il catalogo giudica col metro di oggi attestati validi sotto il metro di ieri
 >
-> **In una riga:** **decisa il 12 settembre 2026** — i meccanismi sono **tre** e sono entrati tutti e tre (validità temporale, condizione sulla dimensione con **tre** casi, un codice per variante combinata); il **quarto** — separare `PREPOSTO` — **non si fa finché non risponde l'Area Formazione**, perché tocca i dati già scritti e la domanda sotto non è di schema
+> **In una riga:** **decisa il 12 settembre 2026** — i meccanismi sono **tre** e sono entrati tutti e tre (validità temporale, condizione sulla dimensione con **tre** casi, un codice per variante combinata); il **quarto** — separare `PREPOSTO` — **non si fa finché non risponde l'Area Formazione**, perché tocca i dati già scritti e la domanda sotto non è di schema. **Corretta la sera stessa**: lo spartiacque non è il 17/04/2025 ma **due estremi che si sovrappongono**, 19/05/2025 e 19/05/2026, e il meccanismo lo paga `DL_RSPP_BASE` e non il dirigente
 
 **Nata da un riscontro a tre fonti**, l'11 settembre 2026: le durate che il sito di
 Overall dichiara, quelle che il catalogo della `0004` si aspetta, e quelle che
@@ -202,6 +202,102 @@ Fino a quella risposta il catalogo tiene **un codice solo**, e la distinzione re
 dove già vive: negli alias, che `PREPOSTI - BIENNALE` (12 ore) e `PREPOSTI_BIENNALE`
 (8 ore) li tengono come due voci. Non è una proroga tacita: è una riga che dice che
 il buco c'è, di chi è la risposta, e cosa succede nel frattempo.
+
+
+### Correzione del 12 settembre 2026, sera — la decisione regge, due delle sue ragioni no
+
+Poche ore dopo che questa scheda è stata chiusa, AppFormazione ha mappato i tre
+meccanismi sugli undici codici (`549f360`) e ha trovato **due errori dentro le
+righe qui sopra**. La decisione non cambia — i tre meccanismi entrano lo stesso —
+ma la **forma** del primo cambia e una delle sue giustificazioni era rovesciata.
+Resta scritto invece di essere riscritto, perché una ragione sbagliata che sparisce
+si ripresenta.
+
+**1 · La data di spartiacque era quella sbagliata, e sono tre date.** Le misure
+dell'11 settembre — e la riga 1 qui sopra — usano il **17 aprile 2025**. Quella è la
+data dell'**Accordo** (Rep. Atti 59/CSR), non quella da cui si applica: l'entrata in
+vigore è il **19 maggio 2025**, e questo progetto quella scelta l'aveva già fatta il
+**6 settembre**, scritta in `reference/asr-2025-parte-vii.md`. La scheda ha usato una
+data che il progetto aveva già deciso di non usare.
+
+E per una riga di **catalogo** nessuna delle due è quella giusta, perché una riga di
+catalogo serve a giudicare **un attestato**. Parte VII punto 2, pag. 112:
+
+> «In fase di prima applicazione e comunque non oltre **dodici mesi** dall'entrata in
+> vigore del presente accordo, **possono essere avviati** i corsi secondo quanto
+> previsti degli accordi Stato-Regioni abrogati.»
+
+Quindi un corso **avviato** col programma vecchio entro il **19 maggio 2026** resta
+valido — e la clausola parla di chi **avvia**, non di chi è formato, quindi
+l'estremo va letto sulla data di avvio e non su quella dell'attestato.
+
+**Ne discende che la forma non è una data di taglio.** Sono **due estremi
+indipendenti che si sovrappongono**: la riga nuova vale **dal 19/05/2025**, la
+vecchia **fino al 19/05/2026**, e per dodici mesi valgono **tutte e due**, perché per
+dodici mesi entrambi i programmi erano legittimi. Una colonna sola — «valida fino
+a», o peggio una data di taglio secca — **renderebbe non valido un attestato che la
+Parte VII dichiara valido**. È una correzione di schema, non di valore.
+
+**2 · La ragione che questa scheda dava al meccanismo 1 era rovesciata.** Sopra sta
+scritto che «un dirigente formato nel 2018 con 16 ore risulterebbe sotto-durata
+rispetto alle 12 attuali». **È al contrario.** Le durate dell'ASR sono **minimi**
+(Parte II punto 1, pag. 10) e il confronto è `>=`: **16 ≥ 12**, quindi quei dodici
+attestati passano già oggi, senza nessun meccanismo. Il regime vecchio era **più
+severo**, non più permissivo, e sul dirigente la validità temporale previene **zero**
+giudizi falsi.
+
+**Il meccanismo entra lo stesso, e il codice che lo paga è un altro.** Su
+`DL_RSPP_BASE` il regime vecchio è **più basso** del nuovo — 6/10/14 ore per livello
+di rischio contro 8 — e lì la validità temporale vale **76 righe a 6 ore** che oggi
+verrebbero dichiarate «insufficienti» avendo fatto per intero l'aggiornamento che il
+loro livello chiedeva, più 4 righe a 8 ore sull'iniziale contro un'attesa di 16.
+
+La frase generale di questa scheda — «il catalogo giudica col metro di oggi
+attestati validi sotto il metro di ieri» — vale quindi **solo quando il metro di ieri
+era più basso**. Dove era più alto, il `>=` lo assorbe da sé. Le due direzioni non
+sono simmetriche e la scheda le trattava come una.
+
+**3 · E con la data giusta `DL_RSPP_BASE` diventa un taglio netto.** Le righe più
+recenti sono 6h → 08/04/2026, 10h → 06/11/2024, 14h → 19/01/2026: **tutte e tre prima
+del 19/05/2026**. Le «3 righe a 6 ore dopo» e le «2 a 14 dopo» che la tabella qui
+sopra registra come sbavature sono **dentro la finestra transitoria**, non fuori dal
+regime. Resta fuori solo l'altra anomalia, che la data non tocca: le **sei righe a 8
+ore del 2016-2024**.
+
+**4 · E una nota sul `PREPOSTO`, che non riapre la riga 4 ma la disarma di una
+prova.** Questa scheda fonda la conclusione anche su «nessuna finestra transitoria
+copre tredici mesi di erogazione continua». **I tredici mesi si contano dal 17
+aprile.** Dal 19 maggio sono **dodici**, la finestra dura esattamente dodici mesi, e
+l'ultimo attestato da 8 ore è datato **19 maggio 2026** — il giorno in cui la
+finestra si chiude. Quindi quella non è la prova che sembrava: è un artefatto della
+data sbagliata.
+
+La conclusione **regge lo stesso**, sulle altre prove, che sono quattro e
+indipendenti: i sette titoli sotto un codice, `PREPOSTI - BIENNALE` contro
+`PREPOSTI_BIENNALE` con due durate diverse, le due aule del 2024, e i **30 corsi da
+12 ore erogati prima dell'Accordo** che nessun regime spiega. Ma la riga 4 non si
+appoggia più a quella frase, e va saputo da chi la rileggerà.
+
+### La riga che questa correzione apre, e che non chiudo qui
+
+**Sotto «valida fino al 19/05/2026», su `DL_RSPP_BASE`, va detto QUALE dei tre
+numeri.** Il regime vecchio non ha una durata: ne ha tre — 6, 10 e 14 ore secondo il
+livello di rischio (223/CSR Allegato A punto 7, pag. 8). Le strade sono due e
+sbagliano in versi opposti:
+
+- **esatta**: un secondo discriminante sul livello di rischio. Ma serve il livello
+  **al tempo dell'attestato**, e quello che abbiamo è la classe di **oggi**, dedotta
+  dall'ATECO di oggi;
+- **prudente**: pavimento a 6. Nessun falso «insufficiente», e **59 righe accettate
+  senza verificare** che il loro livello chiedesse di più.
+
+**C'è una terza, ed è quella che questo progetto ha già scelto tre volte su tre
+tabelle: non giudicare.** Un attestato `DL_RSPP_BASE` sotto il regime vecchio, di cui
+non conosciamo il livello di rischio **al tempo**, non è «sufficiente» e non è
+«insufficiente»: è **non giudicabile**, e le 59 righe diventano un elenco di persone
+da guardare invece di un numero che passa. È la stessa forma di `ore_grandezza =
+'assente'` della `0008`, e ha lo stesso costo: dice quanto non sappiamo invece di
+coprirlo. **Proposta di AppOverall, non ancora decisione.**
 
 ### Cosa questa decisione NON risolve, che la scheda chiedeva di scrivere
 
