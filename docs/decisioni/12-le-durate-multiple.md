@@ -410,6 +410,68 @@ non dipende da quanto sono forti le prove che la circondano. Cio che si muove e 
 si puo citare a sostegno — e di quattro prove ne restano due: i sette titoli sotto un
 codice, e `PREPOSTI - BIENNALE` contro `PREPOSTI_BIENNALE` con due durate diverse.*
 
+### Quarta correzione — «due aule» non descrive quella popolazione, e la colonna `Data` ha un caso
+
+**Misura di AppSopralluoghi del 12 settembre, sera** (`021c6e5`,
+`docs/c1a/biennale-i-clienti-e-le-date.md`), su un file che stava su quella macchina
+**da ottobre 2024** e che nessun documento nominava — trovato scandendo i `.xlsx` per
+il **titolo** invece che per il nome del file.
+
+Sotto «FORMAZIONE PARTICOLARE AGGIUNTIVA PREPOSTI - BIENNALE», in
+`ExportExcel (3).xls` (54 righe, dati dichiarati al 28/10/2024):
+
+| data | righe | societa |
+| --- | ---: | --- |
+| 2023-12-27 | 4 | MAEMA SRL UNIPERSONALE |
+| 2025-11-08 | 1 | Impresa Agromeccanica Aprili Graziano |
+| 2026-03-29 | 9 | MAEMA SRL UNIPERSONALE |
+| 2026-05-20 | 14 | **Rittal RCS Cooling Solutions S.r.l.** |
+| 2026-09-05 | 26 | **Rittal RCS Cooling Solutions S.r.l.** |
+
+**Cinque date e tre societa.** E che le ultime due siano le «due aule» lo dice uno
+scarto di **due anni esatti** — stesso giorno, stesso mese — sul 20.05 e sul 05.09:
+due coincidenze esatte su due date indipendenti non sono un caso. **Quindi la
+risposta alla domanda di Francesco e: RITTAL RCS COOLING SOLUTIONS.**
+
+**Ma «due aule» non descrive la popolazione di quel titolo**, e la premessa registrata
+nella correzione precedente non e piu solo «da ricontare»: e **sbagliata come
+descrizione**. Cio che resta aperto e un'altra cosa, ed e piu stretta — **quale sia la
+popolazione delle 30 (o 31) righe da 12 ore**, che stanno in un **altro export**.
+Quella misura non la risolve, e chi l'ha fatta lo dichiara per primo: 54 righe qui non
+si confrontano con 31 la, **quell'export non ha nessuna colonna di ore** (verificato,
+non assunto), e i conteggi non combaciano — 14 e 26 contro 5 e 25, uno di scarto sul
+secondo e **nove** sul primo, non spiegati.
+
+**E cade quasi certamente anche la seconda delle due prove rimaste.** Se lo scarto di
+due anni vale anche sulle altre tre date, il titolo «- BIENNALE» esiste **dal 2021** e
+non da maggio 2024 — e allora «scavalca l'Accordo in entrambi i versi, e un prodotto
+suo» diventa un'altra affermazione. Verificato su due date su due, **non** su cinque:
+e una conseguenza, non una misura. Delle quattro prove originali ne resta in piedi
+**una**: i sette titoli sotto un codice.
+
+### E la domanda piu importante di tutte ha smesso di essere un sospetto
+
+Questa scheda scrive da giorni che **la colonna `Data` non dichiara cosa contenga**, e
+si fermava li. Adesso c'e un caso in cui quella colonna **non puo essere l'erogazione**,
+e lo dice il file contro se stesso: dichiara «dati aggiornati al **28/10/2024**» e
+contiene righe datate **2026**. Un export non registra come **svolto** un corso che si
+terra diciannove mesi dopo. Li dentro `Data` e la **scadenza** — erogazione piu due
+anni, cioe il ciclo che il titolo chiama biennale.
+
+`formazioneImport.ts:230` mappa quella colonna su `data_completamento`, cioe assume
+che sia la data del corso. **Non e stato cambiato niente**, e la prudenza e giusta: i
+due export hanno intestazioni diverse e nessuno ha misurato se condividano la
+semantica. Ma la domanda **non e piu senza prove**, e da lei dipende anche l'estremo
+superiore della validita temporale della `0014`.
+
+> **E una nota che ha quasi ucciso il risultato.** La prima estrazione dava
+> `2026-05-19` e `2026-09-04`, **un giorno prima**, perche usava `toISOString()`: a
+> mezzanotte locale in CEST torna il giorno precedente in UTC. Con quell'off-by-one la
+> corrispondenza esatta col 20.05 e col 05.09 **non si vedeva**, e tutto il
+> ragionamento sullo scarto di due anni non sarebbe esistito. Un errore di un giorno
+> non rompe niente di visibile: **cancella una coincidenza, e una coincidenza
+> cancellata non lascia traccia.**
+
 ### Cosa questa decisione NON risolve, che la scheda chiedeva di scrivere
 
 - **Le sei righe a 8 ore di `DL_RSPP_BASE` datate 2016-2024** restano fuori dalla
