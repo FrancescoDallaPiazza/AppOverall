@@ -1,0 +1,201 @@
+-- AppOverall — 0013
+-- L'uuid dentro `import_key`, e la cosa piu grossa che stava sotto la domanda.
+--
+-- ============================================================================
+--  LA DOMANDA COM'ERA POSTA
+-- ============================================================================
+--
+-- AppSopralluoghi, consegnando l'anagrafe il 12 settembre 2026
+-- (`docs/c1a/anagrafe-consegna-identita.md` §3.1): il primo campo di
+-- `persona.import_key` e `cliente.id`, **un uuid generato dal loro database**
+-- (`001_init.sql:28`, `default gen_random_uuid()`). Non deriva dalla fonte.
+--
+--   anag:<uuid generato li>:<codice fiscale>
+--   anag:<uuid generato li>:n:<COGNOME>|<NOME>
+--
+-- Se qui i 619 clienti rinascono con uuid nuovi, **tutte e 3.419 le chiavi puntano
+-- a un id che non esiste — e non danno errore**: restano stringhe sintatticamente
+-- valide che non agganciano niente, e il secondo import ricrea 3.419 persone in
+-- silenzio. Le vie erano due, portare gli uuid o portare una corrispondenza, e la
+-- scelta era di questa corsia.
+--
+-- ============================================================================
+--  MA LA GRANA E CAMBIATA, E QUESTO VIENE PRIMA
+-- ============================================================================
+--
+-- Leggendo la loro regola accanto alla `0001` viene fuori che **le due `persona`
+-- non sono la stessa tabella**, e nessuno dei due documenti lo diceva:
+--
+--   da loro     `persona` e PER CLIENTE. La stessa persona su due organigrammi
+--               sono DUE righe, ed e dichiarato legittimo: «l'indice unique e
+--               globale e la stessa persona puo stare su due clienti» — per questo
+--               il cliente sta DENTRO la chiave.
+--   qui         `persona.codice_fiscale` e **unique globale** (`0001:261`): una
+--               persona, una riga. Il legame col cliente e `rapporto_lavoro`.
+--
+-- **Quindi la migrazione dati non e una copia: e un cambio di grana.** Le 3.419
+-- righe diventano N persone piu M rapporti, con N < 3.419 di quanto ancora non
+-- sappiamo — e la stessa loro frase che dice «due schede sono legittime» qui
+-- diventa **impossibile da rappresentare**, perche l'unique la rifiuta.
+--
+-- E qui dentro c'e la risposta alla domanda dell'uuid, che senza questo passaggio
+-- sarebbe stata giusta per la ragione sbagliata:
+--
+-- > **`anag:<cliente>:<cf>` non e l'identita di una persona: e l'identita di una
+-- > persona PRESSO UN CLIENTE.** In questo schema quell'oggetto ha gia un nome ed
+-- > e `rapporto_lavoro`.
+--
+-- La chiave legacy non perde significato attraversando il confine: **trova il suo
+-- livello**. E il livello dove atterra e una riga che il cliente ce l'ha gia come
+-- foreign key vera, quindi l'uuid dentro la stringa smette di essere un
+-- riferimento e torna a essere cio che e sempre stato — **provenienza**.
+--
+-- ============================================================================
+--  LA DECISIONE, E SONO DUE RIGHE PERCHE SONO DUE DOMANDE
+-- ============================================================================
+--
+-- **1. I 619 clienti attraversano con LO STESSO uuid.** Non si generano id nuovi e
+-- non si costruisce una tabella di corrispondenza.
+--
+-- Perche: un uuid e un **surrogato opaco** in tutti e due i sistemi — la chiave di
+-- merito e `P.IVA + sede`, decisione 2 — e conservare un surrogato attraverso una
+-- migrazione non asserisce niente e non costa niente. La corrispondenza farebbe lo
+-- stesso lavoro **piu** un passaggio di riscrittura su 3.419 stringhe, cioe piu un
+-- modo di sbagliare. E quel che la corrispondenza servirebbe a fare — sapere da
+-- dove viene una riga — lo fa meglio la riga 2 qui sotto, che non dipende da
+-- nessun uuid.
+--
+-- **E cio che NON si puo fare resta scritto:** ricalcolare le chiavi da capo
+-- dall'export. La regola dell'ambiguita sul nome (§2 della consegna) e valutata
+-- **su quell'archivio**, e rifarla altrove su un archivio diverso puo dare esito
+-- diverso sulle stesse persone. Le chiavi si **trasportano**, non si ricostruiscono.
+--
+-- **2. Il cliente prende una provenienza sua, che non passa dall'uuid.** Era il
+-- §3.4 della consegna, ed e l'unico dei quattro punti che qui si poteva chiudere
+-- subito: da loro `import_key` sta su `persona`, `formazione` e `adempimento` e
+-- **non** su `cliente`, quindi dei 619 non resta scritto da dove vengono — esiste
+-- solo una regola che lo sa ricostruire riaprendo `ElencoSedi.xlsx`.
+--
+-- Le due righe rispondono a due domande diverse e per questo non si sostituiscono:
+-- **l'uuid conservato tiene valide le stringhe gia scritte; `import_key` sul
+-- cliente fa esistere una provenienza anche quando l'uuid non c'entra** — per il
+-- cliente che arrivera domani da un altro export, dove nessun uuid da trasportare
+-- esiste.
+
+-- ---------- il cliente ----------
+--
+-- La forma porta il **criterio** e non solo il valore, perche i due criteri non
+-- sono equivalenti e la differenza e misurata: la riconciliazione avviene per
+-- P.IVA quando e usabile, **altrimenti per denominazione**, e fra le sole attive
+-- **58 su 615** sono state ignorate come chiave (`XXXX`, `00000000000`, due P.IVA
+-- a dieci cifre). Una chiave che non dice con quale criterio e stata costruita
+-- fonde i due casi, e il secondo e quello fragile.
+
+alter table cliente add column import_key text unique;
+
+comment on column cliente.import_key is
+  'Da dove viene questo cliente, **come fatto sulla riga e non come regola dentro un import**. Forma: `sedi:piva:<11 cifre>` oppure `sedi:den:<DENOMINAZIONE NORMALIZZATA>`, e il criterio sta dentro perche i due non sono equivalenti — la P.IVA e ignorata su 58 righe delle 615 attive e li la chiave e il nome, che e la meno stabile delle due. Null vuol dire **creato qui**, non «provenienza sconosciuta»: le due cose vanno distinte prima che il secondo import le confonda.';
+
+-- ---------- la sede ----------
+--
+-- Le 619 sedi sono un **riflesso** dei 619 clienti e non un secondo insieme: la
+-- loro `054` ne crea una per cliente copiando la sede legale, e 619 = 619 per
+-- costruzione. Prende la stessa chiave del cliente con un suffisso, per una
+-- ragione che si vede solo guardando avanti: il giorno in cui entra
+-- `INDIRIZZO SITO PRODUTTIVO` — che nel file c'e e non e mai stato letto — le sedi
+-- smettono di essere una per cliente, e una tabella senza provenienza a quel punto
+-- non sa piu dire quali righe erano il riflesso e quali il dato nuovo.
+
+alter table sede add column import_key text unique;
+
+comment on column sede.import_key is
+  'Forma: la `import_key` del cliente piu `:legale` o `:produttivo`. Oggi tutte le righe sono `:legale`, perche l''origine ne crea una per cliente copiando la sede legale — **619 = 619 per costruzione, non per coincidenza**. Il sito produttivo sta nel file d''origine e non e mai stato importato: quando entrera, questa colonna e cio che distingue il riflesso dal dato.';
+
+-- ---------- e il rapporto, dove la chiave legacy atterra alla lettera ----------
+--
+-- Non tradotta, non ricalcolata, non ripulita: **la stringa cosi com'e**, uuid
+-- compreso. E il punto 1 della decisione che la rende leggibile — quell'uuid e un
+-- `cliente.id` che qui esiste davvero — e il confronto si puo fare con un join
+-- invece che con una promessa.
+--
+-- `unique` perche e qui che sta l'idempotenza dell'import: oggi `rapporto_lavoro`
+-- non ha nessun vincolo di unicita, quindi la stessa persona presso lo stesso
+-- cliente puo entrare due volte senza che niente lo impedisca. E la forma esatta
+-- del difetto che da loro `import_key` ha chiuso il 9 settembre, e che qui era
+-- ancora aperto.
+
+alter table rapporto_lavoro add column import_key text unique;
+
+comment on column rapporto_lavoro.import_key is
+  'La chiave d''origine **verbatim**, uuid compreso: `anag:<cliente.id>:<cf>` oppure `anag:<cliente.id>:n:<COGNOME>|<NOME>`. Sta qui e non su `persona` perche identifica **una persona presso un cliente**, che in questo schema e il rapporto e non la persona — la loro `persona` e per cliente, questa e globale. Regge il join solo perche i clienti attraversano con lo **stesso** uuid: e la ragione della decisione, non un effetto collaterale.';
+
+-- ---------- il codice fiscale dentro la chiave non e validato, e qui cambia ----------
+--
+-- Loro avvertono (§3.2) che `cfPulisci` ripulisce e basta — niente lunghezza,
+-- niente carattere di controllo — quindi `anag:<cliente>:<qualunque stringa non
+-- vuota>` e una chiave legittima. **E corretto da loro**: la chiave deve essere
+-- stabile, e lo e.
+--
+-- Qui pero il codice fiscale e un'**identita**, e la `0008` ha gia deciso come:
+-- l'import calcola il carattere di controllo e tratta ogni fallimento come
+-- **assente**, con la cella conservata in `persona.codice_fiscale_origine`. Le due
+-- regole non sono in conflitto e non vanno riconciliate: **la stringa d'origine
+-- resta una chiave di trasporto, il codice fiscale diventa un'identita solo se
+-- passa il controllo.** Sono due mestieri diversi sulla stessa cella, e questa
+-- colonna e il posto in cui il primo non contamina il secondo.
+--
+-- La conseguenza che loro segnalano resta vera e va portata avanti: le **visite
+-- sono indicizzate per codice fiscale**, quindi una chiave che contiene una
+-- stringa che CF non e aggancia il rapporto e **non agganchera mai la visita**.
+-- Dopo la migrazione quelle righe si contano, non si stimano.
+
+-- ============================================================================
+--  COSA QUESTA MIGRAZIONE NON CHIUDE, E CHI DEVE MISURARLO
+-- ============================================================================
+--
+-- **Il numero N non lo sappiamo, ed e il numero della migrazione.** Quante persone
+-- distinte stanno dentro le 3.419 righe, e quante compaiono su due o piu clienti?
+-- Da qui non si misura: serve quell'archivio. Finche non c'e, la migrazione dati
+-- sa come si chiamano le righe e non quante ne uscira.
+--
+-- Le due cose da contare, e vanno contate **prima**:
+--
+--   1. i codici fiscali **validi** che compaiono su piu di un cliente — sono le
+--      righe che qui collassano in una persona sola con due rapporti, e ognuna e un
+--      posto in cui due schede diventano una;
+--   2. le **235 righe senza codice fiscale**: qui non hanno nessuna identita
+--      propria — `persona` senza CF non ha vincolo — e l'unica cosa che le tiene
+--      separate e la `import_key` del rapporto. Due omonimi nello stesso cliente
+--      da loro si arrendono a `riga:N` e restano sempre nuovi; qui, senza quel
+--      conto fatto prima, diventerebbero **una persona sola** e nessuno lo vedrebbe.
+--
+-- **E il verso dell'errore e opposto nei due casi**, che e la ragione per cui sono
+-- due conti e non uno: il primo fonde righe che **vanno** fuse, il secondo fonde
+-- righe che non vanno fuse. Un import che non li distingue fa la cosa giusta e la
+-- cosa sbagliata con lo stesso codice.
+--
+-- ============================================================================
+--  I CONTI CHE QUESTA MIGRAZIONE DEVE FARE TORNARE
+-- ============================================================================
+--
+-- Oggi tutte e tre le tabelle sono vuote, quindi i conti che contano sono quelli
+-- **della migrazione dati**, e si scrivono adesso perche adesso si sa cosa devono
+-- dire:
+--
+--   -- ogni cliente che attraversa porta la sua provenienza
+--   select count(*) from cliente where import_key is null;        -- atteso 0
+--
+--   -- e ogni uuid trasportato aggancia: se questo torna diverso da zero, la
+--   -- decisione 1 non e stata applicata e le chiavi sono gia mute
+--   select count(*) from rapporto_lavoro r
+--    where r.import_key like 'anag:%'
+--      and not exists (select 1 from cliente c
+--                       where c.id::text = split_part(r.import_key, ':', 2));
+--                                                                 -- atteso 0
+--
+--   -- le sedi sono 619 e sono tutte riflesso, finche il sito produttivo non entra
+--   select count(*) from sede where import_key not like '%:legale';  -- atteso 0
+--
+-- **Il secondo e l'unico che puo fallire in silenzio senza questa query**, ed e
+-- per questo che e scritto qui invece che ricordato: un `import_key` che non
+-- aggancia non e un errore per il database — e una stringa.
