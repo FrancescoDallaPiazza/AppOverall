@@ -2829,3 +2829,27 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   **giusto**, ed e per questo che l'insieme vuoto e passato sotto quattro controlli
   negativi tutti superati. La domanda che le scopre e sempre la stessa: **di questa
   cosa, quale meta sto provando?**
+
+- **A17** **Il difetto peggiore puo arrivare RIPARANDO, e un errore inerte diventa
+  pericoloso il giorno in cui qualcuno ci costruisce sopra.** Aggiunta il 12
+  settembre 2026, e viene da due episodi della stessa migrazione.
+  **Il primo: riparando.** Un rilievo giusto di AppFormazione ha fatto sciogliere un
+  vincolo **troppo stretto** — rifiutava un caso legittimo della fonte — e nessuna
+  delle due corsie ha guardato cosa quel vincolo facesse **anche di giusto**. Il buco
+  che ne e uscito era **peggiore di quello che si stava chiudendo**: l'insieme vuoto
+  faceva sparire una riga (un buco prima o poi si nota), l'insieme incompleto
+  produceva un «sufficienti CERTO» **confidente e falso**. La forma operativa: **un
+  vincolo troppo stretto non si toglie, si stringe meglio — e se si toglie, cio che
+  teneva va rimesso da un'altra parte prima.**
+  **Il secondo: l'errore inerte.** La nota di `PREPOSTO` nella `0004` attribuiva
+  all'ASR 2025 una cadenza che era **legge dal 2021**, e per giorni non e costata
+  niente: nessuna data poggiava su quella riga. La `0014` e la **prima migrazione che
+  ce ne mette una**, e da li in poi quell'errore diventa utilizzabile — chi datasse la
+  biennalita dal 19/05/2025 sbaglierebbe di quattro anni il termine di ogni preposto
+  formato fra il 2021 e il 2025.
+  **Da cui una lente per cercare, e non solo una nota da ricordare:** un commento
+  falso non costa niente finche nessuno ci costruisce sopra, e **il momento in cui
+  qualcuno ci costruisce non e il momento in cui lo si rilegge**. Vale la pena passare
+  le note delle tabelle gia caricate con questa domanda — *cosa succede a questa
+  frase il giorno in cui una colonna nuova la usa?* — invece di aspettare che sia una
+  migrazione a scoprirlo.
