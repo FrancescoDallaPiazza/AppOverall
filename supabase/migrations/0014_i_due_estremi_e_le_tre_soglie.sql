@@ -2,6 +2,38 @@
 -- I tre meccanismi della scheda 12, e l'estremo superiore non e una data di taglio.
 --
 -- ============================================================================
+--  CORRETTA PRIMA DI QUALUNQUE CARICO, E LA LETTURA HA TROVATO UN DIFETTO ATTIVO
+-- ============================================================================
+--
+-- Scritta il 12 settembre 2026 e **riscritta la sera stessa** dopo la lettura di
+-- AppFormazione (`docs/22-lettura-della-0014-prima-del-carico.md`, `0294855`), che
+-- e la terza volta che quella lettura arriva prima di un carico e la terza volta
+-- che trova qualcosa. **Non e stata caricata da nessuna parte**: il criterio che
+-- questo repo usa per non toccare una migrazione e «caricata e misurata», non
+-- «spinta», e la storia di git conserva com'era.
+--
+-- Cosa la lettura ha trovato, in ordine di gravita:
+--
+--   1. **il vincolo «insieme non vuoto» non rifiutava l'insieme vuoto** — vedi qui
+--      sotto: e il difetto attivo, e i quattro controlli negativi della prima
+--      stesura non lo toccavano;
+--   2. **l'insieme anonimo era la forma sbagliata**: `array[6,10,14]` non dice
+--      quale sia BASSO, e la corrispondenza esisteva **in prosa dentro `fonte`**.
+--      Nella stessa migrazione `corso_durata_per_dimensione` risolve lo stesso
+--      problema bene. Adesso le ore sono una tabella figlia e ogni numero ha il
+--      suo nome;
+--   3. **il vincolo che legava insieme e discriminante era una biimplicazione**, e
+--      rifiutava un caso che sta nello stesso accordo gia citato — 221/CSR punto 9
+--      pag. 11, «un aggiornamento quinquennale, di durata minima di 6 ore, **per
+--      tutti e tre i livelli di rischio** sopra individuati»: un numero solo, e la
+--      fonte nomina la condizione **apposta** per dire che non morde;
+--   4. **mancava un conto**, e senza quello il conto della sovrapposizione dice la
+--      cosa sbagliata quando il difetto e un altro.
+--
+-- I nove valori e le due date sono stati verificati contro le fonti, uno per uno,
+-- e sono giusti: quella parte non e cambiata.
+--
+-- ============================================================================
 --  COSA ENTRA, E PERCHE LA FORMA NON E QUELLA CHE LA SCHEDA DESCRIVEVA
 -- ============================================================================
 --
@@ -38,68 +70,106 @@ comment on column corso.valida_dal is
   'Da quando vale il regime che **questa riga** porta. Null non vuol dire «da sempre»: vuol dire **non dichiarato**, come `assente` sulle grandezze — oggi e valorizzata solo dove il regime e cambiato e qualcuno ha letto la pagina. Non ha un estremo superiore per costruzione: la riga corrente e corrente finche non arriva un accordo nuovo, e quel giorno diventa una riga di `corso_regime_precedente`.';
 
 -- ============================================================================
---  2 · IL REGIME CHIUSO E UNA TABELLA, E PORTA UN INSIEME DI NUMERI
+--  2 · IL REGIME CHIUSO, E OGNI NUMERO HA IL SUO NOME
 -- ============================================================================
 --
--- La colonna piu importante di questa migrazione e `ore_possibili`, ed e un
--- **array** invece di un numero per un fatto della fonte: il regime vecchio
--- dell'art. 34 non ha una durata, **ne ha tre** — 6, 10 e 14 ore secondo il
--- livello di rischio — e scriverne una sola vorrebbe dire scegliere al posto di
--- una condizione che non conosciamo.
+-- Il regime vecchio dell'art. 34 non ha una durata, **ne ha tre** — 6, 10 e 14 ore
+-- secondo il livello di rischio — e la prima stesura le teneva in un array:
+-- `ore_possibili numeric[]`. **Sbagliato, e la ragione vale oltre questa tabella.**
+--
+-- Un array **non dice quale numero corrisponda a quale livello**. La
+-- corrispondenza esisteva lo stesso — in **prosa, dentro `fonte`**, «BASSO 6,
+-- MEDIO 10, ALTO 14» — cioe leggibile da una persona e non da una query: e
+-- *esattamente* la forma di difetto che la `0008` esiste per chiudere. E nella
+-- **stessa migrazione**, dodici righe piu in basso, `corso_durata_per_dimensione`
+-- risolve lo stesso identico problema **bene**: una riga per ramo, con la soglia
+-- accanto al numero. Due forme per lo stesso problema nello stesso file, e una
+-- delle due era anonima.
+--
+-- Quindi le ore sono una **tabella figlia**, una riga per variante. Il guadagno non
+-- e solo di espressivita:
+--
+--   il caso del 221/CSR punto 9 si scrive senza eccezioni   tre righe con lo stesso
+--   numero dicono «6 ore per tutti e tre i livelli», che e cio che la fonte dice
+--
+--   la terza lettura diventa possibile                      «usa il discriminante»,
+--   la strada esatta, con l'array non era esprimibile e la frase che diceva il
+--   contrario e corretta qui sotto
+--
+--   i vincoli tornano LOCALI                                niente array vuoti,
+--   niente null dentro un array, niente cardinalita da controllare
 --
 -- **E un insieme si confronta lo stesso, su due estremi.** Col confronto `>=`:
 --
---   fatte >= il MASSIMO dell'insieme    sufficienti, CERTO: nessun livello chiede di piu
---   fatte <  il MINIMO  dell'insieme    insufficienti, CERTO: nessun livello chiede di meno
---   in mezzo                            non calcolabile senza il discriminante
+--   fatte >= il MASSIMO delle varianti   sufficienti, CERTO: nessun livello chiede di piu
+--   fatte <  il MINIMO  delle varianti   insufficienti, CERTO: nessun livello chiede di meno
+--   in mezzo                             non calcolabile SENZA il discriminante
 --
 -- Sulle distribuzioni misurate sono **69 righe su 301 decise** senza sapere niente
--- del livello di rischio, e **228 in mezzo**. La forma regge tutte e due le letture
--- possibili di quel «in mezzo» — «non giudicabile» oppure «pavimento al minimo» —
--- **quindi la decisione che resta aperta non chiede un'altra migrazione**: chiede
--- una riga al motore. E una proprieta voluta: una forma che obbliga a decidere
--- prima di poter essere scritta fa prendere la decisione col calendario in mano.
+-- del livello di rischio, e **228 in mezzo**.
+--
+-- **La frase della prima stesura era comoda e falsa, e va corretta e non tolta.**
+-- Diceva che la forma regge *tutte e due* le letture del «in mezzo». Le letture
+-- sono **tre**, e la terza e una di quelle messe davanti a Francesco — «usa il
+-- discriminante», la strada esatta. Con l'array non era esprimibile; **con questa
+-- tabella lo e**, ed e il motivo per cui la correzione non e cosmetica: una forma
+-- che regge due letture su tre costringe la decisione a essere presa fra le due che
+-- la forma consente, che e il modo in cui uno schema decide al posto di chi decide.
 
 create table corso_regime_precedente (
   corso_codice text not null references corso(codice),
   -- Quale delle due durate del corso: la stessa riga di catalogo puo avere un
-  -- regime chiuso sull'iniziale **e** uno sull'aggiornamento, con insiemi diversi.
+  -- regime chiuso sull'iniziale **e** uno sull'aggiornamento, con varianti diverse.
   -- `DL_RSPP_BASE` li ha tutti e due, ed e il motivo per cui questa colonna esiste.
   colonna text not null
     constraint regime_colonna_nota check (colonna in ('ore', 'ore_aggiornamento')),
-  -- L'estremo superiore. Non e «l'ultimo giorno in cui il corso era valido»: e
-  -- l'ultimo giorno in cui il corso poteva essere **avviato** col programma
-  -- vecchio — vedi il blocco sull'inapplicabilita, qui sotto.
+  -- L'estremo superiore: l'ultimo giorno in cui il corso poteva essere **avviato**
+  -- col programma vecchio — vedi il blocco sull'inapplicabilita, piu sotto.
   valida_fino_a date not null,
-  -- **L'insieme, e non il numero.** Un elemento quando il regime vecchio aveva una
-  -- durata sola (`DIRIGENTE`), tre quando dipendeva da una condizione.
-  ore_possibili numeric(5,1)[] not null
-    constraint regime_insieme_non_vuoto check (array_length(ore_possibili, 1) >= 1),
-  -- Da cosa dipendeva quale elemento dell'insieme. Null = l'insieme ha un solo
-  -- valore e non dipende da niente. **Valorizzato = il dato che servirebbe e che
-  -- non abbiamo**, ed e per questo che si scrive: dice *perche* il caso in mezzo
-  -- non e calcolabile, invece di lasciarlo sembrare una dimenticanza.
+  -- Da cosa dipendeva quale variante valesse. Null = una variante sola, e non
+  -- dipendeva da niente. **Valorizzato = il dato che servirebbe e che non
+  -- abbiamo**, e si scrive per dire *perche* il caso in mezzo non e calcolabile,
+  -- invece di lasciarlo sembrare una dimenticanza.
   discriminante text
     constraint regime_discriminante_noto check (discriminante in ('livello_rischio')),
   fonte text not null,
   nota text,
-  primary key (corso_codice, colonna),
-  constraint regime_insieme_e_discriminante check (
-    (array_length(ore_possibili, 1) = 1) = (discriminante is null))
+  primary key (corso_codice, colonna)
+);
+
+create table corso_regime_precedente_ore (
+  corso_codice text not null,
+  colonna text not null,
+  -- Il **nome** della variante, non la sua posizione in un array. `unica` quando il
+  -- regime vecchio aveva una durata sola; i tre livelli quando dipendeva da quelli.
+  variante text not null
+    constraint regime_variante_nota check (variante in ('unica', 'basso', 'medio', 'alto')),
+  ore numeric(5,1) not null
+    constraint regime_ore_positive check (ore > 0),
+  primary key (corso_codice, colonna, variante),
+  foreign key (corso_codice, colonna)
+    references corso_regime_precedente (corso_codice, colonna) on delete cascade
 );
 
 comment on table corso_regime_precedente is
   'Il regime **chiuso** di una riga di catalogo: cosa la norma chiedeva prima, e fino a quando un corso poteva ancora essere avviato con quel programma. Sta accanto a `corso` e non dentro, perche `corso` e il regime **corrente** e lo leggono gia sei migrazioni. I due estremi — `corso.valida_dal` e `valida_fino_a` qui — sono **indipendenti e si sovrappongono**: per dodici mesi entrambi i programmi erano legittimi, e una forma che non lo esprimesse dichiarerebbe non valido un attestato che la Parte VII dichiara valido.';
-comment on column corso_regime_precedente.ore_possibili is
-  'L''insieme dei numeri che il regime vecchio poteva chiedere, non uno di essi. Col confronto `>=` due estremi si decidono comunque: chi ha fatto almeno il **massimo** e sufficiente certo, chi sta sotto il **minimo** e insufficiente certo, e solo in mezzo serve il discriminante. Scriverne uno solo — anche il piu prudente — sarebbe scegliere al posto di una condizione che non conosciamo, e lo sarebbe **in silenzio**.';
 comment on column corso_regime_precedente.discriminante is
-  'Il dato da cui dipendeva quale elemento dell''insieme valesse. `livello_rischio` = il livello dell''azienda **al tempo dell''attestato**, che non e cio che abbiamo: quello che abbiamo e la classe di oggi, dedotta dall''ATECO di oggi. Questa colonna esiste per dire che il caso in mezzo non e calcolabile **e perche**, invece di lasciare che sembri una svista.';
+  'Il dato da cui dipendeva quale variante valesse. `livello_rischio` = il livello dell''azienda **al tempo dell''attestato**, che non e cio che abbiamo: quello che abbiamo e la classe di oggi, dedotta dall''ATECO di oggi. Questa colonna esiste per dire che il caso in mezzo non e calcolabile **e perche**, invece di lasciare che sembri una svista.';
+comment on table corso_regime_precedente_ore is
+  'Le ore del regime chiuso, **una riga per variante e col nome della variante accanto**. Era un array, ed era la forma sbagliata: `array[6,10,14]` non dice quale sia BASSO, e la corrispondenza finiva in prosa dentro `fonte` — leggibile da una persona e non da una query, che e il difetto che la `0008` esiste per chiudere. Tre righe con lo **stesso** numero sono una scrittura legittima e dicono cio che il 221/CSR punto 9 dice: «6 ore per tutti e tre i livelli di rischio».';
+comment on column corso_regime_precedente_ore.variante is
+  'Il nome, non la posizione. `unica` quando il regime vecchio aveva una durata sola: **non e un null travestito**, e l''affermazione «qui non c''era niente da distinguere».';
 
 alter table corso_regime_precedente enable row level security;
+alter table corso_regime_precedente_ore enable row level security;
 create policy leggono_gli_operatori on corso_regime_precedente for select to authenticated using (e_operatore());
+create policy leggono_gli_operatori on corso_regime_precedente_ore for select to authenticated using (e_operatore());
 create policy scrive_amministrazione on corso_regime_precedente for all to authenticated
   using (livello_operatore() >= 4) with check (livello_operatore() >= 4);
+create policy scrive_amministrazione on corso_regime_precedente_ore for all to authenticated
+  using (livello_operatore() >= 4) with check (livello_operatore() >= 4);
 grant select on corso_regime_precedente to authenticated;
+grant select on corso_regime_precedente_ore to authenticated;
 
 -- ---------- i due codici che hanno un regime chiuso, e il payload e rovesciato ----------
 --
@@ -118,19 +188,28 @@ grant select on corso_regime_precedente to authenticated;
 update corso set valida_dal = date '2025-05-19' where codice in ('DIRIGENTE', 'DL_RSPP_BASE');
 
 insert into corso_regime_precedente
-  (corso_codice, colonna, valida_fino_a, ore_possibili, discriminante, fonte, nota) values
+  (corso_codice, colonna, valida_fino_a, discriminante, fonte, nota) values
 
-  ('DIRIGENTE', 'ore', date '2026-05-19', array[16]::numeric(5,1)[], null,
+  ('DIRIGENTE', 'ore', date '2026-05-19', null,
    'Accordo 21/12/2011 (221/CSR) punto 6, pag. 9: «La durata minima della formazione per i dirigenti e di 16 ore»',
    'Registrazione e non riparazione: 16 >= 12, quindi i dodici attestati da 16 ore passavano gia contro l''attesa corrente. Il regime vecchio era **piu severo**, e questa riga non cambia nessun giudizio — dice com''era.'),
 
-  ('DL_RSPP_BASE', 'ore_aggiornamento', date '2026-05-19', array[6, 10, 14]::numeric(5,1)[], 'livello_rischio',
-   'Accordo 21/12/2011 (223/CSR) Allegato A punto 7, pag. 8: «ha durata, modulata in relazione ai tre livelli di rischio» — BASSO 6, MEDIO 10, ALTO 14',
+  ('DL_RSPP_BASE', 'ore_aggiornamento', date '2026-05-19', 'livello_rischio',
+   'Accordo 21/12/2011 (223/CSR) Allegato A punto 7, pag. 8: «ha durata, modulata in relazione ai tre livelli di rischio»',
    '**La riga che il meccanismo esiste per portare.** 76 righe a 6 ore oggi valgono 76 `insufficienti` falsi contro l''attesa corrente di 8. Col minimo a 6 e il massimo a 14: 36 righe a 14 ore sono sufficienti CERTE, 99 restano in mezzo (76 a 6 e 23 a 10). E la fonte dice «ha durata» e non «monte ore», quindi non e la forma del punto 3 della Parte III.'),
 
-  ('DL_RSPP_BASE', 'ore', date '2026-05-19', array[16, 32, 48]::numeric(5,1)[], 'livello_rischio',
+  ('DL_RSPP_BASE', 'ore', date '2026-05-19', 'livello_rischio',
    'Accordo 21/12/2011 (223/CSR) Allegato A punto 5, pag. 6',
    '33 righe a 48 ore sono sufficienti CERTE. **E le 4 righe a 8 ore stanno sotto il minimo e NON vanno date per insufficienti**: 8 e esattamente la durata del modulo comune dell''art. 34 (Parte II punto 4, pag. 20), quindi sono un attestato di modulo comune **mappato sul codice del percorso intero** — una riga classificata male, non una formazione mancante. La regola dei due estremi vale a patto che la riga sia davvero quel corso.');
+
+insert into corso_regime_precedente_ore (corso_codice, colonna, variante, ore) values
+  ('DIRIGENTE',    'ore',               'unica', 16),
+  ('DL_RSPP_BASE', 'ore_aggiornamento', 'basso',  6),
+  ('DL_RSPP_BASE', 'ore_aggiornamento', 'medio', 10),
+  ('DL_RSPP_BASE', 'ore_aggiornamento', 'alto',  14),
+  ('DL_RSPP_BASE', 'ore',               'basso', 16),
+  ('DL_RSPP_BASE', 'ore',               'medio', 32),
+  ('DL_RSPP_BASE', 'ore',               'alto',  48);
 
 -- ---------- e l'estremo superiore, alla lettera, oggi non e applicabile ----------
 --
@@ -152,8 +231,23 @@ insert into corso_regime_precedente
 --
 -- **Si usa la prima, ed e dichiarata qui perche e una scelta e non una lettura.** La
 -- domanda vera — *cosa misura la colonna `Data`* — non si scioglie con un'altra
--- misura: e una domanda a chi tiene il gestionale, ed e la stessa che la scheda 12
--- pone da se sotto «la colonna della data non dichiara cosa contiene».
+-- misura: e una domanda a chi tiene il gestionale.
+--
+-- **E qui NON entra una colonna `estremo_su`, per una ragione che non e "e
+-- impalcatura".** La prima stesura la sospettava mancante sotto A13. La lettura di
+-- AppFormazione ha spostato il bersaglio, ed e giusto: `valida_fino_a` **non e
+-- ambiguo** — la clausola dice «avviati» e quella data misura l'avvio, con certezza.
+-- **L'ambiguo e l'altro operando**, la colonna `Data` dell'export: A13 marca il
+-- numero dove il numero e ambiguo, quindi quella marcatura va sull'**import**,
+-- accanto alla data importata, dove la `0008` ha messo `testo_origine` e
+-- `codice_fiscale_origine`.
+--
+-- **Ma l'innesco si dichiara adesso, perche l'estremo non e costante per natura: e
+-- costante per l'accidente che tutte e tre le righe vengono da una clausola sola.**
+-- La stessa Parte VII usa entrambe le formule — «avviati» al punto 2, «concluso»
+-- nella clausola dei 24 mesi del datore. **Il giorno in cui entra la prima riga la
+-- cui fonte dice «concluso», questa tabella prende una colonna che dice su cosa si
+-- misura l'estremo.** Scritto qui perche chi scrivera quella riga lo trovi.
 
 -- ============================================================================
 --  3 · LA CONDIZIONE SULLA DIMENSIONE, E IL RAMO CHE PESA NON E UN NUMERO
@@ -300,28 +394,58 @@ update corso set note = coalesce(note || ' ', '') ||
 -- ============================================================================
 --
 --   select count(*) from corso_regime_precedente;                      -- 3
+--   select count(*) from corso_regime_precedente_ore;                  -- 7
 --   select count(*) from corso where valida_dal is not null;           -- 3
 --         DIRIGENTE, DL_RSPP_BASE, ATTR_PLE_UNA
 --   select count(*) from corso_durata_per_dimensione;                  -- 3
 --   select count(*) from corso;                                        -- 41, ed erano 40
 --
---   -- i due estremi si SOVRAPPONGONO, e se questo tornasse zero la forma sarebbe
---   -- sbagliata: vorrebbe dire che nessun regime vecchio sopravvive al nuovo
+-- ---------- i conti che un check non puo fare, e vanno in QUEST'ORDINE ----------
+--
+-- Sono condizioni **fra tabelle**, e la `0008` ha gia scritto perche restino conti:
+-- «un `check` non puo vederlo — e una condizione fra righe — quindi resta un conto».
+-- **L'ordine non e estetico**: il primo deve tornare zero perche il secondo
+-- significhi quello che dice.
+--
+--   -- 1. ogni regime chiuso ha un corso che dichiara da quando vale il nuovo
+--   select r.corso_codice, r.colonna from corso_regime_precedente r
+--     join corso c on c.codice = r.corso_codice where c.valida_dal is null;   -- 0
+--
+--   -- 2. e allora i due estremi si SOVRAPPONGONO. Se questo tornasse zero la forma
+--   --    sarebbe sbagliata: vorrebbe dire che nessun regime vecchio sopravvive al nuovo
 --   select count(*) from corso_regime_precedente r join corso c on c.codice = r.corso_codice
---    where r.valida_fino_a > c.valida_dal;                             -- 3 su 3
+--    where r.valida_fino_a > c.valida_dal;                                    -- 3 su 3
 --
---   -- l'insieme con piu di un valore porta sempre il suo discriminante, e viceversa
---   select corso_codice, colonna, array_length(ore_possibili,1), discriminante
---     from corso_regime_precedente order by 1, 2;
---         DIRIGENTE/ore 1 null · DL_RSPP_BASE/ore 3 livello_rischio
---         DL_RSPP_BASE/ore_aggiornamento 3 livello_rischio
+-- **Perche in quest'ordine, e perche il primo conto e nuovo.** `valida_dal` e
+-- nullable e la tabella figlia non puo controllarlo. Senza il primo conto, una riga
+-- scritta senza `valida_dal` farebbe tornare il secondo **2 su 3** — e quel 2
+-- direbbe «manca una sovrapposizione» mentre il difetto e «manca una data». Un conto
+-- che prende il difetto sbagliato e peggio di un conto che non lo prende: il primo
+-- manda a cercare nel posto sbagliato, il secondo lascia cercare.
 --
---   -- la copertura della dimensione non ha buchi: 0-14, 15-50, 51 e oltre
---   select da_lavoratori, a_lavoratori, ore_minime, rinvio
---     from corso_durata_per_dimensione where corso_codice = 'RLS' order by 1;
+--   -- 3. ogni regime ha almeno una variante di ore. **Questo conto sostituisce un
+--   --    vincolo che non funzionava**: vedi il difetto, qui sotto
+--   select r.corso_codice, r.colonna from corso_regime_precedente r
+--    where not exists (select 1 from corso_regime_precedente_ore o
+--                       where o.corso_codice = r.corso_codice and o.colonna = r.colonna);  -- 0
 --
--- **E il conto che vale come controllo negativo:** `ATTR_PLE_UNA` esiste, assolve
--- l'obbligo, e **nessun alias ci punta**.
+--   -- 4. discriminante e varianti si corrispondono, nei due versi
+--   select r.corso_codice, r.colonna, r.discriminante, count(o.*), min(o.variante)
+--     from corso_regime_precedente r
+--     join corso_regime_precedente_ore o
+--       on o.corso_codice = r.corso_codice and o.colonna = r.colonna
+--    group by 1,2,3
+--   having (r.discriminante is null) <> (count(o.*) = 1 and min(o.variante) = 'unica');  -- 0
+--
+-- **Il quarto e la biimplicazione che era un `check` e non doveva esserlo.** Come
+-- vincolo rifiutava un caso vero: 221/CSR punto 9, pag. 11 — «un aggiornamento
+-- quinquennale, di durata minima di **6 ore**, per **tutti e tre i livelli di
+-- rischio** sopra individuati». Un numero solo, e la fonte nomina la condizione
+-- **apposta per dire che non morde**. Come conto, quel caso si scrive come va
+-- scritto — tre righe `basso`/`medio`/`alto` con lo stesso 6 — e il conto lo accetta,
+-- perche le varianti sono tre e il discriminante c'e.
+--
+-- ---------- e il conto che fa da controllo negativo a se stesso ----------
 --
 --   select count(*) from corso_alias where corso_codice = 'ATTR_PLE_UNA';   -- 0
 --
@@ -330,16 +454,76 @@ update corso set note = coalesce(note || ' ', '') ||
 -- collegato — che e esattamente come `import_key` e rimasta vuota per una
 -- migrazione intera nel repo del campo, con l'indice unique gia al suo posto.
 --
--- ---------- e i controlli negativi, perche un vincolo che accetta tutto non e un vincolo ----------
+-- **E la riga inerte della `0009` prende lo stesso trattamento**, perche due righe
+-- inerti in due migrazioni consecutive cominciano a somigliare a un'abitudine.
+-- Rilievo di AppFormazione, e la prova che le distingue non e l'intenzione:
 --
--- Provati su PostgreSQL 16, sul database di prova, prima di chiudere la migrazione
--- (A12: un test che non sbaglia mai non prova niente).
+--   ATTR_PLE_UNA     inerte, ma ha un FILO TESO (il conto qui sopra) e un
+--                    proprietario del passo successivo — chi mappa i titoli
+--   coordinatore     inerte, e aspetta una DECISIONE COMMERCIALE che nessuno ha in
+--                    mano: se Overall eroghi o no il CSP/CSE
 --
---   insieme di tre valori SENZA discriminante          rifiutato
---   un valore solo CON discriminante                   rifiutato
---   dimensione con un numero E un rinvio               rifiutato
---   dimensione senza ne numero ne rinvio               rifiutato
---   una riga di dimensione legittima                   ACCETTATA
+--   select 'coordinatore', count(*) from corso_assolve where ruolo = 'coordinatore_sicurezza';  -- 0
 --
--- L'ultima riga e quella che rende le prime quattro una prova: quattro rifiuti da
--- soli si ottengono anche con un vincolo rotto che nega tutto.
+-- Lo stesso conto, e il valore atteso e **zero finche la decisione non e presa**:
+-- cosi la riga della `0009` smette di essere «inerte» e diventa «in attesa di una
+-- decisione commerciale», che e uno stato e non un'omissione.
+--
+-- ============================================================================
+--  IL DIFETTO CHE LA LETTURA HA TROVATO, E CHE I CONTROLLI NON TOCCAVANO
+-- ============================================================================
+--
+-- La prima stesura teneva le ore in un array con questo vincolo:
+--
+--   ore_possibili numeric(5,1)[] not null
+--     constraint regime_insieme_non_vuoto check (array_length(ore_possibili, 1) >= 1)
+--
+-- **`array_length` su un array vuoto torna NULL, non zero — e un `check` che vale
+-- NULL e SODDISFATTO**, perche PostgreSQL rifiuta solo su `false`. Quindi il vincolo
+-- che si chiamava «insieme non vuoto» era esattamente quello che **lasciava passare
+-- l'insieme vuoto**. Verificato su PostgreSQL 16 prima di riscrivere: `insert into t
+-- values ('{}')` con quel check risponde `INSERT 0 1`.
+--
+-- E il costo sarebbe stato silenzioso nel modo peggiore: con l'insieme vuoto il
+-- minimo e il massimo sono `null`, quindi la riga **sparisce da tutti e tre i rami**
+-- — non sufficiente, non insufficiente, e nemmeno in mezzo. Un `null` dentro
+-- l'array e un'altra forma della stessa cosa: `max` e `min` lo **ignorano** invece di
+-- propagarlo, quindi `array[6, null, 14]` risponde tranquillamente 14 e 6 e il
+-- giudizio si calcola su un insieme che qualcuno ha scritto male.
+--
+-- **I quattro controlli negativi della prima stesura provavano i due vincoli che
+-- funzionavano, e non toccavano questo.** Non e una svista dei controlli: il caso
+-- vuoto non e venuto in mente a nessuno dei due, finche AppFormazione non l'ha
+-- girato. **Un controllo negativo prova che un vincolo morde, non che sia il
+-- vincolo giusto** — ed e il pezzo che mancava ad A12.
+--
+-- La tabella figlia lo chiude **per costruzione e non per vincolo**: non esiste un
+-- array da svuotare, `ore` e `not null`, e «nessuna variante» e un conto con un
+-- nome — il terzo, qui sopra.
+--
+-- ---------- i controlli, rifatti sulla forma nuova ----------
+--
+-- Provati su PostgreSQL 16 (A12: un test che non sbaglia mai non prova niente).
+--
+--   variante fuori dai quattro nomi                    RIFIUTATO
+--   ore a zero                                         RIFIUTATO
+--   ore negative                                       RIFIUTATO
+--   una riga di ore senza il suo regime padre          RIFIUTATO
+--   dimensione con un numero E un rinvio               RIFIUTATO
+--   dimensione senza ne numero ne rinvio               RIFIUTATO
+--   un regime padre legittimo                          accettato
+--   tre varianti con lo STESSO numero (il 221/CSR)     accettato
+--   una riga di dimensione legittima                   accettato
+--
+-- **Le tre accettate sono quelle che rendono le sei una prova**, e la penultima in
+-- particolare: e il caso che il vincolo vecchio rifiutava, e dopo averlo inserito il
+-- quarto conto continua a tornare **zero** — cioe la forma nuova lo riconosce come
+-- legittimo invece di tollerarlo.
+--
+-- **E una nota di metodo che e costata un giro.** La prima esecuzione metteva i nove
+-- controlli in **una transazione sola**: il primo `ERROR` l'ha abortita e gli altri
+-- otto hanno risposto «current transaction is aborted». Letto di corsa sembrava che
+-- avessero fallito tutti — cioe **sembrava una prova riuscita** — e invece era un
+-- controllo eseguito e otto silenzi. Ogni controllo negativo va eseguito **da solo**,
+-- altrimenti il primo rifiuto nasconde gli altri e il risultato si legge come li si
+-- voleva leggere.
