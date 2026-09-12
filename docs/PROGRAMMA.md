@@ -432,16 +432,49 @@ una premessa sbagliata resta una domanda sbagliata, e gli ho fatto scegliere fra
 opzioni quando la risposta era una quarta. **Prima di chiedere un permesso, chiedersi
 se serva il permesso o lo strumento.**
 
-### Prossimo passo per corsia · all'11 settembre 2026, notte
+### Prossimo passo per corsia · al 12 settembre 2026, sera
 
-Riscritta perche due dei tre passi precedenti si sono chiusi: la `0006` qui
-(`corso_assolve` non e piu vuota) e l'ATECO in AppSopralluoghi (`5595601`).
+Riscritta perche i due passi assegnati l'11 si sono chiusi — AppSopralluoghi ha
+risposto sui due export delle visite (`348b6da`) e AppFormazione ha consegnato le
+quattro grandezze (`b2b4e0c`) — e perche **e cambiata la macchina, non solo la
+data**.
+
+**Il fatto che viene prima di tutti, e che va letto prima di leggere la tabella:**
+il lavoro dell'11 settembre e stato fatto **altrove**, e su questa macchina e
+arrivato **oggi alle 16:55** con un `pull` su tutti e tre i repo. Il reflog lo dice
+senza ambiguita: qui AppOverall era fermo al 10 alle 12:04, AppSopralluoghi al 9
+alle 19:41, AppFormazione al 10 alle 12:05. **Oggi, 12 settembre, nessuno dei tre
+repo ha un commit.** Le due corsie che lavorano qui hanno davanti uno stato che
+conoscono da un'ora, non da un giorno: la prima cosa che devono fare non e
+ripartire, e **leggere cosa e successo mentre questa macchina era indietro**.
+
+E una cosa l'ho tolta di mezzo invece di distribuirla: `formazione-81-utils-src`
+era indietro di **quattro** commit e **`reference/` qui non esisteva** — 33 MB di
+fonti, fra cui il DPR 177/2011 e gli articoli citati del D.Lgs 81/08. Portata a
+`a1827fd`. Chiunque avesse controllato una citazione su questa macchina prima di
+adesso avrebbe letto «la fonte non c'e» da un repo che la fonte ce l'ha.
 
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
-| **AppOverall** | ~~la `0007`~~ **scritta** (`6e15f5e`) → **la migrazione dati, e comincia dalle persone e non dalle 808 righe**: `sorveglianza.persona_id` punta a una tabella vuota, e le 808 esecuzioni appartengono a **787 persone** che prima devono esistere, coi loro clienti. Misurato, non stimato. Poi la `0008` (secondo codice dei confinati, `testo_origine`, la grandezza su due colonne) e il carico di `0007` e `0008` col `domini_orfani.py` di AppFormazione | la Fase 3 vera e propria | Perche il numero piu grande nascondeva quello piu piccolo: «le 808 righe» stava scritto come se fosse il primo passo. E perche l'ordine giusto lo decide una dipendenza di schema, non l'importanza del dato — e la dipendenza si vede solo aprendo il file, che e cio che nessuno aveva fatto da questa parte |
-| **AppSopralluoghi** | ~~il progetto dell'import~~ **scritto**, e ~~l'art. 16~~ **letto** → **quale dei due file e la fonte delle scadenze dichiarate.** Adesso i candidati sono **due e incompatibili**: `VisiteScadenze` con 804 coppie e `ExportExcel (7)` con 315, **tutte gia dentro le prime**. Perche ne ha meno — scadenze passate, cessati, perimetro? — cosa distingue le 8 righe `PIANIFICATA` dalle 311 vuote, e se le **nove date che non tornano** reggano rifatte contro il **(6)** invece che contro il foglio. **Sola lettura** | scrivere l'import delle nomine, quando la `0007` e caricata | Perche `sorveglianza.scadenza_dichiarata` e `scadenza_fonte` non hanno un valore da scrivere finche non si sa quale file parli — e quella colonna esiste perche **una scadenza che nessuno sa da dove venga non e opponibile**. E perche l'avete aperta voi segnalando il (7) e dichiarando di non averlo inseguito: e la sola cosa ignota rimasta prima dell'import della sorveglianza. Se la risposta e «sono due oggetti diversi e non si confrontano», **e la migliore delle quattro** |
-| **AppFormazione** | ~~la lettura della `0007` e della `0008`~~ **chiusa**: sei rilievi, due entrati nella `0008` prima del carico e uno diventato la `0009` → **ferma per costruzione, e non e la stessa cosa che essere ferma.** Quella corsia **non spinge di propria iniziativa**: esegue `commit` e `push` solo su richiesta del proprio utente, e l'assegnazione di una corsia pari **non lo sblocca** — giustamente. Nove commit dalle 12:43 alle 14:28 sono **invisibili da `origin`**, dove risulta ancora la 08:28 | il push, che e di Francesco; e i crediti, quando la `0009` li porta | Perche **la regola di coordinamento di questo progetto presuppone che tutte e tre le corsie possano pubblicare, e una non puo**. Finche resta cosi, per questa corsia `origin` **non descrive lo stato**: chi legge il fetch legge una cosa falsa in un posto che il programma indica come autorevole. Due strade, e la scelta e di Francesco — **spingere lui**, o **dichiarare che per questa corsia lo stato si chiede e non si legge** |
+| **AppOverall** | ~~la `0008`~~ **scritta e caricata** (`b395ee6`, `c9938a7`) → **la `0009`, e non e una colonna: e una tabella.** I crediti formativi — `datore_lavoro_rspp -> datore_lavoro_art37 = 'totale'`, ASR Allegato III pag. 130 — piu la seconda meta del rilievo 3, `posizione = 'esterno'` che oggi si ferma in `ruolo_testo` e non viaggia con la nomina | la migrazione dati, che comincia dalle persone | Perche la `0007` **attiva** un difetto che finche le nomine non entravano non costava niente: sette persone risulterebbero dovere l'art. 34 **piu** l'art. 37, e `corso_assolve` funzionerebbe perfettamente producendo il risultato sbagliato. Un credito che manca non si vede: si vede un obbligo in piu, che sembra prudenza |
+| **AppSopralluoghi** | **`STATO.md`, e viene prima del lavoro.** E fermo alle 08:19 dell'11 e dopo ci sono **dodici commit**: la `067`, la `068`, il progetto dell'import delle nomine, i due export delle visite. Chi apre quel file oggi legge il 10 settembre. Mancano anche i diari del 10 e dell'11 → poi **la consegna dell'anagrafe alla migrazione dati**, **sola lettura**: cosa attraversa il confine (619 clienti, 619 sedi, 3.419 persone) e con **quale identita** quando il codice fiscale non c'e — 235 righe in anagrafica, 12 su 153 nei ruoli, e fra quelle dodici l'unico ASPP dell'export | l'import delle nomine, **che resta fermo** | Perche e l'unica cosa che blocca il passo di questa corsia: `sorveglianza.persona_id` deve puntare a 787 persone che nel repo unico non esistono ancora, e una migrazione dati **non puo inventarsi una chiave** dove la fonte non ce l'ha. E perche lo `STATO.md` viene prima per una ragione misurabile e non formale: oggi, per sapere a che punto fosse questa corsia, ho dovuto ricostruirla da dodici messaggi di commit e da sei file in `c1a/`. Il file che esiste apposta diceva altro |
+| **AppFormazione** | **le quattro grandezze applicate ai 40 codici della `0004`**, sola lettura, consegna qui. La `0008` marca **in positivo** solo i sedici aggiornamenti dell'art. 73 (`parte_pratica`), e poi assegna `durata_corso` a **tutto il resto che porta un numero**. Il sospetto e il loro: il documento 16 dice che `monte_ore_quinquennio` **sfugge al guardrail** e darebbe `insufficienti` falso — e l'aggiornamento dell'art. 34 e quello del modulo B sono monti ore quinquennali, non durate di corso. La domanda e **quante delle 40 righe portano un `durata_corso` che nessuna regola ha riconosciuto, e quante di quelle sono un'altra grandezza** | il giunto `dipendenti_rls` sui dati veri, quando l'anagrafe attraversa | Perche il difetto che cercano l'hanno gia descritto **sulla loro tabella** e questa e la stessa forma **sulla mia**: la `0008` ha invertito il `default` su loro rilievo — e ha ragione — ma sotto il `default` corretto c'e un `update` che marca per **presenza di un numero** e non per riconoscimento, che e esattamente cio che la migrazione dichiara di non fare due righe sopra. Un guardrail che protegge le righe future e lascia passare quelle presenti protegge meta del problema |
+
+**E tre cose che l'assegnazione dice per non essere fraintesa:**
+
+- **l'import dei ruoli e delle nomine resta fermo.** La `0007` e la `0008` sono
+  caricate e l'ostacolo tecnico non c'e piu: **non e un permesso.** La pausa e di
+  Francesco e non la toglie nessun altro, ed e la terza volta che questo programma
+  scrive questa riga perche e la terza volta che l'ostacolo sparisce e la pausa no;
+- **nessuna scrittura su database di produzione**, da nessuna delle due corsie e
+  per nessuna delle due assegnazioni. Tutte e due sono sola lettura. Il piano
+  Supabase e free e non c'e backup: vale oggi come il 10 settembre;
+- **ad AppFormazione non si chiede di cambiare la sua regola sul `push`.** Nove
+  commit sono stati spinti l'11 sera **da qui**, su istruzione di prima mano di
+  Francesco, e quella regola e rimasta intatta. Il prossimo blocco restera locale
+  allo stesso modo: **e stata risolta la volta, non il meccanismo**, e la scelta fra
+  «spinge Francesco» e «per questa corsia lo stato si chiede e non si legge» e sua e
+  resta aperta.
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
