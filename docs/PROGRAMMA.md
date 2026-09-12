@@ -314,6 +314,7 @@ gonfiata di cinque volte e orientasse una raccomandazione.
 | Coppie ruolo -> corso su cui le due fonti concordano | 14 su 14 | Sulle **figure**, dove sia il modello di AppFormazione sia `figura_requisito` possono parlare. Fuori dalle figure non c'e incrocio e non e un difetto: il campo dichiara nelle sue `045` e `058` che le abilitazioni non sono figure dell'organigramma, quindi le 14 righe di attrezzature e attivita della `0006` hanno **una fonte sola** e portano la sua qualificazione, «i file dicono» |
 | Righe scritte in `corso_assolve` | 31 | Su 39 coppie derivabili: **-7** antincendio e primo soccorso (scheda 11), **-3** divergenze non scritte, **+2** con una fonte sola e dichiarata. Coprono **20 dei 36 ruoli**; i 16 vuoti sono di quattro nature diverse e la `0006` le separa, perche un motore che non le distingue dichiara non conforme chi non ha un corso da fare |
 | Obblighi i cui unici titoli sono fra i 31 `ignorato` | 5 su 5 | `diisocianati`, `fitosanitari`, `alimenti`, `segnaletica_stradale`, `conduce_transpallet`: **nove titoli, nove `ignorato`, zero eccezioni**. Due curatele che non si sono parlate — chi ha giudicato i 268 alias e chi ha classificato i 180 titoli — hanno separato lo stesso insieme. E il riscontro piu pulito dell'incrocio, e dice una cosa commerciale e non tecnica: quei corsi Overall non li eroga |
+| Copertura del codice fiscale sulle due meta dell'organigramma | **7,8%** vs **63,5%** senza CF | Misurato il 12.09 su `ExportExcel.xlsx` (2023): **204 righe** col ruolo nelle **colonne**, 16 senza codice fiscale; **74 righe** col ruolo nella **mansione**, **47 senza**. La meta dedotta dell'organigramma e **otto volte peggio coperta** di quella dichiarata, e agganciando solo per codice fiscale se ne perderebbero **quasi due righe su tre**. Chiude la domanda lasciata aperta il giorno prima — «il 12 su 153 non si estende alle 160 della mansione» — e non si estendeva **in meglio**. **Due riserve, e la seconda conta piu del numero**: il dizionario e stato costruito sull'export del **2026** e applicato al **2023** riconosce solo le forme che gia conosce, quindi **74 e un limite inferiore**. E il 63,5% e probabilmente **ottimista**: le forme che il dizionario non conosce sono per costruzione le piu irregolari, e non c'e ragione di credere che chi scrive il ruolo in modo irregolare compili meglio il codice fiscale |
 | Insiemi distinti di «fattori di rischio» | 76 | Su **162 righe** con almeno un fattore, 3.501 totali. 122 righe condividono l'insieme con un'altra: **112 nella stessa societa**, 45 con la stessa mansione. La cella ha **un solo valore distinto**, `X`, in 2.447 occorrenze su 79 colonne, e nessuna colonna porta un grado o una fascia. Misurato il 10.09 da AppSopralluoghi (`39fb586`) |
 
 ## 7. Le assunzioni
@@ -2874,3 +2875,25 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   le note delle tabelle gia caricate con questa domanda — *cosa succede a questa
   frase il giorno in cui una colonna nuova la usa?* — invece di aspettare che sia una
   migrazione a scoprirlo.
+
+- **A18** **Una conclusione giusta appoggiata a una ragione troppo piccola sopravvive
+  finche nessuno la discute, e cade al primo che la discute.** Aggiunta il 12
+  settembre 2026 dalla corsia AppSopralluoghi. Il ripiego cognome+nome sul lettore dei
+  ruoli era stato acceso citando **19 incarichi persi e l'unico ASPP** — numeri veri, e
+  **piccoli**: facevano sembrare il ripiego un rammendo per pochi casi. Misurato dopo:
+  quel ripiego **regge meta del lavoro che l'import esiste per fare**, perche sulla
+  meta dedotta dell'organigramma manca il codice fiscale su **quasi due righe su tre**.
+  La decisione era giusta e la motivazione era **sottodimensionata di un ordine di
+  grandezza**.
+  **Non e una conclusione sbagliata, ed e per questo che nessuna rilettura la trova**:
+  chi rilegge controlla se la conclusione regge, e regge. Cade il giorno in cui
+  qualcuno con fretta dice «per diciannove righe non vale la pena» — cioe quando la
+  ragione, non la conclusione, viene messa alla prova. **La difesa e scrivere il numero
+  grande dove la decisione si rilegge**, non nel documento che l'ha motivata: loro
+  l'hanno messo al punto del codice dove il ripiego si accende, che e dove qualcuno un
+  giorno si chiedera se valga la pena tenerlo.
+  E la sua parente prossima si e presentata **la stessa sera da questa parte**: la
+  scheda 12 motivava la validita temporale con un caso che ne guadagnava **zero**
+  mentre quello che ne guadagnava 76 non era nominato. Conclusione giusta, ragione
+  sbagliata; li conclusione giusta, ragione troppo piccola. **In tutti e due i casi a
+  reggere era il numero che nessuno aveva contato.**
