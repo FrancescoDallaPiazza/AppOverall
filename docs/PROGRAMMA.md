@@ -580,6 +580,43 @@ un'etichetta — «quante persone ne gestiamo», non «quanti lavoratori ha l'im
 e trasferirlo due volte da due parti diverse e il modo in cui un'etichetta si perde
 per strada. Arriva con l'anagrafe, una volta sola, con la sua qualificazione.
 
+
+### Tre cose decise a tarda sera, e una regola che si allarga
+
+**L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
+settembre nella sessione di AppSopralluoghi, e riferito qui. Quella corsia non lo fa
+girare — né l'anteprima né la scrittura — e **le tre colonne restano fuori**. Chiude
+il punto sul permesso nel modo migliore dei tre possibili: non un'autorizzazione
+relaiata, non una firma chiesta e riportata, ma **chi decide che esegue**. La regola
+«un ordine si relaia, un permesso di scrivere no» non è stata messa alla prova perché
+non ce n'è stato bisogno.
+
+**E la regola della sezione 8 si allarga, perché la quarta istanza ha una forma
+nuova.** Stava scritto: *prima di dichiarare mancante un dato anagrafico, guardare se
+un'altra corsia lo sta già leggendo dallo stesso file.* Le prime tre volte era un
+**dato** — ATECO, ruoli, lavoratori. La quarta è una **misura**: «Addetti Emergenze è
+l'addetto antincendio?» era già stata misurata da AppFormazione **l'11 settembre**, e
+AppSopralluoghi ha lasciato la colonna fuori dicendo «non si deduce» — dando la
+risposta giusta per la ragione debole.
+
+> **Prima di dichiarare che una cosa non si sa, guardare se qualcun altro l'ha già
+> misurata.** Vale per i dati e vale per le misure, e la differenza fra le due
+> formulazioni non è accademica: «non si deduce» è una **posizione**, che fra un mese
+> chi ha fretta riapre; «la deduzione è falsa su 24 righe e su altre 15 imporrebbe di
+> scegliere quale data tenere» è un **fatto**, e non si riapre.
+
+Lo ha scritto la corsia che aveva applicato la prudenza: *«due volte oggi ho lasciato
+una cosa fuori dicendo non si deduce, e in un caso su due la misura esisteva già —
+in un altro repo, sullo stesso disco, da un giorno.»*
+
+**E le tre colonne escluse sono escluse per tre ragioni diverse**, che appiattite in
+«tre colonne fuori» perdono quello che serve a riaprirle: `RSPP` per un **fatto
+dimostrato** (contiene il datore dell'art. 34), «Addetti Emergenze» per una
+**deduzione smentita**, «Responsabile Emergenze» per un **argomento** che regge da sé.
+Le prime due non sono più domande per l'Area Formazione: **sono chiuse**. Resta semmai
+se serva una figura nuova per le emergenze, che è un'altra domanda e non è urgente,
+perché in tutti e due i casi quelle righe oggi restano fuori.
+
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
 meta, punto di ripresa scritto nella `0004`), e l'import dei ruoli era gia in pausa.
@@ -2684,3 +2721,19 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   prudenza, e **marcare la grandezza accanto al numero** — `requisiti
   .aggiornamento_solo_parte_pratica` da loro, e da qui una colonna che la `0004` non ha:
   sedici codici di questo catalogo portano un `4` che non dice di che cosa.
+
+- **A14** **Un totale che esiste per far vedere una divergenza puo' produrne una che
+  non c'e'.** Aggiunta il 12 settembre 2026. I due repo tengono lo stesso dizionario
+  dei ruoli scritti a mano con due grane diverse — qui la chiave e il **testo
+  verbatim** (34 asserzioni su 29 grafie), nel campo e la **chiave normalizzata** (32
+  su 27) — e i due totali **non sono confrontabili**, benche' contino la stessa cosa.
+  Un confronto fra 34 e 32 avrebbe dato «i dizionari hanno divergiuto» su due tabelle
+  identiche, e stava per essere riportato da questa corsia.
+  **La forma e' nuova, ed e' l'opposto di quella di A11.** Fino a ieri il difetto era
+  sempre nello stesso verso — un totale che **tace** una differenza vera — e da qui
+  venivano il `default` che falliva aperto, i 141 codici fiscali che nascondevano i
+  12 senza, il blanket delle grandezze. Questo e' un totale che **grida** una
+  differenza falsa. Il rimedio e' lo stesso di A11 e va detto una volta di piu':
+  **si confrontano gli esiti e le chiavi, mai i conteggi di riga** — e prima di
+  confrontare due numeri si guarda se contano la stessa grana, che e' A13 applicata
+  ai conteggi invece che alle ore.
