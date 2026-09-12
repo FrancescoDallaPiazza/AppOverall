@@ -457,7 +457,7 @@ adesso avrebbe letto «la fonte non c'e» da un repo che la fonte ce l'ha.
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
 | **AppOverall** | ~~la `0008`~~ **scritta e caricata** (`b395ee6`, `c9938a7`) → **la `0009`, e non e una colonna: e una tabella.** I crediti formativi — `datore_lavoro_rspp -> datore_lavoro_art37 = 'totale'`, ASR Allegato III pag. 130 — piu la seconda meta del rilievo 3, `posizione = 'esterno'` che oggi si ferma in `ruolo_testo` e non viaggia con la nomina | la migrazione dati, che comincia dalle persone | Perche la `0007` **attiva** un difetto che finche le nomine non entravano non costava niente: sette persone risulterebbero dovere l'art. 34 **piu** l'art. 37, e `corso_assolve` funzionerebbe perfettamente producendo il risultato sbagliato. Un credito che manca non si vede: si vede un obbligo in piu, che sembra prudenza |
-| **AppSopralluoghi** | **`STATO.md`, e viene prima del lavoro.** E fermo alle 08:19 dell'11 e dopo ci sono **dodici commit**: la `067`, la `068`, il progetto dell'import delle nomine, i due export delle visite. Chi apre quel file oggi legge il 10 settembre. Mancano anche i diari del 10 e dell'11 → poi **la consegna dell'anagrafe alla migrazione dati**, **sola lettura**: cosa attraversa il confine (619 clienti, 619 sedi, 3.419 persone) e con **quale identita** quando il codice fiscale non c'e — 235 righe in anagrafica, 12 su 153 nei ruoli, e fra quelle dodici l'unico ASPP dell'export | l'import delle nomine, **che resta fermo** | Perche e l'unica cosa che blocca il passo di questa corsia: `sorveglianza.persona_id` deve puntare a 787 persone che nel repo unico non esistono ancora, e una migrazione dati **non puo inventarsi una chiave** dove la fonte non ce l'ha. E perche lo `STATO.md` viene prima per una ragione misurabile e non formale: oggi, per sapere a che punto fosse questa corsia, ho dovuto ricostruirla da dodici messaggi di commit e da sei file in `c1a/`. Il file che esiste apposta diceva altro |
+| **AppSopralluoghi** | ~~`STATO.md` prima del lavoro~~ **fatto, e il numero era mio e sbagliato: i commit dopo l'ultimo tocco erano DICIANNOVE, non dodici** (`b392190`): la `067`, la `068`, il progetto dell'import delle nomine, i due export delle visite. Chi apre quel file oggi legge il 10 settembre. Mancano anche i diari del 10 e dell'11 → poi **la consegna dell'anagrafe alla migrazione dati**, **sola lettura**: cosa attraversa il confine (619 clienti, 619 sedi, 3.419 persone) e con **quale identita** quando il codice fiscale non c'e — 235 righe in anagrafica, 12 su 153 nei ruoli, e fra quelle dodici l'unico ASPP dell'export | l'import delle nomine, **che resta fermo** | Perche e l'unica cosa che blocca il passo di questa corsia: `sorveglianza.persona_id` deve puntare a 787 persone che nel repo unico non esistono ancora, e una migrazione dati **non puo inventarsi una chiave** dove la fonte non ce l'ha. E perche lo `STATO.md` viene prima per una ragione misurabile e non formale: oggi, per sapere a che punto fosse questa corsia, ho dovuto ricostruirla da diciannove messaggi di commit e da sei file in `c1a/`. Il file che esiste apposta diceva altro |
 | **AppFormazione** | **le quattro grandezze applicate ai 40 codici della `0004`**, sola lettura, consegna qui. La `0008` marca **in positivo** solo i sedici aggiornamenti dell'art. 73 (`parte_pratica`), e poi assegna `durata_corso` a **tutto il resto che porta un numero**. Il sospetto e il loro: il documento 16 dice che `monte_ore_quinquennio` **sfugge al guardrail** e darebbe `insufficienti` falso — e l'aggiornamento dell'art. 34 e quello del modulo B sono monti ore quinquennali, non durate di corso. La domanda e **quante delle 40 righe portano un `durata_corso` che nessuna regola ha riconosciuto, e quante di quelle sono un'altra grandezza** | il giunto `dipendenti_rls` sui dati veri, quando l'anagrafe attraversa | Perche il difetto che cercano l'hanno gia descritto **sulla loro tabella** e questa e la stessa forma **sulla mia**: la `0008` ha invertito il `default` su loro rilievo — e ha ragione — ma sotto il `default` corretto c'e un `update` che marca per **presenza di un numero** e non per riconoscimento, che e esattamente cio che la migrazione dichiara di non fare due righe sopra. Un guardrail che protegge le righe future e lascia passare quelle presenti protegge meta del problema |
 
 **E tre cose che l'assegnazione dice per non essere fraintesa:**
@@ -475,6 +475,110 @@ adesso avrebbe letto «la fonte non c'e» da un repo che la fonte ce l'ha.
   allo stesso modo: **e stata risolta la volta, non il meccanismo**, e la scelta fra
   «spinge Francesco» e «per questa corsia lo stato si chiede e non si legge» e sua e
   resta aperta.
+
+
+### Le due consegne della sera del 12, e la cosa che hanno trovato in mezzo
+
+Tutte e due le corsie hanno chiuso il passo assegnato **la sera stessa**, e nessuna
+delle due ha consegnato solo cio che era stato chiesto. Da qui sono uscite tre
+migrazioni — la `0009`, la `0010` e la `0011` — e **la terza e interamente loro**.
+
+**AppFormazione, le quattro grandezze sui 40 codici** (`2632cbf`, locale). Tre
+risposte, e due non erano fra quelle che avevo previsto:
+
+- **il numero era mio ed era sbagliato**: 53 marche su 37 righe, non 36. La `0008`
+  fa **due** update per presenza di un numero e nella domanda li avevo **citati
+  tutti e due e contati come uno**;
+- e le due colonne non hanno la stessa forma: su `ore_aggiornamento` il blanket e il
+  **residuo** di una regola che ha riconosciuto sedici righe, su `ore` **non c'e
+  nessuna regola**. Quindi **zero righe su 40** avevano una grandezza che qualcuno
+  avesse riconosciuto, e «si marca solo in positivo» era vero per **16 marche su 69**;
+- **una sola grandezza era sbagliata**, `RSPP_MOD_B.ore_aggiornamento = 40`, ed e un
+  monte ore quinquennale — Parte III punto 3, e la trascrizione aggiunge la frase che
+  rende la lettura decidibile: «e **qui, e solo qui**, che l'accordo dice»;
+- **e il secondo candidato l'avevo indicato io, e non regge.** L'aggiornamento
+  dell'art. 34 «**ha durata**, modulata in relazione ai tre livelli di rischio»
+  (223/CSR del 21/12/2011). «Quinquennale, quindi monte ore» e dedurre invece di
+  leggere: **A7 usata contro chi l'ha invocata**, e va scritto qui perche il sospetto
+  stava in un'assegnazione — un sospetto assegnato si ritira dove era stato dato;
+- **la categoria piu numerosa non era fra le due previste**: per **13 marche** la
+  grandezza e plausibilmente `durata_corso` e **nessuna fonte leggibile lo dice** —
+  una scansione senza livello di testo, una norma tecnica a pagamento, un protocollo
+  non normativo, una prassi, una scelta di erogazione. Sono tornate ad `assente`
+  con la `0011`. Altre sei restano, e la linea passa fra **fonte non leggibile** e
+  **fonte non trascritta**: la seconda si chiude trascrivendo, non decidendo.
+
+Di passaggio hanno corretto **due note del catalogo che citavano una norma che non
+dice quello** — il DM 388/2003 non fissa le ore dell'aggiornamento, sono prassi
+Overall — e leggendo le righe accanto ne e uscita una terza: la nota dell'`RLS`
+portava la regola di **prima del 31/12/2025**, due casi invece di tre e una durata
+al posto di un pavimento.
+
+**AppSopralluoghi, la consegna dell'anagrafe** (`b392190`, `4692b52`, locali). La
+regola richiesta c'e — l'identita e la coppia **(cliente, codice fiscale)**, col
+ripiego su cognome+nome finche quel nome e univoco **sia nell'archivio sia nel
+file** — ma sotto c'e il fatto che la rende urgente, ed e per la Fase 3:
+
+> **Il primo campo di `import_key` e `cliente.id`, un uuid generato dal loro
+> database.** Non deriva dalla fonte. Se nel repo unico i 619 clienti rinascono con
+> uuid nuovi, **tutte e 3.419 le chiavi puntano a un id che qui non esiste — e non
+> danno errore**: restano stringhe sintatticamente valide che non agganciano niente,
+> e il secondo import ricrea 3.419 persone **in silenzio**.
+
+E la forma esatta del rischio che la provenienza doveva chiudere, un livello piu in
+basso di dove la si era guardata: `import_key` prova che una riga **e gia arrivata
+da qualche parte**, e non prova che quel «da qualche parte» esista ancora. Le vie
+sono due — i clienti attraversano **con gli stessi uuid**, oppure attraversa una
+tabella di corrispondenza e le chiavi **si riscrivono in migrazione** — e la scelta
+e di questa corsia, non della loro. Quel che **non** si puo fare e ricalcolare le
+chiavi dall'export: la regola dipende da un controllo di ambiguita fatto su
+**quell'archivio**, e rifarlo altrove puo dare esito diverso sulle stesse persone.
+
+Con la consegna arrivano tre avvertenze e due numeri lasciati **non tornanti invece
+che aggiustati**, che e la forma giusta:
+
+- il codice fiscale **dentro la chiave non e validato** — `cfPulisci` ripulisce, la
+  validazione esiste e serve solo all'avviso a schermo. E le visite sono indicizzate
+  **per codice fiscale**: una chiave che porta dentro una stringa che CF non e
+  aggancia la persona e **non agganciera mai la sua visita**;
+- **i clienti attraversano senza chiave**: `import_key` sta su persona, formazione e
+  adempimento, **non** su `cliente`. Dei 619 non resta scritto da dove vengono, e va
+  deciso **prima** che attraversino, perche dopo l'id da scriverci e gia cambiato;
+- le **619 sedi non sono un secondo insieme**: la loro `054` ne crea una per cliente
+  copiando la sede legale, e `persona.sede_id` oggi vuol dire «il cliente» detto in
+  un altro modo. Il sito produttivo non e mai stato importato;
+- **235 contro 233** righe senza codice fiscale, e **3.420 contro 3.419** persone: i
+  quattro export non sono su quella macchina, quindi i due scarti restano scritti
+  come scarti. Per la migrazione fa fede il **3.419**, che e una misura sul database.
+
+**E il 787 non e loro, e hanno fatto bene a dirlo.** «Le 808 esecuzioni appartengono
+a 787 persone» sta in questo repo — `docs/misure/sorveglianza-foglio-visite.py`, la
+misura di questa corsia sul foglio — e nel loro non compare da nessuna parte. Il
+numero e mio: l'avevo messo in un'assegnazione come se fosse un dato condiviso, e
+loro hanno risposto con cio che sanno misurare — 800 coppie nel foglio, 804 nello
+scadenzario, 769 comuni — invece di confermare un numero che non avevano.
+
+**Un terzo caso della stessa regola, dal verso opposto.** Le 160 righe col ruolo
+scritto nella mansione **non hanno mai avuto una misura di copertura del codice
+fiscale**: il «12 su 153» vale per le righe che dichiarano il ruolo in colonna e
+**non si estende alle altre**. Estenderlo sarebbe la mossa ritirata sulle 31
+aziende, fatta nel verso opposto — e l'ha segnalata la corsia a cui quella mossa
+era stata rimproverata.
+
+### Prossimo passo per corsia · al 12 settembre 2026, notte
+
+| corsia | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **AppOverall** | ~~la `0009`~~ **scritta** (crediti, 53 caselle, zero divergenze col confronto), ~~la `0010`~~ **scritta** (la posizione viaggia con la nomina), ~~la `0011`~~ **scritta** (le grandezze che nessuno aveva riconosciuto) → **come attraversano i clienti, e con quale identita**: la domanda dell'uuid dentro `import_key`, che va chiusa **prima** della migrazione dati e non dentro | la migrazione dati, che comincia dalle persone | Perche e l'unica delle tre cose in fila che **non si puo fare dopo**: il giorno in cui i 619 clienti sono scritti con id nuovi, le 3.419 chiavi sono gia mute e nessun vincolo lo dice. E perche la risposta decide anche l'altra meta, cioe se `cliente` porti una provenienza sua — che oggi non ha |
+| **AppSopralluoghi** | **fermi, e in attesa**: il passo assegnato e chiuso e il successivo dipende da una decisione di questa corsia (l'uuid) e da una di Francesco (l'import delle nomine, ancora in pausa) | l'import delle nomine, quando la pausa la toglie Francesco | Perche assegnare adesso vorrebbe dire far misurare qualcosa che la decisione sull'uuid potrebbe rendere inutile, e perche una corsia che non ha un passo **lo chiede** invece di inventarlo: sta scritto qui che non ne ha uno, cosi non lo cerca |
+| **AppFormazione** | **trascrivere la Parte II dell'ASR 2025 in `reference/`**, che e la lacuna che hanno dichiarato loro: chiude sei marche su sei senza decidere niente, e le sei sono le durate iniziali dei corsi piu frequenti del catalogo — datore, dirigente, preposto, lavoratore generale | il giunto `dipendenti_rls`, quando l'anagrafe attraversa | Perche e l'unica cosa che **si chiude leggendo** fra quelle rimaste aperte dalla loro consegna, e perche il secondo passo **non e avviabile e l'hanno misurato**: il loro database locale e fermo alla `0053` mentre il repo e alla `0062`, e `clienti.dipendenti` e null su tutte e 480. Il numero di dipendenti sta nell'altro archivio, su 481 delle 619 attive |
+
+**E una domanda che hanno posto e che non tocca a loro chiudere**: se convenga
+colmare `clienti.dipendenti` dai **loro** sette export invece di aspettare il
+passaggio dell'anagrafe. La risposta e **no, e non per prudenza**: quel numero ha
+un'etichetta — «quante persone ne gestiamo», non «quanti lavoratori ha l'impresa» —
+e trasferirlo due volte da due parti diverse e il modo in cui un'etichetta si perde
+per strada. Arriva con l'anagrafe, una volta sola, con la sua qualificazione.
 
 **Chi e fermo, e da quando.** La sera del 10 settembre Francesco aveva fermato
 **AppFormazione** (passo assegnato, non iniziato) e **AppSopralluoghi** (confronto a
