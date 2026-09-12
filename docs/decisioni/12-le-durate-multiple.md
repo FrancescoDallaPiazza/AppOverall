@@ -353,6 +353,63 @@ La prima, e dichiarata. Ma la domanda vera è **cosa misuri la colonna `Data`**,
 la stessa che questa scheda pone da sé più sopra: non è una deduzione da fare, è una
 domanda a chi tiene il gestionale.
 
+### Terza correzione, tarda sera del 12 — «due aule» e una premessa da ricontare
+
+La riga 4 non cambia — `PREPOSTO` non si separa finche non risponde chi ha erogato —
+ma **due delle quattro prove su cui questa scheda la appoggiava sono state indebolite
+nella stessa serata**, e vanno dette invece di restare in piedi per inerzia.
+
+**1 · «I 30 corsi da 12 ore prima dell'Accordo che nessun regime spiega» li spiega la
+parola *minima*.** Il 221/CSR punto 5 (pag. 8) dice «la durata **minima** del modulo
+per preposti e di 8 ore»: dodici ore nel maggio 2024 non violano niente, **superano un
+minimo**. Rilievo di AppFormazione. Resta vero che «non viola niente» non e «si
+spiega», ma quella riga non e piu una prova che il regime fosse un altro.
+
+E cade anche la frase che diceva *«nessuna fonte nei repo dice che il regime
+precedente fosse di 8 ore»*: **la fonte c'e** — 221/CSR punto 5, pag. 8 — e sta in
+`quadro-storico-ore-pregresse.md` **due sezioni sopra** le 16 ore del dirigente che
+questa stessa scheda cita, nella stessa trascrizione, da prima che la scheda fosse
+scritta. L'asimmetria che avevo usato come segnale era fra due **note di catalogo**,
+non fra due fonti.
+
+**2 · E «due aule» e una premessa che il documento d'origine contraddice.** La
+misura sta in `AppSopralluoghi/docs/c1a/preposto-un-codice-tre-corsi.md`, e
+**rileggendola per intero invece che a memoria si contraddice da se**:
+
+| dove | cosa dice |
+| --- | --- |
+| sezione di dettaglio | «tutte e **trenta**», due date sole — 5 il 20.05.2024 e 25 il 05.09.2024 |
+| tabella riassuntiva | **31** righe, intervallo 2024-05 → **2025-12** |
+
+**Trenta contro trentuno, e due date contro un intervallo che arriva a dicembre
+2025.** Non e un refuso da lasciar correre, perche la frase che regge il ragionamento
+— il mio, e per un'ora anche quello di AppFormazione — e *«non e una popolazione
+diffusa nel tempo: sono due aule»*. Se la trentunesima riga sta a dicembre 2025, **due
+aule non sono**, e «due aule, chi le ha tenute sa cos'erano» smette di essere la
+domanda giusta.
+
+**Va ricontato prima che «due aule» entri di nuovo in un ragionamento come premessa**,
+e non si puo ricontare da qui: vuole l'export, che sulla macchina dove si e lavorato
+stasera non c'e. Chi lo fara guardi anche **a chi** cambia la domanda: «due aule del
+2024» e «due aule piu una coda nel 2025» non si chiedono alla stessa persona.
+
+**3 · E il quarto candidato non e escluso: quelle righe sono marcate INIZIALI.**
+`is_aggiornamento = false`, letto dall'export e non dedotto. Quindi l'ipotesi che
+fossero **ripetizioni** ex art. 37 c. 7-ter — «devono essere **ripetute** con cadenza
+almeno biennale», L. 215/2021 — resta aperta: ripetere la formazione e rifare il
+corso, non fare un aggiornamento piu corto, e chi l'aveva scartata l'aveva scartata
+confrontando le 12 ore con le 6 dell'aggiornamento, che non c'entrano.
+
+**Ma spiega la marcatura e non la durata**, e la nota e di chi ha il file: nel 2024 il
+corso da ripetere era quello **da 8 ore** — il titolo senza suffisso e erogato
+ininterrottamente dal marzo 2011 al maggio 2026 — quindi una ripetizione avrebbe fatto
+8, non 12. **I tre candidati che vogliono qualcuno che c'era restano tutti e tre.**
+
+*La decisione della riga 4 non si muove: e conservativa, e una decisione conservativa
+non dipende da quanto sono forti le prove che la circondano. Cio che si muove e cosa
+si puo citare a sostegno — e di quattro prove ne restano due: i sette titoli sotto un
+codice, e `PREPOSTI - BIENNALE` contro `PREPOSTI_BIENNALE` con due durate diverse.*
+
 ### Cosa questa decisione NON risolve, che la scheda chiedeva di scrivere
 
 - **Le sei righe a 8 ore di `DL_RSPP_BASE` datate 2016-2024** restano fuori dalla
