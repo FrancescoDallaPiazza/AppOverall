@@ -426,6 +426,17 @@ proprio — e nessuna delle due volte il difetto e stato **non avere il dato**: 
 regola si applica per abitudine di coordinamento; verso di se bisogna sospettare di
 aver gia guardato.
 
+**E il corollario, dalla stessa corsia e nella stessa ora: un avviso che vive altrove
+non protegge chi apre il documento.** La contraddizione dei «30 contro 31» era stata
+scritta nel loro `STATO.md` — che e il posto giusto per chi segue il lavoro — mentre
+il file citato a sostegno di una decisione **si apre da solo**, e chi lo apre domani
+la incontrerebbe senza avviso. Adesso l'avvertenza sta in testa a quel file.
+
+E la forma di quell'errore e la **stessa dei diari ritirati la mattina, nel verso
+opposto**: li il contenuto stava in un posto che lo faceva sembrare piu di quello che
+era, qui l'avvertenza stava in un posto giusto per chi l'aveva scritta e sbagliato per
+chi legge. **Dove una cosa e scritta e parte di cosa dice**, e vale nei due versi.
+
 E il corollario che la terza istanza aggiunge: **un dato che trasloca porta con se la
 sua etichetta.** `N DIPENDENTI` non e «quanti lavoratori ha l'impresa», e «quante
 persone ne gestiamo» — e l'uso previsto e proprio la soglia dei 50 dell'RLS, cioe il
