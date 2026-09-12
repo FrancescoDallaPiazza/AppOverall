@@ -442,6 +442,33 @@ si confrontano con 31 la, **quell'export non ha nessuna colonna di ore** (verifi
 non assunto), e i conteggi non combaciano — 14 e 26 contro 5 e 25, uno di scarto sul
 secondo e **nove** sul primo, non spiegati.
 
+**La riserva piu grossa delle quattro e caduta un'ora dopo** (`0555038`), e stringe la
+domanda invece di allargarla. Diceva: «non conferma che siano le righe da 12 ore,
+perche quell'export non ha una colonna di ore». **Vero che non ce l'ha, falso che
+serva**: la durata sta nel **catalogo del gestionale**, per titolo — `righe.json`, le
+stesse 268 voci dei 268 `corso_alias`:
+
+    FORMAZIONE PARTICOLARE AGGIUNTIVA PREPOSTI ............  8h   2 anni
+    FORMAZIONE PARTICOLARE AGGIUNTIVA PREPOSTI - BIENNALE . 12h   2 anni
+    FORMAZIONE PARTICOLARE AGGIUNTIVA PREPOSTI_BIENNALE ...  8h   2 anni
+    CORSO DI FORMAZIONE PER PREPOSTI ..................... 12h   2 anni
+
+**Quindi «la popolazione delle righe da 12 ore» e una tautologia**: ogni riga con quel
+titolo e da 12 ore, perche **le ore vengono dal titolo**. Non esiste una popolazione
+«da 12 ore» diversa da quella «con quel titolo» — sono la stessa cosa detta due volte,
+e la differenza fra 54 e 30/31 **non e mai stata di ore: e di export**.
+
+Cio che resta aperto e solo **perche un export ne conti 30 o 31 e l'altro 54**, che e
+una domanda su **due fotografie** e non sul corso. E il catalogo conferma dalla propria
+parte, non da una nostra lettura, la trappola del trattino contro l'underscore: **12
+contro 8**.
+
+**E la lettura della colonna `Data` prende una seconda gamba.** Per quel titolo il
+catalogo dichiara periodicita **2 anni** — *esattamente* lo scarto osservato fra le
+date dei due export. Due vie indipendenti allo stesso due: le **date misurate** e la
+**regola dichiarata a catalogo**. «`Data` = erogazione + periodicita = scadenza» non
+poggia piu su una coincidenza sola.
+
 **E cade quasi certamente anche la seconda delle due prove rimaste.** Se lo scarto di
 due anni vale anche sulle altre tre date, il titolo «- BIENNALE» esiste **dal 2021** e
 non da maggio 2024 — e allora «scavalca l'Accordo in entrambi i versi, e un prodotto
