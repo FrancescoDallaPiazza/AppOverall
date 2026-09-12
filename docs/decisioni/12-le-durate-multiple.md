@@ -288,16 +288,70 @@ sbagliano in versi opposti:
 - **esatta**: un secondo discriminante sul livello di rischio. Ma serve il livello
   **al tempo dell'attestato**, e quello che abbiamo è la classe di **oggi**, dedotta
   dall'ATECO di oggi;
-- **prudente**: pavimento a 6. Nessun falso «insufficiente», e **59 righe accettate
-  senza verificare** che il loro livello chiedesse di più.
+- **prudente**: pavimento a 6. Nessun falso «insufficiente», e **99 righe accettate
+  senza verificare** che il loro livello chiedesse di più — 76 a 6 ore, che potevano
+  essere medio o alto, e 23 a 10, che potevano essere alto.
+
+> **Il 99 era 59 fino a mezz'ora fa, ed è una correzione che cambia il confronto.**
+> Il primo conto elencava «23 a 10 ore e 36 a 14»: le **36 righe a 14 non sono
+> esposte affatto**, perché 14 è il massimo della terna e soddisfa qualunque livello
+> fosse; le **76 a 6** — le più esposte — erano rimaste fuori dal conto. Erano state
+> elencate le righe più sicure e omesse le più a rischio, e l'esposizione della
+> strada prudente è quasi **il doppio** di come era stata data. La terza strada esce
+> meglio dal confronto, non peggio: è la ragione per cui questo numero sta qui e non
+> in una nota.
 
 **C'è una terza, ed è quella che questo progetto ha già scelto tre volte su tre
-tabelle: non giudicare.** Un attestato `DL_RSPP_BASE` sotto il regime vecchio, di cui
-non conosciamo il livello di rischio **al tempo**, non è «sufficiente» e non è
-«insufficiente»: è **non giudicabile**, e le 59 righe diventano un elenco di persone
-da guardare invece di un numero che passa. È la stessa forma di `ore_grandezza =
-'assente'` della `0008`, e ha lo stesso costo: dice quanto non sappiamo invece di
-coprirlo. **Proposta di AppOverall, non ancora decisione.**
+tabelle: non giudicare.** Un attestato di cui non conosciamo il livello di rischio
+**al tempo** non è «sufficiente» e non è «insufficiente»: è **non giudicabile**. È la
+stessa forma di `ore_grandezza = 'assente'` della `0008`, e ha lo stesso costo — dice
+quanto non sappiamo invece di coprirlo.
+
+**Ma «regime vecchio → non giudicare» è troppo largo, e sbaglia nel verso speculare.**
+Quando l'attesa non è un numero ma un **insieme** di numeri possibili, e il confronto
+è `>=`, **due estremi si decidono lo stesso**:
+
+    fatte >= il MASSIMO dell'insieme   sufficienti, CERTO: nessun livello chiede di più
+    fatte <  il MINIMO  dell'insieme   insufficienti, CERTO: nessun livello chiede di meno
+    in mezzo                           non calcolabile, ed è lì che la terza strada serve
+
+Sulle distribuzioni misurate: **69 righe su 301 si decidono senza sapere il livello**
+— 36 a 14 ore sull'aggiornamento e 33 a 48 sull'iniziale, tutte sufficienti certe — e
+**228 restano in mezzo**. Marcare non calcolabili anche quelle 69 dichiarerebbe
+**un'ignoranza che non c'è**: è lo stesso difetto del blanket della `0008`, rovesciato.
+
+**E un'eccezione che la regola da sola non vede.** Le **4 righe a 8 ore** sull'iniziale
+stanno sotto il minimo della terna 16/32/48, quindi la regola le darebbe per
+insufficienti certe. **Non lo sono**: 8 è *esattamente* la durata del **modulo comune**
+dell'art. 34 (Parte II punto 4, pag. 20). Un attestato di modulo comune mappato sul
+codice del percorso intero non è una formazione insufficiente — è **una riga
+classificata male**. La regola dei due estremi vale a patto che la riga sia davvero
+quel corso, che è la stessa riserva che tiene fermo il `PREPOSTO`. Quelle quattro si
+guardano, non si giudicano.
+
+**Proposta di AppOverall, non ancora decisione**, nella forma corretta dai due estremi.
+
+### E l'estremo superiore, alla lettera, oggi non è applicabile
+
+La clausola dice «possono essere **avviati** i corsi», quindi l'estremo si legge sulla
+data di **avvio** — e un corso avviato il 19/05/2026 può produrre un attestato dopo.
+La lettura è giusta e ha una conseguenza scomoda: **l'export non porta la data di
+avvio.** Porta una colonna `Data` sola, di significato mai dichiarato, e un corso ha
+un inizio e una fine mentre il gestionale ne espone una.
+
+Quindi `valida_fino_a`, preso alla lettera, **non è confrontabile con niente che
+abbiamo**. Non lo sbagliamo: non abbiamo il campo. Le due uscite sono entrambe
+**dichiarazioni e non letture**, e vanno scritte come tali:
+
+- **usare la data che c'è**: accettare come «programma vecchio» tutto ciò che è datato
+  entro il 19/05/2026, sapendo che se `Data` è la fine corso si scarta qualche corso
+  avviato in tempo e finito dopo. Sbaglia per **difetto**, su pochi casi;
+- **allargare l'estremo** di una durata di corso plausibile: introduce **un numero
+  inventato**.
+
+La prima, e dichiarata. Ma la domanda vera è **cosa misuri la colonna `Data`**, ed è
+la stessa che questa scheda pone da sé più sopra: non è una deduzione da fare, è una
+domanda a chi tiene il gestionale.
 
 ### Cosa questa decisione NON risolve, che la scheda chiedeva di scrivere
 
