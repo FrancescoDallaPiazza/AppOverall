@@ -55,14 +55,50 @@
 comment on column persona.codice_fiscale is
   'Unico quando c''e, e **puo non esserci** — ma quanto spesso dipende da DOVE la riga viene, ed e la cosa da sapere prima di scrivere un import. Misurato il 12 settembre 2026 su `ExportExcel.xlsx`: sulle **204** righe che portano il ruolo nelle **colonne** manca su 16 (**7,8%**); sulle **74** che lo portano dentro la **mansione** manca su 47 (**63,5%**), cioe **otto volte peggio**. Il «dodici su 153» della `0001` descriveva la prima popolazione e non la seconda. **Quindi il ripiego cognome+nome dentro il cliente non e un rammendo per pochi casi: regge quasi due terzi della meta dedotta dell''organigramma**, e chi lo trovasse motivato da «19 incarichi persi» starebbe guardando la meta buona del problema. Due riserve, e la seconda conta piu del numero: il dizionario dei ruoli e stato costruito sull''export del **2026** e applicato al **2023** riconosce solo le forme che gia conosce, quindi **74 e un limite inferiore** — e il 63,5% e probabilmente **ottimista**, perche le forme non riconosciute sono per costruzione le piu irregolari e non c''e ragione di credere che chi scrive il ruolo in modo irregolare compili meglio il codice fiscale. E resta il consiglio della `0001`, che vale piu di prima: **contare quante righe non si sono agganciate**.';
 
--- E dove atterra l'identita di quelle righe sta nella `0013` e non qui: una persona
--- senza codice fiscale **non ha identita propria in questo schema**, e l'unica cosa
--- che la tiene separata da un'altra e la `import_key` del **rapporto** — `anag:
--- <cliente>:n:<COGNOME>|<NOME>`. Le due righe si leggono insieme: questa dice
--- **quante** sono, quella dice **come** sopravvivono al confine.
+-- ============================================================================
+--  E QUI UNA FRASE DI QUESTA STESSA MIGRAZIONE ERA FALSA, E L'HA TROVATA UNA PROVA
+-- ============================================================================
+--
+-- La prima stesura di questo file scriveva che `rapporto_lavoro.import_key` **«non e
+-- un vincolo e non e un indice: e una stringa»**, e che se un import la scrivesse
+-- male «due persone diventano una e nessun vincolo protesta». **Falso**, e bastava
+-- guardare la `0013` scritta due ore prima: quella colonna e `unique`.
+--
+-- Provato invece che riletto, su PostgreSQL 16: due rapporti con la **stessa**
+-- `import_key` → `duplicate key value violates unique constraint
+-- rapporto_lavoro_import_key_key`. **La chiave e garantita anche da questa parte**,
+-- e un import che la compone male fallisce **rumorosamente**, come nel repo del campo
+-- il 9 settembre — dove lo stesso vincolo ha trasformato il difetto della
+-- paginazione in un errore visibile invece che in doppioni scritti in silenzio.
+--
+-- **Ma l'asimmetria esiste, e sta un passo piu in la di dove l'avevo messa.** Non e
+-- «garanzia contro convenzione»: e che **le due garanzie proteggono oggetti
+-- diversi**.
+--
+--   nel repo del campo   `persona.import_key` unique protegge **la PERSONA**: due
+--                        righe-persona non possono condividere una chiave
+--   qui                  `rapporto_lavoro.import_key` unique protegge **il
+--                        RAPPORTO**: due rapporti non possono condividerla
+--
+-- E cio che perde la protezione attraversando il confine si vede solo cosi: **una
+-- `persona` senza codice fiscale, qui, non ha NESSUN vincolo di unicita.** Il
+-- `unique` sta su `codice_fiscale`, e dove il codice fiscale e null non morde —
+-- verificato inserendo una persona senza, che entra senza obiezioni. Da loro quella
+-- stessa persona e tenuta separata dalla chiave per cliente; qui e tenuta separata
+-- **solo da cio che fa la migrazione dati**, e il vincolo sul rapporto non lo
+-- impedisce, perche due rapporti con chiavi **diverse** possono puntare alla
+-- **stessa** persona sbagliata.
+--
+-- **Quindi il caso da temere non e la chiave scritta male: e la persona fusa.** E la
+-- chiave scritta male grida, la persona fusa no — ed e esattamente il conto che la
+-- `0013` chiede di fare **prima** di migrare, sulle 235 righe senza codice fiscale.
+--
+-- *Questa correzione e entrata prima di qualunque carico, e la frase falsa aveva gia
+-- fatto un danno piccolo e reale: una corsia pari ci aveva costruito sopra una
+-- conclusione, nell'ora fra le due stesure.*
 
 comment on column rapporto_lavoro.import_key is
-  'La chiave d''origine **verbatim**, uuid compreso: `anag:<cliente.id>:<cf>` oppure `anag:<cliente.id>:n:<COGNOME>|<NOME>`. Sta qui e non su `persona` perche identifica **una persona presso un cliente**, che in questo schema e il rapporto e non la persona — la loro `persona` e per cliente, questa e globale. Regge il join solo perche i clienti attraversano con lo **stesso** uuid: e la ragione della decisione, non un effetto collaterale. **E la seconda forma non e il caso raro**: sulla meta dell''organigramma che porta il ruolo dentro la mansione il codice fiscale manca sul **63,5%** delle righe (vedi `persona.codice_fiscale`), quindi e questa colonna a tenere separate quelle persone — non un vincolo, non un indice: **una stringa**. Il giorno in cui un import la scrive male, due persone diventano una e nessun vincolo protesta.';
+  'La chiave d''origine **verbatim**, uuid compreso: `anag:<cliente.id>:<cf>` oppure `anag:<cliente.id>:n:<COGNOME>|<NOME>`. Sta qui e non su `persona` perche identifica **una persona presso un cliente**, che in questo schema e il rapporto e non la persona — la loro `persona` e per cliente, questa e globale. Regge il join solo perche i clienti attraversano con lo **stesso** uuid: e la ragione della decisione, non un effetto collaterale. **E la seconda forma non e il caso raro**: sulla meta dell''organigramma che porta il ruolo dentro la mansione il codice fiscale manca sul **63,5%** delle righe (vedi `persona.codice_fiscale`). Questa colonna e `unique`, quindi una chiave **scritta male grida**: due rapporti non possono condividerla. **Cio che non grida e la persona FUSA** — due rapporti con chiavi diverse possono puntare alla stessa `persona` sbagliata, e una `persona` senza codice fiscale qui non ha nessun vincolo di unicita, perche l''`unique` sta sul codice fiscale e dove e null non morde. Da loro quella persona e tenuta separata dalla chiave per cliente; qui **solo da cio che fa la migrazione dati**.';
 
 -- ============================================================================
 --  I CONTI CHE QUESTA MIGRAZIONE DEVE FARE TORNARE
