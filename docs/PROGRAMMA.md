@@ -701,15 +701,19 @@ siano fra i codici con piu di una durata reale, e ha chiesto di **guardare la li
 invece di rifare la misura**. Guardata, in `durate-come-controllo.md` (`eddbb44`):
 
 - **~~`PONTEGGI` e nominato, nella riga «100% conforme». Verde, e l'estensione costa
-  la riga che dicono loro.~~ RITIRATO il 12 settembre, sera.** Quel verde **non e
-  diventato rosso: e diventato MUTO.** Il documento confronta le ore dell'export con
-  quelle del catalogo, e il gestionale ha **riscritto lo storico col catalogo** —
-  quindi una **conformita** e cio che la riscrittura **fabbrica**, e dalle ore non si
-  distingue da una vera. **AppFormazione ha esteso `ponteggi_art136` avendo letto
-  quel verde**, ed e una decisione che va rivista da chi l'ha presa — non perche sia
-  sbagliata, ma perche la prova su cui poggiava non e piu una prova. Nella stessa
-  riga stanno anche `PREPOSTO` aggiornamento, `LAV_GEN`, gli antincendio, i primo
-  soccorso e nove codici attrezzature: **nessuno di quei «conforme» e piu una prova.**
+  la riga che dicono loro.~~ Ritirato, e poi RISOLTO la sera stessa: la `0059` sta in
+  piedi su una gamba nuova.** Quel verde non era diventato falso — **non lo era mai
+  stato**, perche l'export riproduce il catalogo e la riga confrontava il catalogo con
+  se stesso. Ma le voci del gestionale che nominano i ponteggi sono **tre e senza
+  varianti** — 28 ore (r5 e r228), 4 di aggiornamento (r41), tutte a 4 anni — quindi
+  **tre curatele indipendenti danno 28 e 4**: l'Allegato XXI letto da AppFormazione,
+  il catalogo di questo repo, il catalogo del gestionale. **Nessuna delle tre passa
+  dall'export.** E il preposto ai ponteggi **non e una variante**: sta dentro le
+  stesse voci, con la stessa durata, come l'Allegato XXI prevede — la differenza con
+  le PLE, dove la fonte ha **due** percorsi e il catalogo ne tiene uno.
+  **Piu una ragione che esclude l'alterazione**: la riscrittura e stata fatta «con le
+  nuove ore dell'ASR25», e i **ponteggi non sono nell'ASR** — stanno nell'Allegato
+  XXI, che l'accordo non tocca. Non c'era nessuna ora nuova con cui riscriverli.
 - **`ATTR_AMB_CONFINATI` non e nominato da nessuna parte.** Non fra i conformi, non
   fra le anomalie. La tabella chiude con «e 9 codici attrezzature», e quel codice non
   e un'attrezzatura — e `lavori_speciali`.
@@ -2934,25 +2938,35 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   quel documento domani deve vedere che quella riga era sbagliata e **su cosa era
   stata costruita**, non trovarne una giusta al suo posto come se niente fosse.
 
-- **A20** **Una conferma che la fonte puo fabbricare non e una conferma; una
-  divergenza si.** Aggiunta il 12 settembre 2026, ed e la lettura al contrario di un
-  documento che nessuno dei tre repo aveva sospettato.
-  `durate-come-controllo.md` confronta le ore dell'**export** con quelle del
-  **catalogo**, e il gestionale ha **riscritto lo storico col catalogo**. Da cui,
-  meccanicamente:
-  - **divergenza** (export ≠ catalogo): **vale ancora**, e vale di piu di prima. Una
-    riga che porta il valore del regime vecchio **non puo** essere stata riscritta a
-    quello nuovo: e genuina;
-  - **conformita** (export = catalogo): **non vale piu**. E esattamente cio che la
-    riscrittura produce, e dalle ore non si distingue da una conformita vera.
-  **Le anomalie di quel documento sono il risultato solido, le sue conferme non sono
-  piu prove** — che e l'inverso di come e scritto e di come chiunque lo leggerebbe.
-  **E la cosa da cercare, quando questo si ripresenta, e se la fonte abbia un modo di
-  farsi assomigliare al riferimento.** Se ce l'ha, la meta rassicurante della misura
-  e la meta da buttare, e quella allarmante e la sola che regge. Il costo si vede in
-  chiaro: una decisione — l'estensione di `ponteggi_art136` — era stata presa su un
-  verde che adesso e **muto**.
-  E la controprova che il metodo giusto sopravvive: il **controllo negativo
-  sull'RLS** di quello stesso documento regge, perche confrontava **proporzioni nel
-  tempo** e non valori. Non e fortuna, e la ragione per cui era stato costruito
-  cosi — ed e oggi la prova che quella forma di controllo vale piu di quanto costa.
+- **A20** ~~Una conferma che la fonte puo fabbricare non e una conferma; una
+  divergenza si.~~ **CORRETTA la sera stessa, e la diagnosi era sbagliata anche se la
+  conclusione operativa e giusta.** La formulazione originale diceva che la
+  riscrittura dello storico aveva **distrutto** la prova di
+  `durate-come-controllo.md`. **Non l'ha distrutta: ha fatto vedere che non c'era.**
+  **La misura che lo stabilisce non passa dall'export** (AppFormazione, doc. 23, e
+  verificata da qui sulle 268 voci di `righe.json`): la colonna `ore` dell'export
+  **riproduce la durata della VOCE DI CATALOGO** sotto cui la riga e registrata —
+  sette titoli su sette del preposto (8 · 12 · 8 · 12 · 6 · 6 · 3), **zero varianza
+  dentro un titolo**. Quindi le 13.348 righe **non danno 13.348 osservazioni: ne
+  danno al massimo 268 replicate.**
+  **Da cui il fatto che rovescia la lettura**: quel documento non confronta
+  *erogato* contro *atteso*. Confronta **catalogo contro catalogo** — le 268 voci
+  del gestionale contro i 40 codici di questo repo. La «terza gamba» che dichiara —
+  «l'export dice cosa e stato EROGATO» — **non e mai esistita**, e la riscrittura
+  d'imperio e il **fatto che ce l'ha fatto notare**, non la causa.
+  **La conclusione operativa resta, e le divergenze restano utili per un'altra
+  ragione di quella che credevamo:** non dicono «qualcuno ha erogato una durata
+  diversa», dicono **«i due cataloghi non concordano su quel corso»** — che e
+  esattamente l'uso che ne era stato fatto bene (il carrello combinato a 16 ore e una
+  voce che il gestionale ha e questo repo no), e **non** l'uso di «una seconda durata
+  realmente erogata».
+  **E la regola generale sopravvive in una forma piu stretta e piu utile**: prima di
+  usare una conferma, chiedersi **se i due lati del confronto siano davvero due** —
+  se la fonte puo fabbricarla (il caso che A20 diceva) **o se sia la stessa cosa
+  confrontata con se stessa** (il caso che era). Nel secondo la conferma non e
+  fragile: **e vuota**.
+  **E il confine dell'evidenza, che vale per ogni codice e va scritto una volta
+  sola:** nessuna fonte nei tre repo puo dire **se un corso da 28 ore sia stato
+  erogato in 28 ore**. L'export dice **sotto quale voce** e stato registrato; solo
+  **l'attestato** dice cosa e stato fatto. Se un giorno serve saperlo, la strada non
+  e una query: **e un campione di attestati.**
