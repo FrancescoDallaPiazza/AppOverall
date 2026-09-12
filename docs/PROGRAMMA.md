@@ -2737,3 +2737,35 @@ anche lo stato nasce scaduto, ma **l'assegnazione non e stato, e una decisione**
   **si confrontano gli esiti e le chiavi, mai i conteggi di riga** — e prima di
   confrontare due numeri si guarda se contano la stessa grana, che e' A13 applicata
   ai conteggi invece che alle ore.
+
+- **A15** **Un'etichetta che suggerisce una struttura diversa da quella che ha si
+  legge come un fatto, e chi la legge non ha modo di sospettarla.** Aggiunta il 12
+  settembre 2026 dalla corsia AppSopralluoghi, che l'ha proposta **dopo aver smentito
+  una deduzione di questa corsia**. Il valore `titolare_socio` della loro `068` si
+  legge come «titolare **o** socio» e vuol dire invece «la frase stabilisce che e' al
+  vertice dell'azienda, per titolo o perche' lo dice con quelle parole». Da li avevo
+  dedotto che fondesse un valore che risolve con uno che si astiene — cioe' che fosse
+  ambiguo **esattamente sul confine art. 34 / art. 32**, quello che e' gia' costato 26
+  nomine sbagliate — e l'avevo scritto come un fatto.
+  **Era falso, e l'ha stabilito una misura sul seme**: `socio` da loro e' un valore suo
+  e si astiene 2 su 2, come qui; `titolare_socio` risolve 14 su 14; e nessuna coppia
+  (posizione, ruolo) fa tutte e due le cose. Cio' che quel nome fonde sono i **due
+  valori che qui risolvono allo stesso modo**, `datore` e `titolare`: la traduzione
+  perde la **provenienza** dell'asserzione, non l'esito. Il confine dell'astensione e'
+  intatto in tutte e due le tabelle.
+  **E la forma e' diversa da A14, che non la copre.** La' era un **totale** che grida
+  una differenza falsa, e si rimedia confrontando esiti e chiavi invece di conteggi.
+  Qui e' un **nome**, e un nome non si confronta meglio: **o si cambia, o si spiega
+  dove qualcuno lo incontrera'**. E' la stessa forma del commento «la stringa esatta
+  esportata» di `corso_alias.testo`, falso su 211 righe su 268, che aveva gia' fatto
+  sbagliare qualcuno prima di essere corretto dalla `0008`.
+  **Non e' stato rinominato, ed e' la scelta giusta**: quella tabella e' caricata, un
+  rename e' una migrazione, e non e' una cosa che due sessioni decidono di sera fra
+  loro. La spiegazione e' andata nei due posti dove qualcuno incontrera' il valore,
+  con i numeri accanto perche' chi rilegge non debba fidarsi. Se un giorno si
+  rinomina, il nome che descrive cio' che fa e' qualcosa come `al_vertice`.
+  **E la lezione su di me, che e' la ragione per cui questa assunzione sta qui e non
+  in una nota:** avevo dedotto una struttura **da un nome** mentre il seme era sul
+  disco, a due comandi di distanza, in un repo che questo programma dice di guardare
+  invece di chiedere. La regola contro cui ho sbagliato e' la prima riga della sezione
+  8.
