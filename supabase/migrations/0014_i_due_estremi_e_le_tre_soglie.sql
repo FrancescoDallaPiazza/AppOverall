@@ -180,10 +180,29 @@ grant select on corso_regime_precedente_ore to authenticated;
 -- una riparazione. La scheda 12 lo presentava come il caso che motiva il
 -- meccanismo, ed era al contrario.
 --
--- **`DL_RSPP_BASE` e dove il meccanismo vale tutto.** Delle 161 righe di
--- aggiornamento misurate, **76 sono a 6 ore** e oggi vengono confrontate con 8:
--- sono **76 giudizi `insufficienti` falsi** su persone che avevano fatto per intero
--- l'aggiornamento che il loro livello chiedeva.
+-- **~~`DL_RSPP_BASE` e dove il meccanismo vale tutto~~ — RITIRATO, e l'errore era in
+-- un numero che questa migrazione ha ricevuto e non verificato.** Diceva: «delle 161
+-- righe di aggiornamento, 76 sono a 6 ore e vengono confrontate con 8, quindi 76
+-- `insufficienti` falsi». **L'attesa corrente di `DL_RSPP_BASE` non e 8: e 6**, e sta
+-- nella `0004` di questo repo — l'8 e di `DL_RSPP_COMUNE`, che e **un altro codice**.
+-- `6 >= 6`, quindi quelle 76 righe **passano gia oggi** e i falsi sono **zero**.
+--
+-- Ritrattazione di AppFormazione sul proprio documento 21, e la diagnosi e la loro:
+-- avevano letto la Parte III punto 2 — «DL-RSPP quinquennale 8 ore» — e assunto che
+-- 8 fosse l'attesa **per quegli attestati**, senza guardare **quale riga di catalogo
+-- quegli attestati toccano**. Hanno confrontato un numero con la **norma** invece che
+-- con la **tabella che il motore leggerebbe**. E il numero e arrivato qui dentro
+-- perche questa corsia l'ha preso da loro **senza aprire la propria `0004`** (A19).
+--
+-- **Quindi il meccanismo 1 ripara `PREPOSTO` e nient'altro.** Su `DL_RSPP_BASE` e su
+-- `DIRIGENTE` e una **registrazione**, e va tenuta per quello — dice il vero su
+-- com'era il mondo, e non cambia nessun giudizio.
+--
+-- **E resta un'ipotesi, dichiarata come ipotesi:** `DL_RSPP_BASE` e `attivo = false`.
+-- Se il motore, vedendolo deprecato, risolvesse l'obbligo sul **percorso nuovo** —
+-- `DATORE_LAVORO` 16 piu `DL_RSPP_COMUNE` 8 — il confronto tornerebbe contro 8 e
+-- quelle 76 righe esisterebbero davvero. **Nessuno ha scritto quale delle due cose il
+-- motore fara**, e presentarlo come un fatto era sbagliato in ogni caso.
 
 -- **E `valida_dal` vale per le ORE, non per la periodicita**, e su `PREPOSTO` la
 -- distinzione non e teorica: quella riga porta **due epoche**. Le 12 ore vengono
@@ -213,11 +232,11 @@ insert into corso_regime_precedente
 
   ('DL_RSPP_BASE', 'ore_aggiornamento', date '2026-05-19', 'livello_rischio',
    'Accordo 21/12/2011 (223/CSR) Allegato A punto 7, pag. 8: «ha durata, modulata in relazione ai tre livelli di rischio»',
-   '**La riga che il meccanismo esiste per portare.** 76 righe a 6 ore oggi valgono 76 `insufficienti` falsi contro l''attesa corrente di 8. Col minimo a 6 e il massimo a 14: 36 righe a 14 ore sono sufficienti CERTE, 99 restano in mezzo (76 a 6 e 23 a 10). E la fonte dice «ha durata» e non «monte ore», quindi non e la forma del punto 3 della Parte III.'),
+   '**Registrazione, non riparazione** — e la prima stesura diceva il contrario. L''attesa corrente di questo codice e **6** (`0004`), non 8: l''8 e di `DL_RSPP_COMUNE`, un altro codice. Quindi le 76 righe a 6 ore **passano gia** e i falsi sono **zero**. Resta vero il resto: col minimo a 6 e il massimo a 14, 36 righe a 14 ore sarebbero sufficienti CERTE e 99 resterebbero in mezzo **se** il confronto avvenisse contro la terna — cosa che accade solo se il motore, vedendo `attivo = false`, risolvesse l''obbligo sul percorso nuovo. **Ipotesi, non fatto.** E la fonte dice «ha durata» e non «monte ore», quindi non e la forma del punto 3 della Parte III.'),
 
   ('PREPOSTO', 'ore', date '2026-05-19', null,
    'Accordo 21/12/2011 (221/CSR) punto 5, pag. 8: «La durata minima del modulo per preposti e di 8 ore» — e ASR 2025 Parte VII, pag. 112: «Per i preposti sono fatti salvi i percorsi formativi effettuati in vigenza dell''accordo Stato-Regioni del 21 dicembre 2011, per il quali e riconosciuto **credito formativo totale**»',
-   '**La popolazione piu grande che questo meccanismo ripara: 276 righe da 8 ore** contro l''attesa corrente di 12, cioe 276 `insufficienti` falsi — 3,6 volte le 76 di `DL_RSPP_BASE`. E non poggia su un''inferenza: la Parte VII lo dice **in una clausola esplicita**, quindi confrontare quegli attestati con l''attesa di oggi e falso **per il testo** e non per una lettura del regime. **E vale sotto tutte e due le letture di `PREPOSTO`**: che le 276 righe siano il corso del regime vecchio o uno dei tre corsi distinti, il corso che portano e quello del 2011 in entrambi i casi, e il credito totale non dipende da quella risposta. Questa riga NON separa niente e non anticipa la scheda 12.'),
+   '**L''UNICA popolazione che questo meccanismo ripara: almeno 276 righe da 8 ore** contro l''attesa corrente di 12, cioe altrettanti `insufficienti` falsi. «Almeno», e il numero va preso con la riserva scritta in fondo a questa migrazione: **la colonna `ore` dell''export e in parte riscritta all''indietro**, e le 31 righe che risultano a 12 erano in realta **8** — quindi la popolazione vera e piu vicina a **307**. Le altre due righe di regime precedente non riparano niente e sono registrazioni. E non poggia su un''inferenza: la Parte VII lo dice **in una clausola esplicita**, quindi confrontare quegli attestati con l''attesa di oggi e falso **per il testo** e non per una lettura del regime. **E vale sotto tutte e due le letture di `PREPOSTO`**: che le 276 righe siano il corso del regime vecchio o uno dei tre corsi distinti, il corso che portano e quello del 2011 in entrambi i casi, e il credito totale non dipende da quella risposta. Questa riga NON separa niente e non anticipa la scheda 12.'),
 
   ('DL_RSPP_BASE', 'ore', date '2026-05-19', 'livello_rischio',
    'Accordo 21/12/2011 (223/CSR) Allegato A punto 5, pag. 6',
@@ -609,3 +628,76 @@ update corso set note = coalesce(note || ' ', '') ||
 -- controllo eseguito e otto silenzi. Ogni controllo negativo va eseguito **da solo**,
 -- altrimenti il primo rifiuto nasconde gli altri e il risultato si legge come li si
 -- voleva leggere.
+
+-- ============================================================================
+--  LA RISERVA CHE STA SOTTO OGNI NUMERO DI QUESTA MIGRAZIONE
+-- ============================================================================
+--
+-- **Il gestionale ha riscritto le ore dello storico.** Detto da Francesco il 12
+-- settembre 2026, guardando le due aule del preposto del 2024: «erano tutte
+-- formazioni da 8 ore per completo e 6 per agg. E scritto 12 perche il gestionale ha
+-- aggiornato d'imperio tutte le formazioni fatte con le nuove ore dell'ASR25».
+--
+-- **Quindi la colonna `ore` dell'export non misura le ore erogate.** Per una parte
+-- delle righe misura **le ore che il catalogo assegna oggi**, riscritte all'indietro
+-- sull'intero storico.
+--
+-- E la forma e quella della colonna `Data`, **ma peggiore**: della `Data` nessuno
+-- sapeva cosa contenesse e la scheda 12 lo dichiarava da giorni; delle **ore** tutti
+-- e tre i repo hanno **assunto** che contenessero l'erogato, e ci hanno costruito
+-- sopra un documento di misura, una scheda di decisione e **questa migrazione**.
+--
+-- ---------- il discriminante, che esiste perche la riscrittura ha una direzione ----------
+--
+-- La riscrittura va da **vecchio a nuovo**. Quindi una riga che porta un valore del
+-- **regime vecchio** non puo essere stata riscritta ed e **genuina**; una riga che
+-- porta il valore **corrente del catalogo** e **sospetta**, e dalle ore non si
+-- distingue da una vera.
+--
+--   DIRIGENTE 16 (catalogo 12)              genuina
+--   PREPOSTO 8, 276 righe (catalogo 12)     genuina
+--   PREPOSTO 12, 31 righe (catalogo 12)     RISCRITTE — Francesco conferma: erano 8
+--   DL_RSPP_BASE agg 10 e 14 (cat. 6)       genuine
+--   DL_RSPP_BASE agg 6, 76 righe (cat. 6)   SOSPETTE
+--   DL_RSPP_BASE iniz 32 / 48 / 24          genuine
+--   DL_RSPP_BASE iniz 16, 103 righe         SOSPETTE
+--   RLS agg 8, 31 righe (catalogo 4)        genuina
+--   RLS agg 4, 128 righe (catalogo 4)       SOSPETTE, **comprese le 4 sopra i 50**
+--   ATTR_CARRELLO 16 · ESCAVATORI 16 ·
+--     GRU_TORRE 14 (catalogo 12/10/12)      **GENUINE**
+--
+-- **Il meccanismo 3 non e toccato**, e la ragione e strutturale e non fortunata: le
+-- varianti combinate portano valori che il catalogo **non ha**, quindi nessuna
+-- riscrittura le spiega. E la sola parte di questa migrazione che poggia su numeri
+-- che la riscrittura non puo aver prodotto.
+--
+-- ---------- e `PREPOSTO` cambia in meglio e in peggio insieme ----------
+--
+-- **In meglio:** le 31 righe a 12 sono in realta a 8, quindi i corsi da 8 ore non
+-- sono 276 ma **307**, e la popolazione che il credito totale della Parte VII
+-- protegge e **piu grande** di quanto questa migrazione dichiari.
+--
+-- **In peggio, e va guardato bene:** quelle 31 righe **oggi passano** — 12 contro
+-- un'attesa di 12 — **pur essendo 8 ore**. Il giudizio finisce giusto perche il
+-- credito e totale, **non perche il numero torni**. *Due errori che si annullano non
+-- sono una verifica*, e il giorno in cui uno dei due si corregge da solo l'altro
+-- resta scoperto.
+--
+-- ---------- cosa NON e in dubbio, ed e la meta che conta ----------
+--
+-- **Nessuna conclusione normativa cambia.** Le durate della Parte II, il credito
+-- totale della Parte VII, il 6/10/14 del 223/CSR, le varianti dell'8.3: sono **lette
+-- sulle fonti** e non toccano l'export. **E la meta misurata a essere in dubbio, non
+-- la meta letta** — ed e esattamente il motivo per cui questo progetto le tiene
+-- separate e chiede parte, punto e pagina su ogni riga (A7).
+--
+-- ---------- e la domanda che viene prima di ogni altra misura sulle ore ----------
+--
+-- Non si rifanno misure sulle ore dell'export finche non si sa **quali righe sono
+-- state riscritte**. Non e una lettura: e una **domanda al gestionale** — *quando e
+-- stato fatto quell'aggiornamento, su quali corsi, e resta traccia del valore
+-- precedente?*
+--
+-- Va nella stessa lista della colonna `Data`, **e prima di quella**: la `Data` rende
+-- incerta **una finestra**, le **ore** rendono incerta **ogni misura di durata fatta
+-- finora**.
