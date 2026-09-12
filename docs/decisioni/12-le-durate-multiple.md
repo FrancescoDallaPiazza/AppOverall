@@ -499,6 +499,64 @@ superiore della validita temporale della `0014`.
 > non rompe niente di visibile: **cancella una coincidenza, e una coincidenza
 > cancellata non lascia traccia.**
 
+### Quinta correzione — la quarta causa perde la sua prova, e le ore non erano un dato
+
+**Il gestionale ha riscritto le ore dello storico.** Detto da Francesco il 12
+settembre 2026 sulle due aule del preposto: «erano tutte formazioni da **8 ore** per
+completo e 6 per agg. E scritto 12 perche il gestionale ha **aggiornato d'imperio**
+tutte le formazioni fatte con le nuove ore dell'ASR25».
+
+**Questa scheda nasce da un confronto fra durate, e le durate erano in parte un
+derivato.** Per una parte delle righe la colonna `ore` non misura cio che e stato
+erogato: misura **cio che il catalogo assegna oggi**, scritto all'indietro. La forma e
+quella della colonna `Data` — che questa scheda dichiarava incerta da giorni — **ma
+peggiore**, perche sulle ore l'assunzione non era dichiarata da nessuno: era data per
+buona da tutti e tre i repo.
+
+**E la quarta causa perde la prova che la reggeva.** «`PREPOSTO` raccoglie **tre
+corsi iniziali distinti**» si reggeva sulle **tre durate**: 8, 12 «- BIENNALE», 12
+«CORSO DI FORMAZIONE PER PREPOSTI». **Una delle tre non esiste** — le 31 righe a 12
+del «- BIENNALE» erano a 8, riscritte. I tre titoli restano tre **testi** distinti e
+possono ancora essere tre corsi, ma **la prova della loro distinzione era la durata, e
+la durata non era un dato**.
+
+Delle quattro prove originali della riga 4 — sette titoli, il trattino contro
+l'underscore, le due aule, i 30 corsi che nessun regime spiega — **ne resta in piedi
+una sola, e non e piu la stessa**: i sette titoli sono sette **testi**, e che siano
+sette corsi e cio che andava dimostrato.
+
+**La decisione non si muove, e stavolta la sua natura conservativa e tutto cio che
+la tiene**: `PREPOSTO` non si separa finche non risponde chi ha erogato. Chi decidera
+su quella riga deve sapere che le prove sotto di essa sono cadute quasi tutte, e che
+**la risposta non puo venire da un'altra misura sulle ore**.
+
+**Un discriminante pero esiste**, perche la riscrittura va da vecchio a nuovo: una
+riga che porta un valore del **regime vecchio** non puo essere stata riscritta ed e
+genuina; una che porta il valore **corrente del catalogo** e sospetta. Le 276 righe a
+8 ore sono **genuine** (il catalogo dice 12), quindi la popolazione protetta dal
+credito totale della Parte VII non solo regge: **e piu grande**, 307 e non 276.
+
+E va guardato bene il caso opposto: **quelle 31 righe oggi passano** — 12 contro
+un'attesa di 12 — **pur essendo 8 ore**. Il giudizio finisce giusto perche il credito
+e totale, **non perche il numero torni**. *Due errori che si annullano non sono una
+verifica.*
+
+### E il numero che motivava il meccanismo era sbagliato, per la seconda volta
+
+La **prima correzione** di questa scheda diceva che la validita temporale la paga
+`DL_RSPP_BASE` con **76 righe** di `insufficienti` falsi, dopo che la stesura
+originale l'aveva motivata col dirigente che ne guadagna zero. **Anche il 76 e
+sbagliato**, e l'ha ritrattato chi l'aveva prodotto: l'attesa corrente di
+`DL_RSPP_BASE` e **6**, non 8 — l'8 e di `DL_RSPP_COMUNE`, **un altro codice** — e
+`6 >= 6`, quindi quelle righe **passano gia**.
+
+**Quindi il meccanismo della validita temporale ripara `PREPOSTO` e nient'altro**, e
+sulle altre due righe e una registrazione. Il che chiude questa scheda con una
+simmetria che vale la pena notare: la riga 1 e stata motivata **tre volte**, e le
+prime due motivazioni erano sbagliate in due modi diversi — una col verso rovesciato,
+una con un numero preso da un altro codice. **La decisione e sempre stata giusta**, e
+nessuna delle tre volte a reggerla e stato il numero che la accompagnava.
+
 ### Cosa questa decisione NON risolve, che la scheda chiedeva di scrivere
 
 - **Le sei righe a 8 ore di `DL_RSPP_BASE` datate 2016-2024** restano fuori dalla
