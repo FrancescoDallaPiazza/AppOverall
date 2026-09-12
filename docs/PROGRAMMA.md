@@ -409,6 +409,23 @@ dichiarare mancante un dato anagrafico, guardare se un'altra corsia lo sta gia
 leggendo dallo stesso file.** Costa un `grep` e ha gia evitato tre campagne di
 raccolta inutili.
 
+**E la regola si e allargata due volte il 12 settembre, e la seconda volta nel verso
+scomodo.** La prima: le tre istanze erano un **dato**, la quarta era una **misura** —
+«Addetti Emergenze e l'addetto antincendio?» era gia misurato da AppFormazione
+dall'11, e la colonna era stata lasciata fuori dicendo «non si deduce», che e la
+risposta giusta per la ragione debole.
+
+La seconda l'ha scritta la stessa corsia poche ore dopo, dopo aver trovato in un
+**proprio** file la risposta a una domanda che stava per girare a una persona:
+
+> **La regola vale anche verso il proprio repo, non solo verso quelli degli altri.**
+
+Due volte in una sera la risposta era gia scritta — una in un repo altrui, una nel
+proprio — e nessuna delle due volte il difetto e stato **non avere il dato**: e stato
+**non cercarlo dove stava**. Il verso scomodo e il secondo, perche verso gli altri la
+regola si applica per abitudine di coordinamento; verso di se bisogna sospettare di
+aver gia guardato.
+
 E il corollario che la terza istanza aggiunge: **un dato che trasloca porta con se la
 sua etichetta.** `N DIPENDENTI` non e «quanti lavoratori ha l'impresa», e «quante
 persone ne gestiamo» — e l'uso previsto e proprio la soglia dei 50 dell'RLS, cioe il
