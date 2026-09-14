@@ -2003,8 +2003,9 @@ riconosciuta.**
   collassa gli spazi (`anagraficheImport.ts:86-87`, letto da qui), quindi non dovrebbe; **ma la prova
   lo deve mostrare**, perche una chiave che cambia di uno spazio fa ricreare la persona al primo import
   — un doppione per ogni nome toccato, senza un errore;
-- **il collasso tocca solo i campi in cui stanno le 24 differenze**, e in nessun altro: la mansione,
-  per dirne uno, e un testo che il dizionario dei ruoli legge alla lettera;
+- **il collasso tocca solo i campi in cui stanno le 24 differenze**, e in nessun altro: ~~la mansione,
+  per dirne uno, e un testo che il dizionario dei ruoli legge alla lettera~~ **premessa sbagliata,
+  corretta sotto: il dizionario non legge `persona.mansione`**;
 - **le attese dell'anteprima si calcolano col codice che sara online al punto 3**, non con quello di
   oggi: le 24 schede **non** devono piu risultare aggiornate, e questo e il riscontro che il collasso
   funziona.
@@ -2032,6 +2033,37 @@ quattro persone di Porta Borsari rinascono sotto l'altro cliente.
 schermata diceva 93 nuove e il ricalcolo fuori schermo 88, e **le 5 di scarto non sono mai state
 spiegate**. L'anteprima del punto 3 va confrontata con le attese ricalcolate sul codice del ramo: **se
 non tornano, ci si ferma e si spiega prima di scrivere**, anche se lo scarto e piccolo.
+
+**Il punto 1 e fatto, e una delle tre condizioni scritte qui era sbagliata** (AppSopralluoghi
+`a567e20` sul ramo, `fddd5a6` su `main`, verificati su `origin`; su `main` c'e anche il lancio delle
+cinque P.IVA, `9fd764b`). `leggiCampiPersona` riduce a uno gli spazi ripetuti in nome, cognome,
+mansione e reparto, e in nient'altro. **I campi delle 24, contati**: mansione 14, cognome 5, nome 3,
+reparto 3 — gli spazi stavano tutti nel file, e il database li aveva gia puliti.
+
+**La seconda condizione chiedeva di lasciare fuori la mansione, e la corsia non l'ha seguita, e l'ha
+detto.** Aveva ragione. La premessa era che il dizionario dei ruoli legga la mansione della persona alla
+lettera: **non la legge**. L'import delle nomine prende la mansione **dalla colonna del file**
+(`testoLibero`, `nomineImport.ts:435` sul ramo, letto da qui) e la confronta con `chiaveTesto`, che gli
+spazi li collassava gia. Senza la mansione le 24 non andavano a zero, cioe falliva la terza condizione.
+**E la prova che conta e sua**: il piano delle nomine rifatto sui dati di produzione con il codice di
+prima e con quello nuovo e **identico campo per campo** — 506 proposte, 50 da decidere, 3 non trovate.
+Da qui, cercando nel loro codice un confronto alla lettera su `.mansione` fuori dai due import, **non ne
+e uscito nessuno**: e una ricerca per forme — uguaglianze, `includes`, `startsWith`, mappe — e non una
+lettura di tutto il codice, e va detto con quel limite.
+
+**Le altre due condizioni sono mostrate.** La chiave delle persone senza codice fiscale e la stessa prima
+e dopo — un caso di prova con doppio spazio nel cognome e nel nome, e sull'anteprima vera **tutte le
+3.472 voci** con chiave, stato e id identici riga per riga, comprese le 229 senza codice fiscale. E col
+codice del ramo le 24 **vanno a zero**, e ogni altra voce resta com'era: 480 gruppi, 77 nuove, 2 da
+abbinare, 3 gruppi senza cliente, 1 scartata. **Controllo negativo**: sul codice di prima le prove che
+devono cambiare falliscono e quelle che non devono cambiare passano; sul ramo tutte le prove sono verdi.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **il si al merge e al deploy del ramo delle emergenze**, dato ad AppSopralluoghi | l'anteprima delle anagrafiche con **MAISON 22 escluso attivamente**, contro le attese — e se la schermata non torna, ci si ferma |
+| **AppSopralluoghi** | merge e deploy col si di Francesco, e la verifica per canale | registrare l'anteprima contro le attese, e la scrittura |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 | **Francesco** | la P.IVA e il codice fiscale della Giacomelli dalla scheda; la P.IVA di EMERA | il si al merge; poi l'anteprima e la scrittura delle anagrafiche |
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
