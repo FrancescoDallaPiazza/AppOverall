@@ -1195,6 +1195,67 @@ quei clienti non avrebbero ne organigramma ne formazione dovuta.
 | **AppOverall** | nulla di nuovo | se il buco c'e, **N cambia** e la migrazione delle persone lo deve dire: il 3.415 e un conto su cio che il database ha, e un buco nel database non si vede da un conto sul database |
 | **AppFormazione** | invariato: **ferma per costruzione** | persone mai importate sarebbero formazione dovuta che nessuno calcola: materia loro, quando e se il buco e misurato |
 
+### Prossimo passo per corsia · al 14 settembre 2026, le 53 persone che non ci sono
+
+**Le 29 nomine sono scritte** (AppSopralluoghi `56e5071`): Francesco riferisce «29 nomine
+scritte. Rilettura: 0 da creare, 154 da decidere» — **visto**, ed e esattamente l'atteso.
+La Qualifica e chiusa: resta aperta solo «Legale Rappresentante/RSPP».
+
+**E l'ipotesi sui 40 clienti col segnaposto e confermata dalla misura.** Nello stesso
+commit, verificato da qui su `origin`:
+
+- **sui file, senza database**: le righe persona dei 40 clienti, per ragione sociale
+  normalizzata, sono 55 in tutti e quattro i fogli di `ExportExcel (4)`, **54 persone
+  distinte su 36 clienti**, tutte con codice fiscale — lo stesso numero in
+  `ExportExcelDipendenti` e `ExportExcel (5)`; CorsiFatti 64 righe e 48 persone,
+  CorsiScadenze 56 righe e 48 persone;
+- **in produzione, col si di Francesco per quella lettura**: dei 54 codici fiscali,
+  **0** sotto il cliente giusto, **1** sotto un altro cliente, **53 da nessuna parte**, su
+  35 clienti.
+
+**Quindi l'import delle anagrafiche del 9 settembre ha lasciato fuori 53 persone**, e
+nessun conto sul database poteva vederlo: un buco nel database non si vede contando il
+database. **N = 3.415 e basso di almeno 53.** Queste persone non hanno organigramma ne
+formazione dovuta, e le loro nomine dei ruoli sicurezza non potevano essere scritte. **La
+corsia ha misurato e si e fermata**: rimetterle dentro e un import sulla produzione, e
+spetta a Francesco. Ha fatto bene due volte — anche a scrivere come **aperto** l'unico
+codice fiscale trovato altrove invece di sceglierne il senso.
+
+**Il caso aperto va deciso prima di scrivere, non dopo.** Quella persona nel foglio sta
+sotto un cliente che si chiama **«XXXXXXXXXXXX»**, e in produzione sotto *Rittal RCS
+Cooling Solutions S.r.l.*, che ha una P.IVA vera. Un segnaposto come **ragione sociale**,
+non solo come P.IVA. Reimportando, la persona nascerebbe una seconda volta sotto quel
+cliente: e una scheda doppia se e la stessa persona, un errore del gestionale se il
+cliente non esiste.
+
+**L'ordine del recupero, e perche prima c'e una misura in piu.**
+
+1. **Allargare la misura prima di importare.** I 40 clienti col segnaposto sono il buco
+   **trovato**, non necessariamente l'unico: la domanda che chiude la classe e **per ogni
+   cliente, quante persone nel file e quante in produzione**. Sola lettura, un conto per
+   cliente. Se escono altri clienti con persone nel file e zero — o molte meno — di la,
+   entrano nello **stesso** import invece di un secondo. E la forma della sezione 8: non
+   dichiarare chiuso un buco prima di aver guardato dove altro poteva essere.
+2. **Il caso «XXXXXXXXXXXX»**: quale cliente di produzione porta quel nome, e cosa ha
+   sotto; poi la decisione di Francesco.
+3. **L'import delle anagrafiche, con le attese scritte prima**: le persone nuove attese
+   (53 piu cio che il punto 1 trova, meno cio che il punto 2 decide), e **nessun campo
+   sovrascritto** sulle altre — l'import riempie solo i vuoti, ed e l'anteprima a dirlo.
+4. **L'import delle nomine**, sulle righe di quelle persone, con le attese contate sul
+   foglio prima.
+5. **L'import della formazione** per quelle persone, con le attese contate su CorsiFatti
+   prima.
+
+L'ordine e quello delle chiavi: la nomina e la formazione puntano a una persona che deve
+gia esserci.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **il si alla lettura del punto 1**, e la decisione sul caso «XXXXXXXXXXXX» quando la corsia la porta | anteprima e scrittura dei punti 3, 4 e 5, ciascuna contro le sue attese |
+| **AppSopralluoghi** | **i punti 1 e 2**, e le attese del punto 3 scritte nello `STATO.md` prima dell'anteprima | le attese dei punti 4 e 5, una alla volta |
+| **AppOverall** | nulla da scrivere: il passo 02 prende il numero di righe **all'estrazione**, non dal 3.415 | **la prova generale sui dati veri acquista valore dopo il recupero, non prima**: farla adesso misurerebbe un'anagrafe che sappiamo bucata |
+| **AppFormazione** | invariato: **ferma per costruzione** | **una domanda non assegnata**: le 48 persone di CorsiFatti stanno nel loro database, che importa per ragione sociale e non passa dalla guardia? Si chiede quando il recupero e fatto, per confrontare due anagrafi e non una bucata |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
