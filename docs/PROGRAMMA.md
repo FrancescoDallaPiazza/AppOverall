@@ -805,7 +805,7 @@ dizionario della `068`.
 **La domanda che ci hanno fatto: la `0007` leggeva Mansione o anche Qualifica?** La
 `0007` **non legge nessuna colonna**: e un dizionario di forme, e le sue 29 forme su 160
 righe vengono dalla misura `8dab00a`, che dice «dentro la MANSIONE» **senza nominare la
-colonna**. **Dedotto, non misurato**: solo Mansione. La misura riporta **RLS zero**, e la
+colonna**. ~~**Dedotto, non misurato**~~ **Misurato un'ora dopo da AppSopralluoghi (`afbb88e`), e la deduzione regge**: solo Mansione. La misura riporta **RLS zero**, e la
 3401 — Mansione vuota, Qualifica «RLS - LAVORATORE» — sarebbe comparsa sia leggendo la
 Qualifica sia con il ripiego dell'import. La deduzione si chiude con una domanda sola a
 chi ha il file e lo script: **la 3401 e fra le 160?**
@@ -822,6 +822,41 @@ riga d'origine non dice da quale colonna veniva, e ricostruirlo vorrebbe il file
 | **AppSopralluoghi** | **D2 e la correzione di `riepiloga`**, e il deploy **aspetta la risposta sulla Qualifica**: se e si, la modifica va nello stesso deploy invece di farne due. Piu **la domanda sulla 3401 fra le 160** di `8dab00a` | la `070`, con la forma esatta mandata qui prima del commit | Perche un deploy in piu e un'altra finestra in cui il codice online non e quello verificato; e perche la deduzione sulla `0007` regge sulla loro misura, e solo loro possono chiuderla |
 | **AppOverall** | **la regola per le 58 P.IVA non usabili**, in attesa del via di Francesco | la gemella della `070`, nella forma che esce dalla sua risposta; e se la Qualifica entra, **il commento della `0007` che dice «dentro il campo mansione» va corretto in una migrazione nuova** | La `0007` e merged e non si riscrive; e una descrizione della popolazione che smette di essere vera va ritirata dove qualcuno la legge, non lasciata |
 | **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Tre righe con un RLS scritto nella Qualifica sono materia per quando arrivano, non prima |
+
+### Prossimo passo per corsia · al 14 settembre 2026, D2 su un ramo
+
+**La domanda sulla `0007` e chiusa con una misura** (AppSopralluoghi `afbb88e`). Il seme
+della `068` applicato alla sola colonna Mansione (Y) da **160 righe e 168 coppie**,
+esattamente come `8dab00a`; applicato al campo come lo legge l'import ne da 167 e 175.
+La 3401 non e fra le 160. Le **7 righe in piu** hanno Mansione vuota e il ruolo nella
+Qualifica, e spiegano gli scarti dell'anteprima contro la `0007` — `datore_lavoro` 24
+contro 22, `dirigente` dalla mansione 2 contro 1, `dl_rspp` 83 piu 1 escluso contro 81.
+**I conti della `0007` restano veri per la popolazione che dichiarano**: era la grana,
+non il dizionario.
+
+**D2 e `riepiloga` sono fatti su un ramo** — `d2-report-componenti`, `6532500`, non su
+`main` — e verificati da qui su `origin`: `main` e il deploy di `afbb88e` toccano ancora
+solo `docs/STATO.md`. Il ramo cambia cinque file, e **quali** conta: D2 sta
+nell'**Edge Function** (`genera-report/report-data.ts`, `report-html.ts`), `riepiloga`
+nell'**app** (`nomineImport.ts`). `report:check` 11 su 11 sul ramo e 9 falliti su
+`main`; `tsc` strict pulito; **Deno su quella macchina non c'e**, e il controllo con
+Deno non e fatto.
+
+**Ritiro l'attesa che avevo messo in `cf1d6df`, e la ragione e mia.** Avevo scritto «il
+deploy aspetta la risposta sulla Qualifica», per non farne due, pensando D2 codice
+dell'app. Non lo e: D2 va online **con l'Edge Function**, un canale che la Qualifica non
+tocca. Dell'app resta solo `riepiloga`, che si vede al **prossimo** import — e il
+prossimo import viene comunque dopo la decisione sulla Qualifica, quindi conviene che
+giri su codice gia pubblicato. E una correzione verificata tenuta su un ramo ha un
+costo che un deploy in piu non ha: **`main` smette di dire cosa e pronto**, e le corsie
+leggono `main`.
+
+| chi | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **Francesco** | **due decisioni, indipendenti.** (1) **Il si alla pubblicazione di D2 e `riepiloga`**, nell'ordine: merge del ramo su `main` (Vercel), poi l'Edge Function `genera-report` pubblicata **dal codice di `main`**. (2) La Qualifica, invariata | dopo la pubblicazione: **un report vero** su un sopralluogo con box e componenti, guardato, prima di dire D2 chiuso | La funzione in produzione deve essere codice che sta su `main`, mai su un ramo. E il report vero e la prova che il controllo con Deno non ha dato: il `check` prova la forma dei dati, non che la funzione giri nel suo ambiente |
+| **AppSopralluoghi** | **dopo il si**: il merge, e la verifica del deploy di Vercel come per `12b1768` (stato su GitHub e bundle pubblico); nello `STATO.md` quale commit e online **per ciascuno dei due canali**, perche da oggi possono non coincidere | se la Qualifica e si: la modifica al codice e la `070`, mandata qui **prima del commit** | Due canali pubblicati in due momenti sono due verita su «cosa e online»: se lo `STATO.md` ne scrive una sola, l'altra si deduce, e si deduce male |
+| **AppOverall** | **la regola per le 58 P.IVA non usabili**, in attesa del via di Francesco | la gemella della `070`. Se la `070` porta un valore nuovo per `nomina.origine`, **si guarda allora** se la `nomina` di qua ha il campo corrispondente: non si deduce adesso da un messaggio | A19: la forma arriva scritta prima del commit, e la verifica si fa su quella |
+| **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Niente di D2 tocca la formazione |
 
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
