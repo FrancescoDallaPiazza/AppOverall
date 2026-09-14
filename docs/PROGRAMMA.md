@@ -2064,6 +2064,47 @@ devono cambiare falliscono e quelle che non devono cambiare passano; sul ramo tu
 | **AppSopralluoghi** | merge e deploy col si di Francesco, e la verifica per canale | registrare l'anteprima contro le attese, e la scrittura |
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
+
+### Prossimo passo per corsia · al 14 settembre 2026, il primo passaggio delle anagrafiche
+
+**Il punto 2 e fatto**: merge `2f8d21a` e deploy in `success` alle 15:21:53 UTC, col si di Francesco
+dato ad AppSopralluoghi. **Verificato da qui** che il deploy contiene la pulizia degli spazi
+(`a567e20`); la corsia l'ha verificato anche sul bundle pubblico. Il file dell'anteprima e quello delle
+attese, `ExportExcel (4).xlsx` del 9 settembre, «Report aggiornato al 09/09/2026»: **nessun export
+nuovo**, perche le attese valgono per quel file e per le persone vince il file quando parla.
+
+**Francesco ha aperto l'anteprima prima delle scelte a mano, e ha incollato la schermata qui.**
+Ricontata: 3.480 da scrivere, 68 nuove, 3.412 aggiornate, 2 da abbinare, 3 gruppi senza cliente, 1
+scartata. **Torna con le attese a meno delle due scelte non ancora fatte**: MAISON 22 agganciato da
+solo a Via Quattro Novembre (+21 da scrivere, +4 nuove, +17 aggiornate) e IGEA senza abbinamento (−13).
+3.472 + 21 − 13 = 3.480; 77 + 4 − 13 = 68; 3.395 + 17 = 3.412. **Lo scarto di 5 della schermata di
+prima qui non c'e.** La corsia ha poi ricalcolato lo stesso stato col codice di `2f8d21a` e coincide
+cifra per cifra.
+
+**IGEA esce dal primo passaggio, e non per prudenza generica.** Nella tendina i due candidati hanno
+**la stessa etichetta** — nome, P.IVA, San Bonifacio, 37047 — e differiscono solo nell'indirizzo, che
+l'etichetta non mostra. Scegliere per posizione sarebbe un'ipotesi scritta nei dati di tredici persone.
+
+**Le attese del primo passaggio**, ricalcolate da AppSopralluoghi sul codice pubblicato (`5a22720`),
+con MAISON 22 escluso a mano e IGEA lasciata fuori: **3.459 da scrivere, 64 nuove** — 63 codici fiscali
+mai visti piu uno senza —, **3.395 aggiornate di cui 0 che cambiano**, 2 da abbinare, 1 scartata, e **4
+gruppi senza cliente**, perche l'esclusione a mano conta come cliente vuoto (`ImportAnagrafiche.tsx:120`).
+Dopo la scrittura la stessa anteprima deve dare **0 nuove e 3.459 aggiornate**.
+
+**Il secondo passaggio, per IGEA, con un metodo che non tocca i dati e ha tre controlli:** scelta
+l'opzione, «Ispeziona» sulla tendina mostra il `value` — l'id del cliente, che si **legge**
+(`ImportAnagrafiche.tsx:327`); a nome identico la tendina e ordinata per id, e 3f485f16 viene prima di
+def8645c; dopo la scrittura, col si di Francesco, **13 persone su 3f485f16 e 0 su def8645c**, lette.
+Mettere l'indirizzo nell'etichetta quando due clienti la condividono e la correzione giusta a lungo
+termine, e **va nel prossimo giro di codice**: farne un deploy adesso, per tredici persone che il metodo
+sa gia mettere al posto giusto, sposterebbe il recupero per una comodita.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | ricaricare la pagina e il file; **escludere MAISON 22** e lasciare IGEA com'e; controllare **3.459 / 64 / 3.395 / 2 / 4 / 1**; se torna, Applica — se no, fermarsi | il secondo passaggio per IGEA col metodo sopra; poi lo script della 1298 e l'import delle nomine |
+| **AppSopralluoghi** | registrare la scrittura e la rilettura: 0 nuove, 3.459 aggiornate | il secondo passaggio di IGEA e la sua lettura; nel prossimo giro di codice, l'indirizzo nell'etichetta dei clienti omonimi |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 | **Francesco** | la P.IVA e il codice fiscale della Giacomelli dalla scheda; la P.IVA di EMERA | il si al merge; poi l'anteprima e la scrittura delle anagrafiche |
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
