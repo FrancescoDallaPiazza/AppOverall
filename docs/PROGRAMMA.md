@@ -1159,6 +1159,42 @@ per una P.IVA, ha adesso **12 posti precisi** dove guardare.
 premere Scrivi. Poi restano aperte «Legale Rappresentante/RSPP», il report vero di D2 e
 la prova generale.
 
+**L'anteprima e vista, e ogni scarto dalle attese ha la sua riga** (AppSopralluoghi
+`bed6d63`), da Francesco sul codice di `944fa84`, senza scrivere. **Ricontati da qui
+sui numeri che la corsia stessa aveva dato prima**, non presi sul messaggio:
+
+| conto | anteprima | atteso | lo scarto |
+|---|---:|---:|---|
+| da creare | **29**, tutte dalla qualifica | 30 | la **654** ha un codice fiscale non valido e la persona non e in archivio. Per figura 19 + 7 + 3: preposto 20 − 1; rls 4 «RLS» + 2 «RLS - LAVORATORE» + la 3401; dirigente 3 |
+| gia in organigramma | **363** | 363 | le 6 corrette dallo script adesso arrivano dalla qualifica, contate una volta |
+| da decidere | **154** | — | 153 + 350 + 3397 − 3401: la 3401 adesso si risolve, e la 2248 era gia fra le 153 |
+| persone non trovate | **6** | 4 | piu la 654 e la 748 |
+
+La corsia ha corretto **due suoi numeri** detti a Francesco prima dell'anteprima — 369 e
+157 — ed e scritto nello `STATO.md` come errori, con la ragione. **Scrivere e sicuro**:
+nessuno degli scarti produce una nomina sbagliata, tutti ne producono **una in meno**.
+Attesa della scrittura: «29 nomine scritte», e alla rilettura 0 da creare e 154 da
+decidere.
+
+**E una domanda che la corsia ha scritto «senza trarne conclusioni», e che da qui
+diventa una misura assegnata.** La **748** (Chiaramonte Nicola, NEW METROPOL) e una
+persona **scritta nel foglio**, e il suo cliente e fra i **40 con `00000000000`**, che in
+produzione hanno **zero persone tutti**. CAVOUR SRL (1931) e nello stesso gruppo. Se il
+foglio porta persone per quei clienti e il database no, **l'import delle anagrafiche del
+9 settembre le ha lasciate fuori** — ed e plausibile per costruzione: la guardia muta
+lasciava passare il segnaposto come chiave, e 40 clienti con la stessa «P.IVA» sono
+esattamente il caso in cui l'abbinamento non sa dove mettere una riga. **Non e un fatto:
+e un'ipotesi che guarda nel posto giusto** (A21), e conta per tre ragioni — l'anagrafe
+avrebbe un buco che nessun conto ha visto, **N = 3.415 sarebbe basso**, e le persone di
+quei clienti non avrebbero ne organigramma ne formazione dovuta.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **la scrittura delle 29 nomine**, e riferire il messaggio verde | il report vero di D2; «Legale Rappresentante/RSPP»; la prova generale |
+| **AppSopralluoghi** | registrare la scrittura; poi **la misura sui 40 clienti col segnaposto, prima sul file e senza database**: quante righe persona dei fogli di `ExportExcel (4)` — e di ogni export persone che ci sia su disco — appartengono a quei 40 clienti per ragione sociale, e quante hanno un codice fiscale | **se il numero non e zero**: col si di Francesco per leggere, quanti di quei codici fiscali esistono in produzione **sotto un altro cliente** — che sarebbe l'abbinamento sbagliato — e quanti **da nessuna parte**, che sarebbe il buco |
+| **AppOverall** | nulla di nuovo | se il buco c'e, **N cambia** e la migrazione delle persone lo deve dire: il 3.415 e un conto su cio che il database ha, e un buco nel database non si vede da un conto sul database |
+| **AppFormazione** | invariato: **ferma per costruzione** | persone mai importate sarebbero formazione dovuta che nessuno calcola: materia loro, quando e se il buco e misurato |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
