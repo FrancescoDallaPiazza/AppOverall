@@ -1555,6 +1555,54 @@ all'antincendio senza che il motore chieda il loro corso. Il caricamento e **add
 righe nuove in `ruoli_persona`, nessuna tolta — e aspetta una sola cosa, la data, che e una
 decisione di Francesco e non un lavoro tecnico.
 
+### Prossimo passo per corsia · al 14 settembre 2026, le due risposte e la domanda sulle date
+
+**Francesco ha risposto alle due domande sulle emergenze**, nella sessione di
+AppSopralluoghi, e la corsia riporta le sue parole:
+
+- sulla data, per le righe con Antincendio ed Emergenze in date diverse: **«ma emergenze 2022
+  e l'aggiornamento quinquennale di antincendio 2017»** — quindi la nomina porta la **data
+  piu vecchia**, e le successive sono aggiornamenti della formazione, non incarichi;
+- su «Responsabile Emergenze»: **«Si, anche lui»** — entra anche lei come addetto antincendio.
+  Il «finche non la nomina resta fuori» scritto qui e soddisfatto.
+
+**La modifica e su un ramo, verificato da qui** (`emergenze-antincendio`, `6a8c404` su
+`origin`): tre file; «Addetti Emergenze ed Evacuazione» e «Responsabile Emergenze» passano a
+`addetto_antincendio`, e resta fuori solo `RSPP`; a parita di fonte vince la data piu vecchia.
+Provata dalla corsia: 12 controlli su 12, e 4 falliti sulla versione di `main`. **Sul file**:
+29 addetti antincendio nuovi da righe senza la colonna Antincendio — 18 solo Emergenze, 5 solo
+Responsabile, 6 tutte e due — e i «da decidere» scenderanno di conseguenza, contati prima
+dell'anteprima. **Una sola riga fra le 48 con Antincendio ha la data piu vecchia altrove**: la
+1298, FIORIO STEFANO di I.VAR, Antincendio 2004 ed Emergenze 2001. La sua nomina esiste gia con
+il 2004 e l'import non la riscrive: **va corretta a parte, con uno script piccolo che porta la
+sua verifica dentro e l'avvertenza di lanciarlo tutto insieme**, e lo lancia Francesco.
+
+**E la risposta sulla data dice una cosa piu grande della domanda, che va misurata e non
+dedotta.** Se la data di Emergenze e l'aggiornamento quinquennale del corso di Antincendio, allora
+**le date nelle colonne di ruolo del gestionale potrebbero essere date di corsi, non di
+incarichi**. Il documento 07 di AppFormazione dice il contrario — «portano la data
+dell'incarico, che e proprio cio che serve a `ruoli_persona.data_nomina`» — e su quella
+lettura poggiano `nomina.data` in AppSopralluoghi e `ruoli_persona.data_nomina` in AppFormazione.
+ECODENT, 2017 e 2022, sono esattamente cinque anni. **E un'ipotesi che guarda nel posto giusto**
+(A21), e il file la puo chiudere senza toccare nessun database: **per le persone che hanno una
+data nelle colonne di ruolo antincendio, quante di quelle date coincidono con la data di un
+corso antincendio della stessa persona in CorsiFatti**. Se coincidono quasi tutte, la colonna e
+una data di formazione con un altro nome, e `data_nomina` va chiamata per quello che e — non si
+riscrive niente, si scrive **cosa misura**. Se non coincidono, il documento 07 aveva ragione e la
+risposta di Francesco vale per le righe doppie e basta.
+
+**Il caricamento aggiuntivo di AppFormazione cambia perimetro**, perche le due risposte lo
+toccano tutte e due: non piu 24 righe di sole Emergenze, ma **Emergenze e Responsabile
+Emergenze**, con la **data piu vecchia** fra le tre colonne, e **la 1298** da portare al 2001 se
+in `ruoli_persona` sta col 2004 — da contare sul loro database, non da dedurre dal file.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **l'anteprima delle anagrafiche**, a pagina ricaricata, contro 75 + 2 — e il passo che tiene fermi tutti gli altri | la scrittura delle anagrafiche; il si al merge del ramo delle emergenze; lo script della 1298; poi l'anteprima delle nomine; e il si al caricamento aggiuntivo in AppFormazione |
+| **AppSopralluoghi** | lo `STATO.md` con le parole di Francesco; lo script della 1298 con la verifica dentro; **la misura sulle date**, solo sul file | le attese dell'import delle nomine: persone recuperate piu i 29 addetti, e i «da decidere» ricontati |
+| **AppFormazione** | ~~l'avvertenza nello script~~ **fatta** (`0308d46`, verificato: la mappa non cambia, cambia solo la ragione in `NON_CARICATE`) — ma scritta **prima** della risposta di Francesco, e dice «Responsabile Emergenze resta fuori» in tre punti (documento 07 riga 166, `STATO.md` riga 122, `NON_CARICATE`): **da correggere dentro la riga**, non cancellare. Poi **la preparazione del caricamento aggiuntivo**, che adesso non aspetta piu niente — Emergenze **e** Responsabile, data piu vecchia, la 1298 — contata sul loro database, **e il conto di `ruoli_persona` in produzione** che la corsia stessa ha dichiarato non fatto | la scrittura del caricamento, con anteprima e attese, e il si di Francesco chiesto a lui |
+| **AppOverall** | nulla di nuovo nel codice | se le date risultano date di corsi, **il nome di `nomina.data_nomina` di qua va chiarito prima della migrazione delle nomine**: un nome sbagliato su un dato giusto e il difetto che attraversa il confine senza farsi vedere |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
