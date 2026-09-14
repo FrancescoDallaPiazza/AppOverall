@@ -1016,6 +1016,24 @@ corregge il commento della funzione dove si legge dal database.
 | **AppOverall** | **fatta la `0018`** | la migrazione delle nomine sopra i passi 01 e 02; e se Francesco risponde su «Legale Rappresentante/RSPP», la gemella di quella risposta | Le nomine sono l'ultima cosa dell'anagrafe che attraversa, e adesso il dizionario di qua sa leggere tutte e due le colonne |
 | **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Sette RLS in piu dalla Qualifica sono materia per quando arrivano |
 
+**Il rilievo sullo script e chiuso** (AppSopralluoghi `a82c6af`): dopo l'`update` un
+blocco `do` conta le 6 nomine e solleva un errore prima del `commit` se non sono 6. La
+corsia **non ha potuto eseguirlo** — non ha un database locale, e provarlo in
+produzione vorrebbe dire scrivere — e l'ha detto. **Eseguito qui**, sul file di
+`a82c6af` preso da `origin`, contro una tabella `nomina` finta con il vincolo della
+`070` e senza, su un cluster usa e getta poi cancellato. Quattro casi, nei due versi:
+
+| caso | esito |
+|---|---|
+| dopo la `070`, le 6 nomine ci sono | passa: 6 passano a `qualifica`, le altre righe intatte |
+| rieseguito | passa, niente cambia |
+| dopo la `070`, **ne manca una** | **errore**, e le 5 gia aggiornate **tornano indietro** |
+| **prima** della `070` | **rifiutato dal vincolo**, niente scritto |
+
+Provato con `psql`, e Francesco lo lancera dall'SQL Editor: la differenza non conta,
+perche in PostgreSQL una transazione esplicita che va in errore scarta le istruzioni
+successive, e un `commit` su una transazione abortita diventa un `rollback`.
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
