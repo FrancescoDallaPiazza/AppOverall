@@ -1440,6 +1440,44 @@ completi**, e con un caso in piu, perche un controllo nuovo va visto fallire:
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
 
+**La pulizia dei clienti doppi e fatta** (AppSopralluoghi `a0b7a53`). Francesco ha
+lanciato `10cd71f` dall'SQL Editor, e il database letto subito dopo, in sola lettura, dice
+esattamente l'atteso: **614 clienti**, cioe 619 − 5; zero dei 5 tolti e delle loro sedi;
+i 4 tenuti presenti; **IGEA con due clienti, intatti**, ultima modifica il 9 settembre;
+EMERA con la P.IVA 09318332023 e l'indirizzo; IL MAGNIFICO con Largo Pescheria Vecchia 10,
+Verona. **I 4 clienti modificati oggi portano tutti la stessa ora, 12:11:47.548 UTC** — e
+siccome l'`updated_at` prende l'ora d'inizio della transazione, e **una transazione sola**,
+arrivata in fondo.
+
+**Ma a Francesco e arrivato un errore**: `42P01: relation "_coppie" does not exist`. Non
+viene da quel lancio: una seconda esecuzione intera avrebbe dato «trovati 0», e un
+`_coppie` che non esiste vuol dire un lancio in cui le tabelle temporanee **non erano state
+create nella stessa sessione** — una parte selezionata dello script, o le istruzioni
+eseguite una per una. **Quel lancio non ha scritto niente, e lo si sa dal database, non
+dall'errore**: lo stato letto dopo e l'atteso fino all'ultima colonna controllata. Come sia
+stato lanciato **resta non spiegato**, e la corsia l'ha scritto cosi.
+
+**E la corsia si e corretta da sola prima di fare danni.** Leggendo l'errore aveva
+ipotizzato che l'editor non tenesse la transazione e aveva riscritto lo script in un blocco
+unico; **la lettura del database ha smentito l'ipotesi prima del commit**, e la riscrittura
+e scartata. Nel repo resta `10cd71f`, cioe il testo provato qui sui sette casi. **Lo script
+non va rilanciato.**
+
+**La regola che ne esce, per ogni script che Francesco lancia dall'SQL Editor.** La prova
+che uno script ha fatto quello che doveva **e la lettura del database dopo**, non la notice
+e non l'errore: un lancio parziale produce un messaggio che non riguarda lo stato, e un
+lancio intero puo non mostrare la sua notice. Quindi ogni script di questo genere arriva
+con **la sua query di verifica in sola lettura scritta prima**, e in testa l'avvertenza di
+incollarlo e lanciarlo **tutto insieme**. Oggi la verifica l'ha fatta la corsia dopo; da
+domani sta nel file.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **l'anteprima dell'import delle anagrafiche**, senza scrivere, contro le attese: 75 persone nuove con codice fiscale piu 2 senza; un solo candidato per ADAMI, LA TORRE, EMERA e IL MAGNIFICO; IGEA da abbinare a mano su Via Sorte 48; il gruppo «XXXXXXXXXXXX» fuori | la scrittura, se l'anteprima torna; poi nomine e formazione |
+| **AppSopralluoghi** | l'anteprima contro le attese, riga per riga; e negli script futuri la query di verifica e l'avvertenza in testa | le attese di nomine e formazione per le persone recuperate |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
