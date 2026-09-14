@@ -858,6 +858,43 @@ leggono `main`.
 | **AppOverall** | **la regola per le 58 P.IVA non usabili**, in attesa del via di Francesco | la gemella della `070`. Se la `070` porta un valore nuovo per `nomina.origine`, **si guarda allora** se la `nomina` di qua ha il campo corrispondente: non si deduce adesso da un messaggio | A19: la forma arriva scritta prima del commit, e la verifica si fa su quella |
 | **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Niente di D2 tocca la formazione |
 
+### Prossimo passo per corsia · al 14 settembre 2026, le due decisioni di Francesco
+
+**Decise da Francesco il 14 settembre alle 11:49, in questa sessione, con le parole «1 e 2
+ok»** sulle due voci numerate che gli erano state messe davanti:
+
+1. **si alla pubblicazione di D2 e di `riepiloga`**, nell'ordine scritto in `94a5f07`:
+   merge di `d2-report-componenti` su `main` (Vercel), poi l'Edge Function
+   `genera-report` pubblicata dal codice di `main`;
+2. **si alla Qualifica**, nella forma del parere di questa corsia: l'import legge anche
+   la Qualifica quando la Mansione e piena, **come fonte distinta**, con la colonna
+   d'origine scritta sulla nomina e non fusa nel campo `mansione`.
+
+**La regola per le 58 P.IVA non era fra le due voci numerate, e resta in attesa.** Un
+«ok» si legge su cio che nomina, non su tutto quello che stava nello stesso messaggio.
+
+**Come arriva alla corsia.** Il si e riferito da qui. Per il merge e un ordine, e si
+relaia. Per la pubblicazione dell'Edge Function e per la `070` la regola di questa
+sezione vale per intero: **se la corsia lo legge come un permesso, lo chiede a
+Francesco direttamente**, e fa bene — l'ha gia fatto AppFormazione l'11 settembre.
+La `070` in produzione, comunque, la applica lui dall'SQL Editor.
+
+**E una conseguenza della 2 che nessuno ha ancora scritto, e va guardata nella
+proposta invece che dedotta qui.** Le nomine scritte stamattina includono le righe che
+l'import ha preso dal campo `mansione` **quando quel campo conteneva la Qualifica** —
+le 7 righe della misura di `afbb88e`, con Mansione vuota. Se la provenienza diventa una
+fonte distinta, **su quelle nomine gia scritte la provenienza registrata e quella
+sbagliata**. Quante sono davvero fra le 363 e cosa porta scritto il loro
+`nomina.origine` lo dice il database, non questo documento: e la prima cosa che la
+proposta della `070` deve contare, perche correggerle e una scrittura su dati veri.
+
+| chi | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **Francesco** | **niente di nuovo da decidere su questi due punti**; se la corsia chiede conferma diretta sulla pubblicazione, e la regola che funziona | il report vero dopo la pubblicazione di D2, guardato; la `070` dall'SQL Editor quando arriva riletta; **il via sulla regola delle P.IVA** | La `070` resta sua da applicare, come la `069` |
+| **AppSopralluoghi** | **la pubblicazione**: merge su `main`, verifica del deploy Vercel (stato GitHub e bundle), l'Edge Function dal codice di `main` — o chi la pubblica, se le credenziali sono di Francesco. Nello `STATO.md` il commit online **per ciascun canale** | **la Qualifica**: la modifica al codice e la `070` — forme nuove (4 non sono nel dizionario della `068`), il valore nuovo di `nomina.origine`, e **il conto delle nomine gia scritte con la provenienza da correggere** — mandata qui **prima del commit** | Prima si pubblica cio che e verificato, poi si scrive cio che e deciso: la modifica per la Qualifica fara un secondo deploy, ed e il costo accettato in `94a5f07` |
+| **AppOverall** | **in attesa del via sulle P.IVA** — nessun carico dei clienti prima | la gemella della `070`, riletta sulla forma che arriva: dizionario **e**, se serve, la provenienza sulla `nomina` di qua | La gemella non si scrive su un messaggio: si scrive sulla stringa che la corsia manda prima del suo commit |
+| **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Le nomine RLS nuove dalla Qualifica arriveranno con l'anagrafe |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
