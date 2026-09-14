@@ -1831,6 +1831,71 @@ fonde e chi no nella migrazione, e oggi la regola approvata e un'altra.
 | **AppOverall** | provare lo script unico quando arriva | — |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 
+### Prossimo passo per corsia · al 14 settembre 2026, lo script unico e la tabella intera
+
+**Lo script unico e provato qui, e manca una cosa** (AppSopralluoghi `f2132a2`,
+`correggi_maison22_giacomelli.sql`, verificato su `origin`). Un blocco solo, l'avvertenza in testa,
+ogni scrittura con il conto delle righe, i controlli dopo relativi a prima, i collegamenti letti dal
+catalogo. Eseguito su un cluster usa e getta con uno schema minimo — cliente, sede in cascata,
+persona con la chiave unica, nomina, formazione, **adempimento con cliente, sede e persona**, azione —
+e gli id veri:
+
+| caso | esito |
+|---|---|
+| normale | **passa**: 4 persone a Porta Borsari con sede e chiave nuove, Via IV Novembre con le altre, Aprili con NEGRETTI e APRILI, la falsa Giacomelli tolta |
+| rilancio | «doveva essere vuoto», niente scritto |
+| una delle quattro gia spostata | «doveva essere vuoto», niente scritto |
+| una nomina su una scheda da togliere sotto Aprili | notice e errore, niente scritto |
+| un adempimento sulla sede della falsa Giacomelli | notice e errore, niente scritto |
+| la chiave nuova esiste gia | errore, niente scritto |
+| **una visita medica su una delle quattro persone da spostare** | **passa — e la visita resta sul cliente e sulla sede di Via IV Novembre** |
+
+**L'ultimo caso e il vuoto.** Lo script cerca i collegamenti di cio che **toglie**, non di cio che
+**sposta**; e `adempimento` porta **cliente, sede e persona** insieme — le visite mediche sono
+adempimenti della persona. Dopo lo script la persona sta a Porta Borsari e la sua visita a Via IV
+Novembre: nessun vincolo protesta, e lo scadenzario la mostra sotto l'unita sbagliata. **La
+correzione e piccola**: contare gli adempimenti delle quattro persone e, se ci sono, spostarne cliente
+e sede con il conto delle righe — o annullare, se Francesco preferisce guardarli prima. Riletto nel
+loro codice il resto di cio che si sposta: **la chiave dei corsi non contiene il cliente**
+(`gest:<cf>:<corso>:<data>`), quindi i corsi gia scritti restano riconosciuti; **ma l'import della
+formazione cerca le persone fra quelle di un cliente solo** — un corso nuovo di una delle quattro, in
+un'unita MAISON 22 abbinata a Via IV Novembre, non troverebbe la persona. **Il gruppo MAISON 22 va
+escluso anche dall'import della formazione**, non solo da quello delle anagrafiche.
+
+**La tabella intera delle P.IVA condivise**, letta col si di Francesco: **9 P.IVA usabili su 18
+clienti**, tutti nati il 9 settembre fra le 10:29 e le 10:30, nessuno con incarichi; IGEA c'e, ed e il
+controllo che la query vede il caso noto.
+
+| P.IVA | clienti | indirizzi | persone | stato |
+|---|---|---|---|---|
+| 00199400128 | LINDE MATERIAL HANDLING ITALIA ×2 | Via del Luguzzone 3, Buguggiate / nessuno | 0 / 0 | **da decidere** |
+| 00912140233 | AZIENDA AGRICOLA GIACOMELLI / Aprili | — | 0 / 6 | nello script |
+| 00967010232 | CENTRO ATTIVITA' ×2 | Via Fratelli Corra 7 / 9, Valeggio | 21 / 0 | **da decidere** |
+| 01249140235 | CENTRO SOCIALIZZAZIONE ×2 | Via Cantore 6, Villafranca, tutti e due | 26 / 0 | **da decidere** |
+| 02325330237 | ECODENT ×2 | Via del Lavoro 6/8 Trevenzuolo / Via Belgio 6 Villafranca | 8 / 8 | due sedi, noto dal 31 luglio |
+| 02449980230 | MARANI G. SPA ×2 | identici, Via dell'Artigianato 51 Bovolone | 0 / 0 | **da decidere** |
+| 04285130235 | MAISON 22 ×2 | — | 17 / 4 dopo lo script | due sedi, deciso |
+| 04312380233 | AZ. AGR. PARAVANTO / DELIPERI ALBERTO | Via Saraina / Via T. Saraina 13 | 0 / 0 | **da decidere** |
+| 04366240234 | IGEA ×2 | — | — | due sedi, deciso |
+
+**E dopo MAISON 22 la domanda si fa sede per sede, non «unire?»** — la corsia l'ha gia deciso da sola,
+ed e la lezione giusta: i dati dicevano doppione pieno, ed erano due sedi.
+
+**La cifra di controllo, su 554 P.IVA usabili: 4 la sbagliano** — AZ. AGR. GIACOMELLI FRANCESCO
+02884860235, il refuso gia corretto da Francesco; CAPRINI FRANCO 20619000235; L'ERBA DEL VICINO
+04570450234; **e Progetto EMERA Onlus 09318332023, cioe la P.IVA arrivata col cliente tenuto
+nell'unione delle 12:11**. Nella pulizia EMERA ha preso la P.IVA dell'altra meta come quella vera, e la
+decisione era giusta sui dati di allora; **ma quella P.IVA non passa la cifra di controllo**, e va
+guardata da chi puo leggere una visura. E l'unica delle quattro che una scrittura di oggi ha
+promosso da una riga a un'altra.
+
+| chi | adesso | poi |
+|---|---|---|
+| **AppSopralluoghi** | **gli adempimenti delle quattro persone nello script** — contati, e spostati col conto delle righe o annullati — e **rimandarlo qui**; nello `STATO.md` il gruppo MAISON 22 escluso **anche** dall'import della formazione | le domande a Francesco sede per sede per LINDE, CENTRO ATTIVITA', CENTRO SOCIALIZZAZIONE, MARANI, PARAVANTO e DELIPERI |
+| **Francesco** | **la P.IVA di EMERA**, 09318332023, da verificare; e le altre tre con la cifra sbagliata; la P.IVA e il codice fiscale della Giacomelli dalla scheda | lo script corretto e riprovato; le risposte sede per sede; poi l'anteprima e la scrittura delle anagrafiche |
+| **AppOverall** | riprovare lo script corretto | per la migrazione: con la regola approvata le quattro P.IVA sono **usabili**, e quella di EMERA oggi e sul cliente giusto per nome ma forse sbagliata per cifra — se «usabile» debba voler dire «cifra giusta» resta una decisione di Francesco |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
