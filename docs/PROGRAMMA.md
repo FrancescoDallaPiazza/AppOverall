@@ -1896,6 +1896,30 @@ promosso da una riga a un'altra.
 | **AppOverall** | riprovare lo script corretto | per la migrazione: con la regola approvata le quattro P.IVA sono **usabili**, e quella di EMERA oggi e sul cliente giusto per nome ma forse sbagliata per cifra — se «usabile» debba voler dire «cifra giusta» resta una decisione di Francesco |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 
+**Lo script unico corretto regge su tutti i casi, e si puo lanciare** (AppSopralluoghi `ec2f15b`,
+verificato su `origin`). La correzione: dopo lo spostamento delle quattro persone, **dal catalogo al
+momento del lancio**, ogni tabella che ha una chiave esterna verso la persona **e** una verso cliente o
+sede segue le persone — cliente e sede portati su Porta Borsari, ogni `update` con il conto delle righe
+e una notice — e lo stesso per le azioni che portano la persona nella chiave e il vecchio cliente come
+responsabile; dopo, il controllo che nessuna riga delle quattro sia rimasta sul vecchio cliente o su una
+vecchia sede. Rieseguito qui sullo stesso schema, con **un caso in piu** per la parte nuova sulle azioni,
+e **una visita di un'altra persona di Via IV Novembre** presente in tutti i casi come controllo:
+
+| caso | esito |
+|---|---|
+| normale | **passa** |
+| rilancio · una delle quattro gia spostata · una nomina su una scheda da togliere · un adempimento sulla falsa Giacomelli · la chiave nuova gia esistente | errore, niente scritto — come nella prima prova |
+| **una visita medica su una delle quattro** | **passa, e adesso la visita segue la persona**: cliente e sede di Porta Borsari, con le due notice |
+| **un'azione di una delle quattro col vecchio cliente responsabile** | **passa, e l'azione segue la persona** |
+| la visita dell'altra persona di Via IV Novembre, in tutti i casi | **non si muove mai** |
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **lo script dall'SQL Editor**, tutto insieme, e la query di verifica in fondo | la P.IVA di EMERA e le altre tre con la cifra sbagliata; le risposte sede per sede sui cinque casi della tabella; poi l'anteprima delle anagrafiche con MAISON 22 **escluso** |
+| **AppSopralluoghi** | registrare il lancio con la verifica; nello `STATO.md` MAISON 22 escluso dall'import delle anagrafiche **e** da quello della formazione | le domande sede per sede; le attese dell'anteprima aggiornate dopo lo script |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
