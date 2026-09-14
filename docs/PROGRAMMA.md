@@ -1413,6 +1413,33 @@ controllo che manca: la notice finale dice «IGEA intatta», e nessuna riga lo v
 | **AppOverall** | riprovare lo script corretto | la prova generale, dopo il recupero |
 | **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
 
+**Lo script corretto e riprovato, e adesso passa dove deve e annulla dove deve**
+(AppSopralluoghi `10cd71f`). La correzione e quella di forma: i clienti da togliere si
+copiano in una tabella temporanea, si cancellano, e i campi vuoti dei tenuti si riempiono
+**dalla copia**; piu un controllo che i due clienti IGEA ci siano ancora dopo. Rieseguito
+qui sulla versione di `origin/main` — identica al working tree della corsia a meno dei
+fini riga — con lo stesso schema minimo e gli id veri, **IGEA compresa con i suoi uuid
+completi**, e con un caso in piu, perche un controllo nuovo va visto fallire:
+
+| caso | esito |
+|---|---|
+| tutto pulito | **passa**: 12 clienti diventano 7, EMERA con la P.IVA, IL MAGNIFICO con l'indirizzo, IGEA e le persone intatte |
+| rieseguito | errore «trovati 0», niente scritto |
+| una persona su un cliente da togliere | errore, niente scritto |
+| un sopralluogo sulla sede di un cliente da togliere | errore, niente scritto |
+| un'azione `cliente-ateco` su un cliente da togliere | errore, niente scritto |
+| **`werp_id` solo sul cliente da togliere** | **adesso passa**: il tenuto si ritrova il `werp_id`, «Controllo superato» |
+| **un cliente IGEA che manca prima del lancio** | **errore «trovati 1», annullato** — il controllo nuovo scatta |
+
+**Il rilievo e chiuso, e lo script si puo lanciare.**
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **lo script dall'SQL Editor**, e riferire se compare «Controllo superato» | l'anteprima dell'import delle anagrafiche contro le attese — 75 persone nuove piu 2 senza codice fiscale; un solo candidato per ADAMI, LA TORRE, EMERA e IL MAGNIFICO; IGEA a mano su Via Sorte 48; il gruppo «XXXXXXXXXXXX» fuori — e poi la scrittura |
+| **AppSopralluoghi** | registrare il lancio; poi le attese degli import delle nomine e della formazione per le persone recuperate, contate sui fogli **prima** | — |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
