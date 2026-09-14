@@ -1361,6 +1361,58 @@ vedere una cosa risponde «zero» anche quando la cosa c'e.
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
 
+**L'ultima misura da zero su tutti e tre i punti** (AppSopralluoghi, col si di
+Francesco): 0 azioni `cliente-ateco` sugli 11 clienti — e 0 in tutto il database;
+**190 colonne** di testo, JSON, `uuid` e array **senza** chiave esterna, in 36 tabelle,
+prese dal catalogo, e **0 righe** con uno degli 11 id dei clienti o degli 11 delle loro
+sedi; e gli abbinamenti degli import vivono **solo nello stato della pagina**, nessuna
+tabella e nessun `localStorage`. **Uno zero misurato, non un'assenza di misura**: le
+raccomandazioni di `4c12034` reggono senza costi nascosti.
+
+**Le decisioni di Francesco sui doppioni, date in quella sessione**: ADAMI, LA TORRE,
+EMERA e IL MAGNIFICO **si uniscono**; **IGEA resta con due clienti**, perche Via
+Michelangelo 7 e una sede vera, e le 13 persone vanno su quello di Via Sorte 48; IL
+MAGNIFICO tiene l'indirizzo di Largo Pescheria Vecchia 10; **la 3473 si esclude e il
+cliente «XXXXXXXXXXXX» si toglie**. Una scelta e della corsia, ed e dichiarata: per IL
+MAGNIFICO Francesco ha scelto l'**indirizzo**, non la riga, e si tiene la riga col nome
+uguale al file persone, perche l'altra l'import delle persone non la riconoscerebbe.
+
+**Lo script di pulizia, riletto e eseguito qui prima che lo lanci Francesco.**
+`unisci_clienti_doppi.sql` la corsia l'ha mandato prima del commit, ed e stato committato
+(`32a68b7`) mentre la prova girava: **la versione committata e identica, stessa impronta
+sha256, al working tree da cui e stata presa la copia provata**. Ricontrolla
+dal catalogo al momento del lancio ogni chiave esterna verso cliente e sede e le azioni
+`cliente-ateco`, riempie **solo i campi vuoti** del cliente tenuto, toglie i 5 clienti con le
+loro sedi per cascata, e annulla se il risultato non torna. Eseguito su un cluster usa e
+getta, con uno schema minimo che porta i vincoli che contano — sede in cascata, `werp_id`
+unico, persona, incarico, sopralluogo, azione — e gli 11 id veri, piu IGEA e un cliente
+estraneo con le loro persone. Sei casi, ognuno su un database pulito:
+
+| caso | esito |
+|---|---|
+| tutto pulito | **passa**: 12 clienti diventano 7, EMERA prende la P.IVA, IL MAGNIFICO l'indirizzo, IGEA e le persone intatte |
+| rieseguito | errore «trovati 0», niente scritto |
+| una persona su un cliente da togliere | **errore, niente scritto** — la persona non se ne va per cascata |
+| un sopralluogo sulla sede di un cliente da togliere | errore, niente scritto |
+| un'azione `cliente-ateco` su un cliente da togliere | errore, niente scritto |
+| **`werp_id` solo sul cliente da togliere** | **violazione del vincolo `unique`**: annulla e non scrive niente, ma **lo script non puo finire** |
+
+**L'ultimo caso non fa danno, e blocca.** Il passo che riempie i campi vuoti copia anche
+`werp_id` nel cliente tenuto **mentre quello da togliere esiste ancora** con lo stesso
+valore, e `cliente.werp_id` di la e unico. Se sui dati veri nessuno dei 5 da togliere ha un
+`werp_id`, lo script passa; se uno ce l'ha e il suo tenuto no, Francesco vede un errore
+invece della notice. **La correzione e di forma, non di merito**: copiare i clienti da
+togliere in una tabella temporanea, cancellarli, e poi riempire i vuoti dalla copia — cosi
+nessun vincolo di unicita puo collidere, ne `werp_id` ne uno che si aggiunga domani. E un
+controllo che manca: la notice finale dice «IGEA intatta», e nessuna riga lo verifica.
+
+| chi | adesso | poi |
+|---|---|---|
+| **AppSopralluoghi** | **la correzione sull'ordine** — copia, cancella, riempi — e il controllo su IGEA; poi rimandarlo qui, e lo si riesegue sugli stessi sei casi | il commit, e le attese dell'import delle anagrafiche riscritte: 75 piu 2, un solo candidato per ADAMI, LA TORRE, EMERA e IL MAGNIFICO, IGEA a mano su Via Sorte 48, la 3473 fuori |
+| **Francesco** | niente fino allo script corretto e riprovato | lo script dall'SQL Editor; poi anteprima e scrittura dell'import delle anagrafiche contro le attese |
+| **AppOverall** | riprovare lo script corretto | la prova generale, dopo il recupero |
+| **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
