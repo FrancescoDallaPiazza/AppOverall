@@ -2161,6 +2161,27 @@ girato col codice vecchio**, e si vede li.
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 
+**IGEA aspetta domani, e FIORIO e fatto oggi.** Francesco e fuori ufficio, e `ExportExcel (4).xlsx`
+(7.228.718 byte, 09/09 12:48) e rimasto sul PC dell'ufficio: non e su questo portatile, non e su Drive, e
+nessuna sessione di la e raggiungibile. **Nessun export nuovo al suo posto**: le attese valgono per quel
+file. Fermi finche il file non c'e: il passaggio di IGEA, la lettura delle 24 e l'import delle nomine, che
+usa lo stesso file.
+
+Lo script di FIORIO non passa dal file ne dal bundle, e AppSopralluoghi ha confermato sul codice che si puo
+anticipare senza cambiare nessuna attesa: il passaggio di IGEA scrive solo `persona` e non legge `nomina`;
+lo script non guarda mansione, reparto ne i totali; e l'import delle nomine riconosce la coppia persona e
+figura senza la data, e non la riscrive. Le due posizioni nel loro `STATO.md` (ultimo passo in `f3d224b`,
+terzo nella nota della pausa) erano equivalenti, e ora il fatto e scritto una volta sola. Letto qui prima
+dei passi, uguale a origin. **Lanciato da Francesco: una riga, FIORIO STEFANO, I.VAR INDUSTRY SRL,
+`addetto_antincendio`, 2001-05-14, nessun errore.**
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | recuperare `ExportExcel (4).xlsx` dal PC dell'ufficio, e controllarlo al byte | ricarica forzata e titolo; il passaggio di IGEA contro 3.472 / 13 / 3.459 / 2 / 3 / 1; il si alla lettura dopo; l'anteprima e poi l'import delle nomine, **col titolo controllato di nuovo** |
+| **AppSopralluoghi** | registrare FIORIO nello `STATO.md` | il passaggio di IGEA passo per passo; la lettura dopo sulle 24 per id |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
