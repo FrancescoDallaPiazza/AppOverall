@@ -1332,6 +1332,35 @@ l'origine, prima dell'estrazione.
 | **AppOverall** | fatto il conto dei doppioni non fusi | la prova generale, dopo il recupero |
 | **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
 
+**La misura 2a e fatta** (AppSopralluoghi `459517d`), col si di Francesco per quella
+lettura. Le tabelle **dal catalogo e non dalla memoria**: 14 chiavi esterne in
+`pg_constraint`, 9 verso `cliente` e 5 verso `sede`, piu i sopralluoghi contati
+attraverso gli incarichi. **Per tutti e 11 i clienti — le cinque coppie e
+«XXXXXXXXXXXX» — una sede e nient'altro**: zero incarichi, sopralluoghi, adempimenti,
+azioni per responsabile, componenti, revisioni e conferme dell'organigramma, persone.
+Creati tutti dall'import del 9 settembre fra le 10:30 e le 10:31.
+
+**Regge per le chiavi esterne, e non ancora per tutto.** Il catalogo vede i riferimenti
+che hanno un vincolo; **non vede quelli scritti dentro un testo**, e nel codice di la ce
+n'e almeno uno, verificato da qui: la `066` e `cosedafare.ts:166` danno alle azioni la
+chiave **`cliente-ateco:<cliente_id>`** — un'azione per un cliente senza ATECO, che e
+proprio il caso probabile di clienti nati da un import senza quella colonna. Un'azione
+cosi punta al cliente **senza chiave esterna**: unire o togliere il cliente la lascia
+orfana, e nessun vincolo protesta. Il secondo candidato sono gli **abbinamenti** che gli
+import delle anagrafiche e delle nomine salvano fra una chiave del file e un
+`cliente_id` (`ImportAnagrafiche.tsx:80`, `ImportNomine.tsx:55`): **da qui non si vede
+dove siano salvati**, e va guardato, non dedotto.
+
+E la forma di A12 applicata a una misura invece che a un test: uno strumento che non puo
+vedere una cosa risponde «zero» anche quando la cosa c'e.
+
+| chi | adesso | poi |
+|---|---|---|
+| **AppSopralluoghi** | **l'ultima misura prima dello script**, in sola lettura col si di Francesco: le azioni con `chiave` uguale a `cliente-ateco:` piu uno degli 11 id, e — per non fermarsi a quello che si ricorda — ogni colonna di testo, `jsonb` o `uuid` **senza** chiave esterna che contenga uno degli 11 id; e dove stanno gli abbinamenti salvati | lo script di pulizia **con il controllo che annulla**, che copra anche cio che la misura trova; lo lancia Francesco |
+| **Francesco** | le decisioni sulle cinque coppie e su «XXXXXXXXXXXX», con le raccomandazioni di `4c12034` e con questa misura davanti | lo script di pulizia; poi l'anteprima dell'import delle anagrafiche contro le attese riscritte |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
