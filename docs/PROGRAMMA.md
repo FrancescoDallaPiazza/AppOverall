@@ -1967,6 +1967,55 @@ controllo**:
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 
+### Prossimo passo per corsia · al 14 settembre 2026, i due script lanciati e l'ordine rivisto
+
+**I due script sono lanciati da Francesco, e le verifiche danno l'atteso.**
+
+- **MAISON 22 e Giacomelli** (`ec2f15b`, registrato da AppSopralluoghi in `6d4ce07`, verificato su
+  `origin`): MAISON 22 con due clienti, Corso Porta Borsari 26 con 4 persone e Via Quattro Novembre
+  1/D con 17; Aprili con 4; AZ. AGR. GIACOMELLI FRANCESCO con 1; la falsa «AZIENDA AGRICOLA
+  GIACOMELLI FRANCESCO» non c'e piu; zero adempimenti fuori posto. La P.IVA della Giacomelli e ancora
+  quella col refuso, come previsto: la corregge Francesco dalla scheda.
+- **Le cinque P.IVA condivise** (`ac8cd75`, riferito dalla corsia, **non ancora su `origin`** mentre
+  questo si scrive): cinque righe, una per P.IVA, nessun cliente tolto rimasto; CENTRO ATTIVITA' con
+  21 persone e CENTRO SOCIALIZZAZIONE con 26; PARAVANTO con Via Saraina, 37131 Verona.
+
+**L'ordine cambia, e cambia una raccomandazione di questa corsia.** Il 14 pomeriggio era scritto:
+accettare adesso gli spazi doppi e collassarli nel ramo delle emergenze, **dopo** la scrittura delle
+anagrafiche, per non mettere un deploy davanti al recupero. **Con il «Si, ripulisci» di Francesco il
+conto e un altro**, e l'ha fatto AppSopralluoghi: se il ramo va online dopo, le 24 schede prendono gli
+spazi doppi e serve una seconda pulizia; se va online prima, no. **E anticiparlo non costa quello che
+temevo**: il ramo cambia come l'import delle **nomine** leggera le colonne, e nessun import delle
+nomine avviene fra il deploy e il punto 5. L'ordine nuovo:
+
+1. il collasso degli spazi nella lettura dei nomi delle persone, sul ramo `emergenze-antincendio`, con
+   prova;
+2. merge e deploy del ramo, con la verifica per canale, col si di Francesco;
+3. anteprima e scrittura delle anagrafiche, con **MAISON 22 escluso**, contro attese calcolate **sul
+   codice pubblicato**;
+4. lo script della 1298;
+5. **un solo** import delle nomine.
+
+**Tre condizioni, perche il punto 1 tocca la chiave con cui una persona senza codice fiscale e
+riconosciuta.**
+
+- **La chiave `anag:<cliente>:n:COGNOME|NOME` non deve cambiare.** Oggi passa gia da `normNome`, che
+  collassa gli spazi (`anagraficheImport.ts:86-87`, letto da qui), quindi non dovrebbe; **ma la prova
+  lo deve mostrare**, perche una chiave che cambia di uno spazio fa ricreare la persona al primo import
+  — un doppione per ogni nome toccato, senza un errore;
+- **il collasso tocca solo i campi in cui stanno le 24 differenze**, e in nessun altro: la mansione,
+  per dirne uno, e un testo che il dizionario dei ruoli legge alla lettera;
+- **le attese dell'anteprima si calcolano col codice che sara online al punto 3**, non con quello di
+  oggi: le 24 schede **non** devono piu risultare aggiornate, e questo e il riscontro che il collasso
+  funziona.
+
+| chi | adesso | poi |
+|---|---|---|
+| **AppSopralluoghi** | **il collasso sul ramo, con la prova delle tre condizioni** — chiavi invariate per le persone senza codice fiscale, solo i campi delle 24, e le prove delle emergenze ancora verdi | merge e deploy col si di Francesco e la verifica per canale; poi le attese dell'anteprima sul codice pubblicato |
+| **Francesco** | la P.IVA e il codice fiscale della Giacomelli dalla scheda; la P.IVA di EMERA | il si al merge; poi l'anteprima e la scrittura delle anagrafiche |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
