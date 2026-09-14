@@ -657,6 +657,38 @@ e trasferirlo due volte da due parti diverse e il modo in cui un'etichetta si pe
 per strada. Arriva con l'anagrafe, una volta sola, con la sua qualificazione.
 
 
+### Prossimo passo per corsia · al 14 settembre 2026, mattina
+
+Riscritta perche la tabella della notte del 12 non sa due cose chiuse la sera del 13.
+Letta da `origin` dopo un `fetch` alle 10:02 di oggi: nessuna delle quattro corsie ha
+un commit dopo il 13 alle 20:54, nessun ramo nuovo, nessuna PR recente.
+
+- **AppFormazione ha le sei migrazioni in produzione** (`ccdf8ef`): registro da `0055`
+  a `0062`, applicate il 13 alle 18:14 UTC con `db push --linked` sul si di Francesco
+  dato **a quella corsia**. Il primo numero sui dati veri e **0 `ore_insufficienti`
+  su 6.570 righe**, e **non assolve**: `clienti.dipendenti` e vuota su 480 clienti su
+  480, quindi 8 dei 9 RLS escono `dimensione_ignota`.
+- **AppSopralluoghi ha il dizionario leggibile e la guardia online** (`033994a`): la
+  `064`-`068` applicata, la `069` che da `staff_full` alle due tabelle che avevano RLS
+  e zero policy, e GitHub registra in produzione l'ultimo commit di `main` con stato
+  `success`. Sugli omonimi Francesco ha scelto la (a): un nome ambiguo senza codice
+  fiscale **non si scrive**, va fra i «da abbinare a mano».
+
+| corsia | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **AppOverall** | **la migrazione dell'anagrafe, cominciando dalle persone**: scritta e caricata su un cluster usa e getta come la `0001`-`0006`, **nessuna scrittura su produzione**. I conti che deve restituire sono gia misurati e stanno nella sezione 6: 3.419 righe → **3.415 persone** e 3.419 rapporti, 4 codici fiscali validi su due clienti, **259** schede senza codice fiscale (228 + 31 non validi) che attraversano **come schede, senza fusioni** | il resto dell'anagrafe, e con i clienti `N DIPENDENTI` insieme alla sua etichetta | Perche e il passo da cui dipendono gli altri due: il giudizio di AppFormazione aspetta `clienti.dipendenti`, e `sorveglianza.persona_id` deve puntare a persone che di qua non esistono ancora. E perche il carico si verifica contro numeri scritti **prima** di scrivere la migrazione, non ricavati dopo da quello che ha prodotto |
+| **AppSopralluoghi** | **nessun passo nuovo fino all'esito dell'anteprima.** L'anteprima delle nomine dal back-office, senza Applica, **la fa Francesco oggi** — scritto nel loro `STATO.md`, e discende dalla decisione del 12 riportata qui sotto: la corsia non la fa girare. Quando l'esito arriva, a loro tocca **leggerlo e scriverlo**, e se l'anteprima si ferma sulla guardia o non riconosce le righe col ruolo nella mansione la diagnosi e loro | **D2**, il report che non conosce i componenti. L'import delle nomine **non e un passo di questa corsia**: lo esegue Francesco | Perche l'anteprima e l'unica prova che il back-office legga il dizionario: la anon a zero righe dice che la porta e chiusa a chi non e entrato, non che sia aperta a chi e entrato. **D2 viene dopo e non in parallelo** perche vuole un deploy, e un deploy prima dell'anteprima cambierebbe il codice su cui Francesco la fa. **L'abbinamento guidato non si assegna**: riguarda proprio le 259 schede senza codice fiscale che la migrazione sta per portare di qua, e costruirlo nel campo prima di sapere come attraversano vuol dire costruirlo due volte |
+| **AppFormazione** | **nessun passo: ferma per costruzione**, non per lentezza. Il giunto `dipendenti_rls` e in produzione e aspetta `clienti.dipendenti` | il giudizio sui 9 RLS, quando l'anagrafe attraversa con `N DIPENDENTI` | Perche l'unica cosa che la sbloccherebbe prima e colmare `clienti.dipendenti` dai loro export, e la risposta e gia scritta qui sopra ed e no. Inventare un passo per non lasciarla ferma sarebbe la regola di questa sezione violata da chi assegna: una corsia senza passo lo chiede, e chi assegna non ne fabbrica uno per riempire la tabella |
+
+**E due cose che l'assegnazione dice per non essere fraintesa:**
+
+- **nessuna scrittura su un database di produzione** per nessuna delle tre righe. La
+  migrazione delle persone si prova su un cluster fatto con `initdb` e poi cancellato;
+- **l'import delle nomine resta di Francesco**, anteprima e scrittura. Il deploy
+  verificato e la `069` applicata tolgono gli ostacoli tecnici, e nessuno dei due e un
+  permesso.
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
