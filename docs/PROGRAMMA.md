@@ -1127,6 +1127,38 @@ online e ancora quello di `e33efc2`.
 con il si di Francesco dato **direttamente** in quella sessione, come la corsia ha scelto.
 **La finestra resta aperta fino al deploy: nessun import delle nomine.**
 
+**I passi 1 e 3 sono chiusi, e la finestra con loro** (AppSopralluoghi `944fa84` e
+`9123f18`), con il si dato da Francesco direttamente in quella sessione.
+
+**La misura, in sola lettura sulla produzione**: 619 clienti; **40** con `partita_iva`
+di undici cifre tutte uguali, tutti `00000000000`; 22 senza P.IVA; 13 valori condivisi
+da piu clienti, su 64 clienti — il segnaposto (40) e **12 P.IVA vere su 24 clienti**,
+cioe aziende con piu sedi. **I 40 col segnaposto hanno zero persone collegate.** E
+**con la correzione non si sposta nessuno**: le 40 righe attive di ElencoSedi col
+segnaposto trovano ciascuna esattamente un cliente per ragione sociale, nessuna per
+codice fiscale, nessuna nuova. La corsia ha scartato e rifatto una prima versione del
+confronto che aveva preso la colonna sbagliata — prima di scriverla.
+
+**Il deploy, verificato da qui**: il merge `6f936df` contiene tutto il ramo; GitHub
+registra `944fa84` in `success` alle 11:05:03 UTC; dal codice di D2 cambiano solo i file
+della Qualifica e `anagraficheImport.ts`, e **niente sotto `supabase/functions`**, quindi
+l'Edge Function resta la v9. E `od -c` su `main` mostra `( \ d ) \ 1 { 1 0 }`: il byte
+0x01 non c'e piu.
+
+**E la misura dice una cosa alla migrazione dei clienti di questa corsia, dedotta e non
+misurata.** Le fusioni per P.IVA del passo 01 non sono «il caso Ecodent»: sono **12**,
+quante le aziende con piu sedi. Coi numeri di oggi il passo 01 darebbe circa **607
+clienti** — 557 con una P.IVA usabile, meno le 12 unita assorbite, piu i 62 senza — e la
+riserva e che la misura non dice se esistano altre P.IVA non usabili oltre al
+segnaposto. Due cose invece rassicurano sui rifiuti mai misurati: i 40 col segnaposto
+hanno **ragioni sociali uniche** — il rifiuto (f) non dovrebbe scattare su di loro — e
+**nessuna persona**, quindi nessun rapporto da agganciare. Il rifiuto (g), due `werp_id`
+per una P.IVA, ha adesso **12 posti precisi** dove guardare.
+
+**Adesso**: Francesco, l'anteprima delle nomine contro le attese **36 / 30 / 4**, prima di
+premere Scrivi. Poi restano aperte «Legale Rappresentante/RSPP», il report vero di D2 e
+la prova generale.
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
