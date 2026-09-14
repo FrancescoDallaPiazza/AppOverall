@@ -43,7 +43,16 @@
 --     `cfPulisci` all'import del 9 settembre (consegna dell'anagrafe, §3.2). Quindi
 --     `persona.codice_fiscale_origine` di qua conterra la cella **ripulita**, non
 --     quella del gestionale. E la stringa piu vicina all'origine che esista ancora,
---     e va chiamata per quello che e.
+--     e va chiamata per quello che e;
+--   * **`mansione` di la non e la colonna Mansione.** L'import la riempie con la
+--     **prima colonna non vuota** fra cinque sinonimi — `mansione`, `ruolo`,
+--     `qualifica`, `profilo`, `profiloprofessionale` — e la mette in **maiuscolo**
+--     (`anagraficheImport.ts:174` e `:867`, letti il 14 settembre). Quindi dove la
+--     Mansione del file e vuota qui arriva la Qualifica, e nessuna riga dice da quale
+--     colonna veniva. Il passo 01 la porta in `rapporto_lavoro.mansione` com'e,
+--     **senza reinterpretarla**: ricostruire la colonna vorrebbe il file. Chi legge
+--     quel campo per dedurne un ruolo sappia che e un campo misto — e il caso di
+--     «RLS - LAVORATORE» sulla riga 3401 (`51be35d` di AppSopralluoghi).
 --
 -- Il caricamento, da `psql` collegato al database di destinazione:
 --

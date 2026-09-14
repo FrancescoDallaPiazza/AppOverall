@@ -774,8 +774,10 @@ cambia un passo: la deduzione e aritmetica su un vincolo `unique` che c'e.
 
 **«RLS - LAVORATORE»: la lettura e di Francesco, la migrazione non ancora.** Sono due
 ruoli e dal dizionario conta la meta RLS — il lavoratore il dizionario non lo
-asserisce mai. Riga 3401, l'unica del file, con la colonna RLS vuota: l'RLS sta
-scritto solo li. La `070` che aggiunge la forma e una **proposta** di AppSopralluoghi,
+asserisce mai. ~~Riga 3401, l'unica del file, con la colonna RLS vuota: l'RLS sta
+scritto solo li.~~ **Corretto un'ora dopo da chi l'aveva scritto (`51be35d`): le righe
+sono tre e il testo sta nella Qualifica, non nella mansione** — vedi il paragrafo
+seguente. Qui era stato ripreso senza aprire il file, e la tabella sotto ci poggiava. La `070` che aggiunge la forma e una **proposta** di AppSopralluoghi,
 e tocca un dizionario che ha una **copia gemella qui**, nella `0007` (`ruolo_testo`
 29 forme e 160 righe, `ruolo_testo_parola` 34).
 
@@ -785,6 +787,41 @@ e tocca un dizionario che ha una **copia gemella qui**, nella `0007` (`ruolo_tes
 | **AppSopralluoghi** | **D2 e la correzione di `riepiloga`**, un deploy solo, ritirando il commento di `nomineImport.ts:542` — invariato da `44142f9`. **La `070` non si scrive prima del si di Francesco** | se il si arriva: la `070`, e **prima del commit** la forma esatta mandata qui — testo verbatim, figura, righe — perche la gemella sia la stessa stringa e non una trascrizione | Perche D2 e codice e la `070` e dato, e non si aspettano a vicenda. Ma una forma di dizionario copiata a mano fra due repo e esattamente il posto in cui nascono i «4.0 contro 4»: la stringa si confronta, non si riscrive |
 | **AppOverall** | **la regola per le 58 P.IVA non usabili** — invariato | se la `070` si fa: **la gemella nello stesso giorno**, con i conti della `0007` aggiornati **in una migrazione nuova** e non riscritti nella vecchia (30 forme, 161 righe, 35 parole, se la forma e quella) | Perche la `0007` e merged e i suoi conti valgono per il giorno in cui sono stati presi; e perche due dizionari che divergono per una riga rompono `ruoli:check` di la e il confronto di qua, e il primo a vederlo sarebbe chi non l'ha causato |
 | **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | La riga 3401 e un RLS in piu nel campo; per loro conta quando arriva con l'anagrafe, non prima |
+
+### Prossimo passo per corsia · al 14 settembre 2026, la Qualifica
+
+**«RLS - LAVORATORE» non e un caso unico e non sta nella mansione** (AppSopralluoghi
+`51be35d`, misurato sul file dopo il si di Francesco alla `070` e prima di scriverla).
+Sta nella colonna **Qualifica** su **tre** righe — 1234, 3353, 3401 — e in nessuna la
+colonna RLS e compilata. L'import ne vede una sola perche `persona.mansione` di la **non
+e la colonna Mansione**: e la **prima non vuota** fra cinque sinonimi — `mansione`,
+`ruolo`, `qualifica`, `profilo`, `profiloprofessionale` — **messa in maiuscolo**
+(`anagraficheImport.ts:174` e `:867`, **letti da qui** prima di costruirci sopra). Sulla
+3401 Mansione e vuota e passa la Qualifica; sulle altre due no. E il problema e piu
+largo: delle 336 Qualifiche accanto a una Mansione piena, **38** contengono una parola
+di ruolo e non sono lette, quasi tutte senza colonne di ruolo; **4** forme non sono nel
+dizionario della `068`.
+
+**La domanda che ci hanno fatto: la `0007` leggeva Mansione o anche Qualifica?** La
+`0007` **non legge nessuna colonna**: e un dizionario di forme, e le sue 29 forme su 160
+righe vengono dalla misura `8dab00a`, che dice «dentro la MANSIONE» **senza nominare la
+colonna**. **Dedotto, non misurato**: solo Mansione. La misura riporta **RLS zero**, e la
+3401 — Mansione vuota, Qualifica «RLS - LAVORATORE» — sarebbe comparsa sia leggendo la
+Qualifica sia con il ripiego dell'import. La deduzione si chiude con una domanda sola a
+chi ha il file e lo script: **la 3401 e fra le 160?**
+
+**E tocca anche questa corsia, per una ragione diversa dalla gemella.** Il passo 01 di
+`ebafe98` porta `mansione` d'origine in `rapporto_lavoro.mansione` com'e — ed e un campo
+che mescola cinque colonne ed e gia maiuscolo. Non si reinterpreta in migrazione (una
+riga d'origine non dice da quale colonna veniva, e ricostruirlo vorrebbe il file), ma
+**si dichiara**: scritto in testa a `00_origine.sql`.
+
+| chi | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **Francesco** | **se l'import legge anche la Qualifica quando la Mansione e piena.** Se no: la `070` porta una forma e produce una nomina. Se si: prima una modifica al codice, e la `070` porta piu forme. **Parere di AppOverall: si, ma come fonte distinta** — la colonna da cui viene il ruolo scritta sulla nomina, come la `068` fa gia per colonna e mansione, e non fusa nel campo `mansione` | la `070` nella forma che ne esce, e il rilancio dell'import | Il parere perche le 38 righe hanno la stessa forma delle 148 che hanno motivato la `0007`: un ruolo scritto **solo** in un campo libero, quasi sempre senza la colonna. Ma un campo in piu e piu nomine sui dati veri, e la decisione e sua |
+| **AppSopralluoghi** | **D2 e la correzione di `riepiloga`**, e il deploy **aspetta la risposta sulla Qualifica**: se e si, la modifica va nello stesso deploy invece di farne due. Piu **la domanda sulla 3401 fra le 160** di `8dab00a` | la `070`, con la forma esatta mandata qui prima del commit | Perche un deploy in piu e un'altra finestra in cui il codice online non e quello verificato; e perche la deduzione sulla `0007` regge sulla loro misura, e solo loro possono chiuderla |
+| **AppOverall** | **la regola per le 58 P.IVA non usabili**, in attesa del via di Francesco | la gemella della `070`, nella forma che esce dalla sua risposta; e se la Qualifica entra, **il commento della `0007` che dice «dentro il campo mansione» va corretto in una migrazione nuova** | La `0007` e merged e non si riscrive; e una descrizione della popolazione che smette di essere vera va ritirata dove qualcuno la legge, non lasciata |
+| **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Tre righe con un RLS scritto nella Qualifica sono materia per quando arrivano, non prima |
 
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
