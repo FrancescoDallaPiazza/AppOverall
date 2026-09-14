@@ -1077,6 +1077,42 @@ scritto nello `STATO.md` con cio che si e visto**.
 **Restano aperte, e nessuno dei quattro si le chiude:** «Legale Rappresentante/RSPP»,
 il report vero che chiude D2, e la prova generale della migrazione sui dati veri.
 
+**La `070` e applicata in produzione** (AppSopralluoghi `c4b3a42`), da Francesco
+dall'SQL Editor, con il testo del ramo. Il controllo in sola lettura subito dopo, come
+lo riporta lo `STATO.md` su `main`: il vincolo `nomina_origine_nota` contiene
+`qualifica`, `ruolo_testo` 32 (27 + 5), `ruolo_testo_figura` 37 (32 + 5), le cinque forme
+nuove presenti. **Verificato da qui** che il codice online non e cambiato: da `e33efc2` a
+`main` nessun file sotto `src` o `supabase/functions`.
+
+**L'ordine e cambiato, e non fa danno.** La `070` e arrivata prima della misura dei
+segnaposto, che era il passo 1. Ma la condizione vera sulla misura era **prima del
+deploy**, non prima della `070` — le due cose non si toccano: una e sui clienti, l'altra
+sulle nomine — e quella condizione regge ancora. Scritto perche un ordine cambiato senza
+dirlo e la forma in cui un ordine smette di contare.
+
+**E la corsia ha trovato una finestra che l'ordine non diceva.** Fra la `070` e il deploy
+**non si importano nomine**: il codice online, con la Mansione vuota, legge ancora la
+Qualifica come mansione, e adesso che il dizionario conosce le forme nuove scriverebbe
+«RLS - LAVORATORE» (riga 3401) e «RSPP-SOCIO» con `origine = 'mansione'` — cioe
+esattamente il difetto che lo script delle 6 nomine sta per correggere, rifatto su due
+righe nuove. **La finestra si chiude col deploy, e vale anche per Francesco.**
+
+**Una riga dello `STATO.md` di la dice ancora «La `070` (non applicata)»** (riga 370 su
+`c4b3a42`), mentre la 418 riporta il vincolo applicato. E la forma del 13 settembre —
+il file che dice una cosa e il database un'altra — in piccolo, e va chiusa li.
+
+**Dal file `ElencoSedi.xlsx`, non dalla produzione**: 55 partite IVA segnaposto su 849
+righe (53 volte `00000000000`, 2 volte `11111111111`); fra le 619 attive, **40, tutte
+`00000000000`**. E il numero che la guardia muta ha lasciato passare **nel file**; quanti
+di quei 40 stanno davvero nel database, e se condividono il cliente, lo dice la misura.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **lo script delle 6 nomine** (`a82c6af`), e controllare che compaia «Controllo superato» | il si diretto alla corsia per la misura e il merge, se lo chiede; poi l'anteprima contro 36 / 30 / 4. **Nessun import di nomine fino al deploy** |
+| **AppSopralluoghi** | correggere la riga 370 dello `STATO.md`; la misura dei segnaposto in produzione col si di Francesco | il merge e il deploy, con la verifica per canale — e da li la finestra e chiusa |
+| **AppOverall** | nulla di nuovo | la migrazione delle nomine sopra i passi 01 e 02 |
+| **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
