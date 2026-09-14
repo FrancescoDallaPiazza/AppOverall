@@ -213,7 +213,7 @@ declare
   clienti_attesi bigint; clienti bigint; sedi bigint; n bigint;
   dip_origine bigint; dip_qui bigint;
   fusi bigint; assorbiti bigint; discordi bigint; scartate bigint; segnaposto bigint;
-  con_ateco bigint; con_livello bigint; non_legali bigint;
+  con_ateco bigint; con_livello bigint; non_legali bigint; doppi bigint;
 begin
   select count(distinct piva) + count(*) filter (where piva is null)
     into clienti_attesi from cli_tutti;
@@ -261,11 +261,21 @@ begin
   select count(*) into non_legali from sede t join origine.sede s on s.id = t.id
    where t.import_key not like '%:legale';
 
+  -- Il doppione che la regola 1 non vede e la regola 2 non ferma: la stessa unita
+  -- scritta due volte all'origine, una con la P.IVA e una senza. Diventa due clienti
+  -- qui, e nessun vincolo protesta. Si CONTA e non si fonde — fondere per nome e la
+  -- mossa che questo repo non fa — perche il posto giusto per chiuderlo e l'origine,
+  -- prima dell'estrazione. Trovato il 14 settembre sul caso PROGETTO EMERA ONLUS.
+  select count(*) into doppi from cli_tutti a
+   where a.piva is null
+     and exists (select 1 from cli_tutti b where b.piva is not null and b.den = a.den);
+
   raise notice 'clienti d''origine %  ->  clienti %, sedi %', (select count(*) from origine.cliente), clienti, sedi;
   raise notice '  fusioni per P.IVA: % clienti da piu unita, % unita assorbite, % con ragioni sociali discordi (vince il superstite)', fusi, assorbiti, discordi;
   raise notice '  P.IVA scritte e non usabili: %, di cui % segnaposto a cifre tutte uguali (usabili per la guardia d''origine)', scartate, segnaposto;
   raise notice '  sedi che non sono la sede legale del loro cliente: %', non_legali;
   raise notice '  NON portati: ATECO su % clienti, almeno un livello su %', con_ateco, con_livello;
+  raise notice '  possibili doppioni non fusi: % clienti senza P.IVA usabile con la ragione sociale di uno che ce l''ha', doppi;
 end
 $$;
 

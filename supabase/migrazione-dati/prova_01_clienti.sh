@@ -98,13 +98,15 @@ ok "$(q -c "select cliente_id || ' ' || sede_id from rapporto_lavoro where id = 
 echo "== un'unita nuova con una P.IVA gia presente"
 q -c "insert into origine.cliente (id, ragione_sociale, partita_iva, attivo, numero_lavoratori, created_at) values ('${K}9', 'LAVANDERIA BLU', '98765432109', true, 3, now())"
 q -c "insert into origine.sede values ('${S}9', '${K}9', 'Sede legale', null, 'Cerea', 'VR', true, true, now())"
-if passo 01_clienti.sql -v clienti_attesi=9 -v sedi_attese=8; then echo "  ok   passo 01 con l'unita nuova"; else echo "  NO   fallito:"; cat "$ERRORE"; FALLITI=$((FALLITI+1)); fi
-ok "$(conta)" "7 clienti, 8 sedi, 9 corrispondenze" "confluisce nel cliente che c'e"
+q -c "insert into origine.cliente (id, ragione_sociale, partita_iva, attivo, created_at) values ('${K}a', 'Magazzini Gialli.', null, true, now())"
+if passo 01_clienti.sql -v clienti_attesi=10 -v sedi_attese=8; then echo "  ok   passo 01 con l'unita nuova e un doppione senza P.IVA"; else echo "  NO   fallito:"; cat "$ERRORE"; FALLITI=$((FALLITI+1)); fi
+ok "$(conta)" "8 clienti, 8 sedi, 10 corrispondenze" "l'unita confluisce; il doppione senza P.IVA resta un cliente a se"
+ok "$(grep -oE 'possibili doppioni non fusi: [0-9]+' "$ERRORE")" "possibili doppioni non fusi: 1" "ma e contato: stessa ragione sociale normalizzata di K8, che ha la P.IVA"
 ok "$(q -c "select attivo::text from cliente where id = '${K}6'")" "true" "un'unita attiva riaccende il cliente"
 ok "$(q -c "select principale || ' ' || n_dipendenti_gestionale from sede where id = '${S}9'")" "false 3" "e la sua sede non diventa principale"
 
 echo "== i controlli finali, fatti scattare apposta"
-AT9="-v clienti_attesi=9 -v sedi_attese=8"
+AT9="-v clienti_attesi=10 -v sedi_attese=8"
 rifiuta "cliente portato senza import_key" \
   "update cliente set import_key = null where id = '${K}5'" \
   "update cliente set import_key = 'sedi:den:OFFICINA NERI' where id = '${K}5'" $AT9

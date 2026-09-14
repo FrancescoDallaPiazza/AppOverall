@@ -1256,6 +1256,82 @@ gia esserci.
 | **AppOverall** | nulla da scrivere: il passo 02 prende il numero di righe **all'estrazione**, non dal 3.415 | **la prova generale sui dati veri acquista valore dopo il recupero, non prima**: farla adesso misurerebbe un'anagrafe che sappiamo bucata |
 | **AppFormazione** | invariato: **ferma per costruzione** | **una domanda non assegnata**: le 48 persone di CorsiFatti stanno nel loro database, che importa per ragione sociale e non passa dalla guardia? Si chiede quando il recupero e fatto, per confrontare due anagrafi e non una bucata |
 
+### Prossimo passo per corsia · al 14 settembre 2026, 75 persone e cinque doppioni
+
+**La misura allargata ha trovato di piu, ed e la ragione per cui si fa prima di
+importare** (AppSopralluoghi `c296dfe`, `960f418`, col si di Francesco per ciascuna
+lettura). Il foglio Ruoli SSL ha 479 societa, tutte con un cliente omonimo in
+produzione. **I codici fiscali che non esistono sotto nessun cliente sono 75, non 53**:
+53 sui 35 clienti col segnaposto, e **22 su altri 5 clienti** — IGEA 12, LA TORRE 5,
+IL MAGNIFICO 2, PROGETTO EMERA 2, GIARDINAGGIO ADAMI 1 — piu 2 righe senza codice
+fiscale. Un import fatto sulle 53 ne avrebbe richiesto un secondo.
+
+**E quei cinque hanno la stessa forma: due clienti per un'azienda**, creati tutti
+dall'import del 9 settembre alle 10:30, tutti con zero persone:
+
+| cliente | i due in produzione | persone nel file, per sede |
+|---|---|---|
+| GIARDINAGGIO ADAMI | due righe identiche, stessa P.IVA, nessun indirizzo | 1, Via Valle 63 |
+| LA TORRE | identiche salvo una virgola nell'indirizzo | 6, Via Trezzolano 4 |
+| PROGETTO EMERA | una con l'indirizzo e senza P.IVA, l'altra il contrario | 2, Via del Lavoro 16 |
+| IGEA | stessa P.IVA, Via Sorte 48 e Via Michelangelo 7 | **13, tutte Via Sorte 48** |
+| IL MAGNIFICO | stessa P.IVA, scritti diversamente | 2, Corso Porta Nuova 131 — **nessuno dei due indirizzi** |
+
+**Due correzioni, una per verso.**
+
+- **Le attese scritte dalla corsia erano al rovescio**, e l'ha corretto con la versione
+  sbagliata citata come tale: i 75 sono codici fiscali che non esistono **da nessuna
+  parte**, e Zimmari (riga 3473) esiste sotto Rittal — quindi l'anteprima dira **75 se la
+  3473 e esclusa, 76 se non lo e**, piu le 2 senza codice fiscale.
+- **La mia ipotesi su IL MAGNIFICO era sbagliata**, ed era scritta come ipotesi. Avevo
+  detto che la P.IVA portava fra i candidati tutti e due i clienti. **Per le persone no**:
+  nessun file persone ha una colonna P.IVA, quindi i candidati vengono **solo dal nome**
+  — l'ha letto la corsia nel codice. Cosi IGEA, LA TORRE, EMERA e ADAMI sono spiegati
+  (stesso nome, due candidati, la sede non sceglie); IL MAGNIFICO no, perche i due nomi
+  si normalizzano diversi, e **resta non spiegato**: il 9 settembre girava un codice
+  precedente, e un import non si ricostruisce. L'osservazione vale per l'import dei
+  **clienti**, dove la P.IVA c'e.
+
+**Il caso della 3473 e chiuso come fatto**: Zimmari Luigino e nel file due volte con lo
+stesso codice fiscale, sotto «XXXXXXXXXXXX» e sotto Rittal; la scheda in produzione viene
+dalla riga di Rittal. **Non e un abbinamento sbagliato: e una riga doppia del gestionale,
+sotto un cliente che si chiama segnaposto.** La proposta della corsia — escluderla — e
+quella giusta.
+
+**Le raccomandazioni di questa corsia sulle decisioni di Francesco**, scritte come
+raccomandazioni e tutte dopo la misura 2a — cosa punta, in produzione, a ciascuno dei
+10 clienti delle coppie e a «XXXXXXXXXXXX»: unire o togliere un cliente sposta sedi,
+incarichi, sopralluoghi, e «0 persone» non vuol dire «niente collegato».
+
+- **ADAMI e LA TORRE**: doppioni veri, **si uniscono** tenendo quello a cui punta di piu.
+- **EMERA**: **si uniscono in uno che porti tutte e due le meta** — la P.IVA dell'uno e
+  l'indirizzo dell'altro.
+- **IGEA**: le 13 persone vanno sul cliente di **Via Sorte 48**, che e un fatto del file;
+  se Via Michelangelo 7 sia una seconda sede vera lo sa Francesco, e **finche non lo dice
+  non si unisce e non si toglie**.
+- **IL MAGNIFICO**: stessa P.IVA, **si uniscono**; l'indirizzo delle persone e un terzo,
+  e quale sia quello giusto e una domanda sua.
+- **«XXXXXXXXXXXX»**: la riga 3473 **esclusa**; il cliente stesso — segnaposto come nome,
+  segnaposto come P.IVA, una sede e nessuna persona — e un candidato a essere tolto,
+  **dopo** la misura 2a.
+
+**E una cosa per la migrazione di questa corsia, gia fatta.** Fra le cinque coppie, il
+passo 01 fonde da se quelle con la stessa P.IVA usabile. **EMERA no**: una P.IVA e
+un'assenza, stesso nome normalizzato, e sarebbero passati come due clienti senza che
+niente lo dicesse. Il passo 01 adesso **li conta** — «possibili doppioni non fusi»: clienti
+senza P.IVA usabile con la ragione sociale di uno che ce l'ha — **e non li fonde**, perche
+fondere per nome e la mossa che questo repo non fa. Provato: il conto da 0 sull'origine
+finta e 1 con un doppione aggiunto, e tutte le prove dei clienti e delle persone
+passano ancora sopra la `0001`-`0018`. Il posto giusto per chiudere il doppione resta
+l'origine, prima dell'estrazione.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | il si alla lettura 2a, quando la corsia la chiede | **le decisioni sulle cinque coppie e su «XXXXXXXXXXXX»**, con le raccomandazioni qui sopra davanti; poi le scritture di pulizia, e solo dopo l'anteprima dell'import delle anagrafiche contro **75 o 76, piu 2** |
+| **AppSopralluoghi** | **la misura 2a**, con l'elenco delle tabelle ricavato dalle migrazioni e non dalla memoria | le attese aggiornate dopo le decisioni, perche unire un cliente cambia dove vanno le persone ma non quante sono |
+| **AppOverall** | fatto il conto dei doppioni non fusi | la prova generale, dopo il recupero |
+| **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
