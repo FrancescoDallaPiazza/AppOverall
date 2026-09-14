@@ -676,7 +676,7 @@ un commit dopo il 13 alle 20:54, nessun ramo nuovo, nessuna PR recente.
 
 | corsia | adesso | poi | perche in questo ordine |
 |---|---|---|---|
-| **AppOverall** | **la migrazione dell'anagrafe, cominciando dalle persone**: scritta e caricata su un cluster usa e getta come la `0001`-`0006`, **nessuna scrittura su produzione**. I conti che deve restituire sono gia misurati e stanno nella sezione 6: 3.419 righe → **3.415 persone** e 3.419 rapporti, 4 codici fiscali validi su due clienti, **259** schede senza codice fiscale (228 + 31 non validi) che attraversano **come schede, senza fusioni** | il resto dell'anagrafe, e con i clienti `N DIPENDENTI` insieme alla sua etichetta | Perche e il passo da cui dipendono gli altri due: il giudizio di AppFormazione aspetta `clienti.dipendenti`, e `sorveglianza.persona_id` deve puntare a persone che di qua non esistono ancora. E perche il carico si verifica contro numeri scritti **prima** di scrivere la migrazione, non ricavati dopo da quello che ha prodotto |
+| **AppOverall** | ~~**la migrazione dell'anagrafe, cominciando dalle persone**~~ **scritta e provata il 14 mattina, e l'ordine di esecuzione era sbagliato: prima devono attraversare i clienti** (qui sotto). Il passo com'era assegnato: scritta e caricata su un cluster usa e getta come la `0001`-`0006`, **nessuna scrittura su produzione**. I conti che deve restituire sono gia misurati e stanno nella sezione 6: 3.419 righe → **3.415 persone** e 3.419 rapporti, 4 codici fiscali validi su due clienti, **259** schede senza codice fiscale (228 + 31 non validi) che attraversano **come schede, senza fusioni** | il resto dell'anagrafe, e con i clienti `N DIPENDENTI` insieme alla sua etichetta | Perche e il passo da cui dipendono gli altri due: il giudizio di AppFormazione aspetta `clienti.dipendenti`, e `sorveglianza.persona_id` deve puntare a persone che di qua non esistono ancora. E perche il carico si verifica contro numeri scritti **prima** di scrivere la migrazione, non ricavati dopo da quello che ha prodotto |
 | **AppSopralluoghi** | **nessun passo nuovo fino all'esito dell'anteprima.** L'anteprima delle nomine dal back-office, senza Applica, **la fa Francesco oggi** — scritto nel loro `STATO.md`, e discende dalla decisione del 12 riportata qui sotto: la corsia non la fa girare. Quando l'esito arriva, a loro tocca **leggerlo e scriverlo**, e se l'anteprima si ferma sulla guardia o non riconosce le righe col ruolo nella mansione la diagnosi e loro | **D2**, il report che non conosce i componenti. L'import delle nomine **non e un passo di questa corsia**: lo esegue Francesco | Perche l'anteprima e l'unica prova che il back-office legga il dizionario: la anon a zero righe dice che la porta e chiusa a chi non e entrato, non che sia aperta a chi e entrato. **D2 viene dopo e non in parallelo** perche vuole un deploy, e un deploy prima dell'anteprima cambierebbe il codice su cui Francesco la fa. **L'abbinamento guidato non si assegna**: riguarda proprio le 259 schede senza codice fiscale che la migrazione sta per portare di qua, e costruirlo nel campo prima di sapere come attraversano vuol dire costruirlo due volte |
 | **AppFormazione** | **nessun passo: ferma per costruzione**, non per lentezza. Il giunto `dipendenti_rls` e in produzione e aspetta `clienti.dipendenti` | il giudizio sui 9 RLS, quando l'anagrafe attraversa con `N DIPENDENTI` | Perche l'unica cosa che la sbloccherebbe prima e colmare `clienti.dipendenti` dai loro export, e la risposta e gia scritta qui sopra ed e no. Inventare un passo per non lasciarla ferma sarebbe la regola di questa sezione violata da chi assegna: una corsia senza passo lo chiede, e chi assegna non ne fabbrica uno per riempire la tabella |
 
@@ -687,6 +687,54 @@ un commit dopo il 13 alle 20:54, nessun ramo nuovo, nessuna PR recente.
 - **l'import delle nomine resta di Francesco**, anteprima e scrittura. Il deploy
   verificato e la `069` applicata tolgono gli ostacoli tecnici, e nessuno dei due e un
   permesso.
+
+**Il passo di AppOverall, fatto il 14 mattina, e la cosa che ha trovato.** Scritti e
+provati su un cluster fatto con `initdb` e poi cancellato, **con dati finti**: nessun
+dato vero e passato da questa macchina.
+
+- **`0016`, `codice_fiscale_valido`**: il port in SQL di `valido()` di AppSopralluoghi,
+  perche la `0008` voleva il carattere di controllo e in questo repo non c'era codice
+  che lo calcolasse. Confrontata con la funzione di produzione **eseguita**, non letta:
+  **6.177 vettori, 0 disaccordi**. E lo zero discrimina — un controllo di sola forma
+  sugli stessi vettori ne sbaglia **1.823**.
+- **`supabase/migrazione-dati/`**: `00_origine.sql` riceve l'estrazione, `01_persone.sql`
+  la traduce in persone piu rapporti con quattro regole (una riga d'origine = un
+  rapporto con id e `import_key` conservati; fusione **solo** per codice fiscale
+  valido; mai senza; sul nome discorde vince l'ultima riga aggiornata, e le discordanze
+  si contano). **Si rifiuta prima di scrivere in sei casi**, fra cui un'estrazione con
+  un numero di righe diverso da quello dichiarato. La prova: **8 rifiuti nei due
+  versi, 13 esiti, rieseguito senza effetto, 3 controlli finali fatti scattare**.
+  E la prova ha preso un difetto suo prima di passare: con `psql` non trovato dava
+  «ok, rifiutato» a tre controlli su un database mai raggiunto. Adesso un rifiuto
+  vale solo se a rifiutare e PostgreSQL.
+
+**Cosa ha trovato, e cambia l'ordine: le persone non possono attraversare per prime.**
+`rapporto_lavoro.cliente_id` e `not null` con chiave esterna su `cliente` (`0001`), e
+la `0013` ha deciso che i clienti attraversano **con lo stesso uuid**: ogni rapporto
+punta a un cliente che deve gia esserci. «Comincia dalle persone» era giusto come
+ordine di progetto — le persone erano la domanda aperta — e sbagliato come ordine di
+esecuzione. Il passo 01 lo dice da se: si ferma con il rifiuto (c).
+
+**E i clienti non sono una copia nemmeno loro.** `cliente.partita_iva` qui e `unique`
+con un `check` a undici cifre (`0001:138`), e fra le 615 attive **58** hanno una P.IVA
+inutilizzabile — `XXXX`, `00000000000`, due a dieci cifre (consegna dell'anagrafe
+§3.4, misura di AppSopralluoghi). Senza una regola, il carico dei clienti **si ferma**:
+`XXXX` e le due a dieci cifre sul `check`, e `00000000000` — che il `check` lo passa,
+undici cifre sono undici cifre — sull'`unique` appena compare due volte, cosa che
+nessuno ha contato. Con la regola sbagliata, invece, quelle righe spariscono. E la
+stessa forma del codice fiscale, e la risposta della `0008` e gia li: la cella non
+usabile vale come assente e si conserva accanto. **Da decidere prima di scriverlo**,
+ed e il prossimo passo di questa corsia.
+
+**Quello che resta fuori da qui, dichiarato:**
+
+- **l'estrazione vera la fa Francesco**, con la select scritta in testa a
+  `00_origine.sql`, e il CSV resta fuori da ogni repo;
+- due rifiuti **non sono mai stati misurati sui dati veri** — `cognome` null e
+  `attivo = false` senza data di cessazione. Se la prima esecuzione si ferma li, e la
+  domanda che nessuno aveva fatto, non un difetto;
+- `codice_fiscale_origine` riceve la cella **gia ripulita** da `cfPulisci` all'import
+  del 9 settembre, non quella del gestionale: e la piu vicina all'origine che esista.
 
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
