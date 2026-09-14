@@ -736,6 +736,31 @@ ed e il prossimo passo di questa corsia.
 - `codice_fiscale_origine` riceve la cella **gia ripulita** da `cfPulisci` all'import
   del 9 settembre, non quella del gestionale: e la piu vicina all'origine che esista.
 
+### Prossimo passo per corsia · al 14 settembre 2026, tarda mattina
+
+**L'anteprima delle nomine e vista** (AppSopralluoghi `d8a7cc7`), e riletta da qui su
+`origin` prima di assegnare: Francesco dal back-office, senza scrivere, sul codice di
+`12b1768` — e fra quello e la produzione cambia solo `docs/STATO.md`, controllato con
+un `diff` e non preso dal messaggio; anche il deploy di `d8a7cc7` tocca solo quel file.
+La guardia non si e fermata: **364** da creare (198 dalle colonne, 166 dalla mansione),
+**153** da decidere, **4** persone non trovate, **4** unita del file non abbinate. E il
+conto **rifatto fuori dal database** col seme della `068` torna figura per figura, che
+e la prova che mancava: il back-office legge il dizionario, per le chiavi che il file
+usa.
+
+| chi | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **Francesco** | **la scrittura delle nomine**, quando decide. **Il pulsante dira «Scrivi 364» e il risultato sara «363 nomine scritte»**: non e una nomina persa, e un doppione tolto — riga 2782, `dirigente` sia dalla colonna sia dalla mansione, e il vincolo `unique (persona_id, figura_codice)` c'e dalla `015`. Le 4 unita non abbinate possono restare fuori: l'import e idempotente e le prende a un secondo passaggio | le 4 unita e la forma «RLS - LAVORATORE», quando vuole: sono decisioni di merito, non passi tecnici | Perche sapere il numero **prima** e cio che distingue un doppione tolto da una riga persa, e dopo la scrittura le due cose si presentano uguali |
+| **AppSopralluoghi** | **niente sul codice finche la scrittura non e fatta**: nessun deploy fra l'anteprima e la scrittura | **D2 e la correzione di `riepiloga`, nello stesso deploy**, dopo la scrittura. Con la correzione va ritirato il commento di `nomineImport.ts:542`, che dice «12 righe» e «coincidono» ed e falso tutte e due le volte | L'ordine del mattino diceva D2 **dopo l'anteprima**; la corsia l'ha spostato **dopo la scrittura**, e ha ragione: D2 vuole un deploy, e un deploy fra l'anteprima vista e la scrittura cambierebbe il codice che Francesco ha appena verificato. **Corretto qui, non ratificato in silenzio** |
+| **AppOverall** | **la regola per le P.IVA non usabili dei clienti**, prima di scrivere il carico dei clienti: 58 su 615, e il `check` e l'`unique` di `cliente.partita_iva` | il carico dei clienti e delle sedi, poi le persone di `ebafe98`, poi le nomine — che dopo la scrittura esisteranno di la e andranno portate anche loro | Perche le persone aspettano i clienti per chiave esterna, e le nomine aspettano le persone: e l'unico ordine in cui ogni passo trova gia scritto cio a cui punta |
+| **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Niente di stamattina tocca `clienti.dipendenti` |
+
+**Non assegnato, di nuovo e di proposito: l'abbinamento guidato.** L'anteprima gli ha
+dato un caso vero — «Pradella Tazio», due righe senza codice fiscale nello stesso
+cliente, non scritto per la (a), e con il codice fiscale in un altro cliente — ed e
+esattamente la popolazione che la migrazione delle persone sta per portare di qua.
+Un caso vero rende la domanda piu concreta, non piu urgente.
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
