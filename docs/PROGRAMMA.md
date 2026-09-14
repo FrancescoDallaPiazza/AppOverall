@@ -920,8 +920,12 @@ tutte** con la corrispondenza in mezzo.
 **Tre cose trovate scrivendolo, e la prima non e nostra.**
 
 1. **La guardia sul segnaposto di `pivaUsabile` non scatta mai** (`anagraficheImport.ts:71`).
-   Il commento dice «non e un segnaposto (tutte cifre uguali)», il codice scrive
-   `(\d){10}` — dieci cifre qualsiasi — che su undici cifre non corrisponde mai.
+   Il commento dice «non e un segnaposto (tutte cifre uguali)», ~~il codice scrive
+   `(\d){10}` — dieci cifre qualsiasi — che su undici cifre non corrisponde mai~~.
+   **Corretto un'ora dopo da AppSopralluoghi (`5fb57ab`), e verificato qui con `od -c`:
+   nel sorgente, dopo `(\d)`, c'era il byte di controllo 0x01 — un `\1` diventato
+   invisibile — che il terminale da cui l'avevo letto mostrava come `(\d){10}`.**
+   L'effetto misurato resta: la regex non corrispondeva mai.
    **Eseguita, non letta**: `00000000000` e `11111111111` sono usabili in produzione. E
    di la `partita_iva` non e unica, e l'import cerca i clienti **per P.IVA**: su un
    segnaposto aggancia «il primo candidato», che e esattamente l'avvelenamento che quel
@@ -955,6 +959,62 @@ stessa ragione sociale o lo stesso codice fiscale — e (g) — due `werp_id` pe
 | **AppSopralluoghi** | **la Qualifica e la `070`**, con lo script delle 6 nomine, mandati qui prima del commit — invariato. **Piu il difetto di `pivaUsabile`**: prima la misura in sola lettura, quanti clienti portano un segnaposto e quanti lo condividono, col si di Francesco per leggere; poi la correzione, `(\d)\1{10}`, **nello stesso deploy della Qualifica** | un import delle anagrafiche **solo dopo la correzione** | Perche la correzione cambia come l'import riconosce i clienti al prossimo passaggio: un cliente oggi agganciato per segnaposto passerebbe al codice fiscale o al nome. Misurare prima e sapere chi si sposta; correggere senza misurare e spostarli al buio |
 | **AppOverall** | **la gemella della `070`** quando arriva la forma; la prova generale, se Francesco la vuole | la migrazione delle nomine, sopra i passi 01 e 02 | Le nomine puntano a persone e sedi, e sono l'ultima cosa dell'anagrafe che attraversa |
 | **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Il numero che aspettano adesso ha un posto di qua, `sede.n_dipendenti_gestionale`, con la sua etichetta; non ha ancora un dato vero dentro |
+
+### Prossimo passo per corsia · al 14 settembre 2026, la 070 riletta
+
+**La proposta per la Qualifica e arrivata prima del commit**, come chiesto, ed e stata
+riletta **sui file** e non sul messaggio: prima nel working tree del ramo, poi committata
+(`d849073` su `origin/qualifica-fonte-distinta`). Tre parti:
+
+- la `070`: `nomina.origine` accetta `qualifica`, e cinque forme nuove nel dizionario —
+  non quattro: la quinta e «RSPP-SOCIO», che compare solo con la Mansione vuota;
+- il codice: Mansione e Qualifica si leggono ciascuna dalla sua colonna, **solo
+  nell'import delle nomine**. `anagraficheImport.ts` non cambia, quindi
+  `persona.mansione` resta il campo misto dichiarato in `00_origine.sql`;
+- lo script delle 6 nomine, per id e solo dove `origine` e ancora `mansione`.
+
+**La gemella e la `0018`.** Le cinque stringhe sono **identiche byte per byte** a
+`d849073`, confrontate dai due file, con le stesse posizioni e le stesse figure.
+Caricata su un cluster usa e getta sopra la `0001`-`0017`: 34 testi, 182 righe, 39
+parole, 10 regole; 190 asserzioni, **181 risolte e 9 no**; `datore_lavoro_rspp` resta
+81. E il carico ha trovato la cosa che la lettura non vedeva: **la `0007` non conosceva
+la parola `rls`**, perche nel campo mansione l'RLS non compariva mai — la prima forma
+RLS avrebbe fatto fallire il vincolo. Allargato il vocabolario, aggiunta la regola col
+suo motivo, e provato che il vincolo rifiuta ancora una parola inventata.
+
+**Un rilievo sulla loro proposta, da chiudere prima che Francesco la lanci.** Lo script
+delle 6 nomine finisce con `select count(*)` **dentro** `begin` … `commit`: se il conto
+non dice 6, il `commit` avviene lo stesso, e il commento che dice «un numero diverso va
+guardato prima di fidarsi» arriva quando la scrittura e gia fatta. Serve un controllo
+che **annulli**: un blocco che solleva un errore se il conto non e 6, prima del
+`commit`.
+
+**`pivaUsabile` e riparata sul ramo** (`5fb57ab`), e verificata qui con `od -c`: su
+`main` c'e `( \ d ) 001 { 1 0 }`, sul ramo `( \ d ) \ 1 { 1 0 }`. Per la corsia era
+l'unico carattere di controllo nel loro repo; **in questo repo lo stesso byte e stato
+cercato in 51 file con uno strumento provato prima su una sonda che lo conteneva:
+nessuno**. La causa che avevo scritto era quella mostrata dal terminale, e la `0018`
+corregge il commento della funzione dove si legge dal database.
+
+**L'ordine dei passi su produzione, perche due di questi rifiutano se fatti prima:**
+
+1. la misura dei segnaposto sui clienti, in sola lettura — **prima** del deploy, per
+   sapere chi si sposta quando la guardia torna a funzionare;
+2. la `070` dall'SQL Editor — **prima** del codice, che scrive `origine = 'qualifica'`
+   e senza la `070` verrebbe rifiutato dal vincolo;
+3. lo script delle 6 nomine, **con il controllo che annulla** — dopo la `070`, per lo
+   stesso vincolo;
+4. il merge del ramo su `main` e il deploy — Qualifica e `pivaUsabile` insieme;
+5. l'anteprima delle nomine, con le attese scritte **prima** nello `STATO.md`: dalla
+   Qualifica 36 proposte, 30 nuove per davvero, 4 da decidere;
+6. la scrittura.
+
+| chi | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **Francesco** | **tre si, nell'ordine sopra**: la lettura dei clienti per i segnaposto; la `070` e lo script, che applica lui; il merge e il deploy | l'anteprima e la scrittura delle nomine; **la domanda «Legale Rappresentante/RSPP»**; e resta aperta la prova generale sui dati veri | Due passi rifiutano se anticipati — il codice prima della `070`, lo script prima della `070` — e un rifiuto sui dati veri e un passo da rifare, non un danno. La misura prima del deploy e l'unica che, saltata, non si recupera |
+| **AppSopralluoghi** | **lo script con il controllo che annulla**, poi la misura dei segnaposto col si di Francesco; nello `STATO.md` le attese dell'anteprima prima che venga fatta | il merge, la verifica del deploy come per `e33efc2`, e il commit online per canale | Un conteggio che si legge dopo il `commit` e una constatazione, non un controllo. E le attese scritte prima sono cio che permette di dire «torna» invece di «sembra giusto» |
+| **AppOverall** | **fatta la `0018`** | la migrazione delle nomine sopra i passi 01 e 02; e se Francesco risponde su «Legale Rappresentante/RSPP», la gemella di quella risposta | Le nomine sono l'ultima cosa dell'anagrafe che attraversa, e adesso il dizionario di qua sa leggere tutte e due le colonne |
+| **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Sette RLS in piu dalla Qualifica sono materia per quando arrivano |
 
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
