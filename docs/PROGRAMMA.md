@@ -1920,6 +1920,53 @@ e **una visita di un'altra persona di Via IV Novembre** presente in tutti i casi
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 
+### Prossimo passo per corsia · al 14 settembre 2026, le cinque P.IVA condivise
+
+**Francesco ha deciso le cinque coppie ancora aperte**, nella sessione di AppSopralluoghi e riferito
+da quella corsia: **«tieni solo la sede con persone e dove non ci sono persone la prima sede che
+incontri in ordine»**, nell'ordine della tabella. Quindi resta LINDE di Via del Luguzzone 3; CENTRO
+ATTIVITA' di Via Fratelli Corra 7, con 21 persone; CENTRO SOCIALIZZAZIONE con 26; il primo MARANI; e
+AZ. AGR. PARAVANTO DI ALBERTO DELIPERI — e l'altro di ciascuna coppia si toglie.
+
+**La nota di merito della corsia, che va tenuta a vista:** Corra 9 e il secondo CENTRO SOCIALIZZAZIONE
+**potevano essere sedi vere**, come MAISON 22. La regola li toglie perche sono vuoti, e **se un giorno
+arrivano persone di quelle sedi, il cliente va ricreato** — non abbinato a quello rimasto.
+
+**Lo script e provato qui, e si puo lanciare** (`unisci_cinque_piva_condivise.sql`, `ac8cd75`,
+verificato su `origin`). Ripete la forma gia provata — la misura dal catalogo, poi copia, cancella,
+riempi i vuoti dalla copia, poi i controlli relativi a prima. Eseguito su un cluster usa e getta, con
+gli id veri, persone sui clienti tenuti, e **i due clienti IGEA presenti in tutti i casi come
+controllo**:
+
+| caso | esito |
+|---|---|
+| normale | **passa**: 12 clienti diventano 7, persone intatte, IGEA intatta |
+| rilancio | «trovati 0», niente scritto |
+| una persona su un cliente da togliere | notice e errore, niente scritto |
+| una visita sulla sede di un cliente da togliere | notice e errore, niente scritto |
+| una coppia con P.IVA diversa | errore sulla coppia, niente scritto |
+| un'azione `cliente-ateco` su un cliente da togliere | notice e errore, niente scritto |
+| `werp_id` solo sul cliente da togliere | **passa, e il tenuto lo prende** |
+| codice fiscale pieno sul tenuto e diverso sul tolto | **passa, e resta quello del tenuto**; dove il tenuto non l'aveva, lo prende |
+
+**Due cose da sapere prima del lancio, nessuna delle due lo blocca.**
+
+- **Il riempimento prende i vuoti campo per campo, e puo comporre un indirizzo da due righe.** Nella
+  prova PARAVANTO tiene «Via Saraina» e prende **CAP 37060 e localita Nogarole Rocca** dall'altro,
+  che era «Via T. Saraina 13». E quasi certamente lo stesso posto; ma e un indirizzo che nessuna delle
+  due righe diceva intero, e se lo si vuole diverso lo si corregge dalla scheda dopo.
+- **Una notice innocua che nell'SQL Editor puo sembrare un errore**: `drop table if exists
+  pg_temp.copia_cinque_piva` stampa «schema "pg_temp" does not exist, skipping» in una sessione che non
+  ha ancora tabelle temporanee. **Non e un errore e non cambia niente**; la corsia puo toglierla
+  scrivendo il nome senza `pg_temp.`, oppure dirlo a Francesco prima del lancio.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **lo script MAISON 22 e Giacomelli**, gia provato; poi **questo**, tutto insieme, e la query di verifica in fondo | la P.IVA di EMERA; l'anteprima delle anagrafiche con MAISON 22 escluso, contro le attese riscritte dopo i due script |
+| **AppSopralluoghi** | registrare i due lanci con le verifiche; la notice di `pg_temp` tolta o annunciata | **le attese dell'anteprima riscritte dopo i due script**: sono cambiati clienti, candidati e persone |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
