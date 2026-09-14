@@ -895,6 +895,67 @@ proposta della `070` deve contare, perche correggerle e una scrittura su dati ve
 | **AppOverall** | **in attesa del via sulle P.IVA** — nessun carico dei clienti prima | la gemella della `070`, riletta sulla forma che arriva: dizionario **e**, se serve, la provenienza sulla `nomina` di qua | La gemella non si scrive su un messaggio: si scrive sulla stringa che la corsia manda prima del suo commit |
 | **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Le nomine RLS nuove dalla Qualifica arriveranno con l'anagrafe |
 
+### Prossimo passo per corsia · al 14 settembre 2026, i clienti
+
+**D2 e pubblicato** (AppSopralluoghi `72bfd70`), con il si di Francesco chiesto e dato
+in quella sessione. **Verificato da qui**: il merge `e33efc2` contiene `6532500`, GitHub
+registra il deploy di `e33efc2` in `success` alle 10:05:15 UTC, e dal `12b1768` il codice
+cambia solo nei tre file del ramo. **Non verificabile da qui, e dichiarato come verifica
+loro**: l'Edge Function `genera-report` in **v9**, riscaricata e identica a `e33efc2`, e
+la v8 di prima identica a `main` — nessuna modifica dal Dashboard persa. D2 resta aperto
+fino al report vero. **Le 363 nomine adesso sono viste** (198 dalla colonna, 165 dalla
+mansione), e delle 7 righe con Mansione vuota **6 hanno una nomina con `origine =
+mansione`** e la Qualifica in `origine_testo`: e il conto che la proposta della `070`
+doveva fare, fatto prima.
+
+**Il passo di AppOverall: i clienti, sulla regola decisa da Francesco il 14 settembre —
+«ok» alla P.IVA inutilizzabile come assente, con la cella accanto.** Scritti la `0017`
+e `supabase/migrazione-dati/01_clienti.sql`; il passo delle persone diventa `02`, e
+passa da una tabella di corrispondenza. Provati su un cluster `initdb` poi cancellato,
+con dati finti: **tutte le prove dei clienti passano** — sette rifiuti nei due versi,
+tredici esiti, idempotenza, un'unita nuova che confluisce, il passo 02 sopra il passo
+01, tre controlli finali fatti scattare — e **le prove delle persone passano ancora
+tutte** con la corrispondenza in mezzo.
+
+**Tre cose trovate scrivendolo, e la prima non e nostra.**
+
+1. **La guardia sul segnaposto di `pivaUsabile` non scatta mai** (`anagraficheImport.ts:71`).
+   Il commento dice «non e un segnaposto (tutte cifre uguali)», il codice scrive
+   `(\d){10}` — dieci cifre qualsiasi — che su undici cifre non corrisponde mai.
+   **Eseguita, non letta**: `00000000000` e `11111111111` sono usabili in produzione. E
+   di la `partita_iva` non e unica, e l'import cerca i clienti **per P.IVA**: su un
+   segnaposto aggancia «il primo candidato», che e esattamente l'avvelenamento che quel
+   commento dice di evitare. Quanti clienti portano un segnaposto **non e misurato**.
+   Qui la `0017` implementa la regola **come la intendono quel commento e la `0001`**, non
+   come la esegue la funzione, e lo dichiara: e la prima funzione di questa migrazione
+   che **non** e un port fedele.
+2. **La `0013` non regge per le unita fuse.** Di la un cliente e un'unita e due
+   stabilimenti con la stessa P.IVA sono due clienti (Ecodent); qui il cliente e la P.IVA
+   (decisione 2, `0001`). Quindi l'unita assorbita **perde il suo uuid come cliente**, e
+   le chiavi `anag:<uuid>:...` delle sue persone non agganciano piu niente. La `0017`
+   aggiunge `cliente_origine`, che la `0013` aveva ritenuto superflua: aveva ragione per
+   tutte le unita tranne quelle, ed e li che il conto «che fallisce in silenzio» sarebbe
+   fallito. E il conto della `0013` sulle sedi `:legale` **non e piu zero per
+   costruzione**: dice quante sedi non sono la sede legale del loro cliente.
+3. **`N DIPENDENTI` va sulla sede, non sul cliente**: e un numero per unita, perche di
+   la ogni riga di ElencoSedi e un cliente-unita. Portato in `sede.n_dipendenti_gestionale`
+   **con l'etichetta nel commento** — quante persone gestiamo, non quanti lavoratori ha
+   l'impresa — e mai sommato in migrazione.
+
+E una forma di chiave che mancava: l'origine riconosce un cliente con P.IVA, **poi codice
+fiscale**, poi ragione sociale, e la `0013` scriveva solo la prima e l'ultima. Aggiunta
+`sedi:cf:`. **Non portati, e contati a ogni esecuzione**: ATECO (senza annata non si sa
+leggere), livelli di rischio e di emergenza (qui sono una valutazione con motivazione),
+contatti. **Mai misurati sui dati veri**: i rifiuti (f) — due clienti senza P.IVA con la
+stessa ragione sociale o lo stesso codice fiscale — e (g) — due `werp_id` per una P.IVA.
+
+| chi | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **Francesco** | il report vero di D2; la `070` e lo script delle 6 nomine quando arrivano riletti. **E una decisione nuova: se fare la prova generale sui dati veri** — le tre select di `00_origine.sql`, caricate su un cluster usa e getta **su questa macchina**, i passi 01 e 02 eseguiti, e tutto cancellato dopo. Scrive su un disco dati personali, anche se per un'ora e fuori dai repo: per questo e sua | se si: l'estrazione, che richiede la `service_role` e resta sua | Perche i passi sono scritti e provati su tutto cio che i dati finti sanno dire, e **i rifiuti mai misurati li puo far scattare solo l'archivio vero**. E la stessa ragione per cui il carico della `0006` ha trovato cio che due letture non avevano visto |
+| **AppSopralluoghi** | **la Qualifica e la `070`**, con lo script delle 6 nomine, mandati qui prima del commit — invariato. **Piu il difetto di `pivaUsabile`**: prima la misura in sola lettura, quanti clienti portano un segnaposto e quanti lo condividono, col si di Francesco per leggere; poi la correzione, `(\d)\1{10}`, **nello stesso deploy della Qualifica** | un import delle anagrafiche **solo dopo la correzione** | Perche la correzione cambia come l'import riconosce i clienti al prossimo passaggio: un cliente oggi agganciato per segnaposto passerebbe al codice fiscale o al nome. Misurare prima e sapere chi si sposta; correggere senza misurare e spostarli al buio |
+| **AppOverall** | **la gemella della `070`** quando arriva la forma; la prova generale, se Francesco la vuole | la migrazione delle nomine, sopra i passi 01 e 02 | Le nomine puntano a persone e sedi, e sono l'ultima cosa dell'anagrafe che attraversa |
+| **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | Il numero che aspettano adesso ha un posto di qua, `sede.n_dipendenti_gestionale`, con la sua etichetta; non ha ancora un dato vero dentro |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 

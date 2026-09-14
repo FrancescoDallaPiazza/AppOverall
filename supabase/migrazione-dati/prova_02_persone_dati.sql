@@ -1,8 +1,8 @@
--- Dati FINTI per provare il passo 01. Nessuna persona vera: i codici fiscali sono
+-- Dati FINTI per provare il passo 02. Nessuna persona vera: i codici fiscali sono
 -- stringhe casuali a cui la funzione di produzione di AppSopralluoghi ha dato
 -- l'esito scritto accanto, e i nomi sono di fantasia.
 --
--- Dieci righe, scelte perche ognuna esercita una regola del passo 01:
+-- Dieci righe, scelte perche ognuna esercita una regola del passo 02:
 --
 --   riga  cliente  codice fiscale              regola che prova
 --   01    A        valido                      2: stesso CF su due clienti...
@@ -27,6 +27,12 @@ insert into sede (id, cliente_id, denominazione, principale) values
   ('00000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-00000000000a', 'Sede legale', true),
   ('00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-00000000000b', 'Sede legale', true),
   ('00000000-0000-0000-0000-0000000000c1', '00000000-0000-0000-0000-00000000000c', 'Sede legale', true);
+
+-- la corrispondenza che il passo 02 scriverebbe: qui nessuna fusione, stesso uuid
+insert into cliente_origine (origine_id, cliente_id, sede_id, assorbito) values
+  ('00000000-0000-0000-0000-00000000000a', '00000000-0000-0000-0000-00000000000a', '00000000-0000-0000-0000-0000000000a1', false),
+  ('00000000-0000-0000-0000-00000000000b', '00000000-0000-0000-0000-00000000000b', '00000000-0000-0000-0000-0000000000b1', false),
+  ('00000000-0000-0000-0000-00000000000c', '00000000-0000-0000-0000-00000000000c', '00000000-0000-0000-0000-0000000000c1', false);
 
 insert into origine.persona
   (id, cliente_id, sede_id, nome, cognome, codice_fiscale, mansione, data_assunzione, attivo, data_cessazione, import_key, updated_at)

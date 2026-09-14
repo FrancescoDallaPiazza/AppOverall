@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Prova del passo 01 su un database USA E GETTA con le migrazioni 0001-0016 gia
+# Prova del passo 02 su un database USA E GETTA con le migrazioni 0001-0017 gia
 # caricate e le tabelle di dominio vuote. Mai su un database vero: carica dati
 # finti e li riscrive.
 #
-#   PSQL="psql -p 5461 -U postgres -d prova" bash prova_01_persone.sh
+#   PSQL="psql -p 5461 -U postgres -d prova" bash prova_02_persone.sh
 #
 # `psql` va cercato nel PATH: un percorso con uno spazio dentro PSQL si spezza.
 #
-# Ogni rifiuto e provato nei due versi: la riga guasta fa fallire il passo 01 e
+# Ogni rifiuto e provato nei due versi: la riga guasta fa fallire il passo 02 e
 # non lascia niente scritto, e la stessa origine senza il guasto passa. Un
 # controllo che non si e mai visto fallire non prova niente (A12).
 #
@@ -25,7 +25,7 @@ trap 'rm -f "$ERRORE"' EXIT
 FALLITI=0
 
 q()     { $PSQL -v ON_ERROR_STOP=1 -q -At "$@"; }
-passo() { $PSQL -v ON_ERROR_STOP=1 -q -f "$DIR/01_persone.sql" "$@" >/dev/null 2>"$ERRORE"; }
+passo() { $PSQL -v ON_ERROR_STOP=1 -q -f "$DIR/02_persone.sql" "$@" >/dev/null 2>"$ERRORE"; }
 conta() { q -c "select (select count(*) from persona) || ' persone, ' || (select count(*) from rapporto_lavoro) || ' rapporti'"; }
 ok()    { if [ -n "$1" ] && [ "$1" = "$2" ]; then echo "  ok   $3"; else echo "  NO   $3 — atteso «$2», avuto «$1»"; FALLITI=$((FALLITI+1)); fi; }
 
@@ -34,7 +34,7 @@ rifiuta() { # descrizione, guasto, riparazione, argomenti del passo
   [ -n "$guasto" ] && q -c "$guasto"
   prima="$(conta)"   # dopo il guasto: se il guasto scrive una riga, il rifiuto non deve toglierla ne aggiungerne
   if passo "$@"; then
-    echo "  NO   $cosa — il passo 01 e passato"; FALLITI=$((FALLITI+1))
+    echo "  NO   $cosa — il passo 02 e passato"; FALLITI=$((FALLITI+1))
   elif ! grep -qE '(ERRORE|ERROR):' "$ERRORE"; then
     echo "  NO   $cosa — fallito senza un errore di PostgreSQL: $(head -c 120 "$ERRORE")"; FALLITI=$((FALLITI+1))
   else
@@ -45,7 +45,7 @@ rifiuta() { # descrizione, guasto, riparazione, argomenti del passo
 
 echo "== preparazione"
 q -f "$DIR/00_origine.sql"
-q -f "$DIR/prova_01_persone_dati.sql"
+q -f "$DIR/prova_02_persone_dati.sql"
 ok "$(conta)" "0 persone, 0 rapporti" "destinazione vuota"
 
 A=00000000-0000-0000-0000-00000000000a
@@ -70,7 +70,7 @@ rifiuta "(f) CF valido due volte nello stesso cliente" \
   "delete from origine.persona where id = '00000000-0000-0000-0000-000000000099'" -v righe_attese=11
 
 echo "== la stessa origine, senza guasti"
-if passo -v righe_attese=10; then echo "  ok   passo 01 eseguito"; else echo "  NO   passo 01 fallito:"; cat "$ERRORE"; FALLITI=$((FALLITI+1)); fi
+if passo -v righe_attese=10; then echo "  ok   passo 02 eseguito"; else echo "  NO   passo 02 fallito:"; cat "$ERRORE"; FALLITI=$((FALLITI+1)); fi
 ok "$(conta)" "9 persone, 10 rapporti" "4 codici validi distinti + 5 senza codice valido"
 ok "$(q -c "select count(*) from rapporto_lavoro r join persona p on p.id = r.persona_id where p.codice_fiscale = 'JQIOBW08B92B915V'")" "2" "regola 2: un CF su due clienti, due rapporti"
 ok "$(q -c "select nome from persona where codice_fiscale = 'JQIOBW08B92B915V'")" "MARIA" "regola 4: vince la riga aggiornata per ultima"
@@ -85,12 +85,12 @@ ok "$(q -c "select data_cessazione from rapporto_lavoro where import_key like '%
 ok "$(q -c "select coalesce(sede_id::text, 'null') from rapporto_lavoro where import_key like '%HOZUNW31P60Q756F'")" "null" "sede assente resta assente"
 
 echo "== rieseguito sulla stessa origine"
-if passo -v righe_attese=10; then echo "  ok   passo 01 rieseguito"; else echo "  NO   rieseguito fallito"; FALLITI=$((FALLITI+1)); fi
+if passo -v righe_attese=10; then echo "  ok   passo 02 rieseguito"; else echo "  NO   rieseguito fallito"; FALLITI=$((FALLITI+1)); fi
 ok "$(conta)" "9 persone, 10 rapporti" "idempotente: niente di nuovo"
 
 echo "== una riga nuova con un CF gia presente"
 q -c "insert into origine.persona (id, cliente_id, sede_id, nome, cognome, codice_fiscale, attivo, import_key, updated_at) values ('00000000-0000-0000-0000-000000000011', '$C', null, 'GIULIA', 'NERI', 'ZSGCRSQ3HV1S5Q8P', true, 'anag:$C:ZSGCRSQ3HV1S5Q8P', now())"
-if passo -v righe_attese=11; then echo "  ok   passo 01 con la riga nuova"; else echo "  NO   fallito:"; cat "$ERRORE"; FALLITI=$((FALLITI+1)); fi
+if passo -v righe_attese=11; then echo "  ok   passo 02 con la riga nuova"; else echo "  NO   fallito:"; cat "$ERRORE"; FALLITI=$((FALLITI+1)); fi
 ok "$(conta)" "9 persone, 11 rapporti" "si aggancia alla persona che c'e"
 
 echo "== i controlli finali, fatti scattare apposta"

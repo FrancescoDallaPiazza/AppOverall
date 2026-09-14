@@ -1,7 +1,7 @@
--- AppOverall — migrazione dati, passo 01
+-- AppOverall — migrazione dati, passo 02
 -- Le persone: 3.419 righe per cliente diventano persone piu rapporti.
 --
--- Uso, dopo il passo 00 e dopo che clienti e sedi hanno attraversato:
+-- Uso, dopo il passo 00 e il passo 01 (clienti e sedi):
 --
 --   psql -v ON_ERROR_STOP=1 -v righe_attese=<count fatto all'estrazione> -f 01_persone.sql
 --
@@ -17,6 +17,9 @@
 --      e la stessa scelta della `0013` per i clienti: un surrogato opaco non
 --      asserisce niente e non costa niente, e cosi `formazione.persona_id` di la
 --      trovera il suo rapporto con un join, senza una tabella di corrispondenza.
+--      **Il cliente del rapporto invece passa da `cliente_origine`** (`0017`): per
+--      un'unita assorbita da una fusione per P.IVA l'uuid d'origine non e un
+--      `cliente.id`, e dentro la chiave resta verbatim, come provenienza.
 --
 --   2. **Le righe con un codice fiscale VALIDO si fondono per codice fiscale** —
 --      valido per `codice_fiscale_valido` della `0016`, cioe con il carattere di
@@ -46,7 +49,8 @@
 --      plausibile, e questo e l'unico punto in cui si vede;
 --   b. una riga non ha `import_key` — la regola 1 non avrebbe cosa trasportare;
 --   c. una riga punta a un cliente che qui non c'e, o a una sede che non e di quel
---      cliente — **i clienti attraversano prima**, con lo stesso uuid (`0013`);
+--      cliente — **i clienti attraversano prima**, nel passo 01, e il cliente si
+--      cerca in `cliente_origine`;
 --   d. una riga ha `cognome` null — qui e `not null`, e trasformarlo in stringa
 --      vuota sarebbe inventare un dato per far passare un vincolo;
 --   e. una riga ha `attivo = false` e nessuna `data_cessazione` — qui «cessato»
@@ -89,12 +93,13 @@ begin
   if n > 0 then raise exception '(b) % righe senza import_key', n; end if;
 
   select count(*) into n from origine.persona o
-   where not exists (select 1 from cliente c where c.id = o.cliente_id);
+   where not exists (select 1 from cliente_origine m where m.origine_id = o.cliente_id);
   if n > 0 then raise exception '(c) % righe puntano a un cliente che qui non esiste: prima devono attraversare i clienti', n; end if;
 
   select count(*) into n from origine.persona o
    where o.sede_id is not null
-     and not exists (select 1 from sede s where s.id = o.sede_id and s.cliente_id = o.cliente_id);
+     and not exists (select 1 from sede s join cliente_origine m on m.origine_id = o.cliente_id
+                      where s.id = o.sede_id and s.cliente_id = m.cliente_id);
   if n > 0 then raise exception '(c) % righe puntano a una sede che qui non esiste o non e del loro cliente', n; end if;
 
   select count(*) into n from origine.persona where cognome is null;
@@ -118,8 +123,10 @@ create temp table riga on commit drop as
 select o.*,
        case when codice_fiscale_valido(o.codice_fiscale)
             then codice_fiscale_pulito(o.codice_fiscale) end as cf,
+       m.cliente_id as cliente_dest,
        null::uuid as persona_id
   from origine.persona o
+  join cliente_origine m on m.origine_id = o.cliente_id
  where not exists (select 1 from rapporto_lavoro r where r.import_key = o.import_key);
 
 -- ---------- regola 2 e 4: una persona per codice fiscale valido ----------
@@ -148,7 +155,7 @@ select persona_id, null, nullif(codice_fiscale, ''), cognome, nome
 
 insert into rapporto_lavoro (id, persona_id, cliente_id, sede_id, mansione,
                              data_assunzione, data_cessazione, import_key)
-select id, persona_id, cliente_id, sede_id, mansione,
+select id, persona_id, cliente_dest, sede_id, mansione,
        data_assunzione, data_cessazione, import_key
   from riga;
 
@@ -187,9 +194,13 @@ begin
      where p.codice_fiscale is null group by 1 having count(*) > 1) x;
   if n > 0 then raise exception '% persone senza codice fiscale hanno piu di un rapporto: fusione non voluta', n; end if;
 
-  -- l'uuid dentro la chiave e il cliente del rapporto (`0013`, il conto che fallisce in silenzio)
-  select count(*) into n from rapporto_lavoro
-   where import_key like 'anag:%' and split_part(import_key, ':', 2) <> cliente_id::text;
+  -- l'uuid dentro la chiave aggancia il cliente del rapporto (`0013`, il conto che
+  -- fallisce in silenzio), attraverso `cliente_origine` della `0017`
+  select count(*) into n from rapporto_lavoro r
+   where r.import_key like 'anag:%'
+     and not exists (select 1 from cliente_origine m
+                      where m.origine_id::text = split_part(r.import_key, ':', 2)
+                        and m.cliente_id = r.cliente_id);
   if n > 0 then raise exception '% rapporti con una import_key che nomina un altro cliente', n; end if;
 
   select count(*) into n from persona p
