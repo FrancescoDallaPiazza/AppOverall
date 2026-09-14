@@ -1752,7 +1752,9 @@ sola lettura, su richiesta di Francesco.
 - **MAISON 22 e un doppione pieno**, ed e gia doppio nell'export del gestionale: i due clienti
   hanno la stessa P.IVA e lo stesso codice fiscale, 04285130235, lo stesso indirizzo, Via Quattro
   Novembre 1/D, 37126 Verona, sono nati nello stesso minuto del 9 settembre e non hanno incarichi;
-  uno ha 21 persone, l'altro nessuna. **La raccomandazione di unirli regge.**
+  uno ha 21 persone, l'altro nessuna. ~~**La raccomandazione di unirli regge.**~~ **Sbagliata, e
+  corretta da Francesco un'ora dopo: MAISON 22 ha due sedi vere**, e il gestionale le esporta con
+  lo stesso nome e lo stesso indirizzo — vedi il paragrafo seguente.
 - **GIACOMELLI non e un doppione, ed e piu di una P.IVA sbagliata.** Nel gestionale
   «AZIENDA AGRICOLA GIACOMELLI FRANCESCO», senza indirizzo, porta **la P.IVA e il codice fiscale di
   Impresa Agromeccanica Aprili Graziano** — e il codice fiscale e quello di una persona, non di una
@@ -1775,6 +1777,59 @@ condivise, che la corsia gli chiede adesso.
 **Per la migrazione di questa corsia**, se l'ipotesi e vera: il passo 02 porterebbe di qua due
 rapporti di lavoro sotto Aprili che non sono di Aprili. E il genere di errore che una migrazione
 trasporta intatto, perche la chiave e coerente con se stessa — va chiuso all'origine.
+
+### Prossimo passo per corsia · al 14 settembre 2026, due sedi e un'azienda con i dati di un'altra
+
+**Le decisioni di Francesco su MAISON 22 e Giacomelli**, date nella sessione di AppSopralluoghi e
+riferite da quella corsia prima di essere scritte nel suo `STATO.md`.
+
+**MAISON 22 non e un doppione, e la raccomandazione di questa corsia era sbagliata.** Francesco:
+«MAISON 22 ha 2 sedi: Corso Porta Borsari, 26, 37121 Verona VR in cui ci sono 4 risorse e Via IV
+Novembre, 1d, 37126 Verona VR con 17», e ha indicato le quattro persone di Porta Borsari. **I dati
+dicevano doppione — stessa P.IVA, stesso indirizzo, righe identiche nell'export — e i dati erano
+sbagliati**: il gestionale esporta le due unita con lo stesso nome e la stessa sede, e nel file le 21
+righe hanno tutte sede «Verona». E la stessa forma di A9 — un dato coerente con se stesso non e per
+questo vero — su un caso in cui la coerenza era totale. Lo script che la corsia prepara: il cliente
+vuoto prende l'indirizzo di Porta Borsari, e le quattro persone ci passano con sede e `import_key`
+riscritte.
+
+**E un rischio che va detto adesso, non agli import futuri.** Dopo lo script, nel prossimo import
+delle anagrafiche il gruppo MAISON 22 del file — 21 righe, sede «Verona» — avra **due candidati**
+e non ne scegliera nessuno. **Se nell'anteprima lo si abbinasse a mano al cliente di Via IV
+Novembre, le quattro persone spostate verrebbero ricreate li**, perche la loro chiave vecchia non
+esiste piu. **Il gruppo va escluso, non abbinato**, e cosi a ogni import finche la sede non e
+corretta **nel gestionale**, che e l'unico posto dove questo si chiude. Per la migrazione di questa
+corsia non cambia niente di male: i due clienti hanno la stessa P.IVA usabile e il passo 01 li porta
+come **un cliente con due sedi**, che adesso e esattamente il vero.
+
+**Giacomelli, le risposte:**
+
+- «AZIENDA AGRICOLA GIACOMELLI FRANCESCO» **e la stessa azienda** di «AZ. AGR. GIACOMELLI
+  FRANCESCO»: il cliente con i dati fiscali di Aprili **si toglie**, dopo la misura di cosa gli punta;
+- la P.IVA vera della Giacomelli, data da Francesco, e **02984860235**, non 02884860235 come in
+  produzione. **Verificato da qui con la cifra di controllo, che nessuna funzione dell'import
+  controlla: 02884860235 la sbaglia, 02984860235 la passa** — era un refuso nel gestionale. Il codice
+  fiscale di persona che va con lei non entra in nessuno script e in nessun repo: lo corregge
+  Francesco dalla scheda cliente;
+- AMARI UMBERTO e GIACOMELLI FRANCESCO **non lavorano per Aprili**: le loro schede sotto Aprili, nate
+  dall'import del 9 settembre, si tolgono — la corsia ha letto che non hanno niente collegato. Nelle
+  loro aziende vere ci sono gia;
+- NEGRETTI LUCA **lavora per Aprili**: la sua scheda resta, e la riga del file sotto Giacomelli e
+  sbagliata nel gestionale.
+
+**E la cifra di controllo apre una misura che chiude la classe.** Ne `pivaUsabile` ne la
+`partita_iva_usabile` della `0017` guardano la cifra di controllo: **un refuso su una P.IVA vera passa
+per una chiave buona**, aggancia il cliente sbagliato o nessuno, e non fa rumore. Quante P.IVA usabili
+in produzione sbagliano la cifra di controllo e un conto in sola lettura. **Se non sono zero, se
+«usabile» debba voler dire anche «cifra giusta» e una decisione di Francesco**, perche cambia chi si
+fonde e chi no nella migrazione, e oggi la regola approvata e un'altra.
+
+| chi | adesso | poi |
+|---|---|---|
+| **AppSopralluoghi** | **lo script unico** — MAISON 22, il cliente Giacomelli da togliere, le due schede sotto Aprili — con la misura su cosa punta a cio che si toglie, il controllo che annulla e la verifica dentro, **mandato qui prima del lancio**; nell'anteprima delle anagrafiche, **il gruppo MAISON 22 escluso** e scritto fra le attese | la tabella delle P.IVA condivise, **quando Francesco dice si** — «cosa devo fare?» non e un si, e la corsia ha fatto bene a non prenderlo come tale; **e il conto delle P.IVA con la cifra di controllo sbagliata**, nella stessa lettura |
+| **Francesco** | la P.IVA e il codice fiscale della Giacomelli dalla scheda cliente; il si alla lettura della tabella | lo script, provato qui; la sede di MAISON 22 corretta **nel gestionale**; poi l'anteprima e la scrittura delle anagrafiche |
+| **AppOverall** | provare lo script unico quando arriva | — |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
