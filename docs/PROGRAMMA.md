@@ -1525,6 +1525,36 @@ clienti solo all'apertura ed era aperta da prima della pulizia. Da ricaricare.
 | **AppOverall** | corrette le due righe di questa sezione | nessuna migrazione tocca la colonna: la `0007` legge testi scritti a mano, e la figura nella `0002` e gia quella giusta |
 | **AppFormazione** | **un passo piccolo, e assegnato apposta**: nel documento 07, alla conclusione su «Addetti Emergenze ed Evacuazione», **l'avvertenza dentro la riga** che la decisione di Francesco del 14 settembre la supera — la misura resta, la conclusione no. Non si cancella niente | fino a 24 addetti antincendio in piu sono formazione dovuta: materia loro, quando l'anagrafe attraversa |
 
+**Il documento 07 di AppFormazione ha l'avvertenza dentro la riga** (`1478799`, verificato
+su `origin`): la conclusione resta scritta, e subito dopo la decisione del 14, i numeri che
+combaciano con quelli rifatti da AppSopralluoghi, e perche non vale piu. E la corsia ha
+fatto la cosa che il passo non chiedeva e che serviva: **ha cercato dove altro stava la
+stessa conclusione**, l'ha trovata in `scripts/carica_ruoli_ssl.py`, e **non l'ha toccata
+da sola** — ha chiesto.
+
+**La domanda poggiava su una premessa da correggere, e la correzione cambia la risposta.**
+Una delle due strade diceva: lasciarlo com'e, «perche la colonna la legge l'import di
+AppSopralluoghi e non questo script». **Non e cosi, verificato su `origin`**: lo script
+**legge** «Addetti Emergenze ed Evacuazione», la **esclude** in `NON_CARICATE` con la ragione
+superata — «il gestionale la tiene distinta da antincendio e le date non coincidono» — e
+**scrive** in `ruoli_persona`, che nella produzione di AppFormazione e stata caricata il 9
+settembre. Quindi la decisione non tocca solo un commento: **in quella produzione mancano
+fino a 24 addetti antincendio**, e la formazione antincendio che devono non si calcola. E il
+verso in cui l'errore non si vede: un obbligo che non c'e non compare fra le scadenze.
+
+| chi | adesso | poi |
+|---|---|---|
+| **AppFormazione** | **l'avvertenza nei due punti dello script** — il commento in testa e la voce di `NON_CARICATE` — **senza cambiare cosa carica**, e con in piu **che lo script non si riesegue cosi com'e**: prima va decisa la data sulle 15 righe; e **nello `STATO.md` il buco dichiarato**, fino a 24 addetti antincendio assenti da `ruoli_persona` | **dopo la risposta di Francesco sulla data**: un caricamento **aggiuntivo** degli addetti dalle emergenze, con anteprima e attese contate sul foglio prima, e la scrittura col si di Francesco chiesto **a lui direttamente**, come per il `db push` del 13 |
+| **Francesco** | le due risposte gia aperte — la data sulle 15 righe, e «Responsabile Emergenze» — che adesso servono a **due** import e non a uno | il si al caricamento aggiuntivo in AppFormazione, quando la corsia lo chiede |
+| **AppSopralluoghi** | invariato: la decisione nello `STATO.md`, e la modifica per le emergenze su un ramo dopo le due risposte | — |
+| **AppOverall** | nulla di nuovo | la migrazione delle nomine, quando il recupero e fatto |
+
+**Perche il caricamento in AppFormazione non aspetta l'anagrafe unica.** Aspettare
+vorrebbe dire lasciare in produzione, per settimane, persone designate addette
+all'antincendio senza che il motore chieda il loro corso. Il caricamento e **additivo** —
+righe nuove in `ruoli_persona`, nessuna tolta — e aspetta una sola cosa, la data, che e una
+decisione di Francesco e non un lavoro tecnico.
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
