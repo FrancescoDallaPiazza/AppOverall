@@ -1034,6 +1034,49 @@ Provato con `psql`, e Francesco lo lancera dall'SQL Editor: la differenza non co
 perche in PostgreSQL una transazione esplicita che va in errore scarta le istruzioni
 successive, e un `commit` su una transazione abortita diventa un `rollback`.
 
+### Prossimo passo per corsia · al 14 settembre 2026, i quattro si di Francesco
+
+**Decisi da Francesco verso le 12:49 del 14 settembre, in questa sessione, con quattro
+messaggi: «1. ok», «2. ok», «3. ok», «4. ok»**, sui quattro punti numerati del recap
+che gli era stato messo davanti — che sono i passi dell'ordine su produzione scritto
+sopra:
+
+1. **la lettura dei clienti in produzione** per contare le P.IVA segnaposto — quanti
+   portano come `partita_iva` undici cifre tutte uguali, e quanti condividono lo stesso
+   valore. Sola lettura;
+2. **la `070` dall'SQL Editor, poi lo script delle 6 nomine** (`a82c6af`, quello che
+   annulla, eseguito qui nei due versi);
+3. **il merge di `qualifica-fonte-distinta` su `main` e il deploy** — Qualifica e
+   `pivaUsabile` insieme;
+4. **l'anteprima e la scrittura delle nomine**, con le attese scritte prima: 36 proposte
+   dalla Qualifica, 30 nuove, 4 da decidere.
+
+**Quattro si non sono quattro passi da fare insieme.** L'ordine resta quello, e due
+condizioni sono tecniche e non di prudenza: il codice e lo script **prima** della `070`
+vengono rifiutati dal vincolo. Ogni passo parte quando il precedente e fatto **e
+scritto nello `STATO.md` con cio che si e visto**.
+
+| chi | passo | cosa si scrive dopo |
+|---|---|---|
+| **AppSopralluoghi**, col si di Francesco | 1. la misura | i due numeri, e quali clienti il prossimo import delle anagrafiche riconoscerebbe in un altro modo |
+| **Francesco**, dall'SQL Editor | 2. la `070`, poi lo script | che la notice «Controllo superato» e comparsa, e i conti della `070` |
+| **AppSopralluoghi**, col si di Francesco | 3. merge e deploy | la verifica per canale, come per `e33efc2`: stato GitHub e bundle pubblico |
+| **Francesco**, dal back-office | 4. anteprima, poi scrittura | l'anteprima contro le attese — 36, 30, 4 — **prima** di premere Scrivi |
+
+**Due precisazioni, perche un si largo e il posto dove si nasconde un passo in piu.**
+
+- **La misura non blocca il deploy, ma blocca il prossimo import delle anagrafiche.**
+  Riparare la guardia non sposta nessun cliente: cambia come l'import li riconoscera
+  la prossima volta. Quindi il 3 puo seguire il 1 qualunque cosa il 1 trovi, e l'import
+  delle anagrafiche — che nessuno di questi quattro si autorizza — si decide sulla misura.
+- **Per le scritture su produzione la regola di questa sezione vale com'e.** La `070`,
+  lo script e la scrittura delle nomine li esegue Francesco, quindi non c'e niente da
+  relaiare; per la misura e il merge il si e riferito da qui, e se la corsia lo chiede a
+  Francesco direttamente — come ha fatto per D2 — fa bene.
+
+**Restano aperte, e nessuno dei quattro si le chiude:** «Legale Rappresentante/RSPP»,
+il report vero che chiude D2, e la prova generale della migrazione sui dati veri.
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
