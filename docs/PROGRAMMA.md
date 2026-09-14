@@ -1603,6 +1603,51 @@ in `ruoli_persona` sta col 2004 — da contare sul loro database, non da dedurre
 | **AppFormazione** | ~~l'avvertenza nello script~~ **fatta** (`0308d46`, verificato: la mappa non cambia, cambia solo la ragione in `NON_CARICATE`) — ma scritta **prima** della risposta di Francesco, e dice «Responsabile Emergenze resta fuori» in tre punti (documento 07 riga 166, `STATO.md` riga 122, `NON_CARICATE`): **da correggere dentro la riga**, non cancellare. Poi **la preparazione del caricamento aggiuntivo**, che adesso non aspetta piu niente — Emergenze **e** Responsabile, data piu vecchia, la 1298 — contata sul loro database, **e il conto di `ruoli_persona` in produzione** che la corsia stessa ha dichiarato non fatto | la scrittura del caricamento, con anteprima e attese, e il si di Francesco chiesto a lui |
 | **AppOverall** | nulla di nuovo nel codice | se le date risultano date di corsi, **il nome di `nomina.data_nomina` di qua va chiarito prima della migrazione delle nomine**: un nome sbagliato su un dato giusto e il difetto che attraversa il confine senza farsi vedere |
 
+### Prossimo passo per corsia · al 14 settembre 2026, un giorno di differenza
+
+**AppFormazione ha chiuso le correzioni e contato il foglio** (`52b423f`, verificato su
+`origin`, mappa dello script invariata): «Responsabile Emergenze resta fuori» corretto dentro
+la riga in **quattro** punti, non tre — lo script lo diceva due volte; e sul foglio **29 righe
+senza Antincendio**, tutte con codice fiscale, su 13 societa, che combaciano con il riscontro
+di AppSopralluoghi, piu la sola 1298 con una data piu vecchia altrove.
+
+**Il conto di `ruoli_persona` in produzione non e fatto, e non per una dimenticanza: la
+lettura e stata negata dal controllo dei permessi di quella sessione.** La corsia non l'ha
+aggirata e **non l'ha passata a un'altra corsia**: la porta a Francesco. E la regola di
+questa sezione applicata nel verso giusto — un ostacolo non si aggira passandolo a chi ha il
+permesso — e **da qui non si assegna a nessun altro**. Le attese del caricamento aggiuntivo
+aspettano quella decisione.
+
+**E ha trovato una cosa che puo toccare ogni data importata da AppSopralluoghi.** Nell'XML del
+foglio le celle della 1298 sono seriali interi, **37993 e 37025**; convertiti da qui, **2004-01-07
+e 2001-05-14**. AppSopralluoghi aveva riferito **2004-01-06 e 2001-05-13: un giorno prima, su
+tutte e due**. Un seriale non ha ora ne fuso, quindi lo scarto nasce leggendolo.
+
+**Dove guardare, letto da qui nel loro codice — un indizio, non una diagnosi.** L'import delle
+anagrafiche legge il file con `cellDates: true` e passa le celle a `isoData`
+(`anagraficheImport.ts:103-106`), che dalla `Date` prende anno, mese e giorno **in ora
+locale**. Se la libreria costruisce quella `Date` con uno scarto di fuso — anche di minuti,
+come succede sulle date storiche — la mezzanotte cade nel giorno prima e la data esce indietro
+di uno. `isoData` e la stessa funzione che l'import delle **nomine** usa per `nomina.data`
+(`nomineImport.ts:442`) e che l'import delle anagrafiche usa per **assunzione e cessazione**;
+`formazioneImport` invece legge con `cellDates: false` e converte il seriale in UTC, e
+potrebbe non esserne toccato.
+
+**Perche questo cambia l'ordine dei prossimi passi.** Se lo scarto c'e, le 392 nomine gia
+scritte e le date delle persone portano il giorno prima; la prossima scrittura delle
+anagrafiche ne aggiungerebbe altre 77; e **lo script della 1298 porterebbe la nomina al 13
+maggio, quando il file dice 14**. **La prova si fa sul file e senza database, in pochi minuti**:
+leggere un campione di celle data con lo stesso codice di produzione, e confrontarle con i
+seriali dell'XML. Va fatta **prima** della scrittura delle anagrafiche e dello script della 1298.
+**L'anteprima invece si puo guardare anche adesso**: non scrive.
+
+| chi | adesso | poi |
+|---|---|---|
+| **AppSopralluoghi** | **la prova sul file**: un campione di celle data — la 1298, e righe con giorni diversi e anni diversi — lette con `leggiFoglio` e `isoData` di produzione, contro i seriali dell'XML | **se lo scarto c'e**: correzione del codice prima di qualunque altro import; poi, col si di Francesco per leggere, **quante righe in produzione** portano una data importata cosi — nomine, assunzioni, cessazioni — e lo script che le corregge, con la verifica dentro. **Se non c'e**: da dove veniva il giorno prima riferito, scritto |
+| **Francesco** | **l'anteprima delle anagrafiche**, che non scrive; **e la decisione sulla lettura di `ruoli_persona` negata ad AppFormazione** — lanciarla lui o consentirla | la scrittura delle anagrafiche **dopo la prova sulle date** |
+| **AppFormazione** | niente finche Francesco non decide sulla lettura | le attese del caricamento aggiuntivo |
+| **AppOverall** | nulla di nuovo | se lo scarto c'e, **la migrazione dati prende le date dall'estrazione**: vanno corrette all'origine prima, o il passo 02 porta di qua un giorno sbagliato con la faccia di un dato |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
