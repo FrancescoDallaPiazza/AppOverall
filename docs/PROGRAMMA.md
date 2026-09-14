@@ -1478,6 +1478,53 @@ domani sta nel file.
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | invariato: **ferma per costruzione** | la domanda sulle 48 persone di CorsiFatti, dopo il recupero |
 
+### Prossimo passo per corsia · al 14 settembre 2026, le emergenze sono antincendio
+
+**Deciso da Francesco il 14 settembre, nella sessione di AppSopralluoghi, e riferito da
+quella corsia prima che fosse scritto nel suo `STATO.md`: «Addetto alle emergenze ed
+evacuazione = Addetto antincendio».** Cambia una regola che **tre** repo avevano scritto
+come misurata: l'import delle nomine esclude la colonna «Addetti Emergenze ed
+Evacuazione» (`nomineImport.ts:126-129`, verificato su `origin`), il documento 07 di
+AppFormazione la chiude, e questa sezione la chiamava «deduzione smentita» — corretto
+dentro le righe, piu sopra.
+
+**La misura non era sbagliata, e resta utile.** Rifatta dalla corsia sul foglio Ruoli SSL:
+71 righe con Emergenze; 47 anche con Antincendio, **32 con la stessa data e 15 con una data
+diversa**; **24 solo con Emergenze**. Quello che cambia e cosa se ne legge: non «due ruoli
+diversi», ma **fino a 24 addetti antincendio che oggi non risultano**, e 15 righe su cui una
+data va scelta. E la decisione e quella che la norma gia suggeriva: la `0002` di questo repo
+chiama la figura **«Addetto alla prevenzione incendi e gestione emergenze»** e cita il DM
+2 settembre 2021 — la colonna del gestionale adesso si legge come la figura era gia
+definita qui.
+
+**Due domande che la decisione non chiude, e che la corsia ha portato a Francesco invece di
+risolverle:**
+
+- **quale data vince sulle 15 righe** con Antincendio ed Emergenze in date diverse — ECODENT
+  2017 contro 2022, I.VAR con due persone e le date scambiate;
+- **«Responsabile Emergenze»**, 35 righe, che la decisione non nomina. **Finche Francesco non
+  lo dice, resta fuori**: e un'altra colonna, e una decisione su una non vale per l'altra.
+
+**L'ordine, perche un solo import delle nomine copra due cose.** La modifica tocca solo
+l'import delle **nomine**, che viene **dopo** quello delle anagrafiche del recupero. Quindi:
+l'import delle anagrafiche prima, come previsto; la modifica per le emergenze su un ramo, con
+prova, **pubblicata prima del prossimo import delle nomine**; e quell'import allora porta
+insieme le nomine delle persone recuperate e gli addetti dalle emergenze. Due import delle
+nomine al posto di uno vorrebbero dire due anteprime, due confronti con le attese, e una
+finestra in piu.
+
+**Nota a margine, dalla stessa corsia**: Francesco ha aperto l'anteprima delle **nomine**
+invece di quella delle anagrafiche — numeri coerenti, 0 da creare e 392 gia presenti (363 +
+29) — ma ADAMI, LA TORRE ed EMERA risultavano ancora non abbinate, perche la pagina legge i
+clienti solo all'apertura ed era aperta da prima della pulizia. Da ricaricare.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **l'anteprima delle anagrafiche**, a pagina ricaricata, contro 75 + 2; e le due risposte: la data sulle 15 righe, e se «Responsabile Emergenze» resta fuori | la scrittura delle anagrafiche; poi il si al ramo delle emergenze e al deploy; poi l'anteprima delle nomine |
+| **AppSopralluoghi** | registrare la decisione nello `STATO.md`, e la modifica per le emergenze su un ramo, con prova, **dopo le due risposte** | le attese dell'import delle nomine, che adesso comprendono gli addetti dalle emergenze |
+| **AppOverall** | corrette le due righe di questa sezione | nessuna migrazione tocca la colonna: la `0007` legge testi scritti a mano, e la figura nella `0002` e gia quella giusta |
+| **AppFormazione** | **un passo piccolo, e assegnato apposta**: nel documento 07, alla conclusione su «Addetti Emergenze ed Evacuazione», **l'avvertenza dentro la riga** che la decisione di Francesco del 14 settembre la supera — la misura resta, la conclusione no. Non si cancella niente | fino a 24 addetti antincendio in piu sono formazione dovuta: materia loro, quando l'anagrafe attraversa |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
@@ -1501,7 +1548,12 @@ risposta giusta per la ragione debole.
 > misurata.** Vale per i dati e vale per le misure, e la differenza fra le due
 > formulazioni non è accademica: «non si deduce» è una **posizione**, che fra un mese
 > chi ha fretta riapre; «la deduzione è falsa su 24 righe e su altre 15 imporrebbe di
-> scegliere quale data tenere» è un **fatto**, e non si riapre.
+> scegliere quale data tenere» è un **fatto**, ~~e non si riapre~~.
+>
+> **Corretto il 14 settembre: la misura resta un fatto, e la domanda si e riaperta lo
+> stesso** — perche la misura diceva come il gestionale **usa** due colonne, non se i due
+> ruoli **siano** lo stesso. Quella e una decisione di significato, e l'ha presa Francesco:
+> vedi «Addetto alle emergenze ed evacuazione = Addetto antincendio», piu sotto.
 
 Lo ha scritto la corsia che aveva applicato la prudenza: *«due volte oggi ho lasciato
 una cosa fuori dicendo non si deduce, e in un caso su due la misura esisteva già —
@@ -1509,9 +1561,11 @@ in un altro repo, sullo stesso disco, da un giorno.»*
 
 **E le tre colonne escluse sono escluse per tre ragioni diverse**, che appiattite in
 «tre colonne fuori» perdono quello che serve a riaprirle: `RSPP` per un **fatto
-dimostrato** (contiene il datore dell'art. 34), «Addetti Emergenze» per una
-**deduzione smentita**, «Responsabile Emergenze» per un **argomento** che regge da sé.
-Le prime due non sono più domande per l'Area Formazione: **sono chiuse**. Resta semmai
+dimostrato** (contiene il datore dell'art. 34), ~~«Addetti Emergenze» per una
+**deduzione smentita**~~, «Responsabile Emergenze» per un **argomento** che regge da sé.
+~~Le prime due non sono più domande per l'Area Formazione: **sono chiuse**.~~ **La
+seconda e riaperta e decisa da Francesco il 14 settembre: «Addetti Emergenze» entra come
+addetto antincendio** — vedi il paragrafo di quel giorno. La prima resta chiusa. Resta semmai
 se serva una figura nuova per le emergenze, che è un'altra domanda e non è urgente,
 perché in tutti e due i casi quelle righe oggi restano fuori.
 
