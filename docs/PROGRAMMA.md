@@ -2160,9 +2160,6 @@ girato col codice vecchio**, e si vede li.
 | **AppSopralluoghi** | il passaggio di IGEA passo per passo a Francesco, **con il controllo del titolo come primo passo**; la lettura dopo sulle 24 per id | nello `STATO.md` la regola della versione nel browser, accanto a quella della verifica per canale |
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
-| **Francesco** | la P.IVA e il codice fiscale della Giacomelli dalla scheda; la P.IVA di EMERA | il si al merge; poi l'anteprima e la scrittura delle anagrafiche |
-| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
-| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
