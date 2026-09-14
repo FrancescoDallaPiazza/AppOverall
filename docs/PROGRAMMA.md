@@ -2105,6 +2105,61 @@ sa gia mettere al posto giusto, sposterebbe il recupero per una comodita.
 | **AppSopralluoghi** | registrare la scrittura e la rilettura: 0 nuove, 3.459 aggiornate | il secondo passaggio di IGEA e la sua lettura; nel prossimo giro di codice, l'indirizzo nell'etichetta dei clienti omonimi |
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
+
+**Il primo passaggio e scritto, e la lettura del database dice che e giusto in tutto tranne una cosa —
+e quella cosa e la piu istruttiva della giornata.** Riferito da AppSopralluoghi: Francesco ha escluso
+MAISON 22 e premuto Applica, e la pagina ha risposto «3459 persone scritte». Poi, col suo si, una lettura
+in sola lettura:
+
+- **3.481 persone**, cioe 3.417 + 64;
+- **MAISON 22 intatto**: 17 e 4, stesse schede per id, nessuna delle quattro di Porta Borsari anche
+  sotto l'altro cliente — l'esclusione a mano ha tenuto;
+- **i 63 codici fiscali che non esistevano da nessuna parte ora esistono ciascuno una volta**, 63 su 63
+  sotto il cliente del loro gruppo e con la chiave giusta; la nuova senza codice fiscale una volta;
+- 64 schede nate, tutte fra le attese; 0 codici fiscali doppi dentro un cliente; le 3.395 aggiornate
+  esattamente quelle del piano, e nessuna sparita;
+- il controllo negativo: la stessa lettura sulla fotografia di prima fallisce nei sei punti attesi.
+
+**E non torna: le 24 schede degli spazi sono state riscritte con gli spazi doppi**, valori identici al
+file. E esattamente l'esito del codice **di prima**; col codice di `2f8d21a` il ricalcolo da zero. **Nel
+browser di Francesco girava il pacchetto vecchio**, nonostante il deploy verificato e l'indicazione di
+ricaricare: l'app e una PWA con aggiornamento automatico, e una scheda aperta prima del deploy — o una
+ricarica che non scavalca il service worker — serve ancora il codice precedente. Il perche esatto non e
+accertato. **Il danno e piccolo**: i due codici sono identici su tutto il resto, provato su tutte le 3.472
+voci e confermato dalla lettura.
+
+**La lezione e grande, e va scritta come regola.** Da stamattina questa sezione verifica i deploy «per
+canale»: stato su GitHub, bundle pubblico, versione dell'Edge Function. **Mancava un canale: il browser di
+chi scrive.** Un deploy verificato dice cosa il server offre, non cosa gira nella pagina aperta. Sulla
+prossima scrittura il costo non sarebbe piccolo: l'import delle **nomine** col codice vecchio non leggerebbe
+le colonne delle emergenze come addetti antincendio.
+
+**Quindi, prima di ogni scrittura da una pagina dell'app:**
+
+- **la versione si verifica a vista, e in positivo.** Il pacchetto e uno solo, quindi basta la pagina
+  Import nomine: deve dire **«Le nove colonne di ruolo, e quella che non entra»**, che esiste solo da
+  `2f8d21a`. **Non basta che manchi il titolo vecchio**: si cerca la presenza del nuovo;
+- per forzare l'aggiornamento, una **ricarica forzata** (Ctrl+Shift+R, che scavalca il service worker per
+  quel caricamento), o chiudere tutte le schede dell'app e riaprirla, **prima** di guardare il titolo;
+- **se il titolo non e quello nuovo, non si scrive.**
+
+**Il passaggio di IGEA ripara anche le 24, senza script**: col codice nuovo il file le riscrive con uno
+spazio. Attese ricalcolate da AppSopralluoghi sul codice di `2f8d21a` e sull'archivio di adesso: **Applica
+3.472, 13 nuove** (12 con codice fiscale, 1 senza), 3.459 aggiornate, 2 da abbinare, 3 gruppi senza
+cliente, 1 scartata. La pagina non mostra i campi cambiati, quindi il riscontro e la lettura dopo: **3.494
+persone; 13 su 3f485f16 e 0 su def8645c; e le 24 schede, per id, con uno spazio solo**. Il controllo si fa
+**su quelle 24**, non come «nessuno spazio doppio in tutto l'archivio»: altre schede nate a mano possono
+averne, e renderebbero il riscontro ambiguo. **Se le 24 hanno ancora gli spazi, anche quel passaggio ha
+girato col codice vecchio**, e si vede li.
+
+**La rilettura dell'anteprima dopo il primo passaggio non serve piu**: la lettura del database prova di piu.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **ricarica forzata, e il titolo di Import nomine: «e quella che non entra»**; poi il passaggio di IGEA col metodo dell'id, contro 3.472 / 13 / 3.459 / 2 / 3 / 1 | il si alla lettura dopo; poi lo script della 1298; poi l'import delle nomine, **col titolo controllato di nuovo** |
+| **AppSopralluoghi** | il passaggio di IGEA passo per passo a Francesco, **con il controllo del titolo come primo passo**; la lettura dopo sulle 24 per id | nello `STATO.md` la regola della versione nel browser, accanto a quella della verifica per canale |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 | **Francesco** | la P.IVA e il codice fiscale della Giacomelli dalla scheda; la P.IVA di EMERA | il si al merge; poi l'anteprima e la scrittura delle anagrafiche |
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
