@@ -1113,6 +1113,20 @@ di quei 40 stanno davvero nel database, e se condividono il cliente, lo dice la 
 | **AppOverall** | nulla di nuovo | la migrazione delle nomine sopra i passi 01 e 02 |
 | **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa |
 
+**Il passo 2 e chiuso: lo script delle 6 nomine e lanciato** da Francesco dopo la `070`
+(AppSopralluoghi `81add8d`). Il controllo in sola lettura sui 6 id, subito dopo, da una
+riga sola: `qualifica`, 6. **La notice «Controllo superato» non e stata riferita**, e la
+corsia l'ha scritto cosi invece di darla per vista. Il conto basta lo stesso, ed e un
+ragionamento e non una speranza: prima dello script le 6 erano `mansione` (lette il 14),
+e se il blocco avesse sollevato l'errore l'`update` sarebbe tornato indietro con lui —
+**sei `qualifica` dopo vogliono dire che la transazione e arrivata al `commit`**. E la riga
+«non applicata» dello `STATO.md` e corretta (`f900099`). Verificato da qui che il codice
+online e ancora quello di `e33efc2`.
+
+**Adesso**: la misura dei segnaposto in produzione, poi merge e deploy — AppSopralluoghi,
+con il si di Francesco dato **direttamente** in quella sessione, come la corsia ha scelto.
+**La finestra resta aperta fino al deploy: nessun import delle nomine.**
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
