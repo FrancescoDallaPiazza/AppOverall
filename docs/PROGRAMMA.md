@@ -2012,6 +2012,26 @@ riconosciuta.**
 | chi | adesso | poi |
 |---|---|---|
 | **AppSopralluoghi** | **il collasso sul ramo, con la prova delle tre condizioni** — chiavi invariate per le persone senza codice fiscale, solo i campi delle 24, e le prove delle emergenze ancora verdi | merge e deploy col si di Francesco e la verifica per canale; poi le attese dell'anteprima sul codice pubblicato |
+
+**Le attese dell'anteprima delle anagrafiche, riscritte dopo i due script** (AppSopralluoghi, sul
+codice di `main`, con le funzioni vere e i dati letti in sola lettura). **Ricontate da qui**: clienti
+**608** = 614 − la falsa Giacomelli − le cinque coppie; persone **3.417** = 3.419 − le due schede sotto
+Aprili. Con MAISON 22 escluso e IGEA su Via Sorte 48: 480 gruppi; **77 nuove** — 75 codici fiscali mai
+visti piu 2 senza; **0** con il codice fiscale gia sotto un altro cliente, che erano 24; 3.395
+aggiornate, di cui **24 solo per spazi doppi**, che col codice del ramo devono andare a zero; 2 da
+abbinare, i due Pradella Tazio; 3 gruppi senza cliente — la falsa Giacomelli, MAISON 22, «XXXXXXXXXXXX»;
+1 riga scartata.
+
+**Una correzione a quello che era scritto qui, e cambia cosa deve fare Francesco.** Si era scritto
+che il gruppo MAISON 22, con due candidati, **non ne sceglie nessuno**. **Non e cosi: senza scelte a
+mano si abbina da solo a uno dei due.** Quindi nell'anteprima **non comparira fra i da abbinare**, avra
+l'aspetto di un gruppo a posto, e **va escluso attivamente** — non basta non toccarlo. Altrimenti le
+quattro persone di Porta Borsari rinascono sotto l'altro cliente.
+
+**E un conto vecchio che le attese nuove devono chiudere.** Nell'anteprima vista prima dei due script la
+schermata diceva 93 nuove e il ricalcolo fuori schermo 88, e **le 5 di scarto non sono mai state
+spiegate**. L'anteprima del punto 3 va confrontata con le attese ricalcolate sul codice del ramo: **se
+non tornano, ci si ferma e si spiega prima di scrivere**, anche se lo scarto e piccolo.
 | **Francesco** | la P.IVA e il codice fiscale della Giacomelli dalla scheda; la P.IVA di EMERA | il si al merge; poi l'anteprima e la scrittura delle anagrafiche |
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
