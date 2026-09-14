@@ -761,6 +761,31 @@ cliente, non scritto per la (a), e con il codice fiscale in un altro cliente —
 esattamente la popolazione che la migrazione delle persone sta per portare di qua.
 Un caso vero rende la domanda piu concreta, non piu urgente.
 
+### Prossimo passo per corsia · al 14 settembre 2026, mezzogiorno
+
+**Le nomine sono scritte** (AppSopralluoghi `4b97ca2`), da Francesco, sul codice
+dell'anteprima: da `12b1768` a `origin/main` cambia solo `docs/STATO.md`, e anche il
+deploy di `4b97ca2` tocca solo quello — controllato da qui. **Visto**: la rilettura
+dopo la scrittura da **0 da creare** e **364 gia in organigramma**, cioe
+l'idempotenza tiene sul caso vero. **Dedotto e dichiarato tale**: «363 scritte» — il
+messaggio verde non e stato riportato e la corsia non legge il database, e le 364 gia
+presenti sono 363 coppie perche la riga 2782 conta due volte. Nessuno dei due numeri
+cambia un passo: la deduzione e aritmetica su un vincolo `unique` che c'e.
+
+**«RLS - LAVORATORE»: la lettura e di Francesco, la migrazione non ancora.** Sono due
+ruoli e dal dizionario conta la meta RLS — il lavoratore il dizionario non lo
+asserisce mai. Riga 3401, l'unica del file, con la colonna RLS vuota: l'RLS sta
+scritto solo li. La `070` che aggiunge la forma e una **proposta** di AppSopralluoghi,
+e tocca un dizionario che ha una **copia gemella qui**, nella `0007` (`ruolo_testo`
+29 forme e 160 righe, `ruolo_testo_parola` 34).
+
+| chi | adesso | poi | perche in questo ordine |
+|---|---|---|---|
+| **Francesco** | **se fare la `070`**: la lettura l'ha data, la migrazione e un'altra decisione, perche si applica alla produzione dall'SQL Editor come la `069` | se si fa: rilanciare l'import delle nomine con lo stesso file, perche la nomina RLS di quella riga **non nasce dalla migrazione** ma dal passaggio successivo. L'import e idempotente e l'ha appena dimostrato | Perche una forma aggiunta al dizionario non scrive niente da sola, e fra «il dizionario la conosce» e «la persona e nominata» c'e un passaggio che qualcuno deve fare apposta |
+| **AppSopralluoghi** | **D2 e la correzione di `riepiloga`**, un deploy solo, ritirando il commento di `nomineImport.ts:542` — invariato da `44142f9`. **La `070` non si scrive prima del si di Francesco** | se il si arriva: la `070`, e **prima del commit** la forma esatta mandata qui — testo verbatim, figura, righe — perche la gemella sia la stessa stringa e non una trascrizione | Perche D2 e codice e la `070` e dato, e non si aspettano a vicenda. Ma una forma di dizionario copiata a mano fra due repo e esattamente il posto in cui nascono i «4.0 contro 4»: la stringa si confronta, non si riscrive |
+| **AppOverall** | **la regola per le 58 P.IVA non usabili** — invariato | se la `070` si fa: **la gemella nello stesso giorno**, con i conti della `0007` aggiornati **in una migrazione nuova** e non riscritti nella vecchia (30 forme, 161 righe, 35 parole, se la forma e quella) | Perche la `0007` e merged e i suoi conti valgono per il giorno in cui sono stati presi; e perche due dizionari che divergono per una riga rompono `ruoli:check` di la e il confronto di qua, e il primo a vederlo sarebbe chi non l'ha causato |
+| **AppFormazione** | invariato: **ferma per costruzione** | il giudizio sui 9 RLS quando l'anagrafe attraversa | La riga 3401 e un RLS in piu nel campo; per loro conta quando arriva con l'anagrafe, non prima |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
