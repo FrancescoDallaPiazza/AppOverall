@@ -1648,6 +1648,102 @@ seriali dell'XML. Va fatta **prima** della scrittura delle anagrafiche e dello s
 | **AppFormazione** | niente finche Francesco non decide sulla lettura | le attese del caricamento aggiuntivo |
 | **AppOverall** | nulla di nuovo | se lo scarto c'e, **la migrazione dati prende le date dall'estrazione**: vanno corrette all'origine prima, o il passo 02 porta di qua un giorno sbagliato con la faccia di un dato |
 
+### Prossimo passo per corsia · al 14 settembre 2026, nessuno scarto e un altro doppione
+
+**Nel codice di produzione lo scarto di un giorno non c'e** (AppSopralluoghi `ab7dedd`,
+verificato su `origin`). La prova, solo sul file: **3.990 celle** data di Ruoli SSL e **3.651**
+di Fattori di Rischio lette con `leggiFoglio` e `isoData` di produzione, contro il seriale
+grezzo, col fuso di Roma e con UTC, **zero differenze**, anche decennio per decennio dal 1940.
+**Il giorno prima veniva dagli script di analisi della corsia**, che convertivano con
+`toISOString()` sul fuso della macchina: sono sbagliate di un giorno solo le date **citate** —
+FIORIO e gli esempi della misura sulle emergenze — e i conteggi reggono, perche ogni confronto
+usava la stessa conversione dai due lati. **L'indizio letto da qui in `isoData` era sbagliato**,
+ed era scritto come indizio: la funzione fa la cosa giusta.
+
+**E la domanda sulle date dei ruoli si chiude con una misura, nel verso opposto a quello
+suggerito.** Su 79 righe con Addetti Antincendio, confrontate col corso antincendio piu vicino
+della stessa persona in CorsiFatti: **stesso giorno 19**, entro una settimana 2, entro un mese 4,
+entro un anno 24, oltre un anno 21; senza corso 4, senza codice fiscale 5. **La data della colonna
+coincide con un corso in circa un caso su quattro: in generale non e la data di un corso.** Cosa
+misuri esattamente il file non lo dice, e il documento 07 di AppFormazione non va toccato. La
+risposta di Francesco sulla data vale per le righe doppie, dove l'ha data.
+
+**Lo script della 1298 e provato qui, e si puo lanciare quando l'ordine lo chiama**
+(`correggi_data_antincendio_fiorio.sql` in `ab7dedd`, date corrette sui seriali: dal 2004-01-07 al
+2001-05-14). Un blocco solo, l'avvertenza in testa, il conteggio prima, `row_count` dopo, la
+verifica in fondo. Eseguito su un cluster usa e getta con lo schema di `nomina` della loro `015`:
+
+| caso | esito |
+|---|---|
+| normale | **passa**: una riga a 2001-05-14 nella verifica |
+| rilancio | «ne ha toccate 0», niente scritto |
+| nomina assente | «trovate 0», niente scritto |
+| due FIORIO STEFANO nello stesso cliente, uno scritto con spazi e minuscole | «trovate 2», niente scritto |
+| data diversa da 2004-01-07 | «ne ha toccate 0», niente scritto |
+| gia a 2001-05-14 prima del lancio | «ne ha toccate 0», niente scritto |
+
+In tutti i casi **la nomina da preposto dello stesso FIORIO e il FIORIO STEFANO di un altro cliente
+restano intatti**.
+
+**L'anteprima delle anagrafiche rifatta fuori dallo schermo, col si di Francesco a leggere le
+persone, trova quello che la schermata non diceva.** Coincidono gruppi, voci, i 2 da abbinare, i 2
+gruppi senza cliente — IGEA e «XXXXXXXXXXXX» — e la riga scartata. **Ma le nuove vengono 88, e la
+schermata ne mostrava 93: cinque di scarto non spiegate**, e un conto che non torna non si scrive.
+Delle 88:
+
+- **63** hanno un codice fiscale mai visto in produzione: il recupero — le 75 meno le 12 di IGEA,
+  che stanno nel gruppo da abbinare a mano;
+- **1** senza codice fiscale, LESO IRENE di LA TORRE;
+- **24** hanno il codice fiscale **gia presente sotto un altro cliente**, e sono il fatto nuovo.
+
+**21 delle 24 sono MAISON 22 S.R.L., un altro cliente doppio**: due clienti con la stessa P.IVA,
+04285130235, localita Verona; uno ha 21 persone, l'altro nessuna, e il gruppo del file sceglie
+**quello vuoto**. Scrivendo nascerebbero **21 doppioni**. **Le altre 3 sono di AZIENDA AGRICOLA
+GIACOMELLI FRANCESCO**, con i codici fiscali sotto AZ. AGR. AMARI UMBERTO e sotto Impresa
+Agromeccanica Aprili Graziano; e GIACOMELLI (zero persone) e Aprili (sei) hanno **la stessa P.IVA**,
+00912140233, con nomi diversi.
+
+**MAISON 22 non l'aveva visto nessuna misura precedente, e la ragione dice che la classe non e
+chiusa.** Le cinque coppie di prima erano venute fuori dalle **persone mancanti**; MAISON 22 ha le
+persone **sotto uno dei due**, quindi da quel lato non mancava niente — l'ha fatto vedere solo
+l'anteprima. E la misura del pomeriggio contava **12 P.IVA vere condivise da 24 clienti**: tolte le
+coppie gia unite, **quelle rimaste non sono state guardate una per una**. Decidere doppione per
+doppione, a ogni anteprima, e il modo in cui la terza sorpresa arriva dopo la scrittura.
+
+**Le 24 schede che cambierebbero, e la lettura va corretta prima di decidere.** Cambiano solo per
+spazi doppi presi dal file. **Non contraddice il principio dell'import**, come si poteva pensare:
+«si riempiono solo i campi vuoti» vale per i **clienti**; per le **persone** `fondiPersona` ha la
+regola opposta, scritta nel suo commento — «ciò che il file non dice resta com'era», cioe **quello
+che dice vince** (`anagraficheImport.ts:876`). Quindi e il file che riscrive con due spazi un nome
+che in produzione ne ha uno. Le chiavi di confronto collassano gli spazi, e l'abbinamento non ne
+risente.
+
+**Le raccomandazioni, scritte come raccomandazioni:**
+
+- **prima di tutto, la tabella intera**: tutti i clienti che dopo la pulizia condividono ancora una
+  P.IVA usabile, con persone, indirizzo, data di creazione e da quale import vengono. Le decisioni
+  si prendono **una volta**, su tutti;
+- **MAISON 22**: doppione, stessa P.IVA e stessa localita — **si uniscono tenendo quello con le 21
+  persone**, con uno script della stessa forma di `10cd71f` e la stessa misura di cosa punta al
+  cliente da togliere. **Prima dell'unione le anagrafiche non si scrivono**;
+- **GIACOMELLI e Aprili**: la stessa P.IVA con due nomi diversi **non e un doppione, e un dato
+  sbagliato** su uno dei due. Si verifica quale P.IVA sia vera — una visura la dice — e **non si
+  unisce niente**. Le tre persone con il codice fiscale sotto AMARI e Aprili possono lavorare davvero
+  in piu aziende agricole: all'origine sono tre schede legittime;
+- **gli spazi doppi**: accettarli adesso — non cambiano nessun abbinamento — e **far collassare gli
+  spazi nella lettura dei nomi nello stesso ramo delle emergenze**, cosi gli import successivi smettono
+  di riscriverli; una pulizia dei nomi a doppio spazio, se serve, dopo. Metterci un deploy **prima**
+  della scrittura delle anagrafiche sposterebbe tutto il recupero per una questione di forma;
+- **le cinque nuove in piu**: ricaricare la pagina e rileggere il numero. Se resta 93, **si spiegano
+  prima di scrivere**.
+
+| chi | adesso | poi |
+|---|---|---|
+| **AppSopralluoghi** | **la tabella dei clienti con P.IVA usabile ancora condivisa**, in sola lettura col si di Francesco; e la spiegazione delle 5 nuove in piu | lo script di unione per i doppioni che Francesco decide, **mandato qui prima del lancio**; nel ramo delle emergenze, se Francesco lo vuole, gli spazi collassati |
+| **Francesco** | le decisioni su MAISON 22, GIACOMELLI e Aprili, gli spazi doppi — **meglio con la tabella intera davanti** | lo script di unione; poi l'anteprima ricaricata e la scrittura delle anagrafiche; poi il merge delle emergenze, lo script della 1298, l'import delle nomine |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
+| **AppOverall** | provati lo script della 1298 e, quando arriva, quello di unione | il passo 01 della migrazione fonde gia i clienti con la stessa P.IVA usabile: un doppione non unito all'origine diventerebbe **una sede vuota** di qua, non un secondo cliente — un difetto piu piccolo, ma sempre un difetto |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
