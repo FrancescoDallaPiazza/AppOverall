@@ -1744,6 +1744,38 @@ risente.
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 | **AppOverall** | provati lo script della 1298 e, quando arriva, quello di unione | il passo 01 della migrazione fonde gia i clienti con la stessa P.IVA usabile: un doppione non unito all'origine diventerebbe **una sede vuota** di qua, non un secondo cliente — un difetto piu piccolo, ma sempre un difetto |
 
+**Una decisione di Francesco e due casi letti, riferiti da AppSopralluoghi** — le letture in
+sola lettura, su richiesta di Francesco.
+
+- **Gli spazi doppi: «Si, ripulisci».** Si collassano nella lettura dei nomi delle persone, sul
+  ramo delle emergenze, come raccomandato: nessun deploy prima della scrittura delle anagrafiche.
+- **MAISON 22 e un doppione pieno**, ed e gia doppio nell'export del gestionale: i due clienti
+  hanno la stessa P.IVA e lo stesso codice fiscale, 04285130235, lo stesso indirizzo, Via Quattro
+  Novembre 1/D, 37126 Verona, sono nati nello stesso minuto del 9 settembre e non hanno incarichi;
+  uno ha 21 persone, l'altro nessuna. **La raccomandazione di unirli regge.**
+- **GIACOMELLI non e un doppione, ed e piu di una P.IVA sbagliata.** Nel gestionale
+  «AZIENDA AGRICOLA GIACOMELLI FRANCESCO», senza indirizzo, porta **la P.IVA e il codice fiscale di
+  Impresa Agromeccanica Aprili Graziano** — e il codice fiscale e quello di una persona, non di una
+  societa. Esiste anche **«AZ. AGR. GIACOMELLI FRANCESCO»**, Pradelle di Nogarole Rocca, con una
+  P.IVA sua, 02884860235, e una persona. In produzione la prima ha zero persone e Aprili ne ha sei;
+  ma **due di quelle sei — AMARI UMBERTO e GIACOMELLI FRANCESCO — nel file non stanno mai sotto
+  Aprili**, stanno sotto Giacomelli. La corsia ne deduce che l'import del 9 settembre abbia agganciato
+  ad Aprili le righe dell'anagrafica con i suoi stessi dati fiscali, e **lo scrive come dedotto e
+  non misurato**: il file di quel giorno non c'e piu. Da qui resta un'ipotesi, e la risposta non sta
+  in nessun database — sta in chi conosce quelle aziende agricole.
+
+**La domanda per Francesco su Giacomelli, allargata:** per quale azienda lavorano davvero AMARI
+UMBERTO, GIACOMELLI FRANCESCO e NEGRETTI LUCA — che nel file compare sotto tutte e due; se
+«AZIENDA AGRICOLA GIACOMELLI FRANCESCO» sia la stessa azienda di «AZ. AGR. GIACOMELLI FRANCESCO»
+registrata coi dati di un'altra; e quindi se quel cliente vada tolto, e quelle due persone
+spostate. **Niente di questo si scrive prima della sua risposta**, e la scrittura delle anagrafiche
+resta ferma: MAISON 22 da unire, Giacomelli da chiarire, e prima la tabella intera delle P.IVA
+condivise, che la corsia gli chiede adesso.
+
+**Per la migrazione di questa corsia**, se l'ipotesi e vera: il passo 02 porterebbe di qua due
+rapporti di lavoro sotto Aprili che non sono di Aprili. E il genere di errore che una migrazione
+trasporta intatto, perche la chiave e coerente con se stessa — va chiuso all'origine.
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
