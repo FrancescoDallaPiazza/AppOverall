@@ -2290,7 +2290,7 @@ due, e dove si fa la prova generale finche quel progetto e in uso — e **nessun
 |---|---|---|
 | **Francesco** | le letture che AppFormazione gli prepara, dall'SQL Editor; la conferma degli script delle 5 `dl_rspp` quando AppSopralluoghi li porta | il via al passo `03` di AppOverall |
 | **AppSopralluoghi** | le **5 `dl_rspp`**: lettura prima, script, lettura dopo, contro **459** e 2 / 40 | 1503 e 2461 restano aperte e non si toccano |
-| **AppOverall** | il passo `03` delle nomine nella migrazione dati, provato su `initdb` — **al via di Francesco** | la prova generale su `initdb`, con i conteggi letti nello stesso momento |
+| **AppOverall** | il passo `03` delle nomine nella migrazione dati, provato su `initdb` — **assegnato alla sessione `appoverall-ac`**, aperta da Francesco per ricevere l'ordine; questa sessione non tocca `supabase/migrazione-dati` ne nuove migrazioni finche lavora | la prova generale su `initdb`, con i conteggi letti nello stesso momento |
 | **AppFormazione** | **la lettura negata e sbloccata**: preparare in sola lettura il conto di `ruoli_persona` in produzione, e passarlo a Francesco per l'SQL Editor | le attese del caricamento aggiuntivo, sui numeri che quel conto restituisce; i 29 addetti dalle emergenze sono gia nomine in AppSopralluoghi |
 
 
