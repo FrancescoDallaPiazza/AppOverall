@@ -2182,6 +2182,23 @@ dei passi, uguale a origin. **Lanciato da Francesco: una riga, FIORIO STEFANO, I
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il recupero |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 
+**Il file c'e, al byte, e IGEA riparte.** 15 settembre 2026, sessione su `OVERALL-PC07`: in `Downloads`
+c'e `ExportExcel (4).xlsx`, **7.228.718 byte, modificato il 09/09/2026 alle 12:48:21** — i due valori
+scritti ieri sera. Nessuna impronta era stata registrata in nessuno dei tre repo, quindi il controllo al
+byte e quello possibile, e l'impronta si scrive adesso perche il prossimo confronto non dipenda dalla
+dimensione: SHA-256 `EA4E58E6F3EF9F2CDF08F675EF94CC3ED049BF24C4E64F17C9295FE078A34907`. Le altre
+`ExportExcel` della cartella hanno dimensioni diverse, e la `(5)` delle 13:01 **non** e il file delle
+attese. Nessun export nuovo: vale ancora la regola di ieri.
+
+Il passo «recuperare il file» e chiuso; la sequenza di ieri resta com'era, nello stesso ordine.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | aprire l'app, **ricarica forzata** (Ctrl+Shift+R) e cercare in Import nomine il titolo **«Le nove colonne di ruolo, e quella che non entra»** — se non c'e, non si scrive; poi il passaggio di IGEA con `ExportExcel (4).xlsx`, col metodo dell'id, contro **3.472 / 13 / 3.459 / 2 / 3 / 1** | il si alla lettura dopo; l'anteprima e poi l'import delle nomine, **col titolo controllato di nuovo**; la decisione sulla lettura negata ad AppFormazione |
+| **AppSopralluoghi** | guidare il passaggio di IGEA passo per passo, **titolo per primo** | la lettura dopo: 3.494 persone, 13 su 3f485f16 e 0 su def8645c, le 24 per id con uno spazio solo |
+| **AppOverall** | nulla di nuovo | la prova generale, dopo il passaggio di IGEA e le nomine |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
