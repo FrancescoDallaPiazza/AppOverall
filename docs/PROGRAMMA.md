@@ -2337,6 +2337,27 @@ che la riceve non prende voci da quella lista senza passare dalla sezione 8.
 | **AppSopralluoghi** | col si: merge, deploy, verifica per canale; poi nel browser le due IGEA con voci diverse, e da dove arriva l'indirizzo | **nessun passo nuovo**: l'esito con l'hash, e il passo successivo si chiede qui |
 | **AppOverall** | `appoverall-ac` sul passo `03` | la prova generale su `initdb` |
 | **AppFormazione** | il conto di `ruoli_persona` preparato per l'SQL Editor | le attese del caricamento aggiuntivo |
+
+**Le etichette sono online, e il passo dopo e verificato sul codice prima di mandarlo.** Si di Francesco
+chiesto da AppSopralluoghi con le tre tendine nominate: «si». Merge `03b1633`, 10 controlli verdi sul `main`
+unito. **Riletto da qui per canale**: GitHub deployments da `03b1633` *Production* `success` alle 15:35:02
+UTC, e `app-sopralluoghi.vercel.app` risponde 200 con `index-G0ow0SI3.js`; il segno sale da 0 a 1. **Manca
+la verifica a vista**, e il deploy non e chiuso finche non c'e.
+
+**Il passo dopo, e perche questo.** Nella Fase 0 le voci aperte sono due: D2, che si chiude quando Francesco
+guarda un report vero e non si puo forzare, e **l'ATECO mancante**, che «non aspetta piu» il raccordo ma ha
+una condizione scritta il 9 settembre e mai chiusa: il percorso a mano. **Verificato su `origin/main` prima
+di assegnarlo**, applicando la regola di stamattina: `src/admin/Anagrafiche.tsx:881-884`, `scegli` scrive
+`codice_ateco` **e** `livello_rischio` nella stessa patch al clic su un suggerimento. Un livello messo a mano
+viene sovrascritto senza conferma, e il bottone RISCHIO (`:960`) sa gia applicarlo come gesto separato. **E
+il punto in cui una campagna di riempimento cambierebbe classi di rischio in silenzio**, quindi va prima.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | la verifica a vista delle etichette e di 2 / 40, **senza scrivere**, guidata da AppSopralluoghi | il si al merge e al deploy del percorso ATECO; un report vero su un sopralluogo con box e componenti, quando capita, per chiudere D2 |
+| **AppSopralluoghi** | riportare la verifica a vista | **il percorso a mano dell'ATECO**: il suggerimento scrive solo il codice, il livello cambia solo col bottone; prova che fallisce su `main` col caso «alto messo a mano, suggerimento che propone basso»; ramo, si di Francesco, segno della versione. **La campagna ATECO non parte**, e nessun codice ATECO si scrive in produzione |
+| **AppOverall** | `appoverall-ac` sul passo `03` | la prova generale su `initdb` |
+| **AppFormazione** | il conto di `ruoli_persona` preparato per l'SQL Editor | le attese del caricamento aggiuntivo |
 | **AppFormazione** | **la lettura negata e sbloccata**: preparare in sola lettura il conto di `ruoli_persona` in produzione, e passarlo a Francesco per l'SQL Editor | le attese del caricamento aggiuntivo, sui numeri che quel conto restituisce; i 29 addetti dalle emergenze sono gia nomine in AppSopralluoghi |
 
 
