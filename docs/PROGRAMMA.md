@@ -2260,6 +2260,39 @@ e decisa; il passo delle nomine invece si scrive e si prova su un database usa e
 prova generale porterebbe 3.494 persone e **zero** incarichi. **Cosa non si fa**: nessun export nuovo, e
 nessuna lettura della produzione da questa corsia — le 454 si contano quando la prova generale le legge.
 
+### Le tre risposte di Francesco · 15 settembre 2026, sera
+
+Date nella sessione di AppSopralluoghi e riferite da loro con le sue parole; registrate nel loro `STATO.md`,
+sezione «Le altre due decisioni di Francesco sulla sezione 8».
+
+**1. Le 7: «1097 A, 1503 C, 2146 A, 2326 A, 3451 A, 2248 A, 2461 C».** A e il datore che fa da RSPP in
+proprio (`dl_rspp`), C e «non e l'RSPP, o non si sa». Ne escono **5 `dl_rspp`**: 1097, 2146, 2326 e 3451
+dalla colonna con la sua data, 2248 dalla qualifica («RSPP-SOCIO») senza data. **1503 e 2461 restano da
+decidere**, e restano li: C non e un no, e un «non si sa», e una nomina non si scrive su un «non si sa».
+AppSopralluoghi scrive come oggi — lettura prima, script che si annulla, lettura dopo — con attese **459
+nomine**, e nella pagina 2 da decidere e 40 gia risolte. La 1097 e la 3451 non hanno codice fiscale e si
+cercano per nome: e il caso in cui la lettura prima deve dire **una persona sola** per ciascuna, o ci si ferma.
+
+**2. La lettura negata ad AppFormazione: «ok».** Le letture le lancia **Francesco dall'SQL Editor** sul loro
+progetto, come ha fatto per AppSopralluoghi. Quindi non e un permesso passato a una sessione, e non vale la
+regola della seconda mano: la sessione prepara la query in sola lettura, **chi la esegue e Francesco**.
+AppFormazione non ha una sessione aperta: l'ordine le arriva da qui.
+
+**3. Il progetto Supabase di AppOverall: «riusare piu avanti uno dei due progetti esistenti, svuotandolo
+quando le app vecchie vengono archiviate».** Restano due domande che non gli sono state fatte — quale dei
+due, e dove si fa la prova generale finche quel progetto e in uso — e **nessuna delle due serve adesso**:
+- **quale dei due** dipende da quale app viene archiviata per prima, e quel giorno non e vicino;
+- **dove si fa la prova generale**: su un cluster `initdb` usa e getta, come si provano gia la `01` e la
+  `02`. Non occupa nessun progetto, e il progetto destinazione serve solo alla migrazione vera. **Non si
+  chiede a Francesco una cosa che si risolve con uno strumento** (la lezione della password dell'11).
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | le letture che AppFormazione gli prepara, dall'SQL Editor; la conferma degli script delle 5 `dl_rspp` quando AppSopralluoghi li porta | il via al passo `03` di AppOverall |
+| **AppSopralluoghi** | le **5 `dl_rspp`**: lettura prima, script, lettura dopo, contro **459** e 2 / 40 | 1503 e 2461 restano aperte e non si toccano |
+| **AppOverall** | il passo `03` delle nomine nella migrazione dati, provato su `initdb` — **al via di Francesco** | la prova generale su `initdb`, con i conteggi letti nello stesso momento |
+| **AppFormazione** | **la lettura negata e sbloccata**: preparare in sola lettura il conto di `ruoli_persona` in produzione, e passarlo a Francesco per l'SQL Editor | le attese del caricamento aggiuntivo, sui numeri che quel conto restituisce; i 29 addetti dalle emergenze sono gia nomine in AppSopralluoghi |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
