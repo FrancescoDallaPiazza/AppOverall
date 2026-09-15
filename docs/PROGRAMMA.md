@@ -2394,6 +2394,26 @@ script e pronto, non prima e non per implicito.
 | **AppSopralluoghi** | la verifica a vista | il percorso a mano dell'ATECO |
 | **AppOverall** | `appoverall-ac`: lo script della prova generale e la pagina dell'estrazione, provati sui dati finti | la prova generale sui dati veri, col si di Francesco |
 | **AppFormazione** | il conto di `ruoli_persona` preparato per l'SQL Editor | le attese del caricamento aggiuntivo |
+
+### Francesco fuori · 15 settembre 2026, tardo pomeriggio
+
+**Il percorso a mano dell'ATECO e pronto sul ramo, e aspetta il si.** AppSopralluoghi, riletto su `origin`:
+ramo `ateco-scelta-senza-livello` a `3ee2cc6`, non unito; su `main` il punto di ripresa (`0f519d1`). La regola sta
+in due funzioni pure di `formazione/ateco.ts` — `patchSceltaAteco` scrive solo il codice, `statoRischio` dice cosa
+propone il bottone — e il componente le usa (`Anagrafiche.tsx:890`). Prova 6 su 6; sulla patch di `main`
+trascritta alla lettera ne falliscono 4, **compreso il caso assegnato**: «alto» messo a mano resta «alto». Segno
+della versione «premi per applicarlo»: 0 nel bundle online, 1 nella build del ramo.
+
+**Accettata la decisione su `ateco_origine`: non si tocca**, ne dalla scelta ne dall'input libero, perche e la
+cella del gestionale e l'unico riscontro. Il prezzo e scritto: dopo una correzione a mano l'avviso di divisione
+incerta puo restare. **Si decide con la campagna ATECO**, che non e partita.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | fuori | al ritorno: la verifica a vista delle etichette e di 2 / 40; il si o il no a merge e deploy del ramo ATECO; il si o il no all'estrazione per la prova generale, quando lo script e pronto |
+| **AppSopralluoghi** | **fermi**: nessun merge, nessun deploy, nessuna scrittura in produzione | al si: merge, deploy, verifica per canale e a vista |
+| **AppOverall** | `appoverall-ac` sullo script della prova generale, **solo dati finti**, commit a ogni punto coerente | la prova generale sui dati veri, col si di Francesco |
+| **AppFormazione** | il conto di `ruoli_persona` preparato per l'SQL Editor | le attese del caricamento aggiuntivo |
 | **AppFormazione** | **la lettura negata e sbloccata**: preparare in sola lettura il conto di `ruoli_persona` in produzione, e passarlo a Francesco per l'SQL Editor | le attese del caricamento aggiuntivo, sui numeri che quel conto restituisce; i 29 addetti dalle emergenze sono gia nomine in AppSopralluoghi |
 
 
