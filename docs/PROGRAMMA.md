@@ -2316,6 +2316,27 @@ sbagliata l'avevo gia rilanciata come «`note` e un dato di provenienza»: A19 n
 per scegliere fra due IGEA, e la prossima coppia di omonimi lo richiedera di nuovo: costa poco, e toglie un
 passo manuale da ogni import futuro. Il doppione di `riepiloga` viene dopo perche e un difetto di conteggio,
 non di dati.
+
+**L'etichetta e pronta sul ramo, e `riepiloga` era chiuso dal 14: l'ordine era sbagliato, ed e mio.**
+AppSopralluoghi, riletto su `origin`: ramo `etichetta-clienti-omonimi` a `b1765b0`, non pubblicato.
+`distinguiOmonimi` aggiunge l'indirizzo solo a chi ha un'etichetta uguale a un altro — della sede operativa,
+altrimenti dell'anagrafica — e, se manca o coincide, l'inizio dell'id. Vale nelle **tre** tendine che usano
+`etichettaCliente`, compresa Import formazione. Prova: 5 casi su 5, e 4 falliscono sul codice di `main`. Il
+segno della versione e scelto come si deve: 0 occorrenze nel bundle online, 1 nella build del ramo.
+
+**`riepiloga` usa `senzaDoppioni` su `main` dal `6532500`** (verificato qui: `nomineImport.ts:605-607`). L'ho
+assegnato leggendo la riga in testa al loro `STATO.md` che lo dava aperto, **senza aprire il codice**: e la
+regola scritta sopra — «un avviso che vive altrove non protegge chi apre il documento» — nel verso di chi
+assegna. La riga era vecchia e l'hanno corretta (`9e2430d`); il difetto di metodo e di qui. **Da qui in poi
+un'assegnazione presa da una lista di cose aperte si verifica sul codice prima di mandarla**, e la corsia
+che la riceve non prende voci da quella lista senza passare dalla sezione 8.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | il si o il no a merge e deploy delle etichette, **chiesto a lui direttamente** da AppSopralluoghi | alla prossima apertura di Import nomine, 2 / 40 senza scrivere |
+| **AppSopralluoghi** | col si: merge, deploy, verifica per canale; poi nel browser le due IGEA con voci diverse, e da dove arriva l'indirizzo | **nessun passo nuovo**: l'esito con l'hash, e il passo successivo si chiede qui |
+| **AppOverall** | `appoverall-ac` sul passo `03` | la prova generale su `initdb` |
+| **AppFormazione** | il conto di `ruoli_persona` preparato per l'SQL Editor | le attese del caricamento aggiuntivo |
 | **AppFormazione** | **la lettura negata e sbloccata**: preparare in sola lettura il conto di `ruoli_persona` in produzione, e passarlo a Francesco per l'SQL Editor | le attese del caricamento aggiuntivo, sui numeri che quel conto restituisce; i 29 addetti dalle emergenze sono gia nomine in AppSopralluoghi |
 
 
