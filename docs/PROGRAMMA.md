@@ -2199,6 +2199,67 @@ Il passo «recuperare il file» e chiuso; la sequenza di ieri resta com'era, nel
 | **AppOverall** | nulla di nuovo | la prova generale, dopo il passaggio di IGEA e le nomine |
 | **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo |
 
+### Il recupero e chiuso: 3.494 persone e 454 nomine · 15 settembre 2026, pomeriggio
+
+Riferito da AppSopralluoghi con un messaggio fra sessioni, e **riletto qui sul loro `origin/main`**
+(`f679127`, 19 commit dal `2140192`) prima di costruirci sopra (A19). Tutti i passi sono stati lanciati da
+Francesco, ognuno con le attese scritte prima e una lettura dopo:
+
+- **IGEA** (`e45cc2d`, `1f0a4ad`): 3.472 scritte; lettura 10 ok su 10 — 3.494 persone, 13 su `3f485f16` e 0
+  su `def8645c`, MAISON 22 17/4, e **le 24 riscontrate per id**, 0 spazi doppi. Riparate senza script.
+- **Un solo import delle nomine** (`578873a`, `64a4783`): attese calcolate sulla produzione con le funzioni
+  della pagina, **35 / 51 / 1 / 392**, riconciliate riga per riga — 29 dalle emergenze, la 654 dalla
+  qualifica, la 1931 dalla mansione, la 2268 e la 3049. Anteprima identica, 35 scritte, **427 nomine**.
+  Sono gli stessi numeri che stamattina, da qui, avevo fermato perche le attese non c'erano ancora: adesso
+  ci sono, e tornano.
+- **La colonna RSPP, decisa con gli attestati** invece che chiedendo a chi compila il gestionale
+  (`73154af`): delle 31 righe, 27 con attestato da datore-RSPP e **0 con i moduli A/B/C**; 20 `dl_rspp`
+  nuove da colonna, con data e nota. **447.**
+- **I testi** (`a04d39d`): 7 `dl_rspp` dove «RSPP» e scritto e c'e l'attestato da datore, senza data. **454.**
+- **La `071`** (`45c7193`): «INSTALLATORE/MANUTENTORE IMPIANTI ANTINCENDIO E ANTIFURTO», 9 righe di DER
+  ERSTE, e un **mestiere e non un ruolo** — nel dizionario senza figure, decisione di Francesco. Applicata
+  dall'SQL Editor, quindi **non registrata in `schema_migrations`**, come le altre date da li.
+- **La pagina nomine** (`bea1692`, verificata nel browser): chi ha gia la nomina scritta va fra le «gia
+  risolte». **Restano 7 da decidere**: 1097, 1503, 2146, 2326, 3451 (RSPP senza un attestato che basti), 2248
+  (TOP CAR S.N.C., che non e TOP CAR SRL), 2461 (ECODENT, solo Modulo A).
+
+**La gemella della `071` e scritta qui: `0019`.** La struttura della `0007` e diversa dalla loro — `testo`
+come chiave e `ruolo_testo_parola` al posto di `ruolo_testo_figura` — quindi la forma e una riga in
+`ruolo_testo` e **nessuna parola**. Le query della `0007` partono dal `join` con le parole, e la riga non
+entra ne fra le asserzioni ne fra le non risolte. Stringa confrontata **byte per byte** col loro file.
+Provata su un cluster `initdb` usa e getta, 0001-0019 in ordine: 35 testi, 191 righe, 39 parole, 190
+asserzioni e **9 non risolte, invariate**, 1 testo senza incarico. Controllo negativo, stesso cluster e
+0001-0018 soltanto: 34 testi e 0 senza incarico. Il cluster e stato cancellato.
+
+**Tre cose da tenere, che vengono dal loro messaggio e riguardano questo repo:**
+
+1. **I conti della migrazione dati sono vecchi.** 619 clienti, 3.419 righe, N = 3.415 erano del 13
+   settembre; oggi le persone sono **3.494** e le nomine **454**. `00_origine.sql` e gia scritto per contare
+   nello stesso momento e non fidarsi di quei numeri, ma le **nomine** nella migrazione non hanno ancora un
+   passo: esistono `00`, `01` clienti e `02` persone, e **nessun `03`**.
+2. **Una migrazione applicata dall'editor non lascia traccia in `schema_migrations`.** Il livello della
+   produzione di AppSopralluoghi non si legge da quella tabella: si legge dagli oggetti (la `068` del 13
+   settembre l'aveva gia insegnato). Vale per qualunque controllo che faremo prima della migrazione.
+3. **In quale progetto Supabase vivra il database di AppOverall non e deciso da nessuna parte.** La
+   migrazione dati presuppone un database distinto. Sul piano gratuito i progetti attivi per organizzazione
+   sono pochi — il numero va verificato, non ricordato.
+
+E un'osservazione sul loro file, che e la regola dell'avviso letto da chi apre il documento: la testa del
+loro `STATO.md` dice ancora **«Ultimo aggiornamento: 14 settembre 2026, pomeriggio»**, sopra diciannove
+commit del 15.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | le **7 da decidere**, riga per riga; **la lettura negata ad AppFormazione**, ferma dal 14; **il progetto Supabase** di AppOverall | valutare se rigenerare la chiave `service_role`, che oggi e passata in una sessione per un'esecuzione sola |
+| **AppSopralluoghi** | la **testa dello `STATO.md`** portata al 15 settembre; nessuna scrittura nuova finche Francesco non risponde sulle 7 | registrare le risposte sulle 7, e le nomine che ne escono con attese e lettura |
+| **AppOverall** | **il passo `03` delle nomine nella migrazione dati**, provato su `initdb`, con le origini che le 454 portano oggi (colonna, mansione, qualifica, attestati) | la prova generale, quando il progetto Supabase e deciso |
+| **AppFormazione** | fermi finche Francesco decide sulla lettura negata | le attese del caricamento aggiuntivo, sapendo che i 29 addetti dalle emergenze adesso sono nomine in produzione |
+
+**Perche il `03` e non la prova generale.** La prova generale vuole una destinazione, e la destinazione non
+e decisa; il passo delle nomine invece si scrive e si prova su un database usa e getta, e senza di lui la
+prova generale porterebbe 3.494 persone e **zero** incarichi. **Cosa non si fa**: nessun export nuovo, e
+nessuna lettura della produzione da questa corsia — le 454 si contano quando la prova generale le legge.
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
