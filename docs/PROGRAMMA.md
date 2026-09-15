@@ -2416,6 +2416,52 @@ incerta puo restare. **Si decide con la campagna ATECO**, che non e partita.
 | **AppFormazione** | il conto di `ruoli_persona` preparato per l'SQL Editor | le attese del caricamento aggiuntivo |
 | **AppFormazione** | **la lettura negata e sbloccata**: preparare in sola lettura il conto di `ruoli_persona` in produzione, e passarlo a Francesco per l'SQL Editor | le attese del caricamento aggiuntivo, sui numeri che quel conto restituisce; i 29 addetti dalle emergenze sono gia nomine in AppSopralluoghi |
 
+### Francesco rientrato · 15 settembre 2026, sera
+
+**Il percorso a mano dell'ATECO e online.** Col si di Francesco, `appoverall-55` ha unito il ramo su `main` di
+AppSopralluoghi: `29f3968`, `--no-ff` su `0f519d1`. Prima del push `ateco-scelta:check` 6 su 6, `ateco:check` e
+`omonimi-etichetta:check` verdi, build verde. Push di Francesco; stato GitHub Vercel `success` alle 16:31:42Z
+(deployment `6463589757`); sul dominio pubblico il bundle e `index-Da57U_gT.js`, lo stesso nome della build locale,
+e «premi per applicarlo» passa da 0 a 1. AppSopralluoghi l'ha riletto per conto suo: bundle identico byte per byte a
+`dist/`, la patch vecchia (codice e livello insieme) 0 nel bundle.
+
+**Le tre verifiche a vista sono chiuse**, fatte da Francesco nel browser senza scrivere, annotate nello `STATO.md`
+di AppSopralluoghi (`733d62c`, `20f82f9`):
+- ATECO: su un cliente con un livello salvato, scegliere un suggerimento lascia il livello e mostra la proposta;
+- import nomine: «ok» sull'atteso 0 da creare, 2 da decidere, 40 gia risolte — riferito, **non** i numeri uno per uno;
+- tendina clienti: le due IGEA SRL UNIPERSONALE sono 2 voci distinte; se le distingua l'indirizzo o l'id **non e
+  riferito**.
+
+**Lungo la strada un falso allarme, e l'errore era nelle mie istruzioni.** Il primo esito fu «il livello e cambiato
+da solo». Il cliente non aveva un livello salvato: il bottone mostra `livello ?? proposto` col colore pieno, e
+cambiando codice cambia la proposta. Avevo scritto «un cliente il cui bottone mostra un livello», che non distingue
+un livello salvato da una proposta; il criterio che distingue e **il bottone col campo ATECO vuoto**: «—» vuol dire
+nessun livello salvato. Non l'ha introdotto il ramo: la stessa riga c'era su `0f519d1`.
+
+**Da li il ritocco, si di Francesco:** ramo `rischio-proposta-distinta` a `0eaa1a2`, pushato, non unito. Senza
+livello salvato il bottone ha il contorno tratteggiato e sotto «proposto, non salvato»; col livello salvato non
+cambia. `ateco-scelta:check` 7 su 7, e il caso nuovo fallisce sul codice online; build verde; anteprima Vercel
+`success` (deployment `6464457624`). **Merge e deploy dopo che Francesco l'ha visto.**
+
+**Le 2 da decidere restano 2.** Francesco ha risposto qui «1503 b; 2461 C», poi nella sessione di AppSopralluoghi
+ha corretto la 1503: QUALIFT fa parte di un gruppo il cui RSPP e di un'altra entita, quindi **C anche lei**. Nessuno
+script, 459 nomine (`392c916`). Visto preparando: una nomina `rspp` avrebbe risolto la riga
+(`nomineImport.ts:377`); e `ExportExcel (4).xlsx` non e piu nei Download, quindi `attese-nomine.mjs` senza
+argomenti oggi si ferma.
+
+**Si all'estrazione, e la prova generale non puo ancora partire: su questo PC PostgreSQL non c'e** (la correzione
+sta piu sotto, dove questo file diceva il contrario). Consiglio dato a Francesco, non una sua decisione: i quattro
+CSV non si estraggono finche PostgreSQL non c'e, altrimenti restano sul disco senza uso. La cartella
+`C:\Users\Francesco\Documents\migrazione-privata\2026-09-15` e creata, vuota. Si puo intanto lanciare la
+fotografia del punto 1 di `estrazione.md`, che non porta dati personali.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | scegliere fra installare PostgreSQL 16 e adattare lo script a Docker Desktop; guardare l'anteprima di `rischio-proposta-distinta` | la fotografia, poi l'estrazione; il si o il no al merge del ritocco |
+| **AppSopralluoghi** | ramo `rischio-proposta-distinta` pronto; **main fermo** | al si: merge, deploy, verifica per canale e a vista |
+| **AppOverall** | `appoverall-55`, nessun lavoro in corso | la prova generale sui dati veri, quando c'e PostgreSQL |
+| **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
+
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
