@@ -2358,6 +2358,42 @@ il punto in cui una campagna di riempimento cambierebbe classi di rischio in sil
 | **AppSopralluoghi** | riportare la verifica a vista | **il percorso a mano dell'ATECO**: il suggerimento scrive solo il codice, il livello cambia solo col bottone; prova che fallisce su `main` col caso «alto messo a mano, suggerimento che propone basso»; ramo, si di Francesco, segno della versione. **La campagna ATECO non parte**, e nessun codice ATECO si scrive in produzione |
 | **AppOverall** | `appoverall-ac` sul passo `03` | la prova generale su `initdb` |
 | **AppFormazione** | il conto di `ruoli_persona` preparato per l'SQL Editor | le attese del caricamento aggiuntivo |
+
+**Il passo `03` delle nomine c'e, e riprovato da qui prima di costruirci sopra.** `appoverall-ac`, `fe9fade`: la
+`0020` porta in `nomina` `origine` (quattro valori o null), `origine_testo` e `note`, con il vincolo che un testo
+c'e se e solo se l'origine e dedotta; `03_nomine.sql` con dieci rifiuti prima di scrivere; la quarta select nel
+`00`. **Riprovato qui su un cluster `initdb` separato**, 0001-0020: `prova_01` 38 ok, `prova_02` 29 ok,
+`prova_03` 55 ok, **0 NO** — gli stessi numeri riferiti. Cluster cancellato.
+
+Le decisioni prese la, accettate:
+- **la figura viene solo da `ruolo_sicurezza_alias`** con `sistema = 'sopralluoghi'`, 13 codici su 13; un codice
+  senza riga si rifiuta, e `dl_rspp` diventa `datore_lavoro_rspp` per via della sua riga, non per somiglianza;
+- **`origine` null resta null**: la salvano null anche `salvaNomina` e l'import della formazione, quindi null e
+  «non registrata», non «manuale»;
+- **`note` si porta alla lettera e non classifica**; pesa solo nel rifiuto (h), dove una nomina dedotta che il
+  nostro dizionario non ricava passa solo con una nota — le 8 degli script;
+- **la sede e quella dell'unita d'origine**, e la stessa figura su due unita fuse resta due nomine, contate in un
+  avviso. **Sui dati veri quel numero non e misurato.**
+
+**Deciso qui: nessun vincolo unique su `nomina` adesso.** Il `03` e idempotente per id e controlla le collisioni
+prima di scrivere; un vincolo scritto prima di sapere quante collisioni e unita fuse ci sono davvero e il vincolo
+prima della misura. Si decide sui numeri della prova generale.
+
+**E il passo dopo e la prova generale, preparata senza dati veri.** Uno script che fa tutta la migrazione su un
+`initdb` usa e getta da quattro CSV fuori da qualunque repo, provato sui dati finti; e una pagina per Francesco
+con cosa lanciare **nello stesso momento** nell'SQL Editor — le quattro select, i quattro conteggi, il controllo
+di livello sul vincolo, e **due conteggi mai misurati**: nomine non attive e `da_confermare`, che sono i rifiuti
+(d) ed (e). Meglio saperli prima che scoprirli da un rifiuto.
+
+**L'estrazione vera porta dati personali su questo disco, ed e una decisione di Francesco**: si chiede quando lo
+script e pronto, non prima e non per implicito.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | la verifica a vista delle etichette, quando AppSopralluoghi la porta | **il si o il no all'estrazione** per la prova generale, quando lo script e pronto |
+| **AppSopralluoghi** | la verifica a vista | il percorso a mano dell'ATECO |
+| **AppOverall** | `appoverall-ac`: lo script della prova generale e la pagina dell'estrazione, provati sui dati finti | la prova generale sui dati veri, col si di Francesco |
+| **AppFormazione** | il conto di `ruoli_persona` preparato per l'SQL Editor | le attese del caricamento aggiuntivo |
 | **AppFormazione** | **la lettura negata e sbloccata**: preparare in sola lettura il conto di `ruoli_persona` in produzione, e passarlo a Francesco per l'SQL Editor | le attese del caricamento aggiuntivo, sui numeri che quel conto restituisce; i 29 addetti dalle emergenze sono gia nomine in AppSopralluoghi |
 
 
