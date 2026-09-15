@@ -49,6 +49,10 @@
 --          created_at, updated_at
 --     from nomina order by id;
 --
+-- **La procedura per intero** — la fotografia prima e dopo, come salvare i CSV, e il
+-- comando della prova generale — sta in `estrazione.md`, accanto. Se queste select
+-- cambiano, cambiano anche li e in `prova_generale_comune.sh`.
+--
 -- Avvertenze che valgono piu delle select:
 --
 --   * **una lettura troncata non si annuncia.** PostgREST tronca a 1000 righe e
