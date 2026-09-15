@@ -10,16 +10,17 @@
 -- loro contenuto sono **dati personali** — nomi e codici fiscali di 3.419 righe —
 -- quindi i file CSV da cui si riempiono **non entrano mai in questo repo**, e
 -- nemmeno uno di prova ricavato da quelli. Le prove usano dati finti
--- (`prova_01_clienti_dati.sql`, `prova_02_persone_dati.sql`).
+-- (`prova_01_clienti_dati.sql`, `prova_02_persone_dati.sql`,
+-- `prova_03_nomine_dati.sql`).
 --
 -- Le colonne sono quelle di AppSopralluoghi **come stanno nel loro database**, con
--- i loro nomi: la traduzione avviene nei passi 01 e 02 e da nessun altra parte,
+-- i loro nomi: la traduzione avviene nei passi 01, 02 e 03 e da nessun altra parte,
 -- cosi che chi confronta l'estrazione con l'origine confronta colonne con lo
 -- stesso nome.
 --
 -- L'ordine dei passi e obbligato dalle chiavi esterne: **01 i clienti e le sedi,
--- 02 le persone**, perche ogni rapporto di lavoro punta a un cliente che deve gia
--- esserci.
+-- 02 le persone, 03 le nomine**, perche ogni rapporto di lavoro punta a un cliente
+-- che deve gia esserci, e ogni nomina a un rapporto.
 --
 -- ============================================================================
 --  L'ESTRAZIONE, CHE NON FA QUESTA CORSIA
@@ -27,8 +28,8 @@
 --
 -- La lettura richiede la `service_role` o l'SQL Editor del progetto di
 -- AppSopralluoghi, che su questa macchina non ci sono e **non vanno portate qui**.
--- La fa Francesco, con queste tre select, e salva ogni risultato in CSV **fuori da
--- qualunque repo**:
+-- La fa Francesco, con queste quattro select, e salva ogni risultato in CSV **fuori
+-- da qualunque repo**:
 --
 --   select id, werp_id, ragione_sociale, partita_iva, codice_fiscale, attivo,
 --          numero_lavoratori, codice_ateco, livello_rischio, livello_antincendio,
@@ -43,14 +44,33 @@
 --          data_assunzione, attivo, data_cessazione, import_key, updated_at
 --     from persona order by id;
 --
+--   select id, persona_id, figura_codice, data_nomina, attiva, note,
+--          estremi_procura, da_confermare, origine, origine_testo,
+--          created_at, updated_at
+--     from nomina order by id;
+--
 -- Avvertenze che valgono piu delle select:
 --
 --   * **una lettura troncata non si annuncia.** PostgREST tronca a 1000 righe e
 --     l'export di un editor puo avere un suo limite: un file da 1000 righe e un
---     file plausibile. Per questo i passi 01 e 02 pretendono il numero di righe
+--     file plausibile. Per questo i passi 01, 02 e 03 pretendono il numero di righe
 --     atteso come parametro e si fermano se non coincide — il numero si prende con
---     un `select count(*)` fatto **nello stesso momento**, non dai 619 e 3.419 dei
---     giorni scorsi;
+--     un `select count(*)` fatto **nello stesso momento**, non dai 619, 3.419 e 454
+--     dei giorni scorsi;
+--   * **le quattro select vanno fatte nello stesso momento**, e per le nomine non e
+--     una finezza: il passo 03 aggancia ogni nomina alla sua persona d'origine per
+--     `id`, quindi una nomina estratta dopo una persona nuova punta a una riga che
+--     l'estrazione delle persone non ha — e il passo 03 si ferma (rifiuto c);
+--   * **la select delle nomine e anche il controllo di livello, e si fa sugli
+--     oggetti.** `origine` e `origine_testo` esistono dalla loro `068`: se mancano,
+--     la select fallisce invece di estrarre meta. Che `origine` ammetta `qualifica`
+--     (`070`) si legge dal vincolo, **non da `schema_migrations`**, dove le
+--     migrazioni date dall'SQL Editor non risultano:
+--
+--       select pg_get_constraintdef(oid) from pg_constraint
+--        where conname = 'nomina_origine_nota';        -- deve contenere 'qualifica'
+--
+--     La `071` non tocca `nomina`, e questa estrazione non dipende da lei;
 --   * `persona.codice_fiscale` di la **non e la cella dell'export**: e gia passato
 --     da `cfPulisci` all'import del 9 settembre (consegna dell'anagrafe, §3.2).
 --     Quindi `persona.codice_fiscale_origine` di qua conterra la cella
@@ -65,6 +85,10 @@
 --     **senza reinterpretarla**: ricostruire la colonna vorrebbe il file. Chi legge
 --     quel campo per dedurne un ruolo sappia che e un campo misto — e il caso di
 --     «RLS - LAVORATORE» sulla riga 3401 (`51be35d` di AppSopralluoghi);
+--   * **`nomina.note` di la non e un campo di servizio**: sulle `dl_rspp` scritte
+--     dagli script del 15 settembre porta la ragione del ruolo, e il passo 03 la
+--     porta alla lettera (`0020`). E `nomina.origine` null non vuol dire «prima della
+--     068»: la scheda dell'organigramma di la non la scrive;
 --   * `cliente.partita_iva` di la **puo contenere segnaposto**: la guardia di
 --     `pivaUsabile` non scatta mai (vedi la `0017`), e la colonna non e unica. Il
 --     passo 01 li riconosce e li tratta come assenti.
@@ -74,6 +98,7 @@
 --   \copy origine.cliente from '<percorso fuori dal repo>.csv' csv header
 --   \copy origine.sede    from '<percorso fuori dal repo>.csv' csv header
 --   \copy origine.persona from '<percorso fuori dal repo>.csv' csv header
+--   \copy origine.nomina  from '<percorso fuori dal repo>.csv' csv header
 
 create schema if not exists origine;
 
@@ -127,3 +152,21 @@ create table if not exists origine.persona (
 
 comment on table origine.persona is
   'La `persona` di AppSopralluoghi com''e, per la sola durata della migrazione dati: **per cliente**, con i nomi di colonna di la. Contiene dati personali e si svuota a migrazione finita. Il passo 02 la traduce in `persona` piu `rapporto_lavoro`.';
+
+create table if not exists origine.nomina (
+  id uuid primary key,
+  persona_id uuid not null,
+  figura_codice text not null,
+  data_nomina date,
+  attiva boolean not null,
+  note text,
+  estremi_procura text,
+  da_confermare boolean not null,
+  origine text,
+  origine_testo text,
+  created_at timestamptz not null,
+  updated_at timestamptz not null
+);
+
+comment on table origine.nomina is
+  'La `nomina` di AppSopralluoghi com''e, per la sola durata della migrazione dati: una riga per **persona-per-cliente** e figura (`015`), con la provenienza della `068` e della `070`. Il passo 03 la traduce in una nomina per persona, cliente, sede e ruolo.';
