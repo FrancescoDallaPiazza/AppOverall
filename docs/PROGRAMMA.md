@@ -2291,6 +2291,31 @@ due, e dove si fa la prova generale finche quel progetto e in uso — e **nessun
 | **Francesco** | le letture che AppFormazione gli prepara, dall'SQL Editor; la conferma degli script delle 5 `dl_rspp` quando AppSopralluoghi li porta | il via al passo `03` di AppOverall |
 | **AppSopralluoghi** | le **5 `dl_rspp`**: lettura prima, script, lettura dopo, contro **459** e 2 / 40 | 1503 e 2461 restano aperte e non si toccano |
 | **AppOverall** | il passo `03` delle nomine nella migrazione dati, provato su `initdb` — **assegnato alla sessione `appoverall-ac`**, aperta da Francesco per ricevere l'ordine; questa sessione non tocca `supabase/migrazione-dati` ne nuove migrazioni finche lavora | la prova generale su `initdb`, con i conteggi letti nello stesso momento |
+
+**Le 5 sono scritte: 459 nomine** (AppSopralluoghi `948b201`, riletto su `origin`). Lettura prima: una
+persona per ciascuna, anche la 1097 e la 3451 cercate per nome, nessuna con `dl_rspp`. Script che si annulla
+(`7567c04`), provato su `initdb` in quattro casi; lanciato da Francesco, 5 ok su 5. **1503 e 2461 restano
+aperte e non si toccano.** Nella pagina nomine l'attesa e 2 da decidere e 40 gia risolte — **un'attesa, non
+ancora vista a schermo**.
+
+**Per la migrazione dati, e con una correzione arrivata un minuto dopo.** Il primo messaggio diceva che in
+tutte le `dl_rspp` `note` spiega da quale decisione vengono; **non e cosi**: `note` e compilato solo sulle 32
+scritte dagli script del 15, mentre tutte quelle scritte dalla pagina hanno `note = null` (`applicaNomine`
+lo scrive sempre null). **La provenienza affidabile e `origine` piu `origine_testo`**; `note` si porta se c'e
+e non classifica niente. Girato ad `appoverall-ac` nei due tempi, con la correzione esplicita — e la frase
+sbagliata l'avevo gia rilanciata come «`note` e un dato di provenienza»: A19 nel verso di chi relaia.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | niente di urgente: le letture di AppFormazione quando arrivano; alla prossima apertura di Import nomine, guardare 2 / 40 **senza scrivere** | il si al merge e al deploy del giro di codice di AppSopralluoghi |
+| **AppSopralluoghi** | **l'indirizzo nell'etichetta dei clienti omonimi**, nelle tendine di Import anagrafiche e Import nomine, su un ramo con una prova che fallisce su `main`; il segno della versione scelto fra cio che il bundle di prima **non** ha | `riepiloga` che non toglie i doppioni (364 proposte per 363 coppie), con la stessa forma; nessuna scrittura in produzione; le 4 P.IVA con la cifra sbagliata restano a Francesco |
+| **AppOverall** | `appoverall-ac` sul passo `03`, con `origine` e `origine_testo` fra i dati di provenienza da portare | la prova generale su `initdb` |
+| **AppFormazione** | il conto di `ruoli_persona` preparato per l'SQL Editor | le attese del caricamento aggiuntivo |
+
+**Perche l'etichetta e non altro.** E il difetto che oggi ha fatto leggere un id con *Ispeziona* a Francesco
+per scegliere fra due IGEA, e la prossima coppia di omonimi lo richiedera di nuovo: costa poco, e toglie un
+passo manuale da ogni import futuro. Il doppione di `riepiloga` viene dopo perche e un difetto di conteggio,
+non di dati.
 | **AppFormazione** | **la lettura negata e sbloccata**: preparare in sola lettura il conto di `ruoli_persona` in produzione, e passarlo a Francesco per l'SQL Editor | le attese del caricamento aggiuntivo, sui numeri che quel conto restituisce; i 29 addetti dalle emergenze sono gia nomine in AppSopralluoghi |
 
 
