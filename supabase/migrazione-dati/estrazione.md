@@ -13,6 +13,8 @@ Tutto quello che segue **legge e non scrive**.
 - Una cartella **fuori da qualunque repository**, per esempio
   `C:\Users\Francesco\Documents\migrazione-privata\2026-09-16`. Non sotto `GitHub`: lo script controlla e si
   rifiuta.
+- **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e i quattro file restano sul
+  disco senza uso: prima PostgreSQL, poi l'estrazione.
 - Un momento in cui **nessuno sta usando AppSopralluoghi**. Le quattro letture devono vedere lo stesso archivio, e
   il punto 4 lo verifica solo in parte (vedi in fondo).
 
@@ -126,7 +128,9 @@ bash supabase/migrazione-dati/prova_generale.sh "C:/Users/Francesco/Documents/mi
 con i numeri della fotografia: `clienti_attesi` = `clienti`, `sedi_attese` = `sedi`, `righe_attese` = `persone`,
 `nomine_attese` = `nomine`.
 
-Serve PostgreSQL installato (su questa macchina c'è il 16), e nient'altro da configurare. Lo script crea un
+Serve PostgreSQL installato, e nient'altro da configurare. **Il 15 settembre 2026 sul PC di Francesco non c'è**
+(cercato su tutto il disco C:): va installato prima di estrarre, oppure lo script va adattato a Docker. Lo script lo
+cerca in `C:\Program Files\PostgreSQL\<versione>\bin`, o nella cartella indicata con `PGBIN=`. Lo script crea un
 database usa e getta, esegue la migrazione dati da capo a fondo, stampa gli avvisi dei passi e i conteggi finali, e
 **cancella il database alla fine**, anche quando si ferma. L'ultima riga dice com'è andata:
 

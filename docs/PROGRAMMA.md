@@ -4401,6 +4401,15 @@ riprodotto 56 migrazioni su 56 per ricostruire il proprio stato. Non l'avevo
 verificato — avevo generalizzato l'assenza di `psql` in **questa** sessione a tutte e
 tre, che e la forma domestica di A9.
 
+**~~Su questa macchina un PostgreSQL locale c'e~~ — non sul PC di Francesco, misurato il 15 settembre 2026, sera.**
+`appoverall-55` ha cercato `initdb.exe` su tutto il disco C: e non ce n'e, ne in `PATH` ne in
+`C:\Program Files\PostgreSQL`; `prova_generale_comune.sh` risponde che non lo trova. Ci sono Docker Desktop (29.4.2)
+e la sola distribuzione WSL `docker-desktop`. Dove siano girate le prove su `initdb` citate qui e quelle della prova
+generale (`0058641`) **non l'ho misurato**: non su un PostgreSQL che oggi stia su questo disco. Ed e il disco che
+conta, perche i dati veri non escono da li: la prova generale vuole PostgreSQL installato su questo PC, o lo script
+adattato a Docker. Di nuovo A9, nell'altro verso: l'assenza in una sessione non vale per tutte, e la presenza in una
+sessione non vale per il PC.
+
 **Fatto l'11 settembre 2026, e la `0004` e la `0005` non sono piu solo scritte.**
 Caricate su un PostgreSQL 16 locale e vuoto dalla corsia AppFormazione: **le cinque
 migrazioni passano tutte e cinque in ordine**, e i cinque conteggi attesi combaciano
