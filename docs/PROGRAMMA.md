@@ -2893,6 +2893,56 @@ sulla prova.** Non e una coincidenza: e il motivo per cui la prova esisteva.
 | **AppOverall** | niente in corso | la prima migrazione del repo unico |
 
 
+### Il piano per chiudere la Fase 3, e una frase che avevo usato male · 16 settembre 2026, sera
+
+**Scritto in `docs/piano-fase-3.md`.** E un piano e non un lavoro iniziato: dice cosa
+manca, in che ordine, e quali tre domande vanno risposte prima che qualcuno scriva SQL.
+
+**La correzione prima di tutto: «la prima migrazione del repo unico» e gia scritta e
+applicata.** E la `0001`, del 9 settembre, e apre lei la Fase 3 — sta nella sua prima
+riga. Io l'ho usata tutto il giorno, in tre tabelle di assegnazione, come se fosse il
+prossimo passo. Non e un dettaglio di parole: «preparare la prima migrazione» suona
+come un foglio bianco con delle decisioni davanti, «finire la Fase 3» e un elenco di
+quattro cose misurabili di cui **una sola** ha un buco di forma.
+
+**E il buco e questo: gli attestati non hanno una tabella.** Il catalogo c'e tutto —
+`corso`, `corso_assolve`, le 53 righe di `credito_formativo`, le durate per dimensione,
+i regimi precedenti — e l'anagrafe c'e ed e provata sui dati veri. Ma delle **13.350
+righe di attestati** di AppFormazione non ce n'e una che possa atterrare: fra le 25
+tabelle del repo unico non esiste un evento formativo. **Lo scadenzario non si calcola
+dal catalogo, si calcola dagli attestati contro il catalogo** — quindi la Fase 4, che e
+la fetta che deve dimostrare se l'impianto regge, oggi non avrebbe su cosa girare.
+
+**Come ho fatto a non vederlo prima.** Guardando le migrazioni si vede un catalogo
+formativo ricco e curato, con l'Allegato III per intero: la parola «formativo» era la',
+e ho letto «la formazione c'e». C'era il **metro**, non le **misure**. E la forma di
+A15 — un'etichetta che suggerisce una struttura diversa da quella che ha.
+
+**Le altre tre cose non hanno buchi, hanno decisioni piccole davanti:**
+- **i livelli e l'ATECO** che il passo 01 conta e lascia fuori (261 e 261): servono
+  l'annata da attribuire ai codici e un **operatore** che firmi le valutazioni migrate,
+  perche `valutazione_sede` vuole motivazione e autore e l'origine non li ha;
+- **il seed dei 268 alias**, che ora ha la sua tabella (`corso_alias`, dalla `0004`) e
+  va caricato come passo con i suoi conteggi: sono 268 giudizi presi a mano, e se si
+  perdessero la tabella ci sarebbe lo stesso;
+- **la sorveglianza**: le tabelle ci sono dalla `0005`, gli 808 accertamenti non hanno
+  ancora un passo.
+
+**E una cosa che oggi si e decisa da se.** I ruoli nel repo unico vengono **dal passo
+03**, e `ruoli_persona` di AppFormazione non migra: si ricostruisce. Non e una
+preferenza — stamattina la stessa colonna del gestionale letta dai due caricatori ha
+dato `datore_lavoro_rspp 116 / rspp 3` di qua e 28 `rspp` sbagliati di la, e quei 28
+sono stati tolti. **Quando due letture della stessa fonte divergono e una e stata
+dimostrata sbagliata da chi la usava, la migrazione non ha piu una scelta da fare.**
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | leggere `docs/piano-fase-3.md` e rispondere alle tre domande in fondo (attestato, annata ATECO, operatore) | il si ai passi nuovi, uno per uno, come oggi |
+| **AppOverall** | **il seed dei 268 alias**, che non aspetta nessuna risposta | alle risposte: la forma dell'evento formativo, poi il passo 04 |
+| **AppSopralluoghi** | niente di aperto | quando si migra: `livello_rischio_definito_mediante` si smonta in righe di `valutazione_sede` |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove | la vista dell'esito `mancante` |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
