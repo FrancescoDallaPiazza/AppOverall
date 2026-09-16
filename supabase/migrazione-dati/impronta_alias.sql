@@ -12,6 +12,17 @@
 --   qui   dopo aver caricato il seed (lo fa la prova generale)
 --   la'   nell'SQL Editor di AppSopralluoghi, sulla loro `corso_alias`
 --
+-- **Ma non e' la stessa query, e la differenza non e' un refuso.** Il testo del
+-- gestionale la' si chiama `testo_gestionale` e la loro tabella ha un `id` proprio
+-- (`055`); qui il testo **e'** la chiave primaria e si chiama `testo`, perche' la
+-- scheda 9 dice che l'identita' e' cio' che si riceve. Gli altri cinque giudizi
+-- hanno lo stesso nome nei due repo (`057`, `059`, `060`), quindi le due impronte
+-- si confrontano. La versione da lanciare di la' e' in fondo a questo file.
+--
+-- Trovato il 16 settembre 2026 lanciando la prima versione sulla loro produzione:
+-- «column "testo" does not exist». **Una query scritta per uno schema e lanciata
+-- sull'altro non e' un confronto**: qui almeno si e' fermata subito.
+--
 -- Uguali: il seed e' l'export, e la riga «resta da confermare» si chiude.
 -- Diverse: in produzione c'e' almeno un giudizio che il seed non ha, e va
 -- trovato prima che il repo unico lo perda. **Non dice quale**, e va bene cosi':
@@ -44,3 +55,19 @@ select
     coalesce(note, ''),
     chr(10) order by testo), 'UTF8')), 'hex') as impronta
 from corso_alias;
+
+-- ============================================================================
+--  LA STESSA IMPRONTA, DAL LATO DI AppSopralluoghi
+-- ============================================================================
+--
+-- Si incolla nel loro SQL Editor. Legge e non scrive.
+--
+--   select
+--     count(*) as righe,
+--     encode(sha256(convert_to(string_agg(
+--       testo_gestionale || '|' ||
+--       coalesce(corso_codice, '') || '|' ||
+--       ignorato || pregressa || is_aggiornamento || parziale || evidenza_incompleta || '|' ||
+--       coalesce(note, ''),
+--       chr(10) order by testo_gestionale), 'UTF8')), 'hex') as impronta
+--   from corso_alias;
