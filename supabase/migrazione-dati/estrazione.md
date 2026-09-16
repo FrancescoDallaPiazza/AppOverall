@@ -31,7 +31,6 @@ select
   (select count(*) from public.sede)                        as sedi,
   (select count(*) from public.persona)                     as persone,
   (select count(*) from public.nomina)                      as nomine,
-  (select count(*) from public.formazione)                  as attestati,
   (select count(*) from public.nomina where not attiva)     as nomine_non_attive,
   (select count(*) from public.nomina where da_confermare)  as nomine_da_confermare,
   (select pg_get_constraintdef(oid) from pg_constraint
@@ -46,7 +45,7 @@ select
 
 Copiare la riga che esce. Serve a tre cose:
 
-- **`clienti`, `sedi`, `persone`, `nomine`, `attestati`** sono i cinque conteggi attesi della prova generale (punto 5);
+- **`clienti`, `sedi`, `persone`, `nomine`** sono quattro dei cinque conteggi attesi della prova generale (punto 5); il quinto sta nell'altro database, qui sotto;
 - **`livello_origine`** deve contenere `qualifica`: vuol dire che la loro `070` è applicata. Si legge dal vincolo e
   non da `schema_migrations`, dove le migrazioni date dall'SQL Editor non risultano. Se la colonna esce vuota manca
   la `068`, e la select delle nomine al punto 2 fallirà;
@@ -89,13 +88,43 @@ select id, persona_id, figura_codice, data_nomina, attiva, note,
   from nomina order by id;
 ```
 
-`formazione.csv` — **aggiunto il 16 settembre 2026**, e' il piu' grande dei cinque
+### `formazione.csv` — **e questo si estrae dall'SQL Editor di AppFormazione, non di AppSopralluoghi**
+
+Il 16 settembre 2026 abbiamo misurato che la tabella `formazione` di AppSopralluoghi
+e' **vuota**: l'import degli attestati esiste nel loro codice e non e' mai stato
+eseguito. Gli attestati stanno in AppFormazione, in `eventi_formativi`.
+
+Quindi questa estrazione ha **due database e due fotografie**, e le due vanno prese
+vicine: sono due momenti, e niente garantisce che siano lo stesso.
+
+**Prima la fotografia di la'**, e il numero che esce e' `righe_formazione_attese`:
+
 ```sql
-select id, persona_id, corso_codice, corso_nome, data_completamento, ore,
-       ente_formatore, is_aggiornamento, parziale, evidenza_incompleta,
-       da_confermare, scadenza, note, import_key
-  from formazione order by id;
+select count(*) as attestati,
+       count(*) filter (where data_completamento is null) as senza_data,
+       min(data_completamento) as il_piu_vecchio,
+       max(data_completamento) as il_piu_recente,
+       now() as letto_il
+  from eventi_formativi;
 ```
+
+`senza_data` deve essere **0**: il passo 04 si ferma se non lo e', perche' la validita'
+si conta da una data e dedurla sarebbe inventarla.
+
+**Poi l'estrazione**, sempre nell'SQL Editor di AppFormazione:
+
+```sql
+select e.id, p.codice_fiscale, c.titolo as corso_titolo, c.codice as corso_codice_origine,
+       e.data_completamento, e.ore, e.ente_erogatore, e.numero_attestato, e.esito, e.fonte
+  from eventi_formativi e
+  join persone p on p.id = e.persona_id
+  join corsi   c on c.id = e.corso_id
+ order by e.id;
+```
+
+Le due `join` sono a uno, quindi le righe restano quelle di `eventi_formativi`: se ne
+escono di piu', qualcosa nel loro schema e' cambiato e **si guarda prima di
+proseguire**. Salvare come `formazione.csv` nella stessa cartella degli altri quattro.
 
 Sono le select di `00_origine.sql`, e se una delle due cambia va cambiata anche l'altra.
 
