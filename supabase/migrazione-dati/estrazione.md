@@ -115,7 +115,7 @@ si conta da una data e dedurla sarebbe inventarla.
 
 ```sql
 select e.id, p.codice_fiscale, c.titolo as corso_titolo, c.codice as corso_codice_origine,
-       e.data_completamento, e.ore, e.ente_erogatore, e.numero_attestato, e.esito, e.fonte
+       e.data_completamento, e.ore, e.ente_erogatore, e.esito, e.fonte
   from eventi_formativi e
   join persone p on p.id = e.persona_id
   join corsi   c on c.id = e.corso_id
