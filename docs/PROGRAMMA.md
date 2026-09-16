@@ -3009,6 +3009,66 @@ oggi; e una domanda da non trovare per caso una seconda volta.
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove | e dire quale `corso_alias` vive nella loro produzione, e perche |
 
 
+### Gli attestati hanno una tabella e un passo · 16 settembre 2026, sera
+
+**Il buco del piano e chiuso, ed era uno solo.** La `0021` porta `evento_formativo` e
+due viste; il **passo 04** traduce `origine.formazione` in eventi. Da adesso la Fase 4
+ha su cosa girare — non ancora il motore, ma il dato.
+
+**Le tre risposte di Francesco sono diventate forma, non commenti:**
+- «le collisioni si segnalano» -> **nessun `unique` su (persona, corso, data)**, e il
+  passo le conta. Un vincolo li avrebbe fatto sparire cio che doveva mostrare;
+- «la validita si conta dal completamento» -> `completa_il_percorso`, e accanto
+  `estrazione`, perche a dire se un percorso e finito e **quale file** lo porta;
+- «le ore si portano e il motore non le legge» -> `ore_origine` sta **nella tabella e
+  non nella vista**. Una nota in un commento la leggono quelli che non la userebbero
+  comunque.
+
+**E una colonna che stavo per perdere, salvata da una sorella.** L'origine ha
+`formazione.scadenza` — una scadenza **dichiarata**, non calcolata. La `0021` non
+aveva dove metterla, e il passo 04 avrebbe dovuto buttarla. L'ha salvata la `0005`:
+li nove righe su 769 dichiaravano una scadenza **anticipata**, e una scadenza solo
+calcolata le avrebbe cancellate in silenzio — la riga resta, e sembra giusta. Adesso
+`scadenza_dichiarata` e `scadenza_fonte` ci sono anche qui, con lo stesso vincolo che
+lega il valore alla sua fonte.
+
+**Il completamento non si calcola dalle ore, e il perche e una conferma della
+decisione 3.** Sommare le ore degli spezzoni per vedere se arrivano alla durata
+richiesta userebbe **la colonna che il gestionale ha riscritto**: il numero di oggi
+contro la regola di ieri. Quindi i percorsi frazionati entrano **aperti** e il passo
+lo stampa; quali siano completi lo dicono i due export `FormFraz`, e quelli entrano
+con un passo loro.
+
+**Provato, e la prova e cresciuta con lui.** La prova generale ha un quinto file e un
+quinto conteggio atteso; `verifica_prova_generale.sh` ha sette prove nuove — 7
+attestati scritti su 8, uno risolto per alias, uno ignorato a mano, due spezzoni
+aperti, una collisione segnalata, una scadenza dichiarata portata fino in fondo, un
+«da confermare» contato e non portato — piu la fermata sul conteggio sbagliato.
+**Tutte le prove passate.**
+
+**E la fonte era di nuovo una scelta fra due, decisa dallo stesso criterio di
+stamattina.** Gli attestati stanno in tutti e due i repo: si prendono da
+AppSopralluoghi perche li il codice del corso e **gia quello curato** dai 268 alias,
+mentre in AppFormazione l'identita del corso e l'impronta `GEST-` che la scheda 9
+declassa ad alias. Terza volta oggi che due letture della stessa fonte divergono e
+una e gia stata dimostrata piu povera da chi la usava.
+
+**Scheda 13 aperta, e in coda per decisione di Francesco.** «E possibile analizzare
+in maniera deterministica gli attestati che ci vengono forniti?» — si, in due stadi
+con proprieta diverse: dal file al testo e' deterministico solo sui PDF nati
+digitali, dal testo ai campi lo e' del tutto. La scheda dice cosa darebbe (le **ore
+davvero erogate**, il buco dichiarato non chiudibile) e cosa no, e lascia scritte le
+quattro cose da decidere. La prima le regge tutte: **cosa si fa quando la lettura e
+incerta, e chi firma.**
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | quando vuole: una **nuova estrazione**, che adesso ha **cinque** query e cinque conteggi (`estrazione.md` aggiornata) | la prova generale sui dati veri col passo 04 dentro |
+| **AppOverall** | niente in corso | il passo 05: i due export `FormFraz`, che chiudono i percorsi aperti |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove | — |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
