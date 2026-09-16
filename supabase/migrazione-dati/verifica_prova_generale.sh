@@ -103,6 +103,7 @@ ok "$(grep -oE 'unita fuse\): [0-9]+' "$USCITA")" "unita fuse): 1" "gli avvisi d
 ok "$(grep -oE 'unita assorbite' "$USCITA" | head -1)" "unita assorbite" "e quelli del passo 01"
 ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "i conteggi finali: quattro unita su una P.IVA"
 ok "$(grep -c 'cluster fermato e cancellato' "$USCITA")" "1" "e il cluster e cancellato"
+ok "$(grep -oE '^  268 alias.*' "$USCITA")" "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse" "il seed degli alias e caricato e contato"
 
 echo "== e ci arriva anche con i file come potrebbe salvarli un editor"
 C="$(copia editor)"
@@ -156,6 +157,20 @@ C="$(copia senza_intestazione)"
 sed -i '1d' "$C/persona.csv"
 fermata "un file senza intestazione" "controlli iniziali" "non e un'intestazione" "$C" $ATTESI
 ok "$(grep -c 'HOZUNW31P60Q756F' "$USCITA")" "0" "e la prima riga, che e un dato, non e stampata"
+
+# Un seed con UN GIUDIZIO cambiato, non con righe in meno: le righe restano 268, il
+# file `corso_alias_origine.sql` e i suoi controlli passano lisci, e a protestare deve
+# essere il conteggio dei giudizi. E la forma vera del rischio — 268 righe che ci sono
+# tutte e una che dice una cosa diversa da quella decisa a mano.
+SEED_ALTERATO="$LAVORO/seed"
+mkdir -p "$SEED_ALTERATO"
+cp "$DIR/../seed/corso_alias_origine.sql" "$SEED_ALTERATO/"
+sed "s/^  ('ADDETTO A LAVORI IN SPAZI CONFINATI E SOSPETTI DI INQUINAMENTO', 'ATTR_AMB_CONFINATI', null, false,/  ('ADDETTO A LAVORI IN SPAZI CONFINATI E SOSPETTI DI INQUINAMENTO', 'ATTR_AMB_CONFINATI', null, true,/"   "$DIR/../seed/corso_alias.sql" > "$SEED_ALTERATO/corso_alias.sql"
+ok "$(( $(grep -c "', null, true," "$SEED_ALTERATO/corso_alias.sql") - $(grep -c "', null, true," "$DIR/../seed/corso_alias.sql") ))" "1" "il seed di prova ha un giudizio cambiato, e le righe sono sempre 268"
+export SEED="$SEED_ALTERATO"
+fermata "un giudizio del dizionario cambiato" "seed degli alias" "il dizionario alias non e quello atteso" "$CSV" $ATTESI
+unset SEED
+ok "$(grep -c "trovati: 268 237 32" "$USCITA")" "1" "e dice quale conto non torna"
 
 C="$(copia latin1)"
 iconv -f UTF-8 -t ISO-8859-1 "$CSV/persona.csv" > "$C/persona.csv"

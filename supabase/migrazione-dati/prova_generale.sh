@@ -56,6 +56,10 @@
 set -u
 DIR="$(cd "$(dirname "$0")" && pwd)"
 MIGRAZIONI="$(cd "$DIR/../migrations" && pwd)"
+# I due seed del dizionario alias. Si puo indicare un'altra cartella con SEED=,
+# e serve a una cosa sola: provare che questo passo si ferma davvero quando i
+# conti non tornano (verifica_prova_generale.sh).
+SEED="$(cd "${SEED:-$DIR/../seed}" && pwd)"
 . "$DIR/prova_generale_comune.sh"
 
 FASE="controlli iniziali"
@@ -155,6 +159,30 @@ for f in "$MIGRAZIONI"/[0-9][0-9][0-9][0-9]_*.sql; do
   n=$((n+1)); ultima="$(basename "$f")"
 done
 echo "  $n migrazioni applicate in ordine, l'ultima e $ultima"
+
+# ============================================================================
+#  il seed del dizionario alias
+# ============================================================================
+#
+# 268 giudizi presi a mano su altrettanti testi del gestionale. Non sono dati
+# personali e stanno nel repo, ma entrano qui e non nelle migrazioni: una
+# migrazione dice com'e fatta la tabella, questo dice cosa c'e dentro, e le due
+# cose si aggiornano per ragioni diverse. Se si perdessero, `corso_alias` ci
+# sarebbe lo stesso, vuota, e nessun vincolo protesterebbe: per questo il passo
+# conta le righe invece di limitarsi a caricarle.
+
+FASE="seed degli alias"
+echo; echo "== $FASE"
+esegui --zitto -f "$SEED/corso_alias.sql" || ferma
+esegui --zitto -f "$SEED/corso_alias_origine.sql" || ferma
+conti="$("${PSQL[@]}" -d generale -At -F' ' -c "select count(*), count(corso_codice), count(*) filter (where ignorato), count(*) filter (where is_aggiornamento), count(*) filter (where parziale), count(*) filter (where pregressa), count(distinct corso_codice) from corso_alias")"
+ATTESI_ALIAS="268 237 31 98 7 2 39"
+if [ "$conti" != "$ATTESI_ALIAS" ]; then
+  ferma "il dizionario alias non e quello atteso"         "attesi:  $ATTESI_ALIAS" "trovati: $conti"         "(totale, mappati, ignorati, aggiornamenti, parziali, pregresse, codici distinti usati)"
+fi
+echo "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse"
+orfani="$("${PSQL[@]}" -d generale -At -c "select count(*) from corso c where not exists (select 1 from corso_alias a where a.corso_codice = c.codice)")"
+echo "  codici a catalogo che nessun alias nomina: $orfani (ATTR_GENERICO e noto)"
 
 FASE="passo 00"
 esegui --zitto -f "$DIR/00_origine.sql" || ferma

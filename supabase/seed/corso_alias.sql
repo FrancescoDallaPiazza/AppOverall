@@ -1,10 +1,20 @@
--- AppOverall — seed in attesa
+-- AppOverall — il seed del dizionario alias
 --
--- **La tabella che questo file riempie non esiste ancora qui.** Arrivera' con lo
--- schema formativo, e la sua forma dipende dalla scheda 9 (`docs/decisioni/`).
--- Il seed sta nel repo lo stesso, e prima, per una ragione sola: sono **268
--- giudizi presi a mano** che finora vivevano solo negli script di un altro repo,
--- e un file che aspetta e' meno rischioso di 268 decisioni da rifare.
+-- ~~**La tabella che questo file riempie non esiste ancora qui.**~~ **Non e' piu'
+-- vero dal 10 settembre 2026:** `corso_alias` esiste, la crea la `0004` nella forma
+-- decisa dalla scheda 9. Questa riga e' rimasta in testa sei giorni dopo che la
+-- ragione era caduta - e il file che la porta e' proprio quello che si apre per
+-- sapere se ci si puo' fidare.
+--
+-- Il seed stava nel repo **prima** della sua tabella per una ragione sola: sono
+-- **268 giudizi presi a mano** che vivevano solo negli script di un altro repo, e
+-- un file che aspetta e' meno rischioso di 268 decisioni da rifare.
+--
+-- **Dal 16 settembre 2026 non aspetta piu': lo carica la prova generale**, subito
+-- dopo le migrazioni, e ne conta i giudizi invece di limitarsi a caricarlo — 268
+-- righe, 237 mappate su 39 codici, 31 ignorate, 98 aggiornamenti, 7 parziali, 2
+-- pregresse. Un seed dimenticato non lascerebbe nessun segno: la tabella ci
+-- sarebbe, vuota, e nessun vincolo protesterebbe.
 --
 -- Verificato il 10 settembre 2026 caricandolo davvero su PostgreSQL 16: 268
 -- righe, 237 mappate, 31 ignorate, 98 aggiornamenti, 7 parziali, 2 pregresse,

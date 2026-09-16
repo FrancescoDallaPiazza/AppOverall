@@ -59,6 +59,15 @@ cluster_avvia() {
          -l "$CLUSTER_DIR/server.log" -w start >/dev/null 2>&1; then
     echo "  il server non parte"; return 1
   fi
+  # Il client parla UTF8 perche' glielo si dice, non perche' lo indovina. Su
+  # Windows psql prende la codifica dalla console: il 16 settembre 2026 lo stesso
+  # seed e' passato in un terminale e si e' fermato in un altro con «character with
+  # byte sequence 0x9d in encoding "WIN1252" has no equivalent in encoding "UTF8"»,
+  # sull'apostrofo tipografico dei titoli del gestionale. I CSV non lo vedevano
+  # perche' `\copy` porta `encoding 'UTF8'` scritto nella riga; i file .sql no.
+  # Un caricamento che dipende da quale finestra lo lancia e' peggio di uno che
+  # fallisce sempre.
+  export PGCLIENTENCODING=UTF8
   PSQL=(psql -h localhost -p "$PORTA" -U postgres -X -q -v ON_ERROR_STOP=1)
 }
 
