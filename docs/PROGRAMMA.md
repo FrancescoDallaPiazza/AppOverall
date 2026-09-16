@@ -2650,6 +2650,76 @@ questa estrazione**: un'estrazione nuova lo rifa, perche misura i dati, non lo s
 | **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
 
 
+### Il tratteggio e online, e il livello che non si toglie · 16 settembre 2026, mezzogiorno
+
+**Col si di Francesco il ramo e unito.** `b52913e`, merge `--no-ff` di
+`rischio-proposta-distinta` (`0eaa1a2`) su `main` di AppSopralluoghi, fatto da questa
+sessione come il 15.09. Prima del push: `ateco-scelta:check` **7 su 7** — A7 e il caso
+nuovo — `ateco:check` e `omonimi-etichetta:check` verdi, build verde. Deployment Vercel
+`6478545843`, stato **success**.
+
+**E l'alias pubblico l'ho provato, non dedotto.** Su `app-sopralluoghi.vercel.app` il
+bundle e `index-BASYOjxn.js` e **contiene «proposto, non salvato»**: la versione online
+e quella. Il nome **non** coincide con la mia build locale (`index-DSleJdSD.js`), e la
+ragione e misurata e non supposta: qui non c'e `.env.local`, quindi il bundle locale
+inlinea `https://placeholder.supabase.co` mentre quello di Vercel porta l'URL vero —
+331 byte di differenza. **Il confronto per nome vale solo quando le due build hanno lo
+stesso ambiente**, e il 15.09 ce l'avevano. Quando non ce l'hanno si confronta il
+contenuto.
+
+**La verifica a vista di Francesco ha trovato altro, e la parte utile non e quella che
+sembrava.** Il suo primo caso — `A.S.D. FARESE 1921`, senza ATECO, bottone grigio
+`RISCHIO —` — e il **terzo stato** e il ramo non lo tocca: senza codice non c'e nessuna
+proposta da distinguere. Poi ha provato a togliere un ATECO appena messo, e ha scritto
+che **il livello precedente resta**.
+
+**Resta per costruzione, e fin qui e voluto.** Dal 15.09 il codice e il livello si
+scrivono con gesti diversi: la scelta scrive il codice, il livello lo scrive **solo** il
+bottone. Ma il rovescio non era stato guardato: **nel codice l'unico punto che scrive
+`cliente.livello_rischio` e quel bottone** (piu l'import, e solo quando e nullo).
+**Nessuna schermata riporta il livello a «non impostato».** Prima non si vedeva perche
+il livello seguiva l'ATECO; adesso che e un gesto, gli manca il gesto opposto.
+
+**E la domanda di Francesco — «ma il livello non deriva dall'ATECO secondo l'ASR?» — ha
+corretto una mia frase sbagliata.** Avevo scritto che ATECO e livello sono
+«indipendenti»: falso. **Il livello deriva dall'ATECO**; cio che e indipendente e la
+**scrittura** del valore. E il motivo per cui si scrive con un gesto non e una scelta
+di interfaccia: e la **decisione 8**, presa da Francesco il 9 settembre — *la classe
+che l'Allegato IV assegna a una divisione non e un verdetto, e un default*, e
+l'Interpello 1/2025 la sposta nei due versi. Piu due ragioni di questo archivio: il
+codice memorizzato e **derivato** da una cella che puo essere ambigua (lo stato
+«incerto»), e la scrittura automatica il 15.09 ha prodotto il falso allarme che il ramo
+ha appena chiuso.
+
+**Quindi il buco non e nuovo: e la meta non costruita della decisione 8.** Quella
+scheda chiede che il livello porti con se **come** e stato deciso — `definito_mediante`,
+motivazione, fonte, data, autore — e lo colloca nella prima migrazione del repo unico.
+Oggi il livello si scrive e basta: non dice da dove viene e non si puo disfare. La cosa
+nuova che il 16 settembre aggiunge alla scheda e **operativa**: manca anche il gesto
+per **toglierlo**, e quello non aspetta il repo unico.
+
+**Un secondo punto resta aperto e non l'ho capito dal codice.** Francesco dice che
+l'ATECO, una volta messo, **non si lascia cancellare**. Dal codice dovrebbe: svuotare il
+campo manda `codice_ateco: null`, `salvaCliente` scrive `vuotoNull(...)` cioe NULL, e
+nelle migrazioni non c'e nessun trigger che lo ricalcoli. Quindi o il sintomo e un
+altro, o c'e qualcosa che non ho visto: **si riproduce prima di ipotizzare**. Le
+domande sono in fondo al messaggio di quella sessione, e servono le risposte di chi
+l'ha visto.
+
+**E una cosa che non sta in piedi e trovata per strada:** sotto il campo si legge
+«modificabile anche dall'organigramma del cliente», ma la schermata Formazione dice
+l'opposto — «impostalo nella sezione Dati anagrafici» — e nel codice non ho trovato
+nessun punto che scriva `cliente.livello_rischio` fuori da quel bottone. Una delle due
+frasi e vecchia, e finche non si sa quale **nessuna delle due si cita**.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | la verifica a vista online sul dominio pubblico; dire cosa succede esattamente quando cancella l'ATECO | il gesto per togliere il livello, quando c'e |
+| **AppSopralluoghi** | riprendere: riportare il merge nel proprio `STATO.md`; **riprodurre** il caso dell'ATECO che non si cancella | secondo cosa esce: la correzione, oppure il gesto «togli il livello» disegnato accanto al bottone |
+| **AppOverall** | niente in corso | la decisione 8 nella prima migrazione del repo unico: `definito_mediante`, motivazione, fonte, data, autore |
+| **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
