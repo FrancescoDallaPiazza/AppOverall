@@ -1,0 +1,14 @@
+# AppOverall — i file di questo repo sono LF, su qualunque macchina.
+#
+# Non e una preferenza di stile. Il seed degli alias contiene una stringa che
+# **va a capo dentro le virgolette** (`corso_alias_origine.sql`, riga_foglio 228),
+# e su quella stringa e calcolata un'impronta sha256 che il seed stesso verifica.
+# Con `core.autocrlf=true` il checkout su Windows ci infila un `\r`: l'impronta
+# non torna, e il `\r` finisce **dentro il dato**. Misurato il 16 settembre 2026
+# su NB-DALLAPIAZZA-02, dove la prova generale si fermava in «seed degli alias»
+# con `7fbfecfb...` invece di `9742ecef...`, mentre su OVERALL-PC07 passava —
+# stesso commit, due checkout diversi.
+#
+# Un'impronta che dipende da chi ha clonato non misura i dati: misura il clone.
+
+* text=auto eol=lf
