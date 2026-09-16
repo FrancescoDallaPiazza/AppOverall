@@ -92,9 +92,9 @@ ok "$(tr -d '\r' < "$LAVORO/null.csv" | paste -sd'|')" '"null"|null' "psql scriv
 ok "$("${X[@]}" -At -c "select count(*) from prova_null where t = 'null'")" "1" "e rileggendolo il testo resta testo"
 ok "$("${X[@]}" -At -c "select count(*) from prova_null where t is null")" "1" "e il nullo resta nullo"
 cluster_ferma >/dev/null
-ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "11 10 5 9 8" "righe esportate: 11 unita, 10 sedi, 5 persone, 9 nomine, 8 attestati"
+ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "11 10 5 9 10" "righe esportate: 11 unita, 10 sedi, 5 persone, 9 nomine, 10 attestati"
 ok "$(grep -c $'\xc3\x8c' "$CSV/persona.csv")" "1" "persona.csv e UTF-8, con una lettera accentata"
-ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=8"
+ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=10"
 
 echo "== la prova generale arriva in fondo"
 if generale "$CSV" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; FALLITI=$((FALLITI+1)); fi
@@ -102,10 +102,12 @@ sed 's/^/       | /' "$USCITA"
 ok "$(ultima)" "ARRIVATA IN FONDO" "l'ultima riga lo dice"
 ok "$(grep -oE 'unita fuse\): [0-9]+' "$USCITA")" "unita fuse): 1" "gli avvisi del passo 03 sono stampati"
 ok "$(grep -oE 'unita assorbite' "$USCITA" | head -1)" "unita assorbite" "e quelli del passo 01"
-ok "$(grep -oE 'attestati d.origine 8  ->  eventi scritti [0-9]+, su [0-9]+ persone' "$USCITA")" "attestati d'origine 8  ->  eventi scritti 5, su 2 persone" "il passo 04 scrive 5 attestati su 8, e dice su quante persone"
+ok "$(grep -oE 'attestati d.origine 10  ->  eventi scritti [0-9]+, su [0-9]+ persone' "$USCITA")" "attestati d'origine 10  ->  eventi scritti 7, su 2 persone" "il passo 04 scrive 7 attestati su 10, e dice su quante persone"
 ok "$(grep -oE 'NON entrati: [0-9]+ con un titolo ignorato a mano, [0-9]+ senza codice fiscale valido, [0-9]+ con un codice fiscale che l.anagrafe non ha' "$USCITA")" "NON entrati: 1 con un titolo ignorato a mano, 1 senza codice fiscale valido, 1 con un codice fiscale che l'anagrafe non ha" "le tre ragioni per restare fuori si contano separate"
 ok "$(grep -oE 'percorsi frazionati entrati APERTI: [0-9]+' "$USCITA")" "percorsi frazionati entrati APERTI: 2" "i due spezzoni entrano aperti"
 ok "$(grep -oE 'su cui cadono due o piu attestati: [0-9]+' "$USCITA")" "su cui cadono due o piu attestati: 1" "la collisione si segnala e non si fonde"
+ok "$(grep -oE 'date fuori squadra, entrate e da guardare: [0-9]+ nel futuro' "$USCITA")" "date fuori squadra, entrate e da guardare: 1 nel futuro" "una data nel futuro entra e si conta"
+ok "$(grep -oE 'nel futuro \(il motore le tratti come non avvenute\), [0-9]+ anteriori' "$USCITA")" "nel futuro (il motore le tratti come non avvenute), 1 anteriori" "e una anteriore al 2008 pure"
 ok "$(grep -oE 'NON portati: [0-9]+ con un esito, [0-9]+ con un numero di attestato, [0-9]+ dichiarati di fonte esterna' "$USCITA")" "NON portati: 2 con un esito, 2 con un numero di attestato, 2 dichiarati di fonte esterna" "esito, numero e fonte esterna si contano e non entrano"
 ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "i conteggi finali: quattro unita su una P.IVA"
 ok "$(grep -c 'cluster fermato e cancellato' "$USCITA")" "1" "e il cluster e cancellato"
@@ -146,8 +148,8 @@ fermata "persone attese sbagliate"  "passo 02" "\(a\) origine.persona ha 5 righe
   "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=6 nomine_attese=9 righe_formazione_attese=8
 fermata "clienti attesi sbagliati"  "passo 01" "\(a\) origine.cliente ha 11 righe" \
   "$CSV" clienti_attesi=12 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=8
-fermata "attestati attesi sbagliati" "passo 04" "\\(a\\) origine.formazione ha 8 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=7
+fermata "attestati attesi sbagliati" "passo 04" "\\(a\\) origine.formazione ha 10 righe" \
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=9
 
 C="$(copia attiva)"
 sed -i -E '/^00000000-0000-0000-0000-0000000000e7,/ s/,t,/,f,/' "$C/nomina.csv"

@@ -58,6 +58,15 @@ values
    'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',
    'GEST-aaaaaaaa', '2024-09-01', 28, 'Ente Alfa', 'ATT-2024-001', 'idoneo', 'esterna'),
 
+  -- 7-bis. due date fuori squadra: una nel futuro e una del 1990. Entrano, e si
+  -- contano: e la misura del 16.09.2026 sui dati veri, 2 su 13.215 e 96 prima del 2008.
+  ('00000000-0000-0000-0000-0000000000f9', 'JQIOBW08B92B915V',
+   'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',
+   'GEST-aaaaaaaa', (current_date + 60), 28, 'Ente Alfa', null, null, 'interna'),
+  ('00000000-0000-0000-0000-0000000000fa', 'JQIOBW08B92B915V',
+   'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',
+   'GEST-aaaaaaaa', '1990-06-01', 28, 'Ente Alfa', null, null, 'interna'),
+
   -- 7. senza codice fiscale: e un'altra ragione, e si conta a parte
   ('00000000-0000-0000-0000-0000000000f8', null,
    'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',

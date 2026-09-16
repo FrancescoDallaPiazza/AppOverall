@@ -63,7 +63,26 @@
 -- due export `FormFraz`, 516 e 410. Quel confronto e' un passo suo, e finche' non e'
 -- fatto i percorsi restano aperti e si contano.
 --
--- **5. Cosa non porta, e lo conta.** `esito`, `numero_attestato` e `fonte`
+-- **5. Le date fuori squadra entrano, e si contano.** Misurato il 16 settembre 2026
+-- sui 13.215 veri: **2 attestati hanno una data nel futuro** (il piu' avanti al
+-- 23/11/2026, su due persone diverse) e **96 sono anteriori al D.Lgs 81/2008**, di
+-- cui 3 anche al 626/1994. Nessuno dei due casi si rifiuta:
+--
+--   * due righe su 13.215 sono **refusi da correggere alla fonte**, non una prassi
+--     del gestionale da capire prima di importarla. Fermare la migrazione per due
+--     righe costerebbe piu' di quanto valga, e cancellarle in silenzio sarebbe peggio
+--     di tutte e due le cose;
+--   * le 96 anteriori al 2008 **non sono un errore**: e' formazione fatta sotto il
+--     626/1994, e oggi e' scaduta comunque.
+--
+-- **Ma una data nel futuro fa danno nel motore, non qui.** La validita' si conta da
+-- quella data, quindi finche' non arriva quella persona risulterebbe **in regola per
+-- un corso che non ha ancora fatto** — un falso verde, che e' il contrario di cio'
+-- che questo sistema serve a fare. Questo passo le porta e le conta; **il motore
+-- della Fase 4 deve trattare un attestato con data futura come non ancora
+-- avvenuto**, ed e' scritto qui perche' li' non ci sia da riscoprirlo.
+--
+-- **6. Cosa non porta, e lo conta.** `esito`, `numero_attestato` e `fonte`
 -- (interna/esterna) sono tre colonne che il campo ha e la `0021` no: si contano le
 -- righe che le hanno valorizzate, cosi' un dato non portato resta diverso da un dato
 -- che non c'era. `file_attestato` e' un documento, e i documenti sono la scheda 13.
@@ -188,7 +207,7 @@ do $$
 declare
   ingresso int; scritti int; ignorati int; senza_persona int; senza_cf int;
   frazionati int; collisioni int; con_esito int; con_numero int; esterni int;
-  gia_presenti int; persone int;
+  gia_presenti int; persone int; nel_futuro int; prima_del_81 int;
 begin
   select count(*) into ingresso from origine.formazione;
   select count(*) into gia_presenti
@@ -207,6 +226,12 @@ begin
   select count(*) into con_esito from riga_formazione f where f.esito is not null;
   select count(*) into con_numero from riga_formazione f where f.numero_attestato is not null;
   select count(*) into esterni from riga_formazione f where f.fonte = 'esterna';
+  select count(*) into nel_futuro from riga_formazione f
+   where f.persona_dest is not null and f.corso_dest is not null
+     and f.data_completamento > current_date;
+  select count(*) into prima_del_81 from riga_formazione f
+   where f.persona_dest is not null and f.corso_dest is not null
+     and f.data_completamento < date '2008-05-15';
 
   select count(*) into collisioni from (
     select persona_id, corso_codice, data
@@ -222,6 +247,7 @@ begin
   raise notice '  percorsi frazionati entrati APERTI: % (chi li chiude e un passo suo, coi due export FormFraz)', frazionati;
   raise notice '  persone, corsi e date su cui cadono due o piu attestati: % (si segnalano, non si fondono)', collisioni;
   raise notice '  NON portati: % con un esito, % con un numero di attestato, % dichiarati di fonte esterna', con_esito, con_numero, esterni;
+  raise notice '  date fuori squadra, entrate e da guardare: % nel futuro (il motore le tratti come non avvenute), % anteriori al D.Lgs 81/2008', nel_futuro, prima_del_81;
 end $$;
 
 commit;
