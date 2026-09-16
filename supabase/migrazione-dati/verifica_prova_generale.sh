@@ -108,7 +108,7 @@ ok "$(grep -oE 'percorsi frazionati entrati APERTI: [0-9]+' "$USCITA")" "percors
 ok "$(grep -oE 'su cui cadono due o piu attestati: [0-9]+' "$USCITA")" "su cui cadono due o piu attestati: 1" "la collisione si segnala e non si fonde"
 ok "$(grep -oE 'date fuori squadra, entrate e da guardare: [0-9]+ nel futuro' "$USCITA")" "date fuori squadra, entrate e da guardare: 1 nel futuro" "una data nel futuro entra e si conta"
 ok "$(grep -oE 'nel futuro \(il motore le tratti come non avvenute\), [0-9]+ anteriori' "$USCITA")" "nel futuro (il motore le tratti come non avvenute), 1 anteriori" "e una anteriore al 2008 pure"
-ok "$(grep -oE 'NON portati: [0-9]+ con un esito, [0-9]+ con un numero di attestato, [0-9]+ dichiarati di fonte esterna' "$USCITA")" "NON portati: 2 con un esito, 2 con un numero di attestato, 2 dichiarati di fonte esterna" "esito, numero e fonte esterna si contano e non entrano"
+ok "$(grep -oE 'NON portati: [0-9]+ con un esito, [0-9]+ dichiarati di fonte esterna' "$USCITA")" "NON portati: 2 con un esito, 2 dichiarati di fonte esterna" "esito e fonte esterna si contano e non entrano"
 ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "i conteggi finali: quattro unita su una P.IVA"
 ok "$(grep -c 'cluster fermato e cancellato' "$USCITA")" "1" "e il cluster e cancellato"
 ok "$(grep -oE '^  268 alias.*' "$USCITA")" "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse" "il seed degli alias e caricato e contato"

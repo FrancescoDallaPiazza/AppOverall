@@ -17,7 +17,7 @@ declare -A COLONNE=(
   [sede]="id,cliente_id,nome,indirizzo,localita,provincia,principale,attivo,created_at"
   [persona]="id,cliente_id,sede_id,nome,cognome,codice_fiscale,mansione,data_assunzione,attivo,data_cessazione,import_key,updated_at"
   [nomina]="id,persona_id,figura_codice,data_nomina,attiva,note,estremi_procura,da_confermare,origine,origine_testo,created_at,updated_at"
-  [formazione]="id,codice_fiscale,corso_titolo,corso_codice_origine,data_completamento,ore,ente_erogatore,numero_attestato,esito,fonte"
+  [formazione]="id,codice_fiscale,corso_titolo,corso_codice_origine,data_completamento,ore,ente_erogatore,esito,fonte"
 )
 
 # ---------- il cluster usa e getta ----------

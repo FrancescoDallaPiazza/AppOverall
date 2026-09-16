@@ -202,6 +202,12 @@ comment on table origine.nomina is
 --   * `ore`: come provenienza, non per decidere — vedi la `0021`;
 --   * `esito` e `fonte`: due colonne che il campo ha e noi no, e si contano invece di
 --     sparire.
+--
+-- **Cosa non c'e, e non per scelta nostra:** il numero e il file dell'attestato. La
+-- loro `0003` li ha tolti da `eventi_formativi` e spostati in una tabella
+-- `attestati` con il suo stato e la sua numerazione — scoperto il 16 settembre
+-- lanciando la query sulla produzione, dopo averli letti nella loro `0001`. **Una
+-- migrazione dice com'era, non com'e**, e la differenza si chiede al database.
 
 create table if not exists origine.formazione (
   id uuid primary key,
@@ -211,7 +217,6 @@ create table if not exists origine.formazione (
   data_completamento date,
   ore numeric(5,1),
   ente_erogatore text,
-  numero_attestato text,
   esito text,
   fonte text
 );

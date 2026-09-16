@@ -16,58 +16,58 @@
 --   6. un codice fiscale che l'anagrafe non ha: non entra, e si conta;
 --   7. una riga senza codice fiscale: non entra, e si conta a parte — le due ragioni
 --      non sono la stessa cosa;
---   8. `esito`, `numero_attestato` e `fonte` valorizzati: si contano e non entrano.
+--   8. `esito` e `fonte` valorizzati: si contano e non entrano.
 --
 -- I titoli sono testi veri del dizionario: se il seed cambiasse, la prova se ne
 -- accorgerebbe invece di passare lo stesso.
 
 insert into origine.formazione
   (id, codice_fiscale, corso_titolo, corso_codice_origine, data_completamento, ore,
-   ente_erogatore, numero_attestato, esito, fonte)
+   ente_erogatore, esito, fonte)
 values
   -- 1. il caso normale
   ('00000000-0000-0000-0000-0000000000f1', 'JQIOBW08B92B915V',
    'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',
-   'GEST-aaaaaaaa', '2019-05-10', 28, 'Ente Alfa', null, null, 'interna'),
+   'GEST-aaaaaaaa', '2019-05-10', 28, 'Ente Alfa', null, 'interna'),
 
   -- 2. lo stesso titolo con due spazi in mezzo: lo prende la normalizzazione
   ('00000000-0000-0000-0000-0000000000f2', 'JQIOBW08B92B915V',
    'ADDETTO A LAVORI IN SPAZI  CONFINATI E SOSPETTI DI INQUINAMENTO',
-   'GEST-bbbbbbbb', '2021-03-01', 12, 'Ente Beta', null, null, 'interna'),
+   'GEST-bbbbbbbb', '2021-03-01', 12, 'Ente Beta', null, 'interna'),
 
   -- 3. un titolo ignorato a mano
   ('00000000-0000-0000-0000-0000000000f3', 'JQIOBW08B92B915V',
    'ADDETTO LAVORI IN AMBIENTI SOSPETTI DI PRESENZA AMIANTO',
-   'GEST-cccccccc', '2022-06-15', 5, 'Ente Gamma', null, null, 'interna'),
+   'GEST-cccccccc', '2022-06-15', 5, 'Ente Gamma', null, 'interna'),
 
   -- 4. la collisione: stessa persona, stesso corso, stessa data della f1
   ('00000000-0000-0000-0000-0000000000f4', 'JQIOBW08B92B915V',
    'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',
-   'GEST-aaaaaaaa', '2019-05-10', 28, 'Ente Alfa', null, null, 'interna'),
+   'GEST-aaaaaaaa', '2019-05-10', 28, 'Ente Alfa', null, 'interna'),
 
   -- 5. due spezzoni: entrano aperti
   ('00000000-0000-0000-0000-0000000000f5', 'HOZUNW31P60Q756F',
    'FORMAZIONE SPECIFICA RISCHIO ALTO PARZIALE 6H 1\2',
-   'GEST-dddddddd', '2026-01-10', 6, 'Ente Delta', null, null, 'interna'),
+   'GEST-dddddddd', '2026-01-10', 6, 'Ente Delta', null, 'interna'),
   ('00000000-0000-0000-0000-0000000000f6', 'HOZUNW31P60Q756F',
    'FORMAZIONE SPECIFICA RISCHIO ALTO, PARZIALE 6H 2/2',
-   'GEST-eeeeeeee', '2026-02-20', 6, 'Ente Delta', null, null, 'interna'),
+   'GEST-eeeeeeee', '2026-02-20', 6, 'Ente Delta', null, 'interna'),
 
   -- 6. un codice fiscale valido che l'anagrafe non ha
   ('00000000-0000-0000-0000-0000000000f7', 'BNCLRA75D45L219R',
    'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',
-   'GEST-aaaaaaaa', '2024-09-01', 28, 'Ente Alfa', 'ATT-2024-001', 'idoneo', 'esterna'),
+   'GEST-aaaaaaaa', '2024-09-01', 28, 'Ente Alfa', 'idoneo', 'esterna'),
 
   -- 7-bis. due date fuori squadra: una nel futuro e una del 1990. Entrano, e si
   -- contano: e la misura del 16.09.2026 sui dati veri, 2 su 13.215 e 96 prima del 2008.
   ('00000000-0000-0000-0000-0000000000f9', 'JQIOBW08B92B915V',
    'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',
-   'GEST-aaaaaaaa', (current_date + 60), 28, 'Ente Alfa', null, null, 'interna'),
+   'GEST-aaaaaaaa', (current_date + 60), 28, 'Ente Alfa', null, 'interna'),
   ('00000000-0000-0000-0000-0000000000fa', 'JQIOBW08B92B915V',
    'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',
-   'GEST-aaaaaaaa', '1990-06-01', 28, 'Ente Alfa', null, null, 'interna'),
+   'GEST-aaaaaaaa', '1990-06-01', 28, 'Ente Alfa', null, 'interna'),
 
   -- 7. senza codice fiscale: e un'altra ragione, e si conta a parte
   ('00000000-0000-0000-0000-0000000000f8', null,
    'ADDETTO AL MONTAGGIO, SMONTAGGIO, TRASFORMAZIONE DI PONTEGGI O PER PREPOSTI ALLA SORVEGLIANZA',
-   'GEST-aaaaaaaa', '2025-04-04', 4, 'Ente Alfa', 'ATT-2025-002', 'idoneo', 'esterna');
+   'GEST-aaaaaaaa', '2025-04-04', 4, 'Ente Alfa', 'idoneo', 'esterna');

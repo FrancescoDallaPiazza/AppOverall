@@ -82,10 +82,13 @@
 -- della Fase 4 deve trattare un attestato con data futura come non ancora
 -- avvenuto**, ed e' scritto qui perche' li' non ci sia da riscoprirlo.
 --
--- **6. Cosa non porta, e lo conta.** `esito`, `numero_attestato` e `fonte`
--- (interna/esterna) sono tre colonne che il campo ha e la `0021` no: si contano le
--- righe che le hanno valorizzate, cosi' un dato non portato resta diverso da un dato
--- che non c'era. `file_attestato` e' un documento, e i documenti sono la scheda 13.
+-- **6. Cosa non porta, e lo conta.** `esito` e `fonte` (interna/esterna) sono due
+-- colonne che il campo ha e la `0021` no: si contano le righe che le hanno
+-- valorizzate, cosi' un dato non portato resta diverso da un dato che non c'era.
+--
+-- Il **numero** e il **file** dell'attestato non ci sono nemmeno all'origine: la loro
+-- `0003` li ha spostati in una tabella `attestati` propria. Sono la scheda 13, e
+-- quando entreranno porteranno il documento con se.
 --
 -- **Rieseguibile:** l'`import_key` qui e' `af:<uuid d'origine>`, perche' e' l'unica
 -- cosa che identifica quella riga nel loro database. Le righe gia' presenti si
@@ -206,7 +209,7 @@ select persona_dest,
 do $$
 declare
   ingresso int; scritti int; ignorati int; senza_persona int; senza_cf int;
-  frazionati int; collisioni int; con_esito int; con_numero int; esterni int;
+  frazionati int; collisioni int; con_esito int; esterni int;
   gia_presenti int; persone int; nel_futuro int; prima_del_81 int;
 begin
   select count(*) into ingresso from origine.formazione;
@@ -224,7 +227,6 @@ begin
   select count(distinct persona_dest) into persone from riga_formazione
    where persona_dest is not null and corso_dest is not null;
   select count(*) into con_esito from riga_formazione f where f.esito is not null;
-  select count(*) into con_numero from riga_formazione f where f.numero_attestato is not null;
   select count(*) into esterni from riga_formazione f where f.fonte = 'esterna';
   select count(*) into nel_futuro from riga_formazione f
    where f.persona_dest is not null and f.corso_dest is not null
@@ -246,7 +248,7 @@ begin
   raise notice '  NON entrati: % con un titolo ignorato a mano, % senza codice fiscale valido, % con un codice fiscale che l''anagrafe non ha', ignorati, senza_cf, senza_persona;
   raise notice '  percorsi frazionati entrati APERTI: % (chi li chiude e un passo suo, coi due export FormFraz)', frazionati;
   raise notice '  persone, corsi e date su cui cadono due o piu attestati: % (si segnalano, non si fondono)', collisioni;
-  raise notice '  NON portati: % con un esito, % con un numero di attestato, % dichiarati di fonte esterna', con_esito, con_numero, esterni;
+  raise notice '  NON portati: % con un esito, % dichiarati di fonte esterna', con_esito, esterni;
   raise notice '  date fuori squadra, entrate e da guardare: % nel futuro (il motore le tratti come non avvenute), % anteriori al D.Lgs 81/2008', nel_futuro, prima_del_81;
 end $$;
 
