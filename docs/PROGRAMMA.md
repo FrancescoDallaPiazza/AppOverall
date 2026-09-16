@@ -2521,6 +2521,56 @@ fare la prova sull'altra.
 | **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
 
 
+### Si estrae qui, e la palla passa all'SQL Editor · 16 settembre 2026, mattina
+
+**Francesco ha scelto: l'estrazione si fa su `OVERALL-PC07`.** Quindi non si installa
+niente, e la scelta di ieri — PostgreSQL 16 o script adattato a Docker — **decade**.
+Resta scritta qui sopra perche vale ancora per l'altro PC: se un giorno i CSV escono
+di la, quel punto si riapre intero.
+
+**Fatto da qui, e nessuna delle due cose tocca un dato:**
+- cartella `C:\Users\Francesco\Documents\migrazione-privata\2026-09-16` creata, vuota,
+  fuori da ogni repository (lo script rifiuta una cartella dentro un repo);
+- `estrazione.md` aggiornata in due punti — «Prima di cominciare» e il punto 5 — perche
+  diceva «sul PC di Francesco PostgreSQL non c'e, va installato prima di estrarre», che
+  su questa macchina e falso. **Chi apre quella pagina oggi non deve incontrare
+  l'avviso di ieri**: e la stessa regola dei «30 contro 31», applicata prima che serva.
+
+**Il resto lo fa Francesco, e non e una divisione di comodo: la produzione da questa
+corsia non si legge.** L'ordine, e perche e quello:
+
+1. **fotografia** (punto 1), da cui escono i quattro conteggi attesi;
+2. **quattro esportazioni** una per volta, colonne nell'ordine scritto (lo script
+   confronta l'intestazione e si ferma se non coincide);
+3. **fotografia di nuovo** (punto 4): se cambia un numero o una data, qualcuno ha
+   scritto in mezzo e si ricomincia;
+4. **la prova generale la lancio io** con i quattro numeri, e alla fine la cartella si
+   cancella.
+
+**Due cose si guardano nella prima fotografia, prima di esportare**, perche fermano la
+prova dopo e si vedono prima:
+
+- **`livello_origine` deve contenere `qualifica`.** Se esce vuota manca la `068`, e la
+  select delle nomine del punto 2 fallisce: si scoprirebbe alla seconda query invece
+  che alla prima riga.
+- **`nomine_non_attive` e `nomine_da_confermare` devono essere `0`.** Non li ha mai
+  misurati nessuno. Se non sono zero **ci si ferma li**: il passo 03 li rifiuta (d ed
+  e), e cosa farne e una decisione che si prende qui, non un errore della prova.
+
+**E serve un momento senza utenti**, per una ragione che sta scritta in fondo a
+`estrazione.md` e che la fotografia non copre: vede le righe nuove e cancellate di
+tutte e quattro le tabelle, ma le **modifiche** solo su persone e nomine — nella select
+del passo 00 clienti e sedi non hanno un `updated_at`. Un cliente gia esistente
+modificato fra due esportazioni non lo vede nessuno.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | la fotografia, poi le quattro esportazioni, poi la fotografia di nuovo; guardare l'anteprima di `rischio-proposta-distinta` | portare qui i quattro numeri; il si o il no al merge del ritocco |
+| **AppSopralluoghi** | invariata: ramo `rischio-proposta-distinta` pronto, **main fermo** | al si: merge, deploy, verifica per canale e a vista |
+| **AppOverall** | cartella pronta, `estrazione.md` aggiornata, niente altro in corso | la prova generale sui dati veri, appena arrivano CSV e numeri |
+| **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

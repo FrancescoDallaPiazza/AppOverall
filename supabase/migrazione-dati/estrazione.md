@@ -14,7 +14,8 @@ Tutto quello che segue **legge e non scrive**.
   `C:\Users\Francesco\Documents\migrazione-privata\2026-09-16`. Non sotto `GitHub`: lo script controlla e si
   rifiuta.
 - **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e i quattro file restano sul
-  disco senza uso: prima PostgreSQL, poi l'estrazione.
+  disco senza uso: prima PostgreSQL, poi l'estrazione. **Su `OVERALL-PC07` c'e** — PostgreSQL 16.10, misurato il
+  16 settembre 2026, e la prova generale ci e passata intera sui dati finti. Su quel PC questo punto e chiuso.
 - Un momento in cui **nessuno sta usando AppSopralluoghi**. Le quattro letture devono vedere lo stesso archivio, e
   il punto 4 lo verifica solo in parte (vedi in fondo).
 
@@ -128,8 +129,12 @@ bash supabase/migrazione-dati/prova_generale.sh "C:/Users/Francesco/Documents/mi
 con i numeri della fotografia: `clienti_attesi` = `clienti`, `sedi_attese` = `sedi`, `righe_attese` = `persone`,
 `nomine_attese` = `nomine`.
 
-Serve PostgreSQL installato, e nient'altro da configurare. **Il 15 settembre 2026 sul PC di Francesco non c'è**
-(cercato su tutto il disco C:): va installato prima di estrarre, oppure lo script va adattato a Docker. Lo script lo
+Serve PostgreSQL installato, e nient'altro da configurare. **Su `OVERALL-PC07` c'e**: PostgreSQL **16.10** in
+`C:\Program Files\PostgreSQL\16`, trovato dallo script senza indicazioni, e il 16 settembre 2026
+`verifica_prova_generale.sh` e arrivata in fondo con tutte le prove passate. ~~Il 15 settembre 2026 sul PC di
+Francesco non c'e~~ — quella misura vale, ma **e un altro PC** (li niente PostgreSQL, Docker Desktop e WSL; qui
+PostgreSQL dal 4 maggio 2026 e WSL non installato). **Francesco ha deciso il 16 settembre di estrarre qui**, quindi
+non si installa niente; se un giorno si estrae sull'altro PC, li il punto torna aperto. Lo script lo
 cerca in `C:\Program Files\PostgreSQL\<versione>\bin`, o nella cartella indicata con `PGBIN=`. Lo script crea un
 database usa e getta, esegue la migrazione dati da capo a fondo, stampa gli avvisi dei passi e i conteggi finali, e
 **cancella il database alla fine**, anche quando si ferma. L'ultima riga dice com'è andata:
