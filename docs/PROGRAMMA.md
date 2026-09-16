@@ -2628,6 +2628,13 @@ la prima cosa che qualcuno cita senza rileggere il corpo» — con il posto camb
 era un titolo, qui un messaggio, e un messaggio si cita allo stesso modo. Sta qui
 perche il numero giusto sopravviva a quello sbagliato.
 
+**E i quattro zeri sono arrivati: l'assunzione e chiusa.** Francesco ha lanciato la
+query, e `cliente`, `sede`, `persona` e `nomina` danno **0** righe con un campo che
+valga la parola «null». Quindi gli 11.912 campi erano nulli tutti e undicimila e
+novecentododici, e `null_scritto=null` non ha mangiato niente di vero. **La prova
+generale sui dati veri e passata senza assunzioni dentro** — e il controllo vale **per
+questa estrazione**: un'estrazione nuova lo rifa, perche misura i dati, non lo script.
+
 **Tre cose da guardare, dai numeri dei passi, e nessuna e per adesso:**
 - **3 unita fuse** per P.IVA (608 -> 605) e **1 possibile doppione non fuso**: un
   cliente senza P.IVA usabile con la ragione sociale di uno che ce l'ha;
@@ -2637,9 +2644,9 @@ perche il numero giusto sopravviva a quello sbagliato.
 
 | chi | adesso | poi |
 |---|---|---|
-| **Francesco** | la query dei quattro zeri in `estrazione.md`; guardare l'anteprima di `rischio-proposta-distinta` | cancellare la cartella dei CSV quando abbiamo finito; il si o il no al merge del ritocco |
+| **Francesco** | ~~la query dei quattro zeri~~ fatta, quattro zeri; dire se si cancella la cartella dei CSV; guardare l'anteprima di `rischio-proposta-distinta` | il si o il no al merge del ritocco |
 | **AppSopralluoghi** | invariata: ramo `rischio-proposta-distinta` pronto, **main fermo** | al si: merge, deploy, verifica per canale e a vista |
-| **AppOverall** | niente in corso: la prova e passata | al quattro-zeri: la migrazione vera si puo programmare |
+| **AppOverall** | niente in corso: la prova e passata e verificata alla fonte | la migrazione vera si puo programmare |
 | **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
 
 

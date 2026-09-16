@@ -133,6 +133,10 @@ select 'nomina',  count(*) from nomina  n where exists (select 1 from jsonb_each
 
 Se un conteggio non e zero, **ci si ferma**: quella riga perderebbe un valore vero, e cosa farne si decide prima.
 
+**Lanciata il 16 settembre 2026 sull'estrazione di quel giorno: quattro zeri.** Il controllo pero misura **i dati**,
+non lo script: **ogni estrazione nuova lo rifa**, perche fra una e l'altra qualcuno puo aver scritto «null» in un
+campo di testo.
+
 **Mai aprire e salvare un file con Excel.** Lo riscrive in un'altra codifica, toglie lo zero iniziale alle partite
 IVA e ai codici, e cambia il formato delle date. Se è stato aperto e salvato per sbaglio, si riesporta.
 
