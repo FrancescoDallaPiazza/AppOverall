@@ -2943,6 +2943,71 @@ dimostrata sbagliata da chi la usava, la migrazione non ha piu una scelta da far
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove | la vista dell'esito `mancante` |
 
 
+### Il seed dei 268 alias e l'export, e l'impronta me l'ha detto al terzo tentativo · 16 settembre 2026, sera
+
+**Il seed e confermato contro il database vivo.** `corso_alias` in produzione su
+AppSopralluoghi e il seed di questo repo danno **la stessa impronta** —
+`77e35ffc…`, 268 righe — e i nove conti coincidono uno per uno: 268 totali, 237
+mappati, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse, 1 evidenza
+incompleta, 39 codici distinti, 1 nota. **Nessuno ha cambiato un giudizio
+dall'interfaccia dopo gli script.** La riga «resta da confermare contro il database
+vivo», aperta il 10 settembre in testa al seed, e chiusa.
+
+E il seed adesso non e piu un file che aspetta: **lo carica la prova generale**,
+subito dopo le migrazioni, e ne **conta i giudizi** invece di limitarsi a caricarlo.
+La prova negativa non toglie righe — ne cambia **una**: le righe restano 268, i
+controlli interni del file passano lisci, e a protestare e il conteggio. E la forma
+vera del rischio, perche un seed dimenticato o alterato non lascia nessun segno: la
+tabella ci sarebbe lo stesso.
+
+**Ma la conferma e arrivata al terzo tentativo, e i primi due erano miei.**
+
+1. **Ho scritto la query con i nomi di colonna sbagliati.** Il testo del gestionale
+   la si chiama `testo_gestionale`, qui `testo`: due schemi diversi per una ragione
+   buona (scheda 9: l'identita e cio che si riceve), e io ho lanciato la versione di
+   qua sulla loro produzione. Si e fermata con «column "testo" does not exist», che e
+   il modo gentile di sbagliare.
+2. **Poi ho creduto a una differenza che non c'era.** Le due impronte non
+   coincidevano, e ho concluso che i 268 testi divergessero. Non divergevano:
+   **`string_agg(... order by testo)` segue la collation del database**, il mio
+   cluster e creato con `--no-locale` e ordina per byte, la produzione ordina con la
+   sua. Le stesse identiche righe, concatenate in ordine diverso, danno impronte
+   diverse. **Non stavo misurando i dati: stavo misurando la collation.**
+
+**E la parte che brucia: l'avvertimento era scritto nel file accanto.** In fondo a
+`seed/corso_alias_origine.sql`, dal 10 settembre:
+
+> «L'impronta va ricontrollata ordinando per `riga_foglio` e **mai per `testo`**.
+> Un'impronta che non torna per una ragione procedurale segnala un problema che non
+> c'e, e la prossima volta nessuno ci crede piu.»
+
+Quel file la sua impronta la ordina per `riga_foglio`, che e un intero e non ha
+collation: chi l'ha scritto **il problema l'aveva gia avuto e l'aveva gia risolto**.
+Io ho aperto la cartella `seed/`, ho letto l'altro file per intero, e la riga in
+fondo a questo non l'ho letta. **E la quinta istanza della regola del 12 settembre**
+— «quando una domanda resta senza risposta, rifare il giro dei file gia aperti
+chiedendo la domanda NUOVA» — con l'aggravante che qui non serviva nemmeno rifare il
+giro: bastava leggere fino in fondo un file che stavo usando.
+
+**Cosa ne esce, oltre alla conferma.** `impronta_alias.sql` porta adesso le due
+versioni della query, l'ordinamento `collate "C"` da tutte e due le parti, e scritto
+perche: **un confronto fra due database non e un confronto finche non si fissa
+l'ordine.** Costa sei caratteri e vale il terzo tentativo di oggi.
+
+**E una cosa che non abbiamo ancora guardato**, emersa per caso mentre si cercava il
+progetto giusto: in **AppFormazione** esiste una `corso_alias` con la colonna `testo`
+— cioe lo schema di questo repo, applicato la. Quei 268 giudizi possono quindi vivere
+in **due** posti, e il repo unico dovra sapere da quale legge. Non e un problema
+oggi; e una domanda da non trovare per caso una seconda volta.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | niente; si puo cancellare `migrazione-privata\testi.csv`, che ha fatto il suo lavoro | le tre domande del piano (attestato, annata ATECO, operatore) |
+| **AppOverall** | niente in corso: il seed e caricato, contato e confermato | alle risposte: la forma dell'evento formativo, poi il passo 04 |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove | e dire quale `corso_alias` vive nella loro produzione, e perche |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

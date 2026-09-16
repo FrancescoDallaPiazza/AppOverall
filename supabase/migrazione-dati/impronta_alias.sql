@@ -38,13 +38,32 @@
 --   impronta  77e35ffc81466d34f6dbc5188120e57295b9fc3c622f6191f4223eaa6bb2138e
 --
 -- Calcolata su un cluster usa e getta con tutte le migrazioni applicate e i due
--- seed caricati. Se la produzione di AppSopralluoghi da' la stessa stringa, il
--- seed **e'** l'export e la riga «resta da confermare» si chiude.
+-- seed caricati.
 --
--- L'ordinamento e' per `testo`, che e' la chiave primaria: nessuna collation puo'
--- cambiarlo fra i due lati, perche' i testi sono distinti e l'ordine e' totale.
--- (L'ordine per `testo` e' l'unico usato qui: `corso_alias_origine.sql` usa
--- `riga_foglio` per la SUA impronta, e le due non si confrontano fra loro.)
+-- **CONFRONTATA CON LA PRODUZIONE DI AppSopralluoghi IL 16 SETTEMBRE 2026: UGUALE.**
+-- 268 righe e la stessa impronta. Il seed **e'** l'export: i 268 testi coincidono
+-- carattere per carattere e i sette giudizi con le note pure. La riga «resta da
+-- confermare contro il database vivo», aperta il 10 settembre, e chiusa — e quello
+-- che resta da fare e' rifarla quando il dizionario cambia, non fidarsi di questa.
+--
+-- ~~L'ordinamento e' per `testo`: nessuna collation puo' cambiarlo fra i due lati,
+-- perche' i testi sono distinti e l'ordine e' totale.~~ **Falso, e costato due giri
+-- il 16 settembre 2026.** Un ordine totale su un insieme distinto e' comunque
+-- **l'ordine che decide la collation**: un cluster creato con `--no-locale` ordina
+-- per byte, la produzione ordina secondo la sua, e le stesse identiche 268 righe
+-- concatenate in ordine diverso danno impronte diverse. Le prime due impronte
+-- confrontate non misuravano i dati: misuravano la collation.
+--
+-- Per questo l'ordinamento e' **`order by ... collate "C"`** da tutte e due le
+-- parti. Non e' una precauzione teorica: e' il motivo per cui questo confronto
+-- adesso funziona.
+--
+-- E l'avvertimento era gia scritto, in fondo al file accanto
+-- (`seed/corso_alias_origine.sql`): «l'impronta va ricontrollata ordinando per
+-- `riga_foglio` e **mai per testo**. Un'impronta che non torna per una ragione
+-- procedurale segnala un problema che non c'e, e la prossima volta nessuno ci
+-- crede piu». Quel file la SUA impronta la ordina per `riga_foglio`, che e' un
+-- intero e non ha collation. Chi ha scritto questa query non ha letto quella riga.
 
 select
   count(*) as righe,
@@ -53,7 +72,7 @@ select
     coalesce(corso_codice, '') || '|' ||
     ignorato || pregressa || is_aggiornamento || parziale || evidenza_incompleta || '|' ||
     coalesce(note, ''),
-    chr(10) order by testo), 'UTF8')), 'hex') as impronta
+    chr(10) order by testo collate "C"), 'UTF8')), 'hex') as impronta
 from corso_alias;
 
 -- ============================================================================
@@ -69,5 +88,5 @@ from corso_alias;
 --       coalesce(corso_codice, '') || '|' ||
 --       ignorato || pregressa || is_aggiornamento || parziale || evidenza_incompleta || '|' ||
 --       coalesce(note, ''),
---       chr(10) order by testo_gestionale), 'UTF8')), 'hex') as impronta
+--       chr(10) order by testo_gestionale collate "C"), 'UTF8')), 'hex') as impronta
 --   from corso_alias;

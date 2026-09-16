@@ -53,8 +53,15 @@
 -- coincidono con l'esito dichiarato eseguito in produzione in docs/TODO.md
 -- (da mappare 0, mappati 237, ignorati 31, totale 268).
 --
--- RESTA DA CONFERMARE CONTRO IL DATABASE VIVO: questo file e' dedotto dagli
--- script, non esportato da produzione. Se in produzione qualche riga e' stata
+-- ~~RESTA DA CONFERMARE CONTRO IL DATABASE VIVO~~ **CONFERMATO il 16 settembre
+-- 2026**, con l'impronta di `migrazione-dati/impronta_alias.sql`: 268 righe e
+-- 77e35ffc81466d34f6dbc5188120e57295b9fc3c622f6191f4223eaa6bb2138e da tutte e due
+-- le parti. Il file e' dedotto dagli script e **coincide con la produzione**: nessuno
+-- ha cambiato un giudizio dall'interfaccia dopo. Il confronto va rifatto quando il
+-- dizionario cambia, non dato per buono da qui in avanti.
+--
+-- (Storico, perche' la ragione del dubbio resta valida: questo file e' dedotto dagli
+-- script, non esportato da produzione.) Se in produzione qualche riga e' stata
 -- decisa a mano dalla UI dopo l'esecuzione degli script, quella decisione qui
 -- non c'e'. Prima di considerarlo autoritativo, confrontarlo riga per riga con
 -- un `select testo, corso_codice, note, ignorato, pregressa,
