@@ -2463,6 +2463,64 @@ fotografia del punto 1 di `estrazione.md`, che non porta dati personali.
 | **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
 
 
+### Non e lo stesso PC, e qui PostgreSQL c'e · 16 settembre 2026, mattina
+
+**La prova generale gira su questa macchina, e l'ho fatta girare.** `OVERALL-PC07`,
+misurato adesso: `C:\Program Files\PostgreSQL\16\bin` con `initdb` e `psql` **16.10**,
+servizio `postgresql-x64-16` avviato e in ascolto sul 5433; `pg_nel_path` di
+`prova_generale_comune.sh` lo trova senza che gli si dica dove.
+`verifica_prova_generale.sh` e **arrivata in fondo con tutte le prove passate**: il giro
+intero sui dati finti, lo stesso giro con BOM, virgolette e CRLF, e le **nove** fermate
+volute — i tre conteggi sbagliati, la nomina non attiva, il conteggio mancante, la
+cartella dentro un repo, le colonne in un altro ordine, il file senza intestazione (con
+la sua prima riga, che e un dato, **non** stampata) e il file non UTF-8. Cluster
+fermato e cancellato ogni volta.
+
+**E la password non e piu un ostacolo, perche la prova non usa il server installato.**
+`cluster_avvia` fa un `initdb` in una cartella temporanea, `-A trust`, su una porta
+libera fra 5487 e 5520: il PostgreSQL del servizio resta dov'e e non viene toccato.
+L'ostacolo scritto qui sopra — «questa sessione non ha la password del PostgreSQL
+locale» — su questa strada non si ripresenta.
+
+**Ma «questo PC» non e lo stesso oggetto nelle due misure, e la differenza e il punto.**
+Ieri sera la misura diceva l'opposto: nessun `initdb` su tutto il disco C:, Docker
+Desktop 29.4.2 e la distribuzione WSL `docker-desktop`.
+
+| | ieri sera | qui, adesso |
+|---|---|---|
+| `initdb` | assente su tutto C: | `16.10`, installato il **4 maggio 2026** |
+| Docker | Desktop 29.4.2 | nessun `C:\Program Files\Docker`, `docker` non risponde |
+| WSL | distribuzione `docker-desktop` | **non installato affatto** |
+
+**Nessuna delle due misure e sbagliata, e la data di installazione esclude che lo sia:**
+un PC che ieri non aveva `initdb` non puo averlo da maggio. Sono **due macchine**. A9
+vale una terza volta, nel verso che mancava: l'assenza in una sessione non vale per
+tutte, la presenza in una sessione non vale per il PC, **e la presenza su un PC non
+vale per l'altro**.
+
+**Dove questo sposta il lavoro: non e piu la scelta fra installare PostgreSQL e
+adattare lo script a Docker, e la scelta di DOVE si estrae.** I quattro CSV non sono
+mai stati estratti, e la cartella `migrazione-privata\2026-09-15` creata ieri **non e
+su questo disco**. La prova sui dati veri vuole i CSV e PostgreSQL **sulla stessa
+macchina**, perche i dati veri non si spostano da dove escono. Quindi due opzioni, e
+sono per Francesco:
+
+- **estrarre qui**, su `OVERALL-PC07`: PostgreSQL c'e gia, la prova e appena passata,
+  non si installa niente;
+- **estrarre sull'altro PC**, e li resta intera la scelta di ieri.
+
+Non la decido io, perche dipende da quale delle due macchine arriva al gestionale, e
+quello lo sa solo lui. **Cosa non fare intanto:** estrarre i CSV su una macchina e
+fare la prova sull'altra.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | dire su quale PC si estrae; guardare l'anteprima di `rischio-proposta-distinta` | la fotografia del punto 1, poi l'estrazione; il si o il no al merge del ritocco |
+| **AppSopralluoghi** | invariata: ramo `rischio-proposta-distinta` pronto, **main fermo** | al si: merge, deploy, verifica per canale e a vista |
+| **AppOverall** | prova generale verde su questa macchina, nessun lavoro in corso | la prova sui dati veri, sul PC che Francesco indica |
+| **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
@@ -4409,6 +4467,13 @@ generale (`0058641`) **non l'ho misurato**: non su un PostgreSQL che oggi stia s
 conta, perche i dati veri non escono da li: la prova generale vuole PostgreSQL installato su questo PC, o lo script
 adattato a Docker. Di nuovo A9, nell'altro verso: l'assenza in una sessione non vale per tutte, e la presenza in una
 sessione non vale per il PC.
+
+**E il 16 settembre la misura si sdoppia, e nessuna delle due va ritirata: sono due PC.**
+Su `OVERALL-PC07` PostgreSQL **16.10** c'e — installato il 4 maggio 2026, servizio avviato — e la
+prova generale ci e passata intera. Li WSL non e nemmeno installato, quindi non e la stessa macchina
+misurata ieri sera, e la frase «la prova generale vuole PostgreSQL installato su questo PC» resta vera
+**su quel PC**: quale dei due sia «questo» dipende da dove si estraggono i CSV. Vedi «Non e lo stesso
+PC, e qui PostgreSQL c'e».
 
 **Fatto l'11 settembre 2026, e la `0004` e la `0005` non sono piu solo scritte.**
 Caricate su un PostgreSQL 16 locale e vuoto dalla corsia AppFormazione: **le cinque
