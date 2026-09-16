@@ -43,21 +43,53 @@ calcola dagli attestati contro il catalogo.** Finche quella tabella non esiste, 
 Fase 4 non ha su cosa girare — e la Fase 4 e la fetta che deve dimostrare che
 l'impianto regge.
 
-E prima dello schema servono tre risposte, e **nessuna e tecnica**:
+**Due delle tre domande hanno una risposta, data da Francesco il 16 settembre 2026:**
 
-1. **Cosa identifica un attestato.** Persona + corso + data di fine basta? Le
-   formazioni **frazionate** hanno piu sessioni e una finestra di completamento
-   (`finestra_completamento_mesi` esiste gia nel catalogo): l'evento e il corso o la
-   sessione? Da questo dipende se la tabella e una o due.
-2. **Come si aggancia al catalogo.** La scheda 9 dice: chiave = **codice curato**, e
-   l'impronta `GEST-`+md5 del gestionale e un **alias**, non un'identita. Quindi
-   l'attestato punta al codice curato e porta accanto l'alias da cui e arrivato — la
-   forma c'e gia in `corso_alias`, e il passo di import deve usarla e non aggirarla.
-3. **Cosa si fa delle ore.** Misurato il 12 settembre: **il gestionale ha riscritto le
-   ore dello storico** con quelle dell'ASR 2025, quindi la colonna `ore` dell'export
-   non dice cosa e stato erogato. Le scelte sono due e vanno dichiarate: non portarla,
-   oppure portarla con una colonna accanto che dice «riscritta alla fonte, non
-   verificabile». **Quello che non si fa e portarla e basta.**
+- **due righe che cadono sulla stessa identita si segnalano**, non si fondono in
+  silenzio. Restano entrambe e la collisione e un fatto scritto, non una riga che
+  sparisce: la stessa disciplina delle unita fuse per P.IVA nel passo 01, che si
+  contano e si dichiarano;
+- **la validita si conta dal COMPLETAMENTO del percorso**, non dall'ultima sessione ne
+  dalla prima. Quindi il percorso e un oggetto: le sessioni lo compongono, e la
+  scadenza sta su di lui.
+
+**E la domanda che la seconda risposta apre — «come si sa che un percorso e completo»
+— non va girata a nessuno: il gestionale lo sa gia.** Esporta due file distinti,
+misurati il 16 settembre nei Download: `ExportExcelFormFrazCompletata.xlsx` (**516
+righe**) e `ExportExcelFormFrazInCorso.xlsx` (**410 righe**), con le **stesse 34
+colonne**. La differenza fra «completato» e «in corso» **non e un campo: e quale file
+stai leggendo.**
+
+Da cui una conseguenza da scrivere adesso, perche dopo non si recupera: **l'import
+deve registrare da quale file arriva ogni riga.** Nel momento in cui i due file si
+uniscono senza quella colonna l'informazione sparisce, e nessun vincolo se ne
+accorgerebbe: le righe sono valide tutte e due le volte. La forma c'e gia,
+`origine_estrazione` (`0008`), ed e nata per dire esattamente questo. **Dove una cosa e
+scritta e parte di cosa dice**, e qui la cosa e scritta nel nome del file.
+
+**E con quelle due risposte l'identita diventa decidibile senza un'altra decisione.**
+L'import di oggi in AppSopralluoghi usa `gest:<codice fiscale>:<titolo
+normalizzato>:<data>` (`formazioneImport.ts:480`): e una chiave di **import**, non
+un'identita. Per il repo unico la forma coerente con la scheda 9 e questa:
+
+- **l'identita e persona + corso curato + data**, perche e quella su cui il motore
+  decide se una persona e in regola;
+- **il titolo del gestionale resta sulla riga come provenienza**, come gia fanno
+  `ateco_origine`, `testo_origine` e `codice_fiscale_origine`;
+- **la chiave di import resta quella di oggi**, come `import_key` e basta: l'impronta
+  del gestionale e un alias, non un'identita — la scheda 9 applicata agli attestati
+  invece che ai titoli.
+
+E poiche le collisioni **si segnalano**, l'unicita su quella terna non e un vincolo del
+database: e un conteggio che il passo stampa, come le unita fuse del passo 01.
+
+**Resta una domanda sull'attestato, ed e la terza:**
+
+**Cosa si fa delle ore.** Misurato il 12 settembre: **il gestionale ha riscritto le
+ore dello storico** con quelle dell'ASR 2025, quindi la colonna `ore` dell'export non
+dice cosa e stato erogato. Le scelte sono due e vanno dichiarate: non portarla, oppure
+portarla con una colonna accanto che dice «riscritta alla fonte, non verificabile».
+**Quello che non si fa e portarla e basta.**
 
 ### 2. I livelli e l'ATECO, che oggi il passo 01 conta e lascia fuori
 
@@ -83,17 +115,25 @@ testo si smonta in `attributo`, `valore`, `motivazione`, `deciso_il`, `deciso_da
 righe vecchie diventano quelle con `revocato_il` valorizzato. Era il motivo per cui la
 colonna e stata scritta con un prefisso riconoscibile.
 
-### 3. Il seed dei 268 alias, che adesso ha la sua tabella
+### 3. ~~Il seed dei 268 alias~~ — fatto il 16 settembre, e confermato
 
-`supabase/seed/corso_alias.sql` sta nel repo dal 10 settembre e in testa dice: *«la
-tabella che questo file riempie non esiste ancora qui»*. **Non e piu vero**:
-`corso_alias` c'e dalla `0004`. Il seed va caricato come **passo della migrazione
-dati**, con i suoi conteggi attesi — 268 righe, 237 mappate, 31 ignorate, 98
-aggiornamenti, 7 parziali, 2 pregresse — e la nota che `ATTR_GENERICO` non e
-referenziato da nessun alias, che e un buco da conoscere e non un errore.
+**Non e piu un punto aperto.** Il seed lo carica la prova generale, subito dopo le
+migrazioni, e ne **conta i giudizi** invece di limitarsi a caricarlo: 268 righe, 237
+mappate su 39 codici, 31 ignorate, 98 aggiornamenti, 7 parziali, 2 pregresse. La prova
+negativa non toglie righe, ne **cambia una**: le righe restano 268, i controlli interni
+del file passano lisci, e a protestare e il conteggio — che e la forma vera del
+rischio, perche un seed alterato non lascia nessun segno.
 
-Sono **268 giudizi presi a mano**: se si perdessero, la tabella ci sarebbe lo stesso e
-nessuno se ne accorgerebbe. Per questo il seed si **esporta** e non si rigioca.
+**Ed e confermato contro il database vivo**, con l'impronta di
+`migrazione-dati/impronta_alias.sql`: `corso_alias` in produzione su AppSopralluoghi e
+il seed danno la stessa stringa su 268 righe, e i nove conti coincidono uno per uno.
+Nessuno ha cambiato un giudizio dall'interfaccia dopo gli script. La riga «resta da
+confermare contro il database vivo», aperta il 10 settembre, e chiusa.
+
+**Una cosa emersa per caso e da non ritrovare per caso:** anche in **AppFormazione**
+esiste una `corso_alias`, con la colonna `testo` — cioe lo schema di questo repo,
+applicato la. Quei 268 giudizi possono vivere in **due** posti, e il repo unico dovra
+sapere da quale legge.
 
 ### 4. I ruoli: due fonti, e da oggi sappiamo quale vale
 
@@ -155,8 +195,10 @@ Due cose imparate oggi che valgono per i passi nuovi:
 
 ## Cosa serve da Francesco: tre domande
 
-1. **L'attestato**: cosa lo identifica (corso o sessione, con le frazionate di mezzo), e
-   cosa si fa delle ore riscritte dal gestionale.
+1. ~~**L'attestato**: cosa lo identifica~~ **risposto il 16 settembre**: le collisioni
+   si segnalano, e la validita si conta dal completamento del percorso. Resta solo
+   **cosa si fa delle ore riscritte dal gestionale** — non portarle, o portarle
+   dichiarandole inaffidabili.
 2. **L'annata ATECO** da attribuire ai codici che arrivano dal gestionale.
 3. **L'operatore** a cui attribuire le valutazioni di sede migrate — una persona vera,
    perche `valutazione_sede.deciso_da` punta a `operatore` e non accetta null.
