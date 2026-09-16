@@ -2571,6 +2571,78 @@ modificato fra due esportazioni non lo vede nessuno.
 | **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
 
 
+### La prova generale e arrivata in fondo sui dati veri · 16 settembre 2026, mattina
+
+**Fatto.** Quattro CSV estratti da Francesco dall'SQL Editor, cluster usa e getta su
+`OVERALL-PC07`, 20 migrazioni, passo 00, caricamento, 01, 02, 03, conteggi finali,
+cluster cancellato. Ultima riga: **ARRIVATA IN FONDO**.
+
+    clienti d'origine 608  ->  clienti 605, sedi 608      3 unita fuse per P.IVA
+    righe d'origine 3494   ->  rapporti 3494, persone 3491
+    nomine d'origine 459   ->  nomine 459, su 338 persone
+
+Le due fotografie — prima e dopo le quattro esportazioni — sono **identiche tranne
+`letto_il`**: i quattro file sono uno scatto solo. `livello_origine` conteneva
+`qualifica` (la `070` e applicata), `nomine_non_attive` e `nomine_da_confermare` erano
+`0`, quindi i rifiuti d ed e del passo 03 non avevano niente da rifiutare.
+
+**Il primo giro si era fermato, e il motivo vale piu del rimedio: l'SQL Editor scrive i
+valori nulli come la parola `null`.** Non campo vuoto — la parola. Nei quattro file
+veri sono **11.912 campi**: 2.798 in `cliente.csv`, 760 in `sede.csv`, 7.009 in
+`persona.csv`, 1.345 in `nomina.csv`.
+
+**E la parte pericolosa e quella che non si e fermata.** Su `numero_lavoratori`, che e
+un intero, il caricamento ha rifiutato alla riga 5 e l'errore si e visto. Su una
+colonna di **testo** — `codice_ateco`, `mansione`, `note` — la parola «null» sarebbe
+entrata **come testo**, e nessun vincolo avrebbe protestato: 605 clienti con un ATECO
+che dice `null`, e nessuno che se ne accorge prima di leggerlo. **La colonna tipizzata
+ha fatto da guardia per tutte le altre**, e per caso: se `numero_lavoratori` fosse
+stata `text` come le sue vicine, la prova sarebbe arrivata in fondo con i conteggi
+giusti e i dati sbagliati.
+
+**Rimedio: si legge diversamente, non si riscrivono i file.** `prova_generale.sh`
+accetta `null_scritto=null` e lo passa a `\copy`. I CSV restano come li ha prodotti il
+database — nessuna trasformazione fra la fonte e la prova, che e il posto dove un
+errore non lo vedrebbe piu nessuno.
+
+**Provato, non solo scritto.** `verifica_prova_generale.sh` ha quattro prove nuove e le
+passa tutte, insieme alle diciotto di prima: che senza l'opzione la prova **si ferma al
+caricamento e dice cosa fare**; che con l'opzione **arriva in fondo con gli stessi
+conteggi** dei file normali; che una parola malformata viene rifiutata ai controlli
+iniziali; e che **un testo che vale «null» resta testo** quando il file lo produce
+psql, perche PostgreSQL in quel caso lo scrive fra virgolette e in CSV non applica la
+parola nulla a cio che e quotato.
+
+**Cio che l'opzione non puo sapere, e chi lo sa.** Un valore vero uguale a «null»
+diventerebbe NULL anche lui: l'editor mette le virgolette solo quando servono, quindi
+nel CSV il caso vero e quello finto si scrivono uguali. Alla fonte si distinguono, e la
+query che lo dice e in `estrazione.md` (una `jsonb_each_text` su tutte le colonne delle
+quattro tabelle). **Deve dare quattro zeri, e finche non li da la prova resta una prova
+con un'assunzione dentro.** E un'assunzione piccola e verificabile in dieci secondi:
+quello che non si fa e lasciarla implicita.
+
+**Un numero l'ho sbagliato mentre lo raccontavo**: ho scritto «2.229 campi» in un
+messaggio prima di sommare le colonne. Sono **11.912**. Nessuna decisione ci stava
+sopra, ma e la forma gia scritta in questa sezione — «un conteggio in un'intestazione e
+la prima cosa che qualcuno cita senza rileggere il corpo» — con il posto cambiato: li
+era un titolo, qui un messaggio, e un messaggio si cita allo stesso modo. Sta qui
+perche il numero giusto sopravviva a quello sbagliato.
+
+**Tre cose da guardare, dai numeri dei passi, e nessuna e per adesso:**
+- **3 unita fuse** per P.IVA (608 -> 605) e **1 possibile doppione non fuso**: un
+  cliente senza P.IVA usabile con la ragione sociale di uno che ce l'ha;
+- **261 righe senza codice fiscale valido** su 3.494, e 3.230 codici validi distinti;
+- **ATECO e almeno un livello non portati su 261 clienti**, che e il passo 01 che fa
+  quello che deve: quei campi si contano, non si migrano.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | la query dei quattro zeri in `estrazione.md`; guardare l'anteprima di `rischio-proposta-distinta` | cancellare la cartella dei CSV quando abbiamo finito; il si o il no al merge del ritocco |
+| **AppSopralluoghi** | invariata: ramo `rischio-proposta-distinta` pronto, **main fermo** | al si: merge, deploy, verifica per canale e a vista |
+| **AppOverall** | niente in corso: la prova e passata | al quattro-zeri: la migrazione vera si puo programmare |
+| **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

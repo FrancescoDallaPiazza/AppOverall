@@ -103,11 +103,35 @@ Il file deve essere così. Si controlla aprendolo con il **Blocco note**, non co
 |---|---|---|
 | **intestazione** | la prima riga, con i nomi delle colonne | `id,werp_id,ragione_sociale,...` |
 | **separatore** | la virgola; un testo che contiene una virgola sta fra virgolette doppie | `"ROSSI, MARIO"` |
-| **NULL** | niente fra due virgole | `...,true,,2026-09-09...` |
+| **NULL** | **la parola `null`**, che e come la scrive l'SQL Editor (~~niente fra due virgole~~) | `...,true,null,2026-09-09...` |
 | **codifica** | UTF-8: le lettere accentate si leggono giuste | `NICOLÒ`, non `NICOLÃ’` |
 | **date e vero/falso** | come le scrive il database: `2026-09-09`, `true`/`false` (o `t`/`f`) | |
 
 Nel Blocco note, «Salva con nome» mostra la codifica in basso a destra: deve dire UTF-8. Non salvare, solo guardare.
+
+**I nulli sono la parola «null», e non e un dettaglio di forma.** Misurato il 16 settembre 2026 sui quattro file
+veri: **11.912 campi** scritti cosi — 2.798 in `cliente.csv`, 760 in `sede.csv`, 7.009 in `persona.csv`, 1.345 in
+`nomina.csv`. Su una colonna non di testo il caricamento **si ferma subito** e lo si vede (la prima volta: riga 5 di
+`cliente.csv`, `numero_lavoratori`); su una colonna di testo quella parola entrerebbe **come testo**, e non
+protesterebbe nessuno. Per questo la prova generale si lancia con `null_scritto=null` (punto 5), che li fa entrare
+come NULL: **i file non si riscrivono**, si leggono diversamente.
+
+**E la cosa che i file non possono dire, la dice il database.** `null_scritto=null` fa entrare come NULL i campi che
+valgono **esattamente** quella parola — quindi un valore vero uguale a «null» diventerebbe NULL anche lui, e nel CSV
+i due casi si scrivono uguali (l'editor mette le virgolette solo quando servono). Alla fonte si distinguono, con una
+query che guarda tutte le colonne delle quattro tabelle. **Deve dare quattro zeri:**
+
+```sql
+select 'cliente' as tabella, count(*) from cliente  c where exists (select 1 from jsonb_each_text(to_jsonb(c)) kv where kv.value = 'null')
+union all
+select 'sede',    count(*) from sede    s where exists (select 1 from jsonb_each_text(to_jsonb(s)) kv where kv.value = 'null')
+union all
+select 'persona', count(*) from persona p where exists (select 1 from jsonb_each_text(to_jsonb(p)) kv where kv.value = 'null')
+union all
+select 'nomina',  count(*) from nomina  n where exists (select 1 from jsonb_each_text(to_jsonb(n)) kv where kv.value = 'null');
+```
+
+Se un conteggio non e zero, **ci si ferma**: quella riga perderebbe un valore vero, e cosa farne si decide prima.
 
 **Mai aprire e salvare un file con Excel.** Lo riscrive in un'altra codifica, toglie lo zero iniziale alle partite
 IVA e ai codici, e cambia il formato delle date. Se è stato aperto e salvato per sbaglio, si riesporta.
@@ -123,11 +147,13 @@ Da Git Bash, nella cartella del repository AppOverall:
 
 ```bash
 bash supabase/migrazione-dati/prova_generale.sh "C:/Users/Francesco/Documents/migrazione-privata/2026-09-16" \
-     clienti_attesi=<clienti> sedi_attese=<sedi> righe_attese=<persone> nomine_attese=<nomine>
+     clienti_attesi=<clienti> sedi_attese=<sedi> righe_attese=<persone> nomine_attese=<nomine> \
+     null_scritto=null
 ```
 
 con i numeri della fotografia: `clienti_attesi` = `clienti`, `sedi_attese` = `sedi`, `righe_attese` = `persone`,
-`nomine_attese` = `nomine`.
+`nomine_attese` = `nomine`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
+script si ferma al caricamento e lo dice.
 
 Serve PostgreSQL installato, e nient'altro da configurare. **Su `OVERALL-PC07` c'e**: PostgreSQL **16.10** in
 `C:\Program Files\PostgreSQL\16`, trovato dallo script senza indicazioni, e il 16 settembre 2026

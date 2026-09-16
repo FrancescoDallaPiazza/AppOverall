@@ -72,12 +72,24 @@ X=("${PSQL[@]}" -d postgres)
   && "${X[@]}" -c "update origine.persona set cognome = 'BIANCH' || chr(204) where id = '00000000-0000-0000-0000-000000000004'" \
   || { echo "  NO   dati finti non caricati"; exit 1; }
 CSV="$LAVORO/csv"; mkdir -p "$CSV"
+CSVNULL="$LAVORO/csvnull"; mkdir -p "$CSVNULL"
 for t in $TABELLE; do
   ok "$("${X[@]}" -At -c "select string_agg(column_name, ',' order by ordinal_position) from information_schema.columns where table_schema = 'origine' and table_name = '$t'")" \
      "${COLONNE[$t]}" "le colonne attese per $t.csv sono quelle di origine.$t nel passo 00"
   "${X[@]}" -c "\\copy (select ${COLONNE[$t]} from origine.$t order by id) to '$(percorso_per_psql "$CSV/$t.csv")' with (format csv, header true, encoding 'UTF8')" \
     || { echo "  NO   $t non esportato"; exit 1; }
+  "${X[@]}" -c "\\copy (select ${COLONNE[$t]} from origine.$t order by id) to '$(percorso_per_psql "$CSVNULL/$t.csv")' with (format csv, header true, encoding 'UTF8', null 'null')" \
+    || { echo "  NO   $t non esportato con i nulli come parola"; exit 1; }
 done
+# Un valore di testo che vale «null»: PostgreSQL lo esporta fra virgolette, e in CSV
+# non applica la parola nulla a cio che sta fra virgolette. Vale per i file che
+# escono da psql; l'SQL Editor le virgolette le mette solo quando servono, e li la
+# distinzione non c'e — sta scritto in prova_generale.sh e si verifica alla fonte.
+"${X[@]}" -c "create table prova_null (t text)" -c "insert into prova_null values ('null'), (null)" -c "\\copy prova_null to '$(percorso_per_psql "$LAVORO/null.csv")' with (format csv, null 'null')" >/dev/null
+ok "$(tr -d '\r' < "$LAVORO/null.csv" | paste -sd'|')" '"null"|null' "psql scrive il testo «null» fra virgolette, e il nullo nudo"
+"${X[@]}" -c "truncate prova_null" -c "\\copy prova_null from '$(percorso_per_psql "$LAVORO/null.csv")' with (format csv, null 'null')" >/dev/null
+ok "$("${X[@]}" -At -c "select count(*) from prova_null where t = 'null'")" "1" "e rileggendolo il testo resta testo"
+ok "$("${X[@]}" -At -c "select count(*) from prova_null where t is null")" "1" "e il nullo resta nullo"
 cluster_ferma >/dev/null
 ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "11 10 5 9" "righe esportate: 11 unita, 10 sedi, 5 persone, 9 nomine"
 ok "$(grep -c $'\xc3\x8c' "$CSV/persona.csv")" "1" "persona.csv e UTF-8, con una lettera accentata"
@@ -111,6 +123,14 @@ ok "$(for t in $TABELLE; do [ "$(tr -cd '\r' < "$C/$t.csv" | wc -c)" = "$(tr -cd
 if generale "$C" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; sed 's/^/       | /' "$USCITA"; FALLITI=$((FALLITI+1)); fi
 ok "$(ultima)" "ARRIVATA IN FONDO" "BOM, virgolette e CRLF non la fermano"
 ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "e i conteggi sono gli stessi"
+
+echo "== e i nulli come li scrive l'SQL Editor"
+ok "$(grep -c '^00000000-0000-0000-0000-0000000000c3,null,' "$CSVNULL/cliente.csv")" "1" "nel file i nulli sono la parola «null»"
+fermata "senza null_scritto si ferma e dice cosa fare" "caricamento di cliente.csv" "rilanciare con null_scritto=null" "$CSVNULL" $ATTESI
+if generale "$CSVNULL" $ATTESI null_scritto=null; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; sed 's/^/       | /' "$USCITA"; FALLITI=$((FALLITI+1)); fi
+ok "$(ultima)" "ARRIVATA IN FONDO" "con null_scritto=null arriva in fondo"
+ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "e i conteggi sono gli stessi"
+fermata "una parola che non e una parola" "controlli iniziali" "solo lettere, cifre e _" "$CSVNULL" $ATTESI "null_scritto=nu ll"
 
 echo "== e si ferma davvero, dicendo dove"
 fermata "nomine attese sbagliate"   "passo 03" "\(a\) origine.nomina ha 9 righe" \

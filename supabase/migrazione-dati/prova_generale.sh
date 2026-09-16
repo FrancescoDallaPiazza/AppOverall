@@ -8,7 +8,23 @@
 # quando si ferma, e anche con Ctrl+C.
 #
 #   bash prova_generale.sh <cartella dei CSV> \
-#        clienti_attesi=N sedi_attese=N righe_attese=N nomine_attese=N
+#        clienti_attesi=N sedi_attese=N righe_attese=N nomine_attese=N \
+#        [null_scritto=null]
+#
+# ---------- null_scritto, e perche esiste ----------
+#
+# L'SQL Editor di Supabase scrive i valori nulli come la **parola** `null`, non come
+# campo vuoto. Su una colonna di testo quella parola entrerebbe **come testo**, senza
+# che niente protesti; su una colonna non di testo il caricamento si ferma subito, ed
+# e cosi che se ne accorge chi non lo sa (16 settembre 2026: `cliente.csv`, riga 5,
+# `numero_lavoratori`). Con `null_scritto=null` entrano come NULL i campi che valgono
+# **esattamente** quella parola.
+#
+# Cio che l'opzione non puo sapere: **un valore vero uguale a «null»** entrerebbe come
+# NULL anche lui. In CSV, PostgreSQL non applica la parola nulla ai valori fra
+# virgolette — ma l'editor le mette solo quando servono, quindi un «null» vero e uno
+# finto si scrivono uguali. Si verifica **alla fonte**, con una query, e la query sta
+# in `estrazione.md`: qui non si puo.
 #
 # La cartella contiene cliente.csv, sede.csv, persona.csv e nomina.csv e **deve stare
 # fuori da qualunque repository**: lo script lo controlla e si rifiuta. Come si
@@ -78,12 +94,16 @@ esegui() { # [--zitto] argomenti di psql, sul database della prova
 [ $# -ge 1 ] || ferma "uso: bash prova_generale.sh <cartella dei CSV> clienti_attesi=N sedi_attese=N righe_attese=N nomine_attese=N"
 CSV="$1"; shift
 
-clienti_attesi=""; sedi_attese=""; righe_attese=""; nomine_attese=""
+clienti_attesi=""; sedi_attese=""; righe_attese=""; nomine_attese=""; null_scritto=""
 for a in "$@"; do
   case "$a" in
     clienti_attesi=*|sedi_attese=*|righe_attese=*|nomine_attese=*)
       [[ "${a#*=}" =~ ^[0-9]+$ ]] || ferma "$a: il conteggio non e un numero"
       printf -v "${a%%=*}" '%s' "${a#*=}" ;;
+    null_scritto=*)
+      null_scritto="${a#*=}"
+      [[ "$null_scritto" =~ ^[A-Za-z0-9_]+$ ]] \
+        || ferma "null_scritto: solo lettere, cifre e _ (con l'SQL Editor di Supabase: null_scritto=null)" ;;
     *) ferma "parametro sconosciuto: $a" ;;
   esac
 done
@@ -144,9 +164,17 @@ esegui --zitto -f "$DIR/00_origine.sql" || ferma
 # ============================================================================
 
 echo; echo "== caricamento"
+COPIA_NULL=""
+if [ -n "$null_scritto" ]; then
+  COPIA_NULL=", null '$null_scritto'"
+  echo "  i valori nulli sono scritti «$null_scritto»: un campo che vale esattamente quella parola entra come NULL"
+fi
 for t in $TABELLE; do
   FASE="caricamento di $t.csv"
-  esegui -c "\\copy origine.$t from '$(percorso_per_psql "$CSV/$t.csv")' with (format csv, header true, encoding 'UTF8')" || ferma
+  if ! esegui -c "\\copy origine.$t from '$(percorso_per_psql "$CSV/$t.csv")' with (format csv, header true, encoding 'UTF8'$COPIA_NULL)"; then
+    [ -n "$null_scritto" ] || ferma "se i CSV vengono dall'SQL Editor, i valori nulli sono la parola «null»: rilanciare con null_scritto=null"
+    ferma
+  fi
   echo "  $t.csv: $("${PSQL[@]}" -d generale -At -c "select count(*) from origine.$t") righe"
 done
 
