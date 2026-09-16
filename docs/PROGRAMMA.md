@@ -2839,6 +2839,60 @@ lettura da tenere e gia scritta, ed e quella del passo 03.
 | **AppOverall** | niente in corso | la prima migrazione del repo unico: li i ruoli si leggono col passo 03, non con la mappatura del caricatore |
 
 
+### Il buco degli addetti antincendio e chiuso, ed erano 29 · 16 settembre 2026, sera
+
+**Fatto, e in quest'ordine:** anteprima in sola lettura, numeri guardati, poi la
+scrittura — eseguita da Francesco nell'SQL Editor di AppFormazione, come il `db push`
+del 13 e la rimozione degli `rspp` di oggi.
+
+    ruoli_persona            188  ->  217
+    addetto_antincendio       74  ->  103
+    persone con un ruolo             136
+    rimaste_fuori / arretri_rimasti    0
+
+Piu la riga 1298, arretrata dal `2004-01-07` al `2001-05-14`: la decisione del 14
+sulla data piu vecchia applicata anche a una nomina gia caricata.
+
+**L'anteprima diceva zero su tutti e tre i contatori del residuo** — nessun cliente
+non trovato, nessuna persona non trovata per codice fiscale, nessuna che avesse gia il
+ruolo — e 29 righe che entravano, 29 distinte. **E il caso in cui non c'e niente da
+guardare prima, e si riconosce solo guardando.**
+
+**Erano 29 e non «fino a 24».** Il numero prudente del 14 settembre contava le righe
+con Emergenze; con «Responsabile Emergenze» dentro — la risposta «Si, anche lui» — sono
+29, e nessuna di loro aveva gia il ruolo. La prudenza aveva sottostimato, che e il
+verso giusto in cui sbagliare.
+
+**Cosa cambia in produzione da stasera:** il motore chiede il corso antincendio a 29
+persone a cui non lo chiedeva. **Le scadenze che compariranno non sono nuove**: erano
+dovute e non risultavano. Chi le guarda domani non deve leggerle come un peggioramento.
+
+**E una cosa imparata sull'SQL Editor, che vale per chiunque generi SQL per questo
+archivio.** Il primo tentativo usava `create temporary table ... on commit drop`, come
+fa il caricatore del 9 settembre — che pero parla al database da `psql`, una sessione
+sola. L'editor ha risposto `relation "_nuove" does not exist` al secondo comando: fra
+un comando e l'altro **la sessione non e la stessa**. Per la stessa ragione **non
+sopravvive nemmeno una transazione**, quindi l'anteprima non poteva essere un
+`begin ... rollback`: e diventata una **SELECT che non scrive**, e la scrittura un file
+a parte con tre comandi ognuno indipendente e ripetibile. Sta scritto in testa al
+generatore, perche la prossima volta non ci si ricaschi.
+
+**E la prova prima della produzione, che qui era gratis.** Su questo PC c'e
+PostgreSQL: il generatore scrive anche un `prova_locale.sql` che semina un archivio
+finto con le stesse societa e gli stessi codici fiscali — comprese le righe da
+arretrare, con la loro data attuale, altrimenti quel pezzo non sarebbe stato provato —
+ci lancia sopra la scrittura vera e verifica le attese. 29 nuove piu 1 arretrata fanno
+30, la data si sposta, e rilanciando restano 30. **Poi sulla produzione e andata come
+sulla prova.** Non e una coincidenza: e il motivo per cui la prova esisteva.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | cancellare la cartella `2026-09-16-antincendio` (29 codici fiscali) | niente in attesa da noi |
+| **AppFormazione** | **riprendere da qui**: misurare cosa hanno acceso le 29 nomine — quante coppie requisito nuove, e quante senza corso in archivio | la vista che calcola l'esito `mancante`, che il ROADMAP tiene aperta da settembre |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppOverall** | niente in corso | la prima migrazione del repo unico |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
