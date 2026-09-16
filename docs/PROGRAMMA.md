@@ -2720,6 +2720,71 @@ frasi e vecchia, e finche non si sa quale **nessuna delle due si cita**.
 | **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
 
 
+### Il livello di rischio ha tre gesti, e ognuno lascia scritto perche · 16 settembre 2026, primo pomeriggio
+
+**Online:** `92b3596` su `main` di AppSopralluoghi (poi `bc8be78` con lo `STATO.md`),
+deployment `6479348909` success, bundle `index-BpTh7V03.js` sul dominio pubblico —
+verificato per contenuto: «proposto, non salvato», «togli il livello» e «scegli a
+mano» ci sono, la frase vecchia «modificabile anche dall'organigramma del cliente» no
+(0 occorrenze). `ateco-scelta:check` **13 su 13**, altri controlli e build verdi.
+**La migrazione `072` l'ha applicata Francesco in produzione**: chi legge domani non
+la deve rifare.
+
+**Quattro giri di anteprima in due ore, e nessuno e uscito leggendo il codice.** Sono
+usciti tutti da Francesco che provava su un cliente vero, uno dopo l'altro, e ogni
+correzione ne scopriva un'altra che prima stava coperta:
+
+| giro | cosa ha trovato | cosa ne e uscito |
+|---|---|---|
+| 1 | il livello applicato non si toglie | il gesto opposto |
+| 2 | — | la **motivazione obbligatoria**, e la colonna che la tiene (mig. `072`) |
+| 3 | la data non dice chi | la firma del tecnico collegato |
+| 4 | riapplicando sparisce il motivo di prima | il testo si **accumula**, il passato dietro una «ⓘ N prima» |
+| 5 | senza ATECO il livello non si puo proprio assegnare | **«scegli a mano»**, solo verso l'alto |
+
+**Il quinto e il piu grosso, ed e una contraddizione con una decisione di questa
+casa.** La decisione 8 dice che la classe dell'Allegato IV e un **default** che la
+valutazione dei rischi sposta; l'app pero sapeva fare **una cosa sola**: applicare il
+default. La classe diversa — quella che l'Interpello 1/2025 prevede quando emergono
+rischi particolari — non si poteva nemmeno scrivere. La decisione era del 9 settembre,
+il codice non l'aveva mai potuta eseguire, e **nessuno se n'era accorto in una
+settimana**: se ne e accorto chi ha provato a usare la schermata per un caso vero.
+
+**E il vincolo nuovo, deciso da Francesco: a mano si va SOLO verso l'alto.** Sembra
+contraddire il «nei due versi» della decisione 8 e non lo fa, per una ragione che vale
+la pena tenere: **la discesa che l'ASR 2025 prevede e per mansione, non per azienda**
+(Parte II 2.1.1, chi non frequenta i reparti produttivi) — e per la persona il campo
+esiste gia, «Rischio (override)», e accetta anche un livello piu basso. Quindi:
+**azienda solo in su, persona nei due versi**, che e piu vicino alla fonte di quanto
+fosse prima.
+
+**Cosa e entrato in anticipo sul repo unico, e quanto poco.** La decisione 8 colloca
+`definito_mediante`, motivazione, fonte, data e autore nella prima migrazione del repo
+unico, e dice esplicitamente di **non** metterli nello schema attuale di
+AppSopralluoghi. Qui e entrata **una colonna di testo**, e solo perche l'alternativa
+era cancellare un livello senza lasciare traccia. Resta fuori tutto il resto: il
+vocabolario, la fonte in un campo suo, e il «chi» come riferimento a `tecnico.id`
+invece che come nome scritto nel testo. **Quando il repo unico costruira la forma
+piena, quella colonna si legge e si smonta in quattro**: e per questo che le tre righe
+hanno un prefisso riconoscibile (`tabella_ateco,` / `livello tolto` / `livello ALTO
+scelto a mano`).
+
+**La cosa che questa sessione ha sbagliato, e costa un giro.** Il primo rilievo di
+Francesco — «metto un ATECO e poi non riesco a cancellarlo» — l'ho preso alla lettera e
+ho passato mezz'ora a cercare nel campo ATECO un difetto che non c'era, arrivando a
+scrivere in questo file che «si riproduce prima di ipotizzare». Il difetto era il
+**livello**, non il codice. La domanda che l'avrebbe chiuso in un minuto era «cosa
+succede esattamente quando premi?», e l'ho fatta al secondo giro invece che al primo.
+**Chiedere il sintomo costa una domanda; dedurlo costa un ramo.**
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | niente in attesa da noi | provare i tre gesti sul dominio pubblico quando capita; dire se «solo in su» vale anche per la sede quando le sedi diventeranno di prima classe |
+| **AppSopralluoghi** | `main` allineato e online, `STATO.md` aggiornato | quando riprende: nient'altro di aperto su questo |
+| **AppOverall** | niente in corso | la decisione 8 nella prima migrazione del repo unico, e li la colonna `072` si smonta in quattro campi |
+| **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
