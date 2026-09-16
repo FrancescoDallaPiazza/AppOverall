@@ -2785,6 +2785,60 @@ succede esattamente quando premi?», e l'ho fatta al secondo giro invece che al 
 | **AppFormazione** | invariata: il conto di `ruoli_persona` per l'SQL Editor | le attese del caricamento aggiuntivo |
 
 
+### Uno script che risultava eseguito, e non lo era · 16 settembre 2026, pomeriggio
+
+**`ruoli_persona` in produzione, misurata oggi:** 216 righe, 121 persone distinte, 57
+clienti — **gli stessi numeri del caricamento del 9 settembre**, quindi quella tabella
+non l'aveva toccata nessuno. Per ruolo: `addetto_primo_soccorso 80`,
+`addetto_antincendio 74`, **`rspp 28`**, `preposto 23`, `rls 9`, `dirigente 2`, nessuna
+riga cessata.
+
+**Il 28 e il numero che non doveva esserci.** Il 9 settembre AppFormazione aveva
+dimostrato che la colonna «RSPP» del gestionale non contiene RSPP professionali ma
+**datori di lavoro che fanno da RSPP in proprio** (art. 34): dei 28 nominati, **zero**
+avevano un corso RSPP in archivio e 26 avevano gli attestati da datore — una
+disgiunzione perfetta non e un caso. Aveva scritto `togli_ruoli_rspp.sql`, e nel
+proprio `STATO.md` la frase era **al passato**: «*ha tolto le 31 righe*».
+
+**Non era stato eseguito in produzione.** E A8 — *un impegno scritto e un impegno
+eseguito hanno la stessa forma sulla pagina* — alla sua terza istanza e nella forma
+peggiore: non «verra fatto», ma «**ha fatto**». Un futuro chiede di essere verificato,
+un passato no. E le righe erano **28**, non 31: anche il numero nella frase era di
+un'altra misura.
+
+**Cosa stava facendo, nei due versi opposti, nella stessa tabella:**
+- **28 persone** nominate `rspp` senza corso: il motore chiede loro il modulo
+  professionale A/B/C, **che non devono fare**. Falso allarme, e si vede;
+- **fino a 29 addetti antincendio** senza riga: il motore **non** chiede il loro corso.
+  Non si vede.
+
+**Il verso invisibile e quello che dura.** Il falso allarme lo segnala la prima
+persona che lo legge; l'obbligo che non viene chiesto non lo segnala nessuno, e i due
+convivevano in 216 righe.
+
+**Eseguito da Francesco il 16 settembre**, nell'SQL Editor: 28 righe tolte, restano
+**188**, e i cinque ruoli superstiti sono **identici** a prima (80, 74, 23, 9, 2) — che
+e la prova che il `delete` ha preso solo cio che doveva. Le persone distinte scendono
+sotto 121 perche chi aveva solo quel ruolo non ne ha piu nessuno: la formazione resta,
+la riga si riporta dal foglio quando la colonna sara chiarita con chi compila il
+gestionale. Corretto nello `STATO.md` di AppFormazione (`d0f47f8`), dentro la riga.
+
+**E il riscontro incrociato che rende la cosa piu interessante di un difetto.** La
+migrazione delle nomine di AppOverall, girata stamattina sugli stessi dati veri, legge
+la stessa fonte e **distingue**: `datore_lavoro_rspp 116`, `rspp 3`. Il caricatore di
+AppFormazione mappa la colonna RSPP dritta su `rspp`. Non e che il dato manchi o sia
+ambiguo: **due corsie leggono la stessa colonna in due modi, e uno dei due e gia stato
+dimostrato sbagliato da chi lo usava**. Quando il repo unico prendera i ruoli, la
+lettura da tenere e gia scritta, ed e quella del passo 03.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | niente in attesa da noi | il si al caricamento aggiuntivo, quando l'anteprima e pronta |
+| **AppFormazione** | **riprendere da qui**: i numeri di partenza ci sono (188 righe, `addetto_antincendio` a 74). Preparare il caricamento **aggiuntivo** dei 29 dal foglio, con anteprima e attese contate prima, e la riga 1298 da portare al 2001 | la vista che calcola l'esito `mancante`, che il ROADMAP tiene aperta |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppOverall** | niente in corso | la prima migrazione del repo unico: li i ruoli si leggono col passo 03, non con la mappatura del caricatore |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
