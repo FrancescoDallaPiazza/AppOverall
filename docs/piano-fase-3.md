@@ -83,13 +83,33 @@ un'identita. Per il repo unico la forma coerente con la scheda 9 e questa:
 E poiche le collisioni **si segnalano**, l'unicita su quella terna non e un vincolo del
 database: e un conteggio che il passo stampa, come le unita fuse del passo 01.
 
-**Resta una domanda sull'attestato, ed e la terza:**
+**E la terza domanda — le ore — ha una risposta, e l'ha chiusa un'obiezione di
+Francesco.** Il gestionale ha riscritto la colonna `ore` dello storico con le durate
+dell'ASR 2025 (misurato il 12 settembre), quindi quel numero non dice quante ore siano
+state erogate. La domanda era se portarlo o no. L'obiezione, del 16 settembre:
 
-**Cosa si fa delle ore.** Misurato il 12 settembre: **il gestionale ha riscritto le
-ore dello storico** con quelle dell'ASR 2025, quindi la colonna `ore` dell'export non
-dice cosa e stato erogato. Le scelte sono due e vanno dichiarate: non portarla, oppure
-portarla con una colonna accanto che dice «riscritta alla fonte, non verificabile».
-**Quello che non si fa e portarla e basta.**
+> «Se io importo un corso passato, lo si deve verificare rispetto alle regole vigenti
+> alla data del corso.»
+
+**E infatti e gia cosi**, ed e la decisione 12 nella migrazione `0014`:
+`corso_regime_precedente` tiene **fino a quando** valeva il programma vecchio e
+`corso_regime_precedente_ore` **quante ore** chiedeva, varianti comprese. Il motore
+confronta la data dell'attestato con quell'estremo.
+
+**Da cui la risposta, che e piu netta di quella che avevo proposto.** Le ore che
+servono alla verifica **non vengono dall'export**: vengono dal catalogo, che le tiene
+datate. Usare la colonna dell'export per giudicare un attestato del 2019 vorrebbe dire
+confrontare **il numero di oggi con la regola di ieri** — la peggiore delle due
+combinazioni, e nemmeno segnalata. Quindi:
+
+- la colonna `ore` dell'export **si porta**, accanto al titolo d'origine, come
+  provenienza: e cio che il gestionale dice oggi, e cancellarla perderebbe un dato che
+  esiste;
+- **il motore non la legge mai.** Chi giudica un attestato guarda il catalogo datato.
+
+La differenza fra «portarla dichiarandola inaffidabile» e questo non e di parole: la
+prima lascia la porta aperta a chi un domani la usera lo stesso, la seconda dice **chi
+puo leggerla e chi no**.
 
 ### 2. I livelli e l'ATECO, che oggi il passo 01 conta e lascia fuori
 
@@ -195,12 +215,20 @@ Due cose imparate oggi che valgono per i passi nuovi:
 
 ## Cosa serve da Francesco: tre domande
 
-1. ~~**L'attestato**: cosa lo identifica~~ **risposto il 16 settembre**: le collisioni
-   si segnalano, e la validita si conta dal completamento del percorso. Resta solo
-   **cosa si fa delle ore riscritte dal gestionale** — non portarle, o portarle
-   dichiarandole inaffidabili.
-2. **L'annata ATECO** da attribuire ai codici che arrivano dal gestionale.
-3. **L'operatore** a cui attribuire le valutazioni di sede migrate — una persona vera,
-   perche `valutazione_sede.deciso_da` punta a `operatore` e non accetta null.
+**Risposte tutte e tre da Francesco il 16 settembre 2026.**
 
-Finche non arrivano, il punto 4 (il seed) si puo fare lo stesso, e il punto 5 pure.
+1. **L'attestato.** Due righe sulla stessa identita **si segnalano**, non si fondono; la
+   validita si conta dal **completamento del percorso**; le **ore dell'export si
+   portano come provenienza e il motore non le legge mai**, perche un attestato si
+   giudica col catalogo datato (`corso_regime_precedente`).
+2. **L'annata ATECO: `2007` sui codici migrati** — non 2025. Per i nuovi inserimenti la
+   scheda chiedera a quale classificazione appartiene il codice (`ateco_versione`
+   accetta gia 2007, 2022, 2025). **Annotato come da verificare:** se a livello di
+   **divisione** (due cifre, che e la grana che avete) 2007 e 2022 diano classi diverse.
+   Non e misurato, e finche non lo e la scelta `2007` non va citata come se lo fosse.
+3. **L'operatore: Francesco.** Le valutazioni migrate portano la sua firma, e la
+   motivazione dice cosa quella firma significa: «migrato dal gestionale il 16/09/2026:
+   come e stato deciso non risulta». La firma e sulla **migrazione**, non su 261
+   giudizi presi uno per uno.
+
+**Con queste, la migrazione dell'evento formativo e il passo 04 si possono scrivere.**
