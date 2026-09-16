@@ -132,8 +132,28 @@ create table evento_formativo (
   -- c'e': le righe nate qui non ne hanno, e non devono averne una finta.
   import_key text,
 
+  -- ---------- la scadenza dichiarata, che la sorella ha gia ----------
+  --
+  -- **null vuol dire «nessuno l'ha dichiarata», non «non scade»**: in quel caso la
+  -- scadenza e quella che si calcola dal completamento. Valorizzata solo dove una
+  -- fonte dissente dal calcolo. E la stessa forma di `sorveglianza.scadenza_dichiarata`
+  -- (`0005`), e sta qui per la ragione che ha insegnato quella: **nove righe su 769
+  -- dichiaravano una scadenza ANTICIPATA**, e una scadenza solo calcolata le avrebbe
+  -- cancellate in silenzio — la riga resta, e sembra giusta.
+  --
+  -- La tabella d'origine ha quella colonna (`formazione.scadenza`, loro `015`). Senza
+  -- questa, il passo 04 avrebbe dovuto buttarla o fingere di non vederla.
+  scadenza_dichiarata date,
+  scadenza_fonte text,
+
   creato_il timestamptz not null default now(),
   updated_at timestamptz not null default now(),
+
+  constraint scadenza_dichiarata_ha_una_fonte
+    check ((scadenza_dichiarata is null) = (scadenza_fonte is null)),
+  -- Una scadenza prima della data dell'attestato non e un anticipo: e un dato rotto.
+  constraint scadenza_dopo_la_data
+    check (scadenza_dichiarata is null or scadenza_dichiarata > data),
 
   -- Una sessione che non completa il percorso e' per definizione una parte di un
   -- percorso: se non e' `parziale`, uno dei due campi e' sbagliato e va guardato
@@ -190,6 +210,8 @@ create view v_evento_formativo as
          e.ente_formatore,
          e.nota,
          e.titolo_origine,
+         e.scadenza_dichiarata,
+         e.scadenza_fonte,
          e.estrazione,
          e.creato_il,
          e.updated_at
@@ -222,6 +244,11 @@ create view v_percorso_formativo as
          count(*) filter (where not e.completa_il_percorso) as sessioni_aperte,
          bool_or(e.evidenza_incompleta) as evidenza_incompleta,
          bool_or(e.pregressa) as pregressa,
+         -- La scadenza che qualcuno ha DICHIARATO sulle righe del percorso, se
+         -- c'e. Si mostra accanto a quella calcolata e non al posto suo: un
+         -- anticipo che si nasconde e la cosa che la `0005` ha imparato a caro
+         -- prezzo.
+         min(e.scadenza_dichiarata) as scadenza_dichiarata,
          case when c.aggiornamento_mesi is not null
               then ((max(e.data) filter (where e.completa_il_percorso))
                     + (c.aggiornamento_mesi || ' months')::interval)::date

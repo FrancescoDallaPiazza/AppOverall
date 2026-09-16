@@ -68,6 +68,7 @@ X=("${PSQL[@]}" -d postgres)
 "${X[@]}" -f "$DIR/00_origine.sql" \
   && "${X[@]}" -f "$DIR/prova_01_clienti_dati.sql" \
   && "${X[@]}" -f "$DIR/prova_03_nomine_dati.sql" \
+  && "${X[@]}" -f "$DIR/prova_04_formazione_dati.sql" \
   && "${X[@]}" -c "update origine.cliente set ragione_sociale = 'BAR CENTRALE' where id = '00000000-0000-0000-0000-00000000000c'" \
   && "${X[@]}" -c "update origine.persona set cognome = 'BIANCH' || chr(204) where id = '00000000-0000-0000-0000-000000000004'" \
   || { echo "  NO   dati finti non caricati"; exit 1; }
@@ -91,9 +92,9 @@ ok "$(tr -d '\r' < "$LAVORO/null.csv" | paste -sd'|')" '"null"|null' "psql scriv
 ok "$("${X[@]}" -At -c "select count(*) from prova_null where t = 'null'")" "1" "e rileggendolo il testo resta testo"
 ok "$("${X[@]}" -At -c "select count(*) from prova_null where t is null")" "1" "e il nullo resta nullo"
 cluster_ferma >/dev/null
-ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "11 10 5 9" "righe esportate: 11 unita, 10 sedi, 5 persone, 9 nomine"
+ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "11 10 5 9 8" "righe esportate: 11 unita, 10 sedi, 5 persone, 9 nomine, 8 attestati"
 ok "$(grep -c $'\xc3\x8c' "$CSV/persona.csv")" "1" "persona.csv e UTF-8, con una lettera accentata"
-ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9"
+ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=8"
 
 echo "== la prova generale arriva in fondo"
 if generale "$CSV" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; FALLITI=$((FALLITI+1)); fi
@@ -101,6 +102,12 @@ sed 's/^/       | /' "$USCITA"
 ok "$(ultima)" "ARRIVATA IN FONDO" "l'ultima riga lo dice"
 ok "$(grep -oE 'unita fuse\): [0-9]+' "$USCITA")" "unita fuse): 1" "gli avvisi del passo 03 sono stampati"
 ok "$(grep -oE 'unita assorbite' "$USCITA" | head -1)" "unita assorbite" "e quelli del passo 01"
+ok "$(grep -oE 'attestati d.origine 8  ->  eventi scritti [0-9]+' "$USCITA")" "attestati d'origine 8  ->  eventi scritti 7" "il passo 04 scrive 7 attestati su 8: uno ha un titolo ignorato a mano"
+ok "$(grep -oE 'codice risolto dal dizionario alias e non dall.origine: [0-9]+' "$USCITA")" "codice risolto dal dizionario alias e non dall'origine: 1" "un attestato senza codice lo risolve il dizionario"
+ok "$(grep -oE 'percorsi frazionati entrati APERTI: [0-9]+' "$USCITA")" "percorsi frazionati entrati APERTI: 2" "i due spezzoni entrano aperti"
+ok "$(grep -oE 'su cui cadono due o piu attestati: [0-9]+' "$USCITA")" "su cui cadono due o piu attestati: 1" "la collisione si segnala e non si fonde"
+ok "$(grep -oE 'scadenze dichiarate portate: [0-9]+' "$USCITA")" "scadenze dichiarate portate: 1" "la scadenza dichiarata arriva fino in fondo"
+ok "$(grep -oE 'NON portati: [0-9]+ attestati da confermare' "$USCITA")" "NON portati: 1 attestati da confermare" "il da confermare non entra e si conta"
 ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "i conteggi finali: quattro unita su una P.IVA"
 ok "$(grep -c 'cluster fermato e cancellato' "$USCITA")" "1" "e il cluster e cancellato"
 ok "$(grep -oE '^  268 alias.*' "$USCITA")" "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse" "il seed degli alias e caricato e contato"
@@ -120,7 +127,7 @@ for t in $TABELLE; do
   } > "$C/$t.csv"
 done
 ok "$(head -c 3 "$C/cliente.csv" | od -An -tx1 | tr -d ' ')" "efbbbf" "cliente.csv comincia con il BOM, e l'intestazione e fra virgolette"
-ok "$(for t in $TABELLE; do [ "$(tr -cd '\r' < "$C/$t.csv" | wc -c)" = "$(tr -cd '\n' < "$C/$t.csv" | wc -c)" ] && printf s || printf n; done)" "ssss" "ogni file ha tanti CR quanti LF: tutte le righe in CRLF"
+ok "$(for t in $TABELLE; do [ "$(tr -cd '\r' < "$C/$t.csv" | wc -c)" = "$(tr -cd '\n' < "$C/$t.csv" | wc -c)" ] && printf s || printf n; done)" "sssss" "ogni file ha tanti CR quanti LF: tutte le righe in CRLF"
 if generale "$C" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; sed 's/^/       | /' "$USCITA"; FALLITI=$((FALLITI+1)); fi
 ok "$(ultima)" "ARRIVATA IN FONDO" "BOM, virgolette e CRLF non la fermano"
 ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "e i conteggi sono gli stessi"
@@ -135,18 +142,20 @@ fermata "una parola che non e una parola" "controlli iniziali" "solo lettere, ci
 
 echo "== e si ferma davvero, dicendo dove"
 fermata "nomine attese sbagliate"   "passo 03" "\(a\) origine.nomina ha 9 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=8
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=8 righe_formazione_attese=8
 fermata "persone attese sbagliate"  "passo 02" "\(a\) origine.persona ha 5 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=6 nomine_attese=9
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=6 nomine_attese=9 righe_formazione_attese=8
 fermata "clienti attesi sbagliati"  "passo 01" "\(a\) origine.cliente ha 11 righe" \
-  "$CSV" clienti_attesi=12 sedi_attese=10 righe_attese=5 nomine_attese=9
+  "$CSV" clienti_attesi=12 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=8
+fermata "attestati attesi sbagliati" "passo 04" "\\(a\\) origine.formazione ha 8 righe" \
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=7
 
 C="$(copia attiva)"
 sed -i -E '/^00000000-0000-0000-0000-0000000000e7,/ s/,t,/,f,/' "$C/nomina.csv"
 fermata "una nomina non attiva"     "passo 03" "\(d\) 1 nomine non attive" "$C" $ATTESI
 
 fermata "un conteggio mancante"     "controlli iniziali" "manca nomine_attese" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 righe_formazione_attese=8
 fermata "la cartella dentro un repo" "controlli iniziali" "dentro un repository git" "$DIR" $ATTESI
 
 C="$(copia ordine)"

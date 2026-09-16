@@ -12,7 +12,7 @@ in fondo a ogni scheda ci sia una riga, non un'opinione.
 
 <!-- decisioni:inizio (generato da docs/decisioni/genera.py) -->
 
-**12 schede su 12 sono chiuse.** Stato generato dalle schede: il paragrafo `## Decisione` di ognuna e la fonte, questa tabella e la resa.
+**12 schede su 13 sono chiuse.** Stato generato dalle schede: il paragrafo `## Decisione` di ognuna e la fonte, questa tabella e la resa.
 
 | scheda | blocca | stato |
 | --- | --- | --- |
@@ -28,5 +28,6 @@ in fondo a ogni scheda ci sia una riga, non un'opinione.
 | [10 · La sorveglianza sanitaria entra nel perimetro?](10-sorveglianza-sanitaria.md) | niente subito · ma decide se 808 accertamenti già raccolti hanno un posto, e allarga il perimetro del 26 agosto per la seconda volta | **decisa il 10 settembre 2026** — **entra, come dominio proprio** — accanto alla formazione e non dentro, perché l'art. 41 non è l'art. 37 |
 | [11 · Il livello antincendio e il gruppo di primo soccorso: chi li confronta?](11-livelli-emergenza.md) | il **motore**, non lo schema · finché era aperta, un livello 1 valeva quanto un livello 3 | **decisa** — **tre stati** — livello definito e attestato pari o superiore: conforme; definito e inferiore: non conforme; **non definito: si segnala e non si blocca l'import** |
 | [12 · Un corso con due durate: tre cause diverse, e un meccanismo non basta](12-le-durate-multiple.md) | il **motore**, e la `0006` limitatamente ai codici coinvolti · finché è aperta, il catalogo giudica col metro di oggi attestati validi sotto il metro di ieri | **decisa il 12 settembre 2026** — **decisa il 12 settembre 2026** — i meccanismi sono **tre** e sono entrati tutti e tre (validità temporale, condizione sulla dimensione con **tre** casi, un codice per variante combinata); il **quarto** — separare `PREPOSTO` — **non si fa finché non risponde l'Area Formazione**, perché tocca i dati già scritti e la domanda sotto non è di schema. **Corretta la sera stessa**: lo spartiacque non è il 17/04/2025 ma **due estremi che si sovrappongono**, 19/05/2025 e 19/05/2026, e il meccanismo lo paga `DL_RSPP_BASE` e non il dirigente |
+| [13 · Leggere gli attestati che ci arrivano, in maniera deterministica](13-lettura-attestati.md) | niente · ma finché è aperta, le ore davvero erogate restano l'unico dato che nessuna fonte sa dire | **aperta** |
 
 <!-- decisioni:fine -->

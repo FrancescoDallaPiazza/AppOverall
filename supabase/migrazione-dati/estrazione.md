@@ -31,6 +31,7 @@ select
   (select count(*) from public.sede)                        as sedi,
   (select count(*) from public.persona)                     as persone,
   (select count(*) from public.nomina)                      as nomine,
+  (select count(*) from public.formazione)                  as attestati,
   (select count(*) from public.nomina where not attiva)     as nomine_non_attive,
   (select count(*) from public.nomina where da_confermare)  as nomine_da_confermare,
   (select pg_get_constraintdef(oid) from pg_constraint
@@ -45,7 +46,7 @@ select
 
 Copiare la riga che esce. Serve a tre cose:
 
-- **`clienti`, `sedi`, `persone`, `nomine`** sono i quattro conteggi attesi della prova generale (punto 5);
+- **`clienti`, `sedi`, `persone`, `nomine`, `attestati`** sono i cinque conteggi attesi della prova generale (punto 5);
 - **`livello_origine`** deve contenere `qualifica`: vuol dire che la loro `070` è applicata. Si legge dal vincolo e
   non da `schema_migrations`, dove le migrazioni date dall'SQL Editor non risultano. Se la colonna esce vuota manca
   la `068`, e la select delle nomine al punto 2 fallirà;
@@ -86,6 +87,14 @@ select id, persona_id, figura_codice, data_nomina, attiva, note,
        estremi_procura, da_confermare, origine, origine_testo,
        created_at, updated_at
   from nomina order by id;
+```
+
+`formazione.csv` — **aggiunto il 16 settembre 2026**, e' il piu' grande dei cinque
+```sql
+select id, persona_id, corso_codice, corso_nome, data_completamento, ore,
+       ente_formatore, is_aggiornamento, parziale, evidenza_incompleta,
+       da_confermare, scadenza, note, import_key
+  from formazione order by id;
 ```
 
 Sono le select di `00_origine.sql`, e se una delle due cambia va cambiata anche l'altra.
@@ -152,11 +161,11 @@ Da Git Bash, nella cartella del repository AppOverall:
 ```bash
 bash supabase/migrazione-dati/prova_generale.sh "C:/Users/Francesco/Documents/migrazione-privata/2026-09-16" \
      clienti_attesi=<clienti> sedi_attese=<sedi> righe_attese=<persone> nomine_attese=<nomine> \
-     null_scritto=null
+     righe_formazione_attese=<attestati> null_scritto=null
 ```
 
 con i numeri della fotografia: `clienti_attesi` = `clienti`, `sedi_attese` = `sedi`, `righe_attese` = `persone`,
-`nomine_attese` = `nomine`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
+`nomine_attese` = `nomine`, `righe_formazione_attese` = `attestati`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
 script si ferma al caricamento e lo dice.
 
 Serve PostgreSQL installato, e nient'altro da configurare. **Su `OVERALL-PC07` c'e**: PostgreSQL **16.10** in

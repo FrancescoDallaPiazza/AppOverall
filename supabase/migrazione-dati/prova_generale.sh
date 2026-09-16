@@ -9,7 +9,7 @@
 #
 #   bash prova_generale.sh <cartella dei CSV> \
 #        clienti_attesi=N sedi_attese=N righe_attese=N nomine_attese=N \
-#        [null_scritto=null]
+#        righe_formazione_attese=N [null_scritto=null]
 #
 # ---------- null_scritto, e perche esiste ----------
 #
@@ -98,10 +98,11 @@ esegui() { # [--zitto] argomenti di psql, sul database della prova
 [ $# -ge 1 ] || ferma "uso: bash prova_generale.sh <cartella dei CSV> clienti_attesi=N sedi_attese=N righe_attese=N nomine_attese=N"
 CSV="$1"; shift
 
-clienti_attesi=""; sedi_attese=""; righe_attese=""; nomine_attese=""; null_scritto=""
+clienti_attesi=""; sedi_attese=""; righe_attese=""; nomine_attese=""
+righe_formazione_attese=""; null_scritto=""
 for a in "$@"; do
   case "$a" in
-    clienti_attesi=*|sedi_attese=*|righe_attese=*|nomine_attese=*)
+    clienti_attesi=*|sedi_attese=*|righe_attese=*|nomine_attese=*|righe_formazione_attese=*)
       [[ "${a#*=}" =~ ^[0-9]+$ ]] || ferma "$a: il conteggio non e un numero"
       printf -v "${a%%=*}" '%s' "${a#*=}" ;;
     null_scritto=*)
@@ -111,7 +112,7 @@ for a in "$@"; do
     *) ferma "parametro sconosciuto: $a" ;;
   esac
 done
-for k in clienti_attesi sedi_attese righe_attese nomine_attese; do
+for k in clienti_attesi sedi_attese righe_attese nomine_attese righe_formazione_attese; do
   [ -n "${!k}" ] || ferma "manca $k=<numero>: il count fatto nello stesso momento dell'estrazione (estrazione.md)"
 done
 
@@ -137,7 +138,7 @@ for t in $TABELLE; do
 done
 
 echo "cartella: $CSV"
-echo "attesi:   clienti $clienti_attesi, sedi $sedi_attese, righe persona $righe_attese, nomine $nomine_attese"
+echo "attesi:   clienti $clienti_attesi, sedi $sedi_attese, righe persona $righe_attese, nomine $nomine_attese, attestati $righe_formazione_attese"
 
 # ============================================================================
 #  il cluster, Supabase simulato, le migrazioni
@@ -225,6 +226,10 @@ esegui -v nomine_attese="$nomine_attese" -f "$DIR/03_nomine.sql" || ferma
 # ============================================================================
 #  i conteggi finali
 # ============================================================================
+
+FASE="passo 04"
+echo; echo "== $FASE, gli attestati"
+esegui -v righe_formazione_attese="$righe_formazione_attese" -f "$DIR/04_formazione.sql" || ferma
 
 FASE="conteggi finali"
 echo; echo "== $FASE"
