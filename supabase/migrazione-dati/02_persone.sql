@@ -212,7 +212,7 @@ begin
       join origine.persona o on o.import_key = r.import_key
      where p.codice_fiscale is not null
      group by p.id
-    having count(distinct upper(regexp_replace(o.cognome || '|' || o.nome, '\s+', ' ', 'g'))) > 1) d;
+    having count(distinct upper(regexp_replace(o.cognome || '|' || o.nome, '\s+', ' ', 'g') collate "und-x-icu")) > 1) d;
 
   raise notice 'righe d''origine %  ->  rapporti %, persone %', righe, rapporti, persone;
   raise notice '  codici fiscali validi distinti %, righe senza codice valido %', validi_distinti, senza_valido;

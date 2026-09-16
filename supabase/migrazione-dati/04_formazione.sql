@@ -105,15 +105,31 @@ select set_config('migrazione.righe_formazione_attese', :'righe_formazione_attes
 -- Maiuscolo, spazi collassati, bordi tagliati. Non tocca la punteggiatura: due
 -- dizionari curati a mano divergono sugli spazi, non sulle virgole, e ogni pezzo di
 -- normalizzazione in piu' e' una collisione in piu' che aspetta.
+--
+-- **`upper()` da solo non basta, e il 16 settembre 2026 e' costato un giro.** Senza
+-- collazione, `upper()` usa il ctype del database: in un cluster nato `--no-locale`
+-- il ctype e' `C` e `upper('a' accentata)` restituisce la minuscola invariata. Il
+-- dizionario ha `ATTIVITA'` con l'accento maiuscolo, i titoli del gestionale ce
+-- l'hanno minuscolo, e i due non si incontrano: **10 titoli e 1.324 attestati**
+-- rifiutati dal controllo (c) su una prova generale, con il dizionario che li
+-- conosceva tutti. Sono i corsi antincendio, «in attivita' di livello» e «gestione
+-- dell'emergenza».
+--
+-- `collate "und-x-icu"` fissa il ribaltamento di caso a quello Unicode, uguale
+-- ovunque. La collazione esiste anche in un cluster `--no-locale`, perche' le
+-- collazioni ICU le popola initdb quando PostgreSQL e' compilato con ICU.
+-- **Un confronto che dipende da come e' nato il cluster non confronta i titoli:
+-- confronta il cluster** — ed e' la terza volta oggi, dopo la collation
+-- dell'impronta e il CRLF del checkout.
 
 create temp view alias_norm as
-select btrim(regexp_replace(upper(testo), '\s+', ' ', 'g')) as norm,
+select btrim(regexp_replace(upper(testo collate "und-x-icu"), '\s+', ' ', 'g')) as norm,
        testo, corso_codice, ignorato, pregressa, parziale, is_aggiornamento
   from corso_alias;
 
 create temp view origine_norm as
 select o.*,
-       btrim(regexp_replace(upper(o.corso_titolo), '\s+', ' ', 'g')) as titolo_norm,
+       btrim(regexp_replace(upper(o.corso_titolo collate "und-x-icu"), '\s+', ' ', 'g')) as titolo_norm,
        case when codice_fiscale_valido(o.codice_fiscale)
             then codice_fiscale_pulito(o.codice_fiscale) end as cf
   from origine.formazione o;

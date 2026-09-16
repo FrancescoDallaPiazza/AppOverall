@@ -86,7 +86,7 @@ select o.*,
        case when partita_iva_usabile(o.partita_iva)
             then regexp_replace(o.partita_iva, '\s', '', 'g') end as piva,
        nullif(upper(regexp_replace(coalesce(o.codice_fiscale, ''), '\s', '', 'g')), '') as codf,
-       btrim(regexp_replace(upper(regexp_replace(coalesce(o.ragione_sociale, ''), '\s+', ' ', 'g')), '\.+$', '')) as den
+       btrim(regexp_replace(upper(regexp_replace(coalesce(o.ragione_sociale, ''), '\s+', ' ', 'g') collate "und-x-icu"), '\.+$', '')) as den
   from origine.cliente o;
 
 -- ---------- i rifiuti, prima di scrivere ----------
