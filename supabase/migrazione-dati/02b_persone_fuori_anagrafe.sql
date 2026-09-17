@@ -33,11 +33,16 @@
 -- inventato e' peggio di una persona che manca. Si conta.
 --
 -- **3. Il rapporto e' CESSATO, e la data resta vuota se nessuno la dice** (`0025`).
--- Il gestionale toglie dall'anagrafica chi esce e la data non la scrive. **Anche chi
--- AppFormazione dà per attivo** entra cessato: la sua anagrafica e' del 6 agosto,
--- quella di AppSopralluoghi del 9 settembre, e **vince la piu' recente**. Sono le
--- persone da guardare — potrebbero essere lavoratori che l'anagrafe ha perso — e si
--- contano a parte, con quante hanno una storia del 2025 o del 2026.
+-- Il gestionale toglie dall'anagrafica chi esce e la data non la scrive.
+--
+-- **Tranne chi AppFormazione da' per attivo: quello entra con il rapporto APERTO.**
+-- ~~Entra cessato, perche' vince l'anagrafe piu' recente~~ — era la prima stesura, e
+-- sui dati veri del 17 settembre 2026 riguardava **34 persone su 7 aziende**, 28 con
+-- una storia dal 2025 e 23 in una sola azienda. **Francesco, lo stesso giorno:
+-- «considerali tutti come attivi per le imprese».** Quindi il rapporto resta aperto,
+-- a meno che AppFormazione stessa non gli dia una data di cessazione. Si contano a
+-- parte, perche' l'anagrafe di AppSopralluoghi continua a non averle: finche' non le
+-- ha, e' questo passo a tenerle attive, e lo fa a ogni giro.
 --
 -- **4. Il cliente si riconosce, e solo se non c'e' si crea.** Prima la P.IVA usabile,
 -- poi la ragione sociale con la normalizzazione del passo 01, ma **solo se porta a un
@@ -219,16 +224,22 @@ update azienda a set cliente_dest = c.id, come = coalesce(a.come, 'creato')
    and c.import_key = case when a.piva is not null then 'storico:piva:' || a.piva
                            else 'storico:den:' || a.den end;
 
--- ---------- regole 3 e 5: i rapporti, cessati ----------
+-- ---------- regole 3 e 5: i rapporti ----------
+--
+-- Aperto solo se AppFormazione da' la persona per attiva e il rapporto non ha una
+-- data di cessazione. Tutto il resto entra cessato.
 
 insert into rapporto_lavoro (persona_id, cliente_id, mansione, data_assunzione, data_cessazione,
                              cessato, import_key)
 select distinct on (chiave) p.id, a.cliente_dest, nullif(btrim(a.mansione), ''),
-       a.data_assunzione, a.data_cessazione, true, chiave
+       a.data_assunzione, a.data_cessazione,
+       not (a.da = 'appformazione' and coalesce(e.af_attiva, false) and a.data_cessazione is null),
+       chiave
   from (select a.*,
                case when a.rapporto_id is not null then 'af:rapporto:' || a.rapporto_id
                     else 'visite:' || a.cf || ':' || a.cliente_dest end as chiave
           from azienda a where a.cliente_dest is not null) a
+  join entra e on e.cf = a.cf
   join persona p on p.codice_fiscale = a.cf
  order by chiave
 on conflict (import_key) do nothing;
@@ -240,7 +251,7 @@ declare
   candidati int; da_af int; da_visite int; senza_nome int; scritte int;
   af_attive int; af_attive_recenti int; recenti int; senza_rapporto int;
   per_piva int; per_den int; creati int; creati_ora int; ambigui int; senza_azienda int;
-  rapporti int;
+  rapporti int; aperti int; aperti_su_non_attivi int;
 begin
   select count(*),
          count(*) filter (where nome_da = 'appformazione' and cognome is not null),
@@ -266,16 +277,20 @@ begin
   select count(*) into creati_ora from cliente where import_key like 'storico:%';
   select count(*) into ambigui from ambigue;
   select count(*) into senza_azienda from azienda where cliente_dest is null;
-  select count(*) into rapporti from rapporto_lavoro
-   where import_key like 'af:rapporto:%' or import_key like 'visite:%';
+  select count(*) filter (where r.cessato),
+         count(*) filter (where not r.cessato),
+         count(*) filter (where not r.cessato and not c.attivo)
+    into rapporti, aperti, aperti_su_non_attivi
+    from rapporto_lavoro r join cliente c on c.id = r.cliente_id
+   where r.import_key like 'af:rapporto:%' or r.import_key like 'visite:%';
 
   raise notice 'persone con una storia e senza scheda %  ->  schede scritte % (nome da AppFormazione %, dalle visite %)', candidati, scritte, da_af, da_visite;
   raise notice '  NON entrate: % senza un nome da nessuna delle due fonti', senza_nome;
   raise notice '  con una storia dal 2025 in poi: %', recenti;
-  raise notice '  ATTIVE per AppFormazione e assenti dall''anagrafe: % (di cui con una storia dal 2025: %) — entrano cessate, e si guardano', af_attive, af_attive_recenti;
+  raise notice '  ATTIVE per AppFormazione e assenti dall''anagrafe: % (di cui con una storia dal 2025: %) — entrano con il rapporto aperto (Francesco, 17.09.2026)', af_attive, af_attive_recenti;
   raise notice 'aziende: riconosciute per P.IVA %, per ragione sociale %, ex clienti creati non attivi % (in tutto nel database: %)', per_piva, per_den, creati, creati_ora;
   raise notice '  ragioni sociali che portano a piu clienti, create a parte: %; aziende senza un cliente: %', ambigui, senza_azienda;
-  raise notice 'rapporti cessati scritti da questo passo: %; persone entrate senza nessun rapporto: %', rapporti, senza_rapporto;
+  raise notice 'rapporti scritti da questo passo: cessati %, aperti % (di cui su un cliente non attivo: %); persone entrate senza nessun rapporto: %', rapporti, aperti, aperti_su_non_attivi, senza_rapporto;
 end $$;
 
 commit;

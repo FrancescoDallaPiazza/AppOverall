@@ -115,7 +115,7 @@ ok "$(grep -oE 'su cui cadono due o piu attestati: [0-9]+' "$USCITA")" "su cui c
 ok "$(grep -oE 'date fuori squadra, entrate e da guardare: [0-9]+ nel futuro' "$USCITA")" "date fuori squadra, entrate e da guardare: 1 nel futuro" "una data nel futuro entra e si conta"
 ok "$(grep -oE 'nel futuro \(il motore le tratti come non avvenute\), [0-9]+ anteriori' "$USCITA")" "nel futuro (il motore le tratti come non avvenute), 1 anteriori" "e una anteriore al 2008 pure"
 ok "$(grep -oE 'NON portati: [0-9]+ con un esito, [0-9]+ dichiarati di fonte esterna' "$USCITA")" "NON portati: 2 con un esito, 2 dichiarati di fonte esterna" "esito e fonte esterna si contano e non entrano"
-ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 10, sedi 10, unita d'origine 11 (3 assorbite), persone 7, rapporti 10, di cui cessati 5, nomine 9" "i conteggi finali: quattro unita su una P.IVA, e due ex clienti e cinque rapporti cessati dal passo 02b"
+ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 10, sedi 10, unita d'origine 11 (3 assorbite), persone 7, rapporti 10, di cui cessati 3, nomine 9" "i conteggi finali: quattro unita su una P.IVA, e dal passo 02b due ex clienti, tre rapporti cessati e due aperti"
 ok "$(grep -c 'cluster fermato e cancellato' "$USCITA")" "1" "e il cluster e cancellato"
 ok "$(grep -oE 'sessioni d.origine 10 \(5 di percorsi completati, 5 di percorsi in corso\)  ->  sessioni scritte [0-9]+, su [0-9]+ persone' "$USCITA")" "sessioni d'origine 10 (5 di percorsi completati, 5 di percorsi in corso)  ->  sessioni scritte 7, su 3 persone" "il passo 05 scrive 7 sessioni su 10"
 ok "$(grep -oE 'estrazioni: .*' "$USCITA")" "estrazioni: fraz_completata_20260806 («Dati aggiornati al 06/08/2026 07:47»), fraz_in_corso_20260806 («Dati aggiornati al 06/08/2026 07:46»)" "e dice da quali estrazioni, con la data che dichiarano"
@@ -148,7 +148,7 @@ ok "$(grep -oE 'con una storia e senza scheda [0-9]+  ->  schede scritte [0-9]+ 
 ok "$(grep -oE 'NON entrate: [0-9]+ senza un nome' "$USCITA")" "NON entrate: 1 senza un nome" "chi non ha un nome non entra, e si conta"
 ok "$(grep -oE 'ATTIVE per AppFormazione e assenti dall.anagrafe: [0-9]+ \(di cui con una storia dal 2025: [0-9]+\)' "$USCITA")" "ATTIVE per AppFormazione e assenti dall'anagrafe: 1 (di cui con una storia dal 2025: 1)" "chi AppFormazione da per attivo si conta a parte"
 ok "$(grep -oE 'aziende: riconosciute per P.IVA [0-9]+, per ragione sociale [0-9]+, ex clienti creati non attivi [0-9]+' "$USCITA")" "aziende: riconosciute per P.IVA 1, per ragione sociale 2, ex clienti creati non attivi 2" "il cliente si riconosce per P.IVA o per ragione sociale, e solo se manca si crea"
-ok "$(grep -oE 'rapporti cessati scritti da questo passo: [0-9]+; persone entrate senza nessun rapporto: [0-9]+' "$USCITA")" "rapporti cessati scritti da questo passo: 5; persone entrate senza nessun rapporto: 0" "i rapporti entrano cessati"
+ok "$(grep -oE 'rapporti scritti da questo passo: cessati [0-9]+, aperti [0-9]+ \(di cui su un cliente non attivo: [0-9]+\); persone entrate senza nessun rapporto: [0-9]+' "$USCITA")" "rapporti scritti da questo passo: cessati 3, aperti 2 (di cui su un cliente non attivo: 1); persone entrate senza nessun rapporto: 0" "cessati, tranne quelli di chi AppFormazione da per attivo"
 ok "$(grep -oE '^  268 alias.*' "$USCITA")" "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse" "il seed degli alias e caricato e contato"
 
 echo "== e ci arriva anche con i file come potrebbe salvarli un editor"
@@ -169,14 +169,14 @@ ok "$(head -c 3 "$C/cliente.csv" | od -An -tx1 | tr -d ' ')" "efbbbf" "cliente.c
 ok "$(for t in $TABELLE; do [ "$(tr -cd '\r' < "$C/$t.csv" | wc -c)" = "$(tr -cd '\n' < "$C/$t.csv" | wc -c)" ] && printf s || printf n; done)" "sssssssss" "ogni file ha tanti CR quanti LF: tutte le righe in CRLF"
 if generale "$C" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; sed 's/^/       | /' "$USCITA"; FALLITI=$((FALLITI+1)); fi
 ok "$(ultima)" "ARRIVATA IN FONDO" "BOM, virgolette e CRLF non la fermano"
-ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 10, sedi 10, unita d'origine 11 (3 assorbite), persone 7, rapporti 10, di cui cessati 5, nomine 9" "e i conteggi sono gli stessi"
+ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 10, sedi 10, unita d'origine 11 (3 assorbite), persone 7, rapporti 10, di cui cessati 3, nomine 9" "e i conteggi sono gli stessi"
 
 echo "== e i nulli come li scrive l'SQL Editor"
 ok "$(grep -c '^00000000-0000-0000-0000-0000000000c3,null,' "$CSVNULL/cliente.csv")" "1" "nel file i nulli sono la parola «null»"
 fermata "senza null_scritto si ferma e dice cosa fare" "caricamento di cliente.csv" "rilanciare con null_scritto=null" "$CSVNULL" $ATTESI
 if generale "$CSVNULL" $ATTESI null_scritto=null; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; sed 's/^/       | /' "$USCITA"; FALLITI=$((FALLITI+1)); fi
 ok "$(ultima)" "ARRIVATA IN FONDO" "con null_scritto=null arriva in fondo"
-ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 10, sedi 10, unita d'origine 11 (3 assorbite), persone 7, rapporti 10, di cui cessati 5, nomine 9" "e i conteggi sono gli stessi"
+ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 10, sedi 10, unita d'origine 11 (3 assorbite), persone 7, rapporti 10, di cui cessati 3, nomine 9" "e i conteggi sono gli stessi"
 fermata "una parola che non e una parola" "controlli iniziali" "solo lettere, cifre e _" "$CSVNULL" $ATTESI "null_scritto=nu ll"
 
 echo "== e si ferma davvero, dicendo dove"
