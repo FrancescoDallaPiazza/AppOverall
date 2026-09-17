@@ -186,9 +186,16 @@ puo andare in coda.
 ## L'ordine, e perche questo
 
 1. **La forma dell'evento formativo** — le tre risposte, poi la migrazione `0021`.
+   **Fatto** il 16 settembre.
 2. **Il passo 04: gli attestati.** Sblocca la Fase 4, ed e il pezzo con piu righe.
-3. **Annata ATECO e operatore, poi il passo 05: le valutazioni di sede.** Dipende da
-   due decisioni tue, non da lavoro.
+   **Fatto**, e arrivato in fondo sui dati veri la sera del 16. **Il passo 05**, le
+   sessioni dei due export `FormFraz`, e scritto e provato sui dati finti il 17: le
+   chiusure dei percorsi erano gia fra gli attestati del 04, e il 05 le riconosce.
+3. ~~**Annata ATECO e operatore, poi il passo 05: le valutazioni di sede.** Dipende da
+   due decisioni tue, non da lavoro.~~ **Il numero 05 e andato alle sessioni dei
+   percorsi frazionati** (17 settembre: `05_frazionata.sql` e la `0022`), quindi le
+   valutazioni di sede sono il **passo 06**. Le due decisioni sono prese (qui sotto):
+   resta la misura su 2007 e 2022 a livello di divisione, e poi il lavoro.
 4. **Il seed degli alias.** Non dipende da niente: puo andare in qualunque momento, e
    conviene presto perche e quello che si perde piu facilmente.
 5. **La sorveglianza.**

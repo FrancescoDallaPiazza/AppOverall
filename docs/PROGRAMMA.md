@@ -3069,6 +3069,93 @@ incerta, e chi firma.**
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove | — |
 
 
+### Il passo 05 non chiude niente, perche le chiusure c'erano gia · 17 settembre 2026
+
+**Prima una cosa che questa sezione non diceva: la sera del 16 la prova generale e
+arrivata in fondo sui dati veri con il passo 04 dentro.** Ci e arrivata dopo quattro
+fermate, e ognuna e un commit: due date nel futuro e 96 anteriori al 2008, che entrano
+e si contano (`d64c667`); `numero_attestato`, letto da una loro migrazione e non dal
+database (`09c1125`, `57a9b04`); il `\r` che il checkout di Windows metteva nel seed
+degli alias (`0ef3dce`); `upper()` che in un cluster `--no-locale` non alza le lettere
+accentate, e lasciava fuori 10 titoli e 1.324 attestati (`0c16d69`). La tabella qui
+sopra diceva ancora «poi: la prova generale col passo 04 dentro». **E fatta.**
+
+**E il passo che la stessa tabella assegnava a questa corsia era descritto male due
+volte.** Diceva «il passo 05: i due export `FormFraz`, che chiudono i percorsi
+aperti». Misurato oggi sui due file del 6 agosto (513 e 403 sessioni con data e codice
+fiscale), contro i 13.350 `corsi_fatti` dello stesso istante:
+
+- **i percorsi aperti del passo 04 non sono in quei file.** Sono i sette attestati con
+  un titolo `... PARZIALE ...`, e nessuno dei due export nomina quei titoli. Restano
+  aperti, e **nessun passo li chiude**: lo dice adesso il passo 04, dove prima
+  prometteva il contrario;
+- **e i percorsi completati non vanno chiusi, perche lo sono gia.** Tutti i 154
+  (persona e corso) hanno un attestato dello stesso corso, e 163 sessioni su 513
+  cadono esattamente su un attestato della stessa persona, dello stesso corso e dello
+  stesso giorno. **Il gestionale registra la chiusura come un attestato**, e il passo
+  04 l'aveva gia portata. Non c'e una sola chiusura da calcolare, e la decisione 2 —
+  «non dalle ore» — non ha nemmeno un caso da tenere a bada.
+
+Quello che mancava davvero erano **le sessioni**: AppFormazione le ha lasciate nel suo
+`staging` apposta, per non contare due volte lo stesso corso, quindi fra i 13.215
+`eventi_formativi` **non ce n'e nessuna**. Il passo 05 porta quelle, e le chiusure le
+**riconosce**.
+
+**Cosa e scritto, e provato:**
+
+- **`0022`**: `evento_formativo.percorso_dichiarato`, `completato` o `in_corso`. La
+  `0021` aveva affidato quella differenza a `estrazione`, che e un codice di file con
+  una data: leggerci «chiuso» avrebbe voluto dire riconoscere un prefisso. E
+  `v_percorso_formativo` contava come aperta **ogni** riga che non chiude — con le
+  sessioni vere, **350** righe di percorsi finiti sarebbero risultate in sospeso;
+- **`05_frazionata.sql`**: le sessioni entrano con `completa_il_percorso = false`; una
+  sessione «Completata» che cade su un attestato **e** quell'attestato, non si
+  riscrive, e l'attestato prende `parziale` e `percorso_dichiarato`. Si ferma su nove
+  cose, fra cui **due caricamenti dello stesso file nello staging**: lo staging scarta
+  solo le righe identiche, e una sessione passata da «in corso» a «completata»
+  starebbe nei due file;
+- **`estrazione.md`**: la sesta query, **nell'SQL Editor di AppFormazione**, sulle
+  righe di `staging.righe_import`, con la sua fotografia. Provata su uno staging finto:
+  la data dichiarata viene dal piede del foglio, che lo staging tiene come una riga;
+- **la prova generale** carica sei file, esegue il 05 e legge il percorso **dalla
+  vista**; la verifica ha nove controlli nuovi e tre fermate nuove. **Tutte le prove
+  passate.** Rilanciato due volte di fila su un cluster a parte: il secondo giro
+  scrive zero righe.
+
+**Due cose che restano da guardare, e si contano invece di essere risolte:** **8**
+sessioni in corso cadono sul giorno di un attestato dello stesso corso — in 7 quel
+giorno c'e anche una sessione «Completata», la giornata che chiude un percorso e apre
+il successivo; l'ottava non ha quella spiegazione. E **10** percorsi completati (contati per titolo) hanno
+l'ultima sessione dopo l'attestato che li chiude, di 50-115 giorni.
+
+**E un numero che avevo scritto senza misurarlo.** Nella prima stesura della `0022`
+c'era «360 righe». Ricontato prima del commit: 350. Lo scrivo perche e la forma
+esatta di cio che questa sezione chiede alle corsie — il numero giusto e arrivato
+solo perche l'ho cercato **dopo** averlo scritto.
+
+**Il piano della Fase 3 chiamava «passo 05» le valutazioni di sede.** Diventano il
+**06**, e il piano e corretto. Le due decisioni che le bloccavano (annata ATECO e
+operatore) Francesco le ha date il 16 settembre, quindi **non aspettano piu nessuno**
+— tranne una misura che il piano stesso dichiara aperta: se a livello di divisione
+2007 e 2022 diano classi diverse.
+
+**Di passaggio:** `formazione-81-utils-src` su questo disco era indietro di due
+commit, e adesso e allineato (`b6b7af1`): sono le durate iniziali dell'ASR 2025 e le
+varianti delle attrezzature, trascritte dalla fonte.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | quando vuole: **una nuova estrazione**, che adesso ha **sei** query — le due nuove nell'SQL Editor di **AppFormazione** — e sei conteggi | la prova generale sui dati veri con il passo 05 dentro |
+| **AppOverall** | **il passo 06: le valutazioni di sede.** Prima la misura su 2007 e 2022 a livello di divisione, poi i 261 livelli e i 261 ATECO che il passo 01 conta e lascia fuori, con la firma di Francesco sulla migrazione | il passo della sorveglianza, 808 accertamenti |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove | — |
+
+**E una cosa che AppFormazione non deve fare senza dirlo:** ricaricare o ripulire le
+righe `fraz_completata` e `fraz_in_corso` di `staging.righe_import`. Da oggi il passo
+05 le legge da li. Un secondo caricamento lo ferma — ed e giusto che lo fermi — ma e
+meglio saperlo prima dell'estrazione che scoprirlo durante.
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
