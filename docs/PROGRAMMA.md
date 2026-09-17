@@ -3438,6 +3438,52 @@ script delle visite (che ora porta i nomi).
 | **AppSopralluoghi** | niente di aperto | se il giro conferma persone attive fuori anagrafe: sapere perche mancano |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
+### La strada C sui dati veri: 1.025 persone, e 112 aziende che sono clienti di oggi · 17 settembre 2026, pomeriggio
+
+**Arrivata in fondo al secondo tentativo**, cartella `2026-09-17-d`, nove file.
+Fotografie di AppSopralluoghi identiche alle 12:18 e alle 12:20, quattro zeri;
+AppFormazione 13.215 attestati, un caricamento per `FormFraz`, **4.164 persone (987
+non attive) su 4.176 righe**.
+
+**Il primo tentativo si e fermato sul caricamento di `visita.csv`, e il difetto era
+mio.** I CSV delle visite li scrive `estrai_visite.py`, dove un valore mancante e un
+**campo vuoto**; la prova li caricava con `null_scritto=null` come quelli dell'SQL
+Editor, e una data di nascita vuota e diventata una stringa. **La verifica non
+l'aveva visto perche esportava anche quei file con la parola «null»**: provava il
+formato che mi aspettavo, non quello che lo script produce. Adesso i file dello
+script si caricano sempre con la regola standard, e la verifica li scrive come li
+scrive lo script.
+
+    persone con una storia e senza scheda 1.025  ->  schede 1.025 (995 da AppFormazione, 30 dalle visite)
+    rapporti cessati scritti 1.032, persone senza rapporto 0
+    aziende: per P.IVA 112, per ragione sociale 1, ex clienti creati 1
+    attestati 13.215   ->  12.637 scritti (erano 9.917), fuori anagrafe 0
+    visite 1.383       ->  1.344 scritte (erano 1.046), fuori anagrafe 0
+    persone 4.516, rapporti 4.526 di cui cessati 1.036, percorsi 9.001
+
+**Due cose che il numero dice e la stima non diceva.**
+
+- **1.025, non 1.036.** La mia stima di stamattina contava i codici fiscali con la
+  **forma** giusta; il passo usa `codice_fiscale_valido`, che controlla anche il
+  carattere di controllo. Undici avevano la forma e non il controllo;
+- **le aziende sono quasi tutte clienti di oggi: 112 riconosciute per P.IVA, un solo
+  ex cliente creato.** Quindi quelle persone non sono lo storico di clienti persi, sono
+  **ex dipendenti dei clienti attuali** — e questo rende la strada C piu naturale di
+  quanto sembrasse: il rapporto si attacca a un cliente che c'e.
+
+**Le persone da guardare sono 34**: attive per AppFormazione (anagrafica del 6
+agosto) e assenti da quella di AppSopralluoghi (9 settembre). **28 hanno una storia
+dal 2025.** Sono entrate cessate perche vince l'anagrafe piu recente; se qualcuna
+lavora ancora, e l'anagrafe che va completata, e fino ad allora le sue scadenze non
+vengono seguite. In tutto le persone entrate con una storia dal 2025 sono 135.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | cancellare `migrazione-privata/2026-09-17-d`; decidere se vuole **l'elenco delle 34** — si ricava con una query sui due database, e non passa da qui | — |
+| **AppOverall** | la Fase 4 | — |
+| **AppSopralluoghi** | se Francesco lo chiede: sapere perche 34 persone attive per AppFormazione non sono nella loro anagrafe | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

@@ -203,7 +203,8 @@ if [ -n "$null_scritto" ]; then
 fi
 for t in $TABELLE; do
   FASE="caricamento di $t.csv"
-  if ! esegui -c "\\copy origine.$t from '$(percorso_per_psql "$CSV/$t.csv")' with (format csv, header true, encoding 'UTF8'$COPIA_NULL)"; then
+  nulli="$COPIA_NULL"; if da_script "$t"; then nulli=""; fi
+  if ! esegui -c "\\copy origine.$t from '$(percorso_per_psql "$CSV/$t.csv")' with (format csv, header true, encoding 'UTF8'$nulli)"; then
     [ -n "$null_scritto" ] || ferma "se i CSV vengono dall'SQL Editor, i valori nulli sono la parola «null»: rilanciare con null_scritto=null"
     ferma
   fi

@@ -24,6 +24,16 @@ declare -A COLONNE=(
   [persona_storica]="persona_id,codice_fiscale,cognome,nome,data_nascita,attiva,rapporto_id,mansione,data_assunzione,data_cessazione,cliente_id,ragione_sociale,partita_iva"
 )
 
+# I CSV che non vengono da un SQL Editor ma da uno script (estrai_visite.py): li scrive
+# il modulo csv di Python, dove un valore mancante e' un CAMPO VUOTO e non la parola
+# «null». Si caricano sempre con la regola standard, anche quando gli altri usano
+# null_scritto: il 17 settembre 2026 una data di nascita vuota, letta come stringa, ha
+# fermato il caricamento sui dati veri — e la verifica non l'aveva visto perche'
+# esportava anche questi file con la parola.
+TABELLE_DA_SCRIPT="visita visita_scadenza"
+
+da_script() { case " $TABELLE_DA_SCRIPT " in *" $1 "*) return 0 ;; esac; return 1; }
+
 # ---------- il cluster usa e getta ----------
 #
 # In una cartella temporanea del sistema, fuori da ogni repository, con

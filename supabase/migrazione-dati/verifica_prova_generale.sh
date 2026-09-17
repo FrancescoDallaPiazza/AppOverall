@@ -80,7 +80,10 @@ for t in $TABELLE; do
      "${COLONNE[$t]}" "le colonne attese per $t.csv sono quelle di origine.$t nel passo 00"
   "${X[@]}" -c "\\copy (select ${COLONNE[$t]} from origine.$t order by 1) to '$(percorso_per_psql "$CSV/$t.csv")' with (format csv, header true, encoding 'UTF8')" \
     || { echo "  NO   $t non esportato"; exit 1; }
-  "${X[@]}" -c "\\copy (select ${COLONNE[$t]} from origine.$t order by 1) to '$(percorso_per_psql "$CSVNULL/$t.csv")' with (format csv, header true, encoding 'UTF8', null 'null')" \
+  # I file dello script hanno i campi vuoti anche nel giro «come l'SQL Editor»: e' cosi'
+  # che arrivano davvero.
+  nulli=", null 'null'"; if da_script "$t"; then nulli=""; fi
+  "${X[@]}" -c "\\copy (select ${COLONNE[$t]} from origine.$t order by 1) to '$(percorso_per_psql "$CSVNULL/$t.csv")' with (format csv, header true, encoding 'UTF8'$nulli)" \
     || { echo "  NO   $t non esportato con i nulli come parola"; exit 1; }
 done
 # Un valore di testo che vale «null»: PostgreSQL lo esporta fra virgolette, e in CSV
