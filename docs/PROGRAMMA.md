@@ -3471,7 +3471,7 @@ scrive lo script.
   **ex dipendenti dei clienti attuali** — e questo rende la strada C piu naturale di
   quanto sembrasse: il rapporto si attacca a un cliente che c'e.
 
-**Le persone da guardare sono 34**: attive per AppFormazione (anagrafica del 6
+**Le persone da guardare sono 34** — e **23 stanno in una sola azienda**, che e un segnale di causa unica (un'anagrafica non importata, o un'uscita collettiva) prima che di 23 casi separati: attive per AppFormazione (anagrafica del 6
 agosto) e assenti da quella di AppSopralluoghi (9 settembre). **28 hanno una storia
 dal 2025.** Sono entrate cessate perche vince l'anagrafe piu recente; se qualcuna
 lavora ancora, e l'anagrafe che va completata, e fino ad allora le sue scadenze non
@@ -3479,7 +3479,7 @@ vengono seguite. In tutto le persone entrate con una storia dal 2025 sono 135.
 
 | chi | adesso | poi |
 |---|---|---|
-| **Francesco** | cancellare `migrazione-privata/2026-09-17-d`; decidere se vuole **l'elenco delle 34** — si ricava con una query sui due database, e non passa da qui | — |
+| **Francesco** | ~~cancellare `migrazione-privata/2026-09-17-d`; decidere se vuole l'elenco delle 34~~ **fatto**: `elenco_da_guardare.py` ha scritto `da_guardare.xlsx` nella cartella `2026-09-17-e` — **34 persone, 28 con attivita dal 2025, su 7 aziende, e 23 su una sola**. Da compilare con le aziende: lavora ancora, o data di uscita | chi lavora ancora torna nell'anagrafica del gestionale, e il giro successivo lo porta attivo |
 | **AppOverall** | la Fase 4 | — |
 | **AppSopralluoghi** | se Francesco lo chiede: sapere perche 34 persone attive per AppFormazione non sono nella loro anagrafe | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
