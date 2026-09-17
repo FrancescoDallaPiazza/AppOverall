@@ -1,7 +1,7 @@
 # AppOverall — migrazione dati: cio che prova_generale.sh e verifica_prova_generale.sh
 # condividono. Si include con `source`, non si lancia.
 
-# ---------- le colonne dei sei CSV ----------
+# ---------- le colonne degli otto CSV ----------
 #
 # Nell'ordine delle quattro select di 00_origine.sql, che e l'ordine delle tabelle
 # `origine.*`. `\copy ... header` salta la prima riga **senza leggerla**: un file con
@@ -10,7 +10,7 @@
 # l'intestazione prima di caricare, e la verifica confronta questa lista con le
 # tabelle del 00.
 
-TABELLE="cliente sede persona nomina formazione formazione_frazionata"
+TABELLE="cliente sede persona nomina formazione formazione_frazionata visita visita_scadenza"
 
 declare -A COLONNE=(
   [cliente]="id,werp_id,ragione_sociale,partita_iva,codice_fiscale,attivo,numero_lavoratori,codice_ateco,livello_rischio,livello_antincendio,gruppo_primo_soccorso,created_at,ateco_origine,livello_rischio_definito_mediante,antincendio_definito_mediante,primo_soccorso_definito_mediante"
@@ -19,6 +19,8 @@ declare -A COLONNE=(
   [nomina]="id,persona_id,figura_codice,data_nomina,attiva,note,estremi_procura,da_confermare,origine,origine_testo,created_at,updated_at"
   [formazione]="id,codice_fiscale,corso_titolo,corso_codice_origine,data_completamento,ore,ente_erogatore,esito,fonte"
   [formazione_frazionata]="id,esecuzione_id,file,codice_fiscale,corso_titolo,data_sessione,dettagli_ore,durata,dichiarazione"
+  [visita]="riga,codice_fiscale,tipo,data_esecuzione,dichiarazione"
+  [visita_scadenza]="riga,codice_fiscale,tipo,data_scadenza,stato,dichiarazione"
 )
 
 # ---------- il cluster usa e getta ----------

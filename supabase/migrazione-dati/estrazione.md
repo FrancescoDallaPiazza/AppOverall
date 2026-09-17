@@ -3,7 +3,7 @@
 Pagina per Francesco. Dice cosa lanciare nell'SQL Editor di **AppSopralluoghi**, come salvare i risultati e cosa
 farne dopo.
 
-**Non si fa finché Francesco non ha detto sì.** I sei file contengono nomi e codici fiscali di tutte le
+**Non si fa finché Francesco non ha detto sì.** Gli otto file contengono nomi e codici fiscali di tutte le
 persone e finiscono su questo disco: è una sua decisione, non un passo tecnico.
 
 Tutto quello che segue **legge e non scrive**.
@@ -13,7 +13,7 @@ Tutto quello che segue **legge e non scrive**.
 - Una cartella **fuori da qualunque repository**, per esempio
   `C:\Users\Francesco\Documents\migrazione-privata\2026-09-16`. Non sotto `GitHub`: lo script controlla e si
   rifiuta.
-- **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e i sei file restano sul
+- **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e gli otto file restano sul
   disco senza uso: prima PostgreSQL, poi l'estrazione. **Su `OVERALL-PC07` c'e** — PostgreSQL 16.10, misurato il
   16 settembre 2026, e la prova generale ci e passata intera sui dati finti. Su quel PC questo punto e chiuso.
 - Un momento in cui **nessuno sta usando AppSopralluoghi**. Le quattro letture devono vedere lo stesso archivio, e
@@ -185,6 +185,35 @@ il percorso di quella sessione e' completato o in corso, e nel gestionale non st
 
 Sono le select di `00_origine.sql`, e se una delle due cambia va cambiata anche l'altra.
 
+### `visita.csv` e `visita_scadenza.csv` — **non da un SQL Editor: da due file del gestionale**
+
+Le visite non stanno in nessun database. Stanno in due export del gestionale, che sono gia su questo PC in
+`Download`:
+
+- `ExportExcelVisiteFatte.xlsx` — **la storia**: una riga per visita fatta (1.383 righe, «Dati aggiornati al
+  11/09/2026 15:23»);
+- `ExportExcelVisiteScadenze.xlsx` — lo scadenzario: una riga per persona e tipo («Dati aggiornati al
+  06/08/2026 07:56»).
+
+Non il foglio «Visite» di `ExportExcel (4).xlsx`: porta solo l'ultima visita per persona e tipo, e la storia lo
+contiene tutto.
+
+I due CSV li scrive uno script, **nella stessa cartella degli altri**, da Git Bash nella cartella del repository:
+
+```bash
+python supabase/migrazione-dati/estrai_visite.py \
+       "C:/Users/Francesco/Downloads/ExportExcelVisiteFatte.xlsx" \
+       "C:/Users/Francesco/Downloads/ExportExcelVisiteScadenze.xlsx" \
+       "C:/Users/Francesco/Documents/migrazione-privata/<cartella>"
+```
+
+Legge e non scrive sugli xlsx, rifiuta una cartella dentro un repository, e stampa soltanto i due conteggi —
+`righe_visite_attese` e `righe_scadenze_attese` — e la data che ogni file dichiara.
+
+**Le due date sono diverse, e va bene cosi.** Il passo 07 confronta ogni scadenza con l'ultima visita **fino al
+giorno dello scadenzario**, non con l'ultima in assoluto: e l'errore che aveva prodotto le «nove scadenze
+anticipate», di cui vere ne restano due (`0024`). Se si riscaricano, meglio **tutti e due lo stesso giorno**.
+
 ## 3. Come si salva ogni risultato
 
 - Dal risultato della query, l'**esportazione in CSV** dell'editor, con il **nome esatto** scritto sopra ogni query,
@@ -247,11 +276,12 @@ Da Git Bash, nella cartella del repository AppOverall:
 ```bash
 bash supabase/migrazione-dati/prova_generale.sh "C:/Users/Francesco/Documents/migrazione-privata/2026-09-16" \
      clienti_attesi=<clienti> sedi_attese=<sedi> righe_attese=<persone> nomine_attese=<nomine> \
-     righe_formazione_attese=<attestati> righe_frazionata_attese=<sessioni> null_scritto=null
+     righe_formazione_attese=<attestati> righe_frazionata_attese=<sessioni> \
+     righe_visite_attese=<visite> righe_scadenze_attese=<scadenze> null_scritto=null
 ```
 
 con i numeri della fotografia: `clienti_attesi` = `clienti`, `sedi_attese` = `sedi`, `righe_attese` = `persone`,
-`nomine_attese` = `nomine`, `righe_formazione_attese` = `attestati`, `righe_frazionata_attese` = la somma delle due `sessioni`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
+`nomine_attese` = `nomine`, `righe_formazione_attese` = `attestati`, `righe_frazionata_attese` = la somma delle due `sessioni`. `righe_visite_attese` e `righe_scadenze_attese` li stampa `estrai_visite.py`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
 script si ferma al caricamento e lo dice.
 
 Serve PostgreSQL installato, e nient'altro da configurare. **Su `OVERALL-PC07` c'e**: PostgreSQL **16.10** in

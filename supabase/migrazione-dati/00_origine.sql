@@ -271,3 +271,38 @@ create table if not exists origine.formazione_frazionata (
 
 comment on table origine.formazione_frazionata is
   'Le sessioni dei due export FormFraz del gestionale, come le tiene lo staging di AppFormazione, per la sola durata della migrazione dati. Non sono negli eventi_formativi del passo 04: AppFormazione le ha lasciate in staging per non contare due volte lo stesso corso. Il passo 05 le traduce in evento_formativo.';
+
+-- ---------- le visite: due file del gestionale, non un database ----------
+--
+-- Le scrive `estrai_visite.py` dai due export, perche' nessun database le ha: e' la
+-- sola parte dell'estrazione che non passa da un SQL Editor. Le colonne sono quelle
+-- dei file, con il loro significato:
+--   * `riga`: il numero di riga nel foglio, l'unica cosa che identifica una riga
+--     d'export — il gestionale non ha un id della visita;
+--   * `tipo`: il nome dell'accertamento **verbatim**, che e' `accertamento.nome_gestionale`
+--     della `0005` carattere per carattere (misurato il 17 settembre 2026, 10 su 10);
+--   * `dichiarazione`: il piede del file, «Dati aggiornati al ...». Per lo
+--     scadenzario non e' un dettaglio: dice a quale visita si riferisce la scadenza
+--     (vedi la `0024`).
+
+create table if not exists origine.visita (
+  riga int primary key,
+  codice_fiscale text,
+  tipo text,
+  data_esecuzione date,
+  dichiarazione text
+);
+
+create table if not exists origine.visita_scadenza (
+  riga int primary key,
+  codice_fiscale text,
+  tipo text,
+  data_scadenza date,
+  stato text,
+  dichiarazione text
+);
+
+comment on table origine.visita is
+  'La storia delle visite (ExportExcelVisiteFatte), una riga per esecuzione, per la sola durata della migrazione dati. La scrive estrai_visite.py; il passo 07 la traduce in sorveglianza.';
+comment on table origine.visita_scadenza is
+  'Lo scadenzario delle visite (ExportExcelVisiteScadenze), una riga per persona e tipo. Il passo 07 lo usa solo dove la scadenza dissente dal calcolo sull''ultima visita nota alla data del file.';

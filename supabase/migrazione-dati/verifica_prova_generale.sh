@@ -69,7 +69,7 @@ X=("${PSQL[@]}" -d postgres)
   && "${X[@]}" -f "$DIR/prova_01_clienti_dati.sql" \
   && "${X[@]}" -f "$DIR/prova_03_nomine_dati.sql" \
   && "${X[@]}" -f "$DIR/prova_04_formazione_dati.sql" \
-  && "${X[@]}" -f "$DIR/prova_05_frazionata_dati.sql"   && "${X[@]}" -f "$DIR/prova_06_valutazioni_dati.sql" \
+  && "${X[@]}" -f "$DIR/prova_05_frazionata_dati.sql"   && "${X[@]}" -f "$DIR/prova_06_valutazioni_dati.sql"   && "${X[@]}" -f "$DIR/prova_07_sorveglianza_dati.sql" \
   && "${X[@]}" -c "update origine.cliente set ragione_sociale = 'BAR CENTRALE' where id = '00000000-0000-0000-0000-00000000000c'" \
   && "${X[@]}" -c "update origine.persona set cognome = 'BIANCH' || chr(204) where id = '00000000-0000-0000-0000-000000000004'" \
   || { echo "  NO   dati finti non caricati"; exit 1; }
@@ -78,9 +78,9 @@ CSVNULL="$LAVORO/csvnull"; mkdir -p "$CSVNULL"
 for t in $TABELLE; do
   ok "$("${X[@]}" -At -c "select string_agg(column_name, ',' order by ordinal_position) from information_schema.columns where table_schema = 'origine' and table_name = '$t'")" \
      "${COLONNE[$t]}" "le colonne attese per $t.csv sono quelle di origine.$t nel passo 00"
-  "${X[@]}" -c "\\copy (select ${COLONNE[$t]} from origine.$t order by id) to '$(percorso_per_psql "$CSV/$t.csv")' with (format csv, header true, encoding 'UTF8')" \
+  "${X[@]}" -c "\\copy (select ${COLONNE[$t]} from origine.$t order by 1) to '$(percorso_per_psql "$CSV/$t.csv")' with (format csv, header true, encoding 'UTF8')" \
     || { echo "  NO   $t non esportato"; exit 1; }
-  "${X[@]}" -c "\\copy (select ${COLONNE[$t]} from origine.$t order by id) to '$(percorso_per_psql "$CSVNULL/$t.csv")' with (format csv, header true, encoding 'UTF8', null 'null')" \
+  "${X[@]}" -c "\\copy (select ${COLONNE[$t]} from origine.$t order by 1) to '$(percorso_per_psql "$CSVNULL/$t.csv")' with (format csv, header true, encoding 'UTF8', null 'null')" \
     || { echo "  NO   $t non esportato con i nulli come parola"; exit 1; }
 done
 # Un valore di testo che vale «null»: PostgreSQL lo esporta fra virgolette, e in CSV
@@ -95,9 +95,9 @@ ok "$("${X[@]}" -At -c "select count(*) from prova_null where t is null")" "1" "
 cluster_ferma >/dev/null
 # Righe di file, non record: in cliente.csv una cella va a capo (il testo accumulato
 # di un livello tolto, come lo scrive AppSopralluoghi), quindi 11 unita sono 12 righe.
-ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "12 10 5 9 11 10" "righe esportate: 11 unita (una cella a capo), 10 sedi, 5 persone, 9 nomine, 11 attestati, 10 sessioni frazionate"
+ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "12 10 5 9 11 10 8 6" "righe esportate: 11 unita (una cella a capo), 10 sedi, 5 persone, 9 nomine, 11 attestati, 10 sessioni frazionate, 8 visite, 6 scadenze"
 ok "$(grep -c $'\xc3\x8c' "$CSV/persona.csv")" "1" "persona.csv e UTF-8, con una lettera accentata"
-ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10"
+ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10 righe_visite_attese=8 righe_scadenze_attese=6"
 
 echo "== la prova generale arriva in fondo"
 if generale "$CSV" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; FALLITI=$((FALLITI+1)); fi
@@ -132,6 +132,15 @@ ok "$(grep -oE 'livelli antincendio [0-9]+, valutazioni scritte [0-9]+' "$USCITA
 ok "$(grep -oE 'gruppi di primo soccorso [0-9]+ \(di cui BC, il gruppo di prima della loro 050: [0-9]+\), valutazioni scritte [0-9]+' "$USCITA")" "gruppi di primo soccorso 2 (di cui BC, il gruppo di prima della loro 050: 1), valutazioni scritte 2" "il primo soccorso pure, e BC si conta"
 ok "$(grep -oE 'NON portati: [0-9]+ testi di un rischio tolto.*non dicono tabella_ateco' "$USCITA")" "NON portati: 1 testi di un rischio tolto (nessun valore da annotare), 1 testi accanto a un rischio uguale al default che non dicono tabella_ateco" "cio che la regola perde si conta"
 ok "$(grep -E '^  sedi con ATECO ' "$USCITA")" "  sedi con ATECO 5 (annate: 2007 5), valutazioni vive: gruppo_primo_soccorso 2, livello_antincendio 2, livello_rischio 3, firmate da Dalla Piazza Francesco" "i conteggi finali delle sedi"
+ok "$(grep -oE 'visite d.origine 8  ->  visite scritte [0-9]+, su [0-9]+ persone \([^)]*\)' "$USCITA")" "visite d'origine 8  ->  visite scritte 5, su 2 persone (visita_annuale 3, oculistica_quinquennale 1, visita_biennale 1)" "il passo 07 porta la storia: tre visite annuali della stessa persona"
+ok "$(grep -oE 'registrata piu volte \(persona, tipo, data\): [0-9]+' "$USCITA")" "registrata piu volte (persona, tipo, data): 1" "la stessa visita due volte entra una volta, e si conta"
+ok "$(grep -oE 'NON entrate: [0-9]+ senza codice fiscale valido, [0-9]+ con un codice fiscale che l.anagrafe non ha$' "$USCITA")" "NON entrate: 1 senza codice fiscale valido, 1 con un codice fiscale che l'anagrafe non ha" "le visite fuori anagrafe si contano"
+ok "$(grep -oE 'scadenzario [0-9]+: uguali al calcolo [0-9]+ \(non si scrivono\), anticipate [0-9]+, posticipate [0-9]+' "$USCITA")" "scadenzario 6: uguali al calcolo 2 (non si scrivono), anticipate 1, posticipate 0" "la persona rivista dopo il 6/8 non e un anticipo: si confronta con la visita che lo scadenzario conosceva"
+ok "$(grep -oE 'scadenze dichiarate scritte: [0-9]+ \(anticipate vive nella vista: [0-9]+\)' "$USCITA")" "scadenze dichiarate scritte: 1 (anticipate vive nella vista: 1)" "l'anticipo vero si scrive, e la vista lo mostra"
+ok "$(grep -oE 'NON usate: .*' "$USCITA")" "NON usate: 0 senza codice fiscale valido, 0 fuori anagrafe, 1 senza nessuna visita fino alla data del file, 2 su una coppia con piu date" "cio che dello scadenzario non si usa, si conta"
+ok "$(grep -oE 'righe con uno Stato \(PIANIFICATA\): [0-9]+' "$USCITA")" "righe con uno Stato (PIANIFICATA): 1" "una visita prenotata si conta e non si porta"
+# «scadute oggi» dipende dal giorno in cui si lancia: si stampa e non si confronta.
+ok "$(grep -oE '^  visite [0-9]+, su [0-9]+ persone, scadenze dichiarate [0-9]+ \(anticipate [0-9]+\)' "$USCITA")" "  visite 5, su 2 persone, scadenze dichiarate 1 (anticipate 1)" "i conteggi finali della sorveglianza"
 ok "$(grep -oE '^  268 alias.*' "$USCITA")" "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse" "il seed degli alias e caricato e contato"
 
 echo "== e ci arriva anche con i file come potrebbe salvarli un editor"
@@ -149,7 +158,7 @@ for t in $TABELLE; do
   } > "$C/$t.csv"
 done
 ok "$(head -c 3 "$C/cliente.csv" | od -An -tx1 | tr -d ' ')" "efbbbf" "cliente.csv comincia con il BOM, e l'intestazione e fra virgolette"
-ok "$(for t in $TABELLE; do [ "$(tr -cd '\r' < "$C/$t.csv" | wc -c)" = "$(tr -cd '\n' < "$C/$t.csv" | wc -c)" ] && printf s || printf n; done)" "ssssss" "ogni file ha tanti CR quanti LF: tutte le righe in CRLF"
+ok "$(for t in $TABELLE; do [ "$(tr -cd '\r' < "$C/$t.csv" | wc -c)" = "$(tr -cd '\n' < "$C/$t.csv" | wc -c)" ] && printf s || printf n; done)" "ssssssss" "ogni file ha tanti CR quanti LF: tutte le righe in CRLF"
 if generale "$C" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; sed 's/^/       | /' "$USCITA"; FALLITI=$((FALLITI+1)); fi
 ok "$(ultima)" "ARRIVATA IN FONDO" "BOM, virgolette e CRLF non la fermano"
 ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "e i conteggi sono gli stessi"
@@ -164,15 +173,15 @@ fermata "una parola che non e una parola" "controlli iniziali" "solo lettere, ci
 
 echo "== e si ferma davvero, dicendo dove"
 fermata "nomine attese sbagliate"   "passo 03" "\(a\) origine.nomina ha 9 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=8 righe_formazione_attese=11 righe_frazionata_attese=10
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=8 righe_formazione_attese=11 righe_frazionata_attese=10 righe_visite_attese=8 righe_scadenze_attese=6
 fermata "persone attese sbagliate"  "passo 02" "\(a\) origine.persona ha 5 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=6 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=6 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10 righe_visite_attese=8 righe_scadenze_attese=6
 fermata "clienti attesi sbagliati"  "passo 01" "\(a\) origine.cliente ha 11 righe" \
-  "$CSV" clienti_attesi=12 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10
+  "$CSV" clienti_attesi=12 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10 righe_visite_attese=8 righe_scadenze_attese=6
 fermata "attestati attesi sbagliati" "passo 04" "\\(a\\) origine.formazione ha 11 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=9 righe_frazionata_attese=10
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=9 righe_frazionata_attese=10 righe_visite_attese=8 righe_scadenze_attese=6
 fermata "sessioni attese sbagliate" "passo 05" "\\(a\\) origine.formazione_frazionata ha 10 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=9
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=9 righe_visite_attese=8 righe_scadenze_attese=6
 
 # Un secondo caricamento dello stesso file nello staging: le righe sono valide e i
 # conti tornano, e a fermarlo deve essere il controllo sui caricamenti.
@@ -188,6 +197,12 @@ C="$(copia ateco_foglia)"
 sed -i -E '/^00000000-0000-0000-0000-0000000000c1,/ s/,25,alto,/,25.62,alto,/' "$C/cliente.csv"
 fermata "un ATECO che non e una divisione" "passo 06" "\(c\) 1 codici ATECO che non sono una divisione" "$C" $ATTESI
 
+C="$(copia accertamento_ignoto)"
+sed -i -E '/^9,/ s/,Esame Audiometrico,/,Esame Posturale,/' "$C/visita.csv"
+fermata "un accertamento che il vocabolario non ha" "passo 07" "\(c\) 1 tipi di accertamento" "$C" $ATTESI
+fermata "visite attese sbagliate" "passo 07" "\(a\) origine.visita ha 8 righe" \
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10 righe_visite_attese=7 righe_scadenze_attese=6
+
 C="$(copia ore_illeggibili)"
 sed -i -E '/^204,/ s#,2/6,#,due ore,#' "$C/formazione_frazionata.csv"
 fermata "le ore in un'altra forma" "passo 05" "\\(f\\) 1 sessioni con le ore non nella forma" "$C" $ATTESI
@@ -197,7 +212,7 @@ sed -i -E '/^00000000-0000-0000-0000-0000000000e7,/ s/,t,/,f,/' "$C/nomina.csv"
 fermata "una nomina non attiva"     "passo 03" "\(d\) 1 nomine non attive" "$C" $ATTESI
 
 fermata "un conteggio mancante"     "controlli iniziali" "manca nomine_attese" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 righe_formazione_attese=11 righe_frazionata_attese=10
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 righe_formazione_attese=11 righe_frazionata_attese=10 righe_visite_attese=8 righe_scadenze_attese=6
 fermata "la cartella dentro un repo" "controlli iniziali" "dentro un repository git" "$DIR" $ATTESI
 
 C="$(copia ordine)"

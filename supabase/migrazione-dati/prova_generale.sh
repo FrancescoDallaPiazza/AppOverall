@@ -3,13 +3,14 @@
 #
 # Esegue la migrazione dati DA CAPO A FONDO su un cluster PostgreSQL usa e getta:
 # crea il cluster con Supabase simulato, applica tutte le migrazioni in ordine, poi il
-# passo 00, carica i sei CSV, esegue i passi da 01 a 06 con i conteggi attesi, stampa gli
+# passo 00, carica gli otto CSV, esegue i passi da 01 a 07 con i conteggi attesi, stampa gli
 # avvisi dei passi e i conteggi finali, e **ferma e cancella il cluster** — anche
 # quando si ferma, e anche con Ctrl+C.
 #
 #   bash prova_generale.sh <cartella dei CSV> \
 #        clienti_attesi=N sedi_attese=N righe_attese=N nomine_attese=N \
-#        righe_formazione_attese=N righe_frazionata_attese=N [null_scritto=null]
+#        righe_formazione_attese=N righe_frazionata_attese=N \
+#        righe_visite_attese=N righe_scadenze_attese=N [null_scritto=null]
 #
 # ---------- null_scritto, e perche esiste ----------
 #
@@ -27,7 +28,7 @@
 # in `estrazione.md`: qui non si puo.
 #
 # La cartella contiene cliente.csv, sede.csv, persona.csv, nomina.csv, formazione.csv
-# e formazione_frazionata.csv, e **deve stare
+# formazione_frazionata.csv, visita.csv e visita_scadenza.csv, e **deve stare
 # fuori da qualunque repository**: lo script lo controlla e si rifiuta. Come si
 # producono i file, e da dove vengono i conteggi: `estrazione.md`, accanto.
 #
@@ -40,7 +41,7 @@
 #
 # Le fasi, in ordine: controlli iniziali, avvio del cluster, Supabase simulato,
 # migrazione <file>, seed degli alias, passo 00, caricamento di <tabella>.csv, passo 01,
-# passo 02, passo 03, passo 04, passo 05, passo 06, conteggi finali. Un passo che si ferma non ha scritto niente: ognuno sta
+# passo 02, passo 03, passo 04, passo 05, passo 06, passo 07, conteggi finali. Un passo che si ferma non ha scritto niente: ognuno sta
 # in una transazione. Ma il cluster si cancella comunque, quindi per ripartire si
 # rilancia tutto: e voluto, perche il giro intero e la prova.
 #
@@ -100,10 +101,10 @@ esegui() { # [--zitto] argomenti di psql, sul database della prova
 CSV="$1"; shift
 
 clienti_attesi=""; sedi_attese=""; righe_attese=""; nomine_attese=""
-righe_formazione_attese=""; righe_frazionata_attese=""; null_scritto=""
+righe_formazione_attese=""; righe_frazionata_attese=""; righe_visite_attese=""; righe_scadenze_attese=""; null_scritto=""
 for a in "$@"; do
   case "$a" in
-    clienti_attesi=*|sedi_attese=*|righe_attese=*|nomine_attese=*|righe_formazione_attese=*|righe_frazionata_attese=*)
+    clienti_attesi=*|sedi_attese=*|righe_attese=*|nomine_attese=*|righe_formazione_attese=*|righe_frazionata_attese=*|righe_visite_attese=*|righe_scadenze_attese=*)
       [[ "${a#*=}" =~ ^[0-9]+$ ]] || ferma "$a: il conteggio non e un numero"
       printf -v "${a%%=*}" '%s' "${a#*=}" ;;
     null_scritto=*)
@@ -113,7 +114,7 @@ for a in "$@"; do
     *) ferma "parametro sconosciuto: $a" ;;
   esac
 done
-for k in clienti_attesi sedi_attese righe_attese nomine_attese righe_formazione_attese righe_frazionata_attese; do
+for k in clienti_attesi sedi_attese righe_attese nomine_attese righe_formazione_attese righe_frazionata_attese righe_visite_attese righe_scadenze_attese; do
   [ -n "${!k}" ] || ferma "manca $k=<numero>: il count fatto nello stesso momento dell'estrazione (estrazione.md)"
 done
 
@@ -139,7 +140,7 @@ for t in $TABELLE; do
 done
 
 echo "cartella: $CSV"
-echo "attesi:   clienti $clienti_attesi, sedi $sedi_attese, righe persona $righe_attese, nomine $nomine_attese, attestati $righe_formazione_attese, sessioni frazionate $righe_frazionata_attese"
+echo "attesi:   clienti $clienti_attesi, sedi $sedi_attese, righe persona $righe_attese, nomine $nomine_attese, attestati $righe_formazione_attese, sessioni frazionate $righe_frazionata_attese, visite $righe_visite_attese, scadenze $righe_scadenze_attese"
 
 # ============================================================================
 #  il cluster, Supabase simulato, le migrazioni
@@ -190,7 +191,7 @@ FASE="passo 00"
 esegui --zitto -f "$DIR/00_origine.sql" || ferma
 
 # ============================================================================
-#  i sei CSV
+#  gli otto CSV
 # ============================================================================
 
 echo; echo "== caricamento"
@@ -240,6 +241,10 @@ FASE="passo 06"
 echo; echo "== $FASE, l'ATECO e i livelli sulle sedi"
 esegui -f "$DIR/06_valutazioni.sql" || ferma
 
+FASE="passo 07"
+echo; echo "== $FASE, la sorveglianza sanitaria"
+esegui -v righe_visite_attese="$righe_visite_attese" -v righe_scadenze_attese="$righe_scadenze_attese" -f "$DIR/07_sorveglianza.sql" || ferma
+
 FASE="conteggi finali"
 echo; echo "== $FASE"
 "${PSQL[@]}" -d generale -At -c "
@@ -269,6 +274,12 @@ echo; echo "== $FASE"
                                            where revocato_il is null group by attributo) v), 'nessuna')
       || ', firmate da ' || coalesce((select string_agg(distinct o.cognome || ' ' || o.nome, ', ')
                                     from valutazione_sede v join operatore o on o.id = v.deciso_da), 'nessuno')" || ferma "conteggi non letti"
+"${PSQL[@]}" -d generale -At -c "
+  select '  visite ' || count(*) || ', su ' || count(distinct persona_id) || ' persone'
+      || ', scadenze dichiarate ' || count(scadenza_dichiarata)
+      || ' (anticipate ' || count(*) filter (where anticipata) || ')'
+      || ', scadute oggi ' || count(*) filter (where scadenza < current_date)
+    from v_sorveglianza" || ferma "conteggi non letti"
 "${PSQL[@]}" -d generale -At -c "
   select '  nomine per ruolo: ' || coalesce(string_agg(ruolo || ' ' || n, ', ' order by n desc, ruolo), 'nessuna')
     from (select ruolo, count(*) n from nomina group by ruolo) s" || ferma "conteggi non letti"
