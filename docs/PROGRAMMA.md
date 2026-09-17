@@ -3484,6 +3484,35 @@ vengono seguite. In tutto le persone entrate con una storia dal 2025 sono 135.
 | **AppSopralluoghi** | se Francesco lo chiede: sapere perche 34 persone attive per AppFormazione non sono nella loro anagrafe | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
+### Le 34 sono attive · 17 settembre 2026, pomeriggio
+
+**Decisione di Francesco: «considerali tutti come attivi per le imprese».** Le 34
+persone attive per AppFormazione e assenti dall'anagrafe di AppSopralluoghi non entrano
+piu cessate: il passo 02b tiene **aperto** il loro rapporto, a meno che AppFormazione
+stessa gli dia una data di cessazione (`8034311`). La prima stesura faceva vincere
+l'anagrafe piu recente; nel passo la regola vecchia resta barrata, con la decisione
+accanto.
+
+**Cosa cambia, e cosa no.**
+
+- l'elenco `da_guardare.xlsx` **non serve piu per decidere**: la risposta c'e. Resta
+  utile per un'altra cosa — quelle 34 **non sono nell'anagrafica del gestionale** da
+  cui AppSopralluoghi importa, e finche non ci tornano e il passo 02b a tenerle
+  attive, a ogni giro. Il dato giusto va nella fonte;
+- **un caso da guardare al prossimo giro vero:** un rapporto aperto su un cliente che
+  il passo ha creato come **ex cliente non attivo**. Sui dati finti succede, ed e
+  contato; sui veri l'ex cliente creato e uno solo, e il conto dira se una delle 34
+  lavora li. Il passo non riaccende il cliente da solo: e una decisione;
+- provato sui dati finti, **tutte le prove passate**. Sui dati veri si vedra al
+  prossimo giro — atteso: 34 rapporti aperti e 998 cessati fra i 1.032 del passo.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | quando vuole: rimettere le 34 nell'anagrafica del gestionale (l'elenco e in `2026-09-17-e`), poi cancellare la cartella | — |
+| **AppOverall** | la Fase 4 | al prossimo giro vero: guardare i rapporti aperti su clienti non attivi |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

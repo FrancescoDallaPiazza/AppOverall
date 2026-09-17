@@ -8,7 +8,7 @@
 #
 # I dati finti sono scritti come insert su `origine.*`, quindi si caricano su un
 # cluster usa e getta e si esportano con le colonne di `prova_generale_comune.sh`:
-# gli stessi sei file che l'estrazione produrra, con dati di fantasia. Due
+# gli stessi nove file che l'estrazione produrra, con dati di fantasia. Due
 # ritocchi, fatti prima di esportare e scritti qui perche non sembrino dati:
 #
 #   * **BAR SPORT diventa BAR CENTRALE sull'unita UC di prova_03.** I due insiemi
@@ -69,7 +69,10 @@ X=("${PSQL[@]}" -d postgres)
   && "${X[@]}" -f "$DIR/prova_01_clienti_dati.sql" \
   && "${X[@]}" -f "$DIR/prova_03_nomine_dati.sql" \
   && "${X[@]}" -f "$DIR/prova_04_formazione_dati.sql" \
-  && "${X[@]}" -f "$DIR/prova_05_frazionata_dati.sql"   && "${X[@]}" -f "$DIR/prova_06_valutazioni_dati.sql"   && "${X[@]}" -f "$DIR/prova_07_sorveglianza_dati.sql"   && "${X[@]}" -f "$DIR/prova_02b_persone_storiche_dati.sql" \
+  && "${X[@]}" -f "$DIR/prova_05_frazionata_dati.sql" \
+  && "${X[@]}" -f "$DIR/prova_06_valutazioni_dati.sql" \
+  && "${X[@]}" -f "$DIR/prova_07_sorveglianza_dati.sql" \
+  && "${X[@]}" -f "$DIR/prova_02b_persone_storiche_dati.sql" \
   && "${X[@]}" -c "update origine.cliente set ragione_sociale = 'BAR CENTRALE' where id = '00000000-0000-0000-0000-00000000000c'" \
   && "${X[@]}" -c "update origine.persona set cognome = 'BIANCH' || chr(204) where id = '00000000-0000-0000-0000-000000000004'" \
   || { echo "  NO   dati finti non caricati"; exit 1; }
