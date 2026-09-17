@@ -3388,7 +3388,7 @@ con due numeri, 2.810 attestati e 298 visite — e cio che non e mai stato racco
 | chi | adesso | poi |
 |---|---|---|
 | **Francesco** | **cancellare `migrazione-privata/2026-09-17-c`**; e, quando vuole, decidere lo storico dei fuori anagrafe, che adesso tocca anche le visite | — |
-| **AppOverall** | misurare **quante persone** fra i fuori anagrafe dei passi 04 e 07 sono le stesse, per dare a Francesco un numero solo | la Fase 4 |
+| **AppOverall** | ~~misurare quante persone fra i fuori anagrafe dei passi 04 e 07 sono le stesse~~ **fatto sui file del giro, prima di cancellarli**: 1.005 dagli attestati, 233 dalle visite, **202 in entrambi** — **1.036 persone** in tutto (codice fiscale di forma valida, conteggio fatto fuori dal database) | la Fase 4 |
 | **AppSopralluoghi** | niente di aperto | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
