@@ -113,7 +113,10 @@ h2 { font-size: 15px; margin: 32px 0 10px; font-weight: 600; }
 
 table {
   width: 100%; border-collapse: collapse; background: var(--carta);
-  border: 1px solid var(--bordo); border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--bordo); border-radius: 8px;
+  /* clip, non hidden: hidden fa della tabella il contenitore dell'intestazione
+     sticky, che allora scende di 48px dentro la tabella e copre le prime righe. */
+  overflow: clip;
 }
 th, td { text-align: left; padding: 7px 12px; border-bottom: 1px solid var(--bordo); }
 th {
