@@ -3156,6 +3156,59 @@ righe `fraz_completata` e `fraz_in_corso` di `staging.righe_import`. Da oggi il 
 meglio saperlo prima dell'estrazione che scoprirlo durante.
 
 
+### La prova generale arriva in fondo con sei file · 17 settembre 2026, mattina
+
+**Fatto.** Nuova estrazione di Francesco, sei CSV: quattro dall'SQL Editor di
+AppSopralluoghi, due da quello di AppFormazione. Cluster usa e getta su `OVERALL-PC07`,
+22 migrazioni, seed, passi da 01 a 05, cluster cancellato. Ultima riga: **ARRIVATA IN
+FONDO**, al primo giro.
+
+**La fotografia di AppSopralluoghi e identica prima e dopo** (10:11 e 10:18), con i
+file salvati fra le 10:15 e le 10:16: 608 / 608 / 3.494 / 459, come ieri, ultime
+modifiche del 15 settembre. Quattro zeri sui «null». Da AppFormazione: **13.215**
+attestati, zero senza data; **un solo caricamento** per ciascuno dei due `FormFraz`,
+513 e 407 sessioni — gli stessi numeri misurati sui file in Download.
+
+    clienti d'origine 608      ->  clienti 605, sedi 608
+    righe d'origine 3494       ->  rapporti 3494, persone 3491
+    nomine d'origine 459       ->  nomine 459, su 338 persone
+    attestati d'origine 13215  ->  eventi scritti 9917, su 2732 persone
+    sessioni d'origine 920     ->  sessioni scritte 712, su 302 persone
+    percorsi 6743: 6737 completi, 286 con sessioni aperte, 0 non completi e senza sessioni aperte
+
+**Il passo 05 sui dati veri dice cio che la misura di stamattina prevedeva:** 146
+sessioni riconosciute come chiusure (163 sui file, meno quelle di persone che
+l'anagrafe non ha), 150 attestati segnati come chiusura, **zero** percorsi completati
+senza attestato, **8** sessioni in corso sul giorno di un attestato. Fuori: 5 senza
+codice fiscale valido, 57 con un codice che l'anagrafe non ha.
+
+**Il numero che va guardato non e del passo 05: e del 04.** Degli attestati, **2.810
+restano fuori perche l'anagrafe di AppSopralluoghi non ha quella persona** — piu di uno
+su cinque. Contati a grandi linee sui file (senza stamparne una riga): sono circa
+**1.000 persone**, e la domanda che AppFormazione ha gia scritto nel suo `docs/05` —
+«storico dei cessati: se non si migrano, sono righe di eventi perse per scelta, e va
+scritto» — qui diventa concreta. **Ma non sono tutti cessati da anni:** per circa
+**120** di quelle persone l'ultimo attestato e del 2025 o del 2026. Chi sono quelle
+120 — lavoratori che l'anagrafe dovrebbe avere, o gente uscita da poco — non si
+deduce dal conteggio, e **la scelta se e come migrare lo storico e di Francesco**.
+
+Gli altri fuori sono noti: 460 attestati con un titolo ignorato a mano, 119 senza
+codice fiscale valido. E 40 terne persona-corso-data con piu attestati, segnalate e
+non fuse.
+
+**Ieri il passo 04 era arrivato in fondo e i suoi numeri non erano stati scritti da
+nessuna parte.** Stamattina, per sapere se 2.810 fosse nuovo, non avevo con cosa
+confrontarlo. Da qui in avanti i conteggi di ogni giro sui dati veri stanno in questa
+sezione.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **cancellare la cartella `migrazione-privata/2026-09-17`** (`estrazione.md`, punto 6); e quando vuole, **decidere lo storico dei ~1.000 fuori anagrafe** — si migra, con quale persona, o si scrive che resta fuori | il si ad applicare `0021` e `0022` dove andranno applicate |
+| **AppOverall** | il passo 06, le valutazioni di sede — invariato | la sorveglianza |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato; e, se Francesco lo chiede, dire quante delle ~1.000 persone fuori anagrafe loro hanno fra le attive | — |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
