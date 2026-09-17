@@ -1,4 +1,4 @@
-/** I tipi delle viste che l'app legge (migrazioni 0026-0029). */
+/** I tipi delle viste che l'app legge (migrazioni 0026-0030). */
 
 export type Operatore = {
   id: string
@@ -114,4 +114,24 @@ export type EventoRegistrato = {
   nota: string | null
   inserito_da: string
   inserito_il: string
+  controllo_esito: EsitoControllo | null
+}
+
+export type EsitoControllo = 'conforme' | 'da_verificare' | 'non_conforme' | 'non_applicabile'
+
+/** Una riga di controlla_attestato(): una regola dell'ASR 2025, con esito e fonte (0030). */
+export type RigaControllo = {
+  regola: string
+  titolo: string
+  esito: EsitoControllo
+  messaggio: string
+  riferimento: string
+}
+
+/** soggetto_formatore_tipo */
+export type TipoFormatore = {
+  codice: string
+  nome: string
+  da_guardare: string | null
+  fonte: string
 }

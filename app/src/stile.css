@@ -308,3 +308,31 @@ a.chiudi:hover { background: var(--accento); color: var(--carta); text-decoratio
 }
 .modulo .avviso.doppio .spunta { margin: 8px 0 0; }
 td.persona { white-space: nowrap; }
+
+/* ---------- il controllo ASR 2025 (0030) ---------- */
+
+.controllo {
+  border: 1px solid var(--bordo); border-left-width: 3px; border-radius: 6px;
+  padding: 10px 12px; margin: 0 0 14px; background: var(--fondo);
+}
+.controllo.conforme      { border-left-color: var(--valida); }
+.controllo.da_verificare { border-left-color: var(--attesa); }
+.controllo.non_conforme  { border-left-color: var(--scaduta); }
+.controllo .riassunto { margin: 0 0 8px; font-size: 13px; }
+.controllo .regole { list-style: none; margin: 0; padding: 0; }
+.controllo .regole li { display: flex; gap: 8px; padding: 5px 0; border-top: 1px solid var(--bordo); font-size: 12.5px; }
+.controllo .regole li:first-child { border-top: none; }
+.controllo .segno { width: 14px; text-align: center; font-weight: 600; }
+.controllo li.conforme .segno      { color: var(--valida); }
+.controllo li.da_verificare .segno { color: var(--attesa); }
+.controllo li.non_conforme .segno  { color: var(--scaduta); }
+.controllo li.non_applicabile      { color: var(--tenue); }
+.controllo .corpo { display: block; }
+.controllo .valore { color: var(--tenue); }
+.controllo .messaggio, .controllo .fonte { display: block; }
+.controllo .fonte { color: var(--tenue); font-size: 11.5px; margin-top: 2px; }
+
+.pastiglia.controllo-conforme      { color: var(--valida);  border-color: #b7dfc0; background: #eff8f1; }
+.pastiglia.controllo-da_verificare { color: var(--attesa);  border-color: #ecd28a; background: #fdf8e8; }
+.pastiglia.controllo-non_conforme  { color: var(--scaduta); border-color: #f0b8b4; background: #fdf0ef; }
+

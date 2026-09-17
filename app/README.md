@@ -27,8 +27,29 @@ persona e il corso, e propone per primi i corsi che chiudono quell'obbligo
 
 L'attestato porta gli **elementi minimi dell'ASR 2025** (Parte I, punto 6): soggetto
 formatore, durata, modalita di erogazione, data e luogo, firma. Li pretende il database
-(`0029`), non solo il modulo. Il modulo avvisa se le ore sono meno di quelle del catalogo
-e se l'attestato sembra un doppione: il doppione si registra solo dopo averlo confermato.
+(`0029`), non solo il modulo. Il modulo avvisa se l'attestato sembra un doppione: il
+doppione si registra solo dopo averlo confermato.
+
+## Il controllo dell'ASR 2025
+
+Mentre si compila, il modulo chiede al database `controlla_attestato()` (`0030`): un
+controllo **a regole fisse**, senza servizi esterni e senza leggere il PDF, che sullo
+stesso attestato da sempre lo stesso esito. Una riga per regola, con la fonte:
+
+| regola | cosa guarda |
+|---|---|
+| elementi minimi | i sei elementi della Parte I punto 6, codice fiscale compreso |
+| data | attestato non nel futuro; prima del 24/05/2025 vale l'accordo del 2011 |
+| modalita di erogazione | la tabella della Parte IV punto 3.5, corso per corso (`corso_modalita`) |
+| durata | il minimo del catalogo, la classe di rischio per la formazione specifica, il regime precedente per gli attestati vecchi |
+| formazione richiesta prima | il prerequisito del corso, e il corso base sotto un aggiornamento |
+| soggetto formatore | i tipi della Parte I punto 1, con le condizioni da guardare |
+
+Quattro esiti: **conforme**, **non conforme** (la regola e violata e si vede dai dati),
+**da guardare** (dipende da un fatto che il database non ha) e **non si applica** (il
+corso non e disciplinato dall'ASR: antincendio, primo soccorso, RLS, ponteggi…). Un
+attestato non conforme si registra solo dopo averlo confermato, e l'esito del momento
+resta scritto sulla riga (`controllo_esito`, `controllo_asr`).
 
 Le viste e i permessi sono nella `0028` e nella `0029`. Chi ha registrato una riga e
 quando lo scrive un trigger, non il client; lo stesso trigger rifiuta le date nel futuro.

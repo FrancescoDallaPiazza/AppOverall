@@ -3848,6 +3848,56 @@ riga sola. **Da provare** su una pagina con una tabella piu lunga della finestra
 l'intestazione deve stare al suo posto a pagina ferma, e fermarsi sotto la barra quando
 si scorre.
 
+### Il controllo dell'attestato, a regole fisse · 17 settembre 2026, sera
+
+Alla domanda se mandare gli attestati a un servizio esterno per il confronto, **Francesco
+ha risposto un'altra cosa**: «voglio che tu crei a livello deterministico una check di
+controllo dell'attestato secondo le regole di congruenza dell'ASR 25». Quindi niente
+servizio esterno, niente lettura automatica del PDF, e **niente caricamento del file per
+ora**: si controllano i dati che si stanno registrando, con regole che sono righe di
+tabella.
+
+**La `0030`**: `controlla_attestato()` torna una riga per regola, con esito e fonte.
+
+| regola | fonte | cosa dice |
+|---|---|---|
+| elementi minimi | Parte I, punto 6, pag. 9 | i sei elementi, codice fiscale della persona compreso |
+| data | Parte VII, punti 1 e 2 | non nel futuro; prima del 24/05/2025 vale l'accordo 2011 |
+| modalita di erogazione | **Parte IV, punto 3.5, pag. 102-103** | la tabella, sciolta corso per corso in `corso_modalita` |
+| durata | Parte II punto 2.1, Parte III, catalogo | minimo del catalogo; 4/8/12 ore secondo la classe di rischio per la formazione specifica; il regime 2011 per gli attestati vecchi |
+| formazione richiesta prima | catalogo, Parte III | il prerequisito del corso, e il corso base sotto un aggiornamento |
+| soggetto formatore | Parte I, punto 1 | i tipi ammessi, con le condizioni da guardare |
+
+**Quattro esiti, e il terzo e il piu importante:** conforme, non conforme, **da
+verificare** — quando la regola dipende da un fatto che il database non ha — e non
+applicabile, per i corsi che l'ASR non disciplina (antincendio, primo soccorso, RLS,
+ponteggi, lavori elettrici). Il controllo **non inventa un giudizio** dove non puo darlo.
+
+**La tabella 3.5 e stata letta sulle pagine del PDF**, non sull'estrazione del testo:
+`pdftotext` mescolava le colonne, e una riga sbagliata avrebbe dichiarato consentita una
+modalita vietata. E la stessa regola della libreria: niente copia cieca.
+
+**Nell'app** il controllo compare mentre si compila e si aggiorna a ogni campo. Un
+attestato non conforme **si registra lo stesso** — l'attestato e quello che e — ma solo
+dopo una conferma esplicita, e l'esito di quel momento resta scritto sulla riga.
+
+**Provato sul banco:** carrello elevatore in e-learning a 8 ore = due regole violate e
+pulsante bloccato; corretto a 12 ore in presenza = tutte rispettate e registrato con
+esito «conforme»; formazione specifica in e-learning = conforme a rischio basso, non
+conforme a rischio medio, con le note 1 e 2 della tabella; preposto a 8 ore nel 2024 =
+conforme per il regime precedente. `verifica_prova_generale.sh` passa con 30 migrazioni.
+
+**Resta aperto il caricamento del file dell'attestato.** Serve una decisione di Francesco
+su dove tengono i file (proposta: lo spazio file di Supabase, privato, stesso progetto) e
+su cosa se ne fa: il controllo di oggi guarda i dati inseriti, non il PDF.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | provare il controllo sul banco. Decidere se e dove si caricano i file degli attestati | quando e come AppFormazione si ferma |
+| **AppOverall** | le 289 solo motore, con il si all'estrazione. Poi il caricamento del file, se deciso | il database vero, e l'app pubblicata |
+| **AppFormazione** | la correzione dell'intestazione (voce sopra), poi l'inventario in sola lettura | l'archiviazione |
+| **AppSopralluoghi** | completare VERDEPOSITIVO SRL. Invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

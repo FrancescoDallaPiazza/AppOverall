@@ -3,7 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { supabase } from '../supabase'
 import { useSessione } from '../sessione'
 import { useVista, data, Errore, Vuoto } from '../componenti/comuni'
-import type { EventoRegistrato, PersonaInForza } from '../tipi'
+import ControlloAsr from '../componenti/ControlloAsr'
+import type { EventoRegistrato, PersonaInForza, RigaControllo, TipoFormatore } from '../tipi'
 
 type Corso = {
   codice: string; nome: string; categoria: string
@@ -108,7 +109,7 @@ export default function Registra() {
         : recenti.righe.length === 0 ? <Vuoto>Ancora niente registrato dall'app.</Vuoto>
         : (
           <table>
-            <thead><tr><th>Registrato</th><th>Da</th><th>Persona</th><th>Cosa</th><th>Fatto il</th><th>Ente</th></tr></thead>
+            <thead><tr><th>Registrato</th><th>Da</th><th>Persona</th><th>Cosa</th><th>Fatto il</th><th>Ente</th><th>Controllo</th></tr></thead>
             <tbody>
               {recenti.righe.map((r) => (
                 <tr key={`${r.tipo}-${r.id}`}>
@@ -118,6 +119,7 @@ export default function Registra() {
                   <td>{r.descrizione}{r.tipo === 'sorveglianza' && <span className="tipo">visita medica</span>}</td>
                   <td>{data(r.data)}</td>
                   <td>{r.ente_formatore ?? ''}</td>
+                  <td>{r.controllo_esito && <span className={`pastiglia controllo-${r.controllo_esito}`}>{r.controllo_esito.replace('_', ' ')}</span>}</td>
                 </tr>
               ))}
             </tbody>
@@ -263,6 +265,7 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
       : Promise.resolve({ data: [], error: null }),
     [obbligo])
 
+  const tipiEnte = useVista<TipoFormatore>(() => supabase.from('soggetto_formatore_tipo').select('*').order('nome'))
   const [corso, setCorso] = useState<Corso | null>(null)
   const [giorno, setGiorno] = useState(oggi())
   const [ente, setEnte] = useState('')
@@ -271,8 +274,12 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
   const [luogo, setLuogo] = useState('')
   // Da una scadenza con un corso gia fatto, quello che si registra e l'aggiornamento.
   const [aggiornamento, setAggiornamento] = useState(!!corsoIniziale)
+  const [tipoEnte, setTipoEnte] = useState('')
   const [firmato, setFirmato] = useState(false)
   const [nota, setNota] = useState('')
+  const [controllo, setControllo] = useState<RigaControllo[]>([])
+  const [controllando, setControllando] = useState(false)
+  const [confermaNonConforme, setConfermaNonConforme] = useState(false)
   const [doppi, setDoppi] = useState(0)
   const [confermaDoppio, setConfermaDoppio] = useState(false)
   const [errore, setErrore] = useState<string | null>(null)
@@ -299,6 +306,37 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
     return () => { vivo = false }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [corso?.codice, giorno, persona.persona_id])
+
+  // Il controllo dell'ASR 2025 lo fa il database (0030): qui si aspetta mezzo secondo
+  // fra un tasto e l'altro, e si mostra quello che risponde.
+  useEffect(() => {
+    if (!corso) { setControllo([]); return }
+    let vivo = true
+    setControllando(true)
+    const quando = setTimeout(() => {
+      supabase.rpc('controlla_attestato', {
+        p_persona_id: persona.persona_id,
+        p_cliente_id: persona.cliente_id,
+        p_corso: corso.codice,
+        p_data: giorno || null,
+        p_aggiornamento: aggiornamento,
+        p_ore: ore === '' ? null : Number(ore.replace(',', '.')),
+        p_modalita: modalita || null,
+        p_ente: ente.trim() || null,
+        p_tipo_ente: tipoEnte || null,
+        p_luogo: luogo.trim() || null,
+        p_firmato: firmato,
+      }).then(({ data }) => {
+        if (!vivo) return
+        setControllo((data as RigaControllo[]) ?? [])
+        setControllando(false)
+        setConfermaNonConforme(false)
+      })
+    }, 500)
+    return () => { vivo = false; clearTimeout(quando) }
+  }, [corso, giorno, aggiornamento, ore, modalita, ente, tipoEnte, luogo, firmato, persona])
+
+  const nonConforme = controllo.some((r) => r.esito === 'non_conforme')
 
   // Le ore previste, se il catalogo le da come durata del corso (non come parte pratica
   // o monte ore): e il confronto che si puo fare senza leggere l'attestato.
@@ -330,12 +368,14 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
       modalita_erogazione: modalita,
       luogo: luogo.trim(),
       attestato_firmato: firmato,
+      soggetto_formatore_tipo: tipoEnte,
       nota: nota.trim() || null,
     })
     setInCorso(false)
     if (error) { setErrore(error.message); return }
     onFatto(`Registrato: ${corso.nome} del ${data(giorno)} per ${persona.cognome} ${persona.nome}.`)
     setCorso(null); setOre(''); setNota(''); setFirmato(false); setDoppi(0); setConfermaDoppio(false)
+    setControllo([]); setConfermaNonConforme(false)
   }
 
   const suggeriti = perObbligo.righe.map((r) => r.corso_codice)
@@ -349,9 +389,17 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
             I dati che l'ASR 2025 chiede su ogni attestato (Parte I, punto 6). Si copiano
             dall'attestato ricevuto.
           </p>
-          <label>Soggetto formatore
-            <input value={ente} onChange={(e) => setEnte(e.target.value)} required placeholder="come scritto sull'attestato" />
-          </label>
+          <div className="affiancati">
+            <label>Soggetto formatore
+              <input value={ente} onChange={(e) => setEnte(e.target.value)} required placeholder="come scritto sull'attestato" />
+            </label>
+            <label>Che soggetto e
+              <select value={tipoEnte} onChange={(e) => setTipoEnte(e.target.value)} required>
+                <option value="">— scegli —</option>
+                {tipiEnte.righe.map((t) => <option key={t.codice} value={t.codice}>{t.nome}</option>)}
+              </select>
+            </label>
+          </div>
           <label className="spunta">
             <input type="checkbox" checked={aggiornamento} onChange={(e) => setAggiornamento(e.target.checked)} />
             e un corso di aggiornamento
@@ -389,6 +437,19 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
           <label>Nota
             <input value={nota} onChange={(e) => setNota(e.target.value)} placeholder="facoltativa" />
           </label>
+          <ControlloAsr righe={controllo} caricando={controllando} />
+          {nonConforme && (
+            <div className="avviso doppio">
+              <strong>L'attestato non rispetta tutte le regole dell'ASR 2025.</strong> Si
+              registra lo stesso, perche l'attestato e quello che e: resta scritto che al
+              momento della registrazione era non conforme.
+              <label className="spunta">
+                <input type="checkbox" checked={confermaNonConforme}
+                       onChange={(e) => setConfermaNonConforme(e.target.checked)} />
+                registralo comunque, con il controllo non conforme
+              </label>
+            </div>
+          )}
           {doppi > 0 && (
             <div className="avviso doppio">
               <strong>Attenzione: sembra un doppione.</strong> Per questa persona c'e gia
@@ -400,7 +461,7 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
             </div>
           )}
           {errore && <p className="errore">{errore}</p>}
-          <button type="submit" disabled={inCorso || (doppi > 0 && !confermaDoppio)}>
+          <button type="submit" disabled={inCorso || (doppi > 0 && !confermaDoppio) || (nonConforme && !confermaNonConforme)}>
             {inCorso ? 'Registro…' : "Registra l'attestato"}
           </button>
         </>
