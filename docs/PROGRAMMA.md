@@ -3830,8 +3830,23 @@ sotto.
 |---|---|---|
 | **Francesco** | riprovare l'app. Decidere come funziona il **caricamento dell'attestato**: dove stanno i file, e se la lettura automatica puo mandare l'attestato, con il codice fiscale, a un servizio esterno | quando e come AppFormazione si ferma |
 | **AppOverall** | il caricamento dell'attestato, dopo la decisione. Le 289 solo motore, con il si di Francesco all'estrazione | il database vero, e l'app pubblicata |
-| **AppFormazione** | la riga di stile dell'intestazione (`overflow: hidden` → `clip`), se Francesco la vuole; l'inventario in sola lettura. Invariato | l'archiviazione |
+| **AppFormazione** | **prima**: la correzione dell'intestazione delle tabelle (vedi sotto), **decisa da Francesco il 17/09**. Poi l'inventario in sola lettura, invariato | l'archiviazione |
 | **AppSopralluoghi** | completare VERDEPOSITIVO SRL. Invariato | — |
+
+**Il compito di AppFormazione, per esteso.** In `app/src/stile.css`, riga 116 su
+`origin/main` @d5be13a, la regola `table` ha `overflow: hidden`, e questo rompe
+l'intestazione:
+
+- `hidden` fa della tabella il contenitore di scorrimento del `th` sticky;
+- quindi `top: 48px` si misura dal bordo della tabella, non dalla finestra;
+- l'intestazione scende di 48 px e copre le prime righe. In AppOverall l'ha visto
+  Francesco, e l'ho misurato: tabella a 324 px, intestazione a 372 px.
+
+La correzione e quella del commit `7e35510` di AppOverall: `overflow: clip`, che taglia
+gli angoli arrotondati allo stesso modo senza creare un contenitore di scorrimento. Una
+riga sola. **Da provare** su una pagina con una tabella piu lunga della finestra:
+l'intestazione deve stare al suo posto a pagina ferma, e fermarsi sotto la barra quando
+si scorre.
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
