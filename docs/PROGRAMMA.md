@@ -3303,6 +3303,57 @@ degli attestati dice 13.215 e zero senza data. Il giro e uno scatto solo.
 | **AppSopralluoghi** | niente di aperto | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
+### Il passo 07: la sorveglianza dalla storia, e le nove anticipate erano due · 17 settembre 2026
+
+**La fonte non e quella che il piano nominava.** «Gli 808 accertamenti» sono il foglio
+«Visite» del 09/09, che porta **l'ultima visita** per persona e tipo. L'11 settembre
+questa sezione aveva gia scritto che `ExportExcelVisiteFatte` e la storia e contiene
+il foglio tutto (800 coppie su 800, piu 250): il piano del 16 non l'aveva raccolto, e
+stamattina lo portavo in tabella con il numero vecchio. Il passo 07 legge la storia —
+**1.383 visite** — e lo scadenzario del 06/08.
+
+**E la misura fatta prima di scrivere ha corretto la scheda 10.** Le «9 scadenze su
+769, tutte anticipate» — la ragione per cui `sorveglianza` ha una scadenza
+dichiarabile — **sono 2**. Per sette di quelle persone l'ultima visita e di **fine
+agosto**, lo scadenzario e del **6 agosto**, e la scadenza che dichiara e **esattamente**
+quella della visita precedente piu la periodicita. Confrontando ogni scadenza con
+l'ultima visita **nota a quella data**: 792 uguali, 2 anticipate (di 286 e 336
+giorni), 0 posticipate. Anche l'esempio della scheda era uno dei sette.
+
+**La forma regge, il numero no.** Due richiami anticipati veri bastano a giustificare
+la colonna, e una scadenza solo derivata li cancellerebbe. Ma «nove richiami» era
+**due fotografie di date diverse confrontate come se fossero una** — il difetto per cui
+esiste `origine_estrazione.data_dichiarata`, commesso sulla tabella che l'aveva
+motivata. La correzione sta **dentro il paragrafo** della scheda 10, non solo qui.
+
+**Cosa e scritto:**
+
+- **`estrai_visite.py`**: dai due xlsx ai due CSV, nella cartella dell'estrazione.
+  Cerca le colonne **per nome** (i due tracciati sono diversi: 34 e 35 colonne),
+  rifiuta una cartella in un repository, stampa solo i due conteggi e le due date.
+  Provato su due xlsx finti con il tracciato vero;
+- **`0024`**: `sorveglianza.estrazione`, e il commento della scadenza dichiarata con il
+  numero giusto;
+- **`07_sorveglianza.sql`**: una visita e persona + accertamento + data (9 righe della
+  storia sono la stessa visita due volte, e entrano una); lo scadenzario si confronta
+  con la visita **nota alla sua data**, e dove dissente la scadenza va **su quella
+  visita** — se la persona e stata rivista dopo, la dichiarazione resta dove dice il
+  vero, e si conta. Una riga «PIANIFICATA» non e un fatto;
+- la prova generale carica **otto** file. **Tutte le prove passate**, con due fermate
+  nuove; e nei dati finti c'e la forma esatta delle sette: una persona rivista il
+  28/08 con la scadenza del 2025, che **non** risulta anticipata.
+
+**Sui dati veri serve un giro nuovo**, il terzo di oggi: sei query come prima, e lo
+script per le visite. Gli xlsx sono gia in `Download`.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | quando vuole: **l'estrazione con le visite** — le sei query di prima e `estrai_visite.py`, che posso lanciare io sui file in `Download` | lo storico dei ~1.000 fuori anagrafe |
+| **AppOverall** | alla prova: guardare le due anticipate vere e le visite fuori anagrafe | con la sorveglianza, la Fase 3 ha un passo per ogni tabella che ha un'origine |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

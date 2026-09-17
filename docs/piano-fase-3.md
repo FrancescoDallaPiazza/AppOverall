@@ -174,6 +174,12 @@ pezzo di lettura vada portato dentro.
 accertamenti** gia raccolti non hanno ancora un passo di import. Non blocca niente e
 puo andare in coda.
 
+**Scritto e provato sui dati finti il 17 settembre** (`07_sorveglianza.sql`,
+`estrai_visite.py`, `0024`). Non dagli 808 del foglio: dalla **storia**,
+`ExportExcelVisiteFatte`, 1.383 visite, che il foglio lo contiene tutto. E la misura
+fatta prima di scrivere ha corretto la scheda 10: le scadenze anticipate vere sono 2,
+non 9.
+
 ### 6. Cosa non entra, e va detto adesso
 
 - **Il corpus normativo e il raccordo ISTAT** (3.257 codici, 6.742 righe) tornano a

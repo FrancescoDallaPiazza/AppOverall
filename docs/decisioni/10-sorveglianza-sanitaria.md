@@ -120,7 +120,19 @@ confrontarla con esecuzione + intervallo verifica **una formula contro sé stess
 un risultato che non poteva non tornare non prova niente. Non era una terza fonte:
 era la stessa fonte guardata due volte.
 
-**La prima fonte davvero esterna dissente in 9 casi su 769**, e non è rumore:
+> **Corretto il 17 settembre 2026: i casi veri sono 2, non 9** (migrazione `0024`).
+> Lo scadenzario dichiara «Dati aggiornati al 06/08/2026», il foglio con cui è stato
+> confrontato è del 09/09. Per **sette** delle nove persone l'ultima visita è di fine
+> agosto, e la scadenza dello scadenzario è **esattamente** quella della visita
+> precedente più la periodicità. Confrontando con l'ultima visita **nota al 6 agosto**
+> (storia di `ExportExcelVisiteFatte`): 792 uguali, **2 anticipate**, 0 posticipate, su
+> 794. Anche l'esempio qui sotto — dichiarata 21.11.2026 — è uno dei sette: è la visita
+> del 21.11.2025 più un anno. La verifica «fino a otto cicli indietro» contava a ritroso
+> dalla visita nuova, non guardava quella vera di prima. **Resta vera la forma** — la
+> scadenza si può dichiarare, e due casi ci sono — **cade il numero**, e con lui la
+> lettura «nove richiami anticipati».
+
+~~**La prima fonte davvero esterna dissente in 9 casi su 769**, e non è rumore:~~
 `ExportExcelVisiteScadenze.xlsx` dà nove scadenze **tutte più vicine** di quella
 calcolata, zero più lontane, e nessuna corrisponde a un ciclo precedente (verificato
 fino a otto cicli indietro). Una differenza casuale andrebbe nei due sensi; una con
