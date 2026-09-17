@@ -11,17 +11,29 @@ React 18 + Vite + TypeScript + supabase-js, come `AppFormazione/app`.
 
 | Indirizzo | Cosa mostra | Da dove legge |
 |---|---|---|
-| `/` | un cliente per riga, i piu urgenti in cima | `v_scadenzario_cliente` |
-| `/cliente/:id` | le scadenze del cliente e i suoi ruoli da confermare | `v_scadenzario`, `v_ruolo_da_confermare` |
-| `/scadenze` | le scadenze di tutti, filtrate sul database | `v_scadenzario` |
-| `/organigramma` | i corsi fatti che nessuna nomina segue | `v_ruolo_da_confermare` |
-| `/registra` | un attestato o una visita fatti | scrive in `evento_formativo` e `sorveglianza` |
+| `/` | un cliente per riga, formazione e visite separate, i piu urgenti in cima | `v_scadenzario_cliente` |
+| `/cliente/:id` | le scadenze del cliente con i filtri, e i suoi promemoria | `v_scadenzario`, `v_promemoria` |
+| `/scadenze` | le scadenze di tutti, filtrate e ordinate per priorita sul database | `v_scadenzario` |
+| `/promemoria` | cosa sistemare nell'organigramma o nel catalogo: ruoli da confermare, livelli di emergenza, ruoli senza corso | `v_promemoria` |
+| `/registra` | un attestato o una visita fatti; da una scadenza arriva compilato | scrive in `evento_formativo` e `sorveglianza` |
 
-Le viste e i permessi sono nella `0028`. L'app non calcola scadenze: le legge dal motore
-(`0026`, `0027`). Chi ha registrato una riga e quando lo scrive un trigger, non il client;
-lo stesso trigger rifiuta le date nel futuro. Registrare serve il livello 2 (tecnico,
-formazione, amministrazione): il lettore e chi non e in `operatore` sono fermati dalle RLS,
-non solo dalla pagina.
+L'app non calcola le scadenze: le legge dal motore (`0026`, `0027`). L'ordine e la
+**priorita** della `0029`: prima i corsi mancanti, poi le scadenze passate dalla piu
+vecchia, poi quelle entro il preavviso.
+
+Una scadenza si chiude **dalla sua riga** (pulsante «registra»): il modulo arriva con la
+persona e il corso, e propone per primi i corsi che chiudono quell'obbligo
+(`v_corso_per_obbligo`). Il corso si sceglie scrivendo parte del nome.
+
+L'attestato porta gli **elementi minimi dell'ASR 2025** (Parte I, punto 6): soggetto
+formatore, durata, modalita di erogazione, data e luogo, firma. Li pretende il database
+(`0029`), non solo il modulo. Il modulo avvisa se le ore sono meno di quelle del catalogo
+e se l'attestato sembra un doppione: il doppione si registra solo dopo averlo confermato.
+
+Le viste e i permessi sono nella `0028` e nella `0029`. Chi ha registrato una riga e
+quando lo scrive un trigger, non il client; lo stesso trigger rifiuta le date nel futuro.
+Registrare serve il livello 2 (tecnico, formazione, amministrazione): il lettore e chi
+non e in `operatore` sono fermati dalle RLS, non solo dalla pagina.
 
 ## Avviarla
 

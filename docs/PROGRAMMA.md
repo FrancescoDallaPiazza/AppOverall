@@ -3797,6 +3797,42 @@ i dati veri. Tutti e due arrivano con il database vero, nella settimana 3 del pi
 | **AppFormazione** | l'inventario di cosa il suo database contiene che AppOverall non porta (sola lettura). Invariato | l'archiviazione |
 | **AppSopralluoghi** | completare VERDEPOSITIVO SRL. Invariato | — |
 
+### Francesco prova l'app: cosa cambia · 17 settembre 2026, sera
+
+Francesco ha provato l'app sul banco. **Le sue osservazioni, e cosa ne e venuto** (`0029`
+e `app/`):
+
+| osservazione | cosa e cambiato |
+|---|---|
+| l'intestazione copre le prime righe | `overflow: clip` al posto di `hidden` (commit a parte). **Lo stesso difetto e in AppFormazione** (`app/src/stile.css:116`) |
+| le colonne dei clienti non si capiscono; formazione e visite vanno separate | intestazione a due righe, **Formazione** (mancanti, scaduti, in scadenza, da completare) e **Visite mediche** (scadute, in scadenza), con la spiegazione su ogni colonna |
+| ruoli da confermare e livello da definire in una scheda a parte, spiegati | **Promemoria**: una pagina e una scheda del cliente, `v_promemoria`, tre gruppi che dicono a cosa si riferiscono e cosa si fa |
+| «senza regola» non si capisce | e un promemoria, «ruoli senza corso nel catalogo», e non sta piu tra le scadenze |
+| un filtro nella scheda del cliente; mancanti in testa, poi le scadute dalla piu vecchia | filtri per stato, per tipo e per testo; **`priorita`** in `v_scadenzario`, usata anche da Scadenze |
+| differenza tra «da sollecitare» e «scadute»? | il filtro si chiama **«da fare»** (mancanti, scadute, in scadenza, da completare) e la pagina lo spiega |
+| il corso si sceglie da una lista lunga | si sceglie **scrivendo**, e da una scadenza vengono proposti prima i corsi che chiudono l'obbligo (`v_corso_per_obbligo`) |
+| il doppione non viene segnalato | c'era, ma era una riga piccola che non fermava niente. Adesso **blocca il pulsante** finche non si conferma |
+| una scadenza gia mappata si chiude dalla scadenza | pulsante **«registra»** su ogni riga da fare: il modulo arriva compilato |
+| i dati minimi sono quelli dell'ASR 2025 | soggetto formatore, durata, modalita, data e luogo, firma (**Parte I, punto 6**, letto sul PDF della libreria). Li pretende un trigger; il modulo avvisa se le ore sono sotto il catalogo |
+
+**Provato sul banco**, dati finti:
+- chiusura dalla scadenza degli ambienti confinati: ROSSI torna valido;
+- doppione fermato finche non si conferma;
+- un attestato senza firma e rifiutato dal database;
+- la ricerca del corso funziona;
+- `verifica_prova_generale.sh` passa con 29 migrazioni.
+
+**Resta aperta una proposta di Francesco:** caricare l'attestato ricevuto e verificarne
+la congruenza con i dati inseriti. Prima di farla servono due decisioni sue, scritte
+sotto.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | riprovare l'app. Decidere come funziona il **caricamento dell'attestato**: dove stanno i file, e se la lettura automatica puo mandare l'attestato, con il codice fiscale, a un servizio esterno | quando e come AppFormazione si ferma |
+| **AppOverall** | il caricamento dell'attestato, dopo la decisione. Le 289 solo motore, con il si di Francesco all'estrazione | il database vero, e l'app pubblicata |
+| **AppFormazione** | la riga di stile dell'intestazione (`overflow: hidden` → `clip`), se Francesco la vuole; l'inventario in sola lettura. Invariato | l'archiviazione |
+| **AppSopralluoghi** | completare VERDEPOSITIVO SRL. Invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

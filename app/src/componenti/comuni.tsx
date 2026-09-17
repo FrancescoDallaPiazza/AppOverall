@@ -36,11 +36,23 @@ const ETICHETTE: Record<Stato, string> = {
   incompleto: 'incompleto',
   in_corso: 'in corso',
   non_scade: 'non scade',
-  senza_regola: 'senza regola',
+  senza_regola: 'corso non definito',
+}
+
+/** Cosa vuol dire ogni stato, per il suggerimento sulla pastiglia. */
+const SPIEGA: Record<Stato, string> = {
+  valido: "L'ultimo corso o visita copre fino alla scadenza, oltre il preavviso",
+  in_scadenza: 'Scade entro il preavviso: 180 giorni per la formazione, 90 per l\'RLS, 60 per le visite',
+  scaduto: 'La scadenza e passata',
+  mancante: 'Il ruolo richiede un corso e la persona non ne ha fatto nessuno',
+  incompleto: "C'e un attestato, ma non basta a chiudere il percorso",
+  in_corso: 'Il percorso e iniziato e non ancora finito',
+  non_scade: 'Il corso non ha aggiornamento periodico',
+  senza_regola: 'Il catalogo non dice quale corso serve per questo ruolo: vedi i promemoria',
 }
 
 export function Pastiglia({ stato }: { stato: Stato }) {
-  return <span className={`pastiglia ${stato}`}>{ETICHETTE[stato] ?? stato}</span>
+  return <span className={`pastiglia ${stato}`} title={SPIEGA[stato]}>{ETICHETTE[stato] ?? stato}</span>
 }
 
 const LIVELLO: Record<EsitoLivello, string> = {

@@ -1,4 +1,4 @@
-/** I tipi delle viste che l'app legge (migrazioni 0026-0028). */
+/** I tipi delle viste che l'app legge (migrazioni 0026-0029). */
 
 export type Operatore = {
   id: string
@@ -47,6 +47,7 @@ export type Scadenza = {
   ruolo_da_confermare: boolean
   esito_livello: EsitoLivello | null
   livello_richiesto: string | null
+  priorita: number
 }
 
 /** v_scadenzario_cliente */
@@ -56,31 +57,34 @@ export type SintesiCliente = {
   partita_iva: string | null
   attivo: boolean
   persone: number
-  scadute: number
-  in_scadenza: number
-  mancanti: number
-  incomplete: number
-  ruoli_da_confermare: number
-  livello_non_definito: number
-  livello_non_conforme: number
+  formazione_mancanti: number
+  formazione_scadute: number
+  formazione_in_scadenza: number
+  formazione_da_completare: number
+  visite_scadute: number
+  visite_in_scadenza: number
+  promemoria: number
   prima_scadenza: string | null
 }
 
-/** v_ruolo_da_confermare */
-export type RuoloDaConfermare = {
+export type GenerePromemoria = 'ruolo_da_confermare' | 'livello_emergenza' | 'corso_non_definito'
+
+/** v_promemoria */
+export type Promemoria = {
   cliente_id: string
-  sede_id: string | null
+  ragione_sociale: string
   persona_id: string
   cognome: string
   nome: string
-  corso: string
-  corso_nome: string
-  ruolo_proposto: string | null
-  ruolo_proposto_nome: string | null
-  completato_il: string
+  genere: GenerePromemoria
+  esito: EsitoLivello | null
+  ruolo: string | null
+  ruolo_nome: string | null
+  corso: string | null
+  corso_nome: string | null
+  completato_il: string | null
   scadenza: string | null
-  stato: Stato
-  ragione_sociale: string
+  livello_richiesto: string | null
 }
 
 /** v_persona_in_forza */

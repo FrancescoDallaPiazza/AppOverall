@@ -245,4 +245,66 @@ code { font-size: 12px; background: var(--fondo); padding: 1px 4px; border-radiu
 }
 .elenco button:hover { background: var(--fondo); }
 .esito { color: var(--valida); font-weight: 500; margin: 12px 0 0; }
-.avviso { color: var(--attesa); font-size: 13px; margin: 0 0 12px; }
+.modulo .avviso { color: var(--attesa); font-size: 13px; margin: 0 0 12px; }
+
+/* ---------- AppOverall dopo la prima prova (0029) ---------- */
+
+/* le cifre in gruppi: formazione, visite, promemoria */
+.gruppo-cifre { display: flex; gap: 8px; align-items: stretch; padding: 8px 12px 10px; border: 1px dashed var(--bordo); border-radius: 10px; position: relative; }
+.titolo-gruppo {
+  position: absolute; top: -8px; left: 10px; padding: 0 5px; background: var(--fondo);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--tenue);
+}
+a.cifra { text-decoration: none; }
+a.cifra:hover { border-color: var(--accento); }
+
+/* intestazione a due righe: ogni riga si ferma sotto la precedente */
+table.doppia thead tr:first-child th { height: 30px; box-sizing: border-box; }
+table.doppia thead tr:nth-child(2) th { top: 78px; }
+th.gruppo { text-align: center; border-left: 1px solid var(--bordo); }
+thead tr:nth-child(2) th:first-child,
+.inizio-gruppo { border-left: 1px solid var(--bordo); }
+
+/* le schede del cliente */
+.schede { display: flex; gap: 2px; border-bottom: 1px solid var(--bordo); margin: 4px 0 14px; }
+.schede button {
+  font: inherit; padding: 8px 14px; cursor: pointer; background: none; border: none;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--tenue);
+}
+.schede button.attiva { color: var(--testo); font-weight: 500; border-bottom-color: var(--testo); }
+.schede .quanti { margin-left: 7px; opacity: 0.65; font-size: 12px; }
+.filtri .cerca { margin-left: 8px; }
+.filtri-nota { margin: -8px 0 14px; }
+
+/* i promemoria */
+.promemoria { margin-bottom: 28px; }
+.promemoria h2 { margin-top: 8px; }
+.promemoria h2 .quanti { margin-left: 8px; color: var(--tenue); font-weight: 400; }
+.spiega { color: var(--tenue); margin: 0 0 6px; max-width: 90ch; font-size: 13px; }
+.spiega:last-of-type { margin-bottom: 12px; }
+a.nota-ciclo { text-decoration: none; }
+a.nota-ciclo:hover { text-decoration: underline; }
+
+/* chiudere una scadenza dalla sua riga */
+a.chiudi {
+  white-space: nowrap; font-size: 12px; padding: 3px 8px; border-radius: 6px;
+  border: 1px solid var(--accento); color: var(--accento); text-decoration: none;
+}
+a.chiudi:hover { background: var(--accento); color: var(--carta); text-decoration: none; }
+
+/* il modulo */
+.scelta .etichetta { display: block; font-size: 12.5px; color: var(--tenue); margin-bottom: 4px; }
+.scelta .avviso { margin-top: 6px; }
+.elenco li.intestazione {
+  padding: 5px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--tenue); background: var(--fondo);
+}
+.affiancati { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+@media (max-width: 600px) { .affiancati { grid-template-columns: 1fr; } }
+.nota.asr { margin: 0 0 12px; padding-top: 12px; border-top: 1px solid var(--bordo); }
+.modulo .avviso.doppio {
+  color: var(--testo); background: #fdf8e8; border: 1px solid #ecd28a;
+  border-radius: 6px; padding: 10px 12px;
+}
+.modulo .avviso.doppio .spunta { margin: 8px 0 0; }
+td.persona { white-space: nowrap; }

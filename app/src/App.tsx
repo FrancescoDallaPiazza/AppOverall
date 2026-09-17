@@ -4,7 +4,7 @@ import Accesso from './pagine/Accesso'
 import Clienti from './pagine/Clienti'
 import Cliente from './pagine/Cliente'
 import Scadenze from './pagine/Scadenze'
-import Organigramma from './pagine/Organigramma'
+import Promemoria from './pagine/Promemoria'
 import Registra from './pagine/Registra'
 
 function Impalcatura() {
@@ -19,8 +19,8 @@ function Impalcatura() {
         <span className="marchio">AppOverall</span>
         <NavLink to="/" end>Clienti</NavLink>
         <NavLink to="/scadenze">Scadenze</NavLink>
-        <NavLink to="/organigramma">Organigramma da aggiornare</NavLink>
-        <NavLink to="/registra">Registra</NavLink>
+        <NavLink to="/promemoria">Promemoria</NavLink>
+        <NavLink to="/registra">Nuovo attestato o visita</NavLink>
         <span className="spinta" />
         {prova && <span className="ruolo avviso" title="app/prova/avvia.sh: dati finti">banco di prova</span>}
         <span className="chi">
@@ -46,7 +46,7 @@ function Impalcatura() {
           <Route path="/" element={<Clienti />} />
           <Route path="/cliente/:id" element={<Cliente />} />
           <Route path="/scadenze" element={<Scadenze />} />
-          <Route path="/organigramma" element={<Organigramma />} />
+          <Route path="/promemoria" element={<Promemoria />} />
           <Route path="/registra" element={<Registra />} />
         </Routes>
       </main>
