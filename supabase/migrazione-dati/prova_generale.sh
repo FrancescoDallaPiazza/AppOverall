@@ -3,7 +3,7 @@
 #
 # Esegue la migrazione dati DA CAPO A FONDO su un cluster PostgreSQL usa e getta:
 # crea il cluster con Supabase simulato, applica tutte le migrazioni in ordine, poi il
-# passo 00, carica i nove CSV, esegue i passi da 01 a 07 con i conteggi attesi, stampa gli
+# passo 00, carica i dieci CSV, esegue i passi da 01 a 07 con i conteggi attesi e il riscontro 08, stampa gli
 # avvisi dei passi e i conteggi finali, e **ferma e cancella il cluster** — anche
 # quando si ferma, e anche con Ctrl+C.
 #
@@ -11,7 +11,7 @@
 #        clienti_attesi=N sedi_attese=N righe_attese=N nomine_attese=N \
 #        righe_formazione_attese=N righe_frazionata_attese=N \
 #        righe_visite_attese=N righe_scadenze_attese=N righe_persone_storiche_attese=N \
-#        [null_scritto=null]
+#        righe_scadenzario_attese=N [null_scritto=null]
 #
 # ---------- null_scritto, e perche esiste ----------
 #
@@ -29,7 +29,7 @@
 # in `estrazione.md`: qui non si puo.
 #
 # La cartella contiene cliente.csv, sede.csv, persona.csv, nomina.csv, formazione.csv
-# formazione_frazionata.csv, visita.csv, visita_scadenza.csv e persona_storica.csv, e **deve stare
+# formazione_frazionata.csv, visita.csv, visita_scadenza.csv e persona_storica.csv e corso_scadenza.csv, e **deve stare
 # fuori da qualunque repository**: lo script lo controlla e si rifiuta. Come si
 # producono i file, e da dove vengono i conteggi: `estrazione.md`, accanto.
 #
@@ -42,7 +42,7 @@
 #
 # Le fasi, in ordine: controlli iniziali, avvio del cluster, Supabase simulato,
 # migrazione <file>, seed degli alias, passo 00, caricamento di <tabella>.csv, passo 01,
-# passo 02, passo 02b, passo 03, passo 04, passo 05, passo 06, passo 07, conteggi finali. Un passo che si ferma non ha scritto niente: ognuno sta
+# passo 02, passo 02b, passo 03, passo 04, passo 05, passo 06, passo 07, passo 08, conteggi finali. Un passo che si ferma non ha scritto niente: ognuno sta
 # in una transazione. Ma il cluster si cancella comunque, quindi per ripartire si
 # rilancia tutto: e voluto, perche il giro intero e la prova.
 #
@@ -102,10 +102,10 @@ esegui() { # [--zitto] argomenti di psql, sul database della prova
 CSV="$1"; shift
 
 clienti_attesi=""; sedi_attese=""; righe_attese=""; nomine_attese=""
-righe_formazione_attese=""; righe_frazionata_attese=""; righe_visite_attese=""; righe_scadenze_attese=""; righe_persone_storiche_attese=""; null_scritto=""
+righe_formazione_attese=""; righe_frazionata_attese=""; righe_visite_attese=""; righe_scadenze_attese=""; righe_persone_storiche_attese=""; righe_scadenzario_attese=""; null_scritto=""
 for a in "$@"; do
   case "$a" in
-    clienti_attesi=*|sedi_attese=*|righe_attese=*|nomine_attese=*|righe_formazione_attese=*|righe_frazionata_attese=*|righe_visite_attese=*|righe_scadenze_attese=*|righe_persone_storiche_attese=*)
+    clienti_attesi=*|sedi_attese=*|righe_attese=*|nomine_attese=*|righe_formazione_attese=*|righe_frazionata_attese=*|righe_visite_attese=*|righe_scadenze_attese=*|righe_persone_storiche_attese=*|righe_scadenzario_attese=*)
       [[ "${a#*=}" =~ ^[0-9]+$ ]] || ferma "$a: il conteggio non e un numero"
       printf -v "${a%%=*}" '%s' "${a#*=}" ;;
     null_scritto=*)
@@ -115,7 +115,7 @@ for a in "$@"; do
     *) ferma "parametro sconosciuto: $a" ;;
   esac
 done
-for k in clienti_attesi sedi_attese righe_attese nomine_attese righe_formazione_attese righe_frazionata_attese righe_visite_attese righe_scadenze_attese righe_persone_storiche_attese; do
+for k in clienti_attesi sedi_attese righe_attese nomine_attese righe_formazione_attese righe_frazionata_attese righe_visite_attese righe_scadenze_attese righe_persone_storiche_attese righe_scadenzario_attese; do
   [ -n "${!k}" ] || ferma "manca $k=<numero>: il count fatto nello stesso momento dell'estrazione (estrazione.md)"
 done
 
@@ -141,7 +141,7 @@ for t in $TABELLE; do
 done
 
 echo "cartella: $CSV"
-echo "attesi:   clienti $clienti_attesi, sedi $sedi_attese, righe persona $righe_attese, nomine $nomine_attese, attestati $righe_formazione_attese, sessioni frazionate $righe_frazionata_attese, visite $righe_visite_attese, scadenze $righe_scadenze_attese, persone storiche $righe_persone_storiche_attese"
+echo "attesi:   clienti $clienti_attesi, sedi $sedi_attese, righe persona $righe_attese, nomine $nomine_attese, attestati $righe_formazione_attese, sessioni frazionate $righe_frazionata_attese, visite $righe_visite_attese, scadenze $righe_scadenze_attese, persone storiche $righe_persone_storiche_attese, scadenzario $righe_scadenzario_attese"
 
 # ============================================================================
 #  il cluster, Supabase simulato, le migrazioni
@@ -192,7 +192,7 @@ FASE="passo 00"
 esegui --zitto -f "$DIR/00_origine.sql" || ferma
 
 # ============================================================================
-#  i nove CSV
+#  i dieci CSV
 # ============================================================================
 
 echo; echo "== caricamento"
@@ -250,6 +250,10 @@ esegui -f "$DIR/06_valutazioni.sql" || ferma
 FASE="passo 07"
 echo; echo "== $FASE, la sorveglianza sanitaria"
 esegui -v righe_visite_attese="$righe_visite_attese" -v righe_scadenze_attese="$righe_scadenze_attese" -f "$DIR/07_sorveglianza.sql" || ferma
+
+FASE="passo 08"
+echo; echo "== $FASE, il riscontro con lo scadenzario di Sicurweb"
+esegui -v righe_scadenzario_attese="$righe_scadenzario_attese" -f "$DIR/08_riscontro_sicurweb.sql" || ferma
 
 FASE="conteggi finali"
 echo; echo "== $FASE"

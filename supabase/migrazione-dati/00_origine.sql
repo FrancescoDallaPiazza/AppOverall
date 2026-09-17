@@ -344,3 +344,21 @@ create table if not exists origine.persona_storica (
 
 comment on table origine.persona_storica is
   'Le persone di AppFormazione con i loro rapporti e i loro clienti, per la sola durata della migrazione dati. Il passo 02b ne porta quelle che hanno una storia (attestati, sessioni, visite) e che l''anagrafe di AppSopralluoghi non ha, con il rapporto segnato cessato (0025).';
+
+-- ---------- lo scadenzario dei corsi di Sicurweb: il riscontro della Fase 4 ----------
+--
+-- Non si migra: si confronta. Lo scrive `estrai_scadenzario.py` da
+-- `ExportExcelCorsiScadenze`, e il passo 08 lo mette accanto al motore (`0026`). Una riga
+-- per persona e titolo, con la scadenza che il gestionale calcola.
+
+create table if not exists origine.corso_scadenza (
+  riga int primary key,
+  codice_fiscale text,
+  tipo text,
+  data_scadenza date,
+  stato text,
+  dichiarazione text
+);
+
+comment on table origine.corso_scadenza is
+  'Lo scadenzario dei corsi di Sicurweb (ExportExcelCorsiScadenze), per il solo riscontro della Fase 4: il passo 08 lo confronta con v_scadenza_formazione e non scrive niente.';

@@ -1,7 +1,7 @@
 # AppOverall — migrazione dati: cio che prova_generale.sh e verifica_prova_generale.sh
 # condividono. Si include con `source`, non si lancia.
 
-# ---------- le colonne dei nove CSV ----------
+# ---------- le colonne dei dieci CSV ----------
 #
 # Nell'ordine delle quattro select di 00_origine.sql, che e l'ordine delle tabelle
 # `origine.*`. `\copy ... header` salta la prima riga **senza leggerla**: un file con
@@ -10,7 +10,7 @@
 # l'intestazione prima di caricare, e la verifica confronta questa lista con le
 # tabelle del 00.
 
-TABELLE="cliente sede persona nomina formazione formazione_frazionata visita visita_scadenza persona_storica"
+TABELLE="cliente sede persona nomina formazione formazione_frazionata visita visita_scadenza persona_storica corso_scadenza"
 
 declare -A COLONNE=(
   [cliente]="id,werp_id,ragione_sociale,partita_iva,codice_fiscale,attivo,numero_lavoratori,codice_ateco,livello_rischio,livello_antincendio,gruppo_primo_soccorso,created_at,ateco_origine,livello_rischio_definito_mediante,antincendio_definito_mediante,primo_soccorso_definito_mediante"
@@ -21,6 +21,7 @@ declare -A COLONNE=(
   [formazione_frazionata]="id,esecuzione_id,file,codice_fiscale,corso_titolo,data_sessione,dettagli_ore,durata,dichiarazione"
   [visita]="riga,codice_fiscale,tipo,data_esecuzione,dichiarazione,cognome,nome,data_nascita,societa,partita_iva"
   [visita_scadenza]="riga,codice_fiscale,tipo,data_scadenza,stato,dichiarazione"
+  [corso_scadenza]="riga,codice_fiscale,tipo,data_scadenza,stato,dichiarazione"
   [persona_storica]="persona_id,codice_fiscale,cognome,nome,data_nascita,attiva,rapporto_id,mansione,data_assunzione,data_cessazione,cliente_id,ragione_sociale,partita_iva"
 )
 
@@ -30,7 +31,7 @@ declare -A COLONNE=(
 # null_scritto: il 17 settembre 2026 una data di nascita vuota, letta come stringa, ha
 # fermato il caricamento sui dati veri — e la verifica non l'aveva visto perche'
 # esportava anche questi file con la parola.
-TABELLE_DA_SCRIPT="visita visita_scadenza"
+TABELLE_DA_SCRIPT="visita visita_scadenza corso_scadenza"
 
 da_script() { case " $TABELLE_DA_SCRIPT " in *" $1 "*) return 0 ;; esac; return 1; }
 

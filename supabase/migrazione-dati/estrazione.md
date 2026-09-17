@@ -3,7 +3,7 @@
 Pagina per Francesco. Dice cosa lanciare nell'SQL Editor di **AppSopralluoghi**, come salvare i risultati e cosa
 farne dopo.
 
-**Non si fa finché Francesco non ha detto sì.** I nove file contengono nomi e codici fiscali di tutte le
+**Non si fa finché Francesco non ha detto sì.** I dieci file contengono nomi e codici fiscali di tutte le
 persone e finiscono su questo disco: è una sua decisione, non un passo tecnico.
 
 Tutto quello che segue **legge e non scrive**.
@@ -13,7 +13,7 @@ Tutto quello che segue **legge e non scrive**.
 - Una cartella **fuori da qualunque repository**, per esempio
   `C:\Users\Francesco\Documents\migrazione-privata\2026-09-16`. Non sotto `GitHub`: lo script controlla e si
   rifiuta.
-- **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e i nove file restano sul
+- **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e i dieci file restano sul
   disco senza uso: prima PostgreSQL, poi l'estrazione. **Su `OVERALL-PC07` c'e** — PostgreSQL 16.10, misurato il
   16 settembre 2026, e la prova generale ci e passata intera sui dati finti. Su quel PC questo punto e chiuso.
 - Un momento in cui **nessuno sta usando AppSopralluoghi**. Le quattro letture devono vedere lo stesso archivio, e
@@ -249,6 +249,19 @@ Legge e non scrive sugli xlsx, rifiuta una cartella dentro un repository, e stam
 giorno dello scadenzario**, non con l'ultima in assoluto: e l'errore che aveva prodotto le «nove scadenze
 anticipate», di cui vere ne restano due (`0024`). Se si riscaricano, meglio **tutti e due lo stesso giorno**.
 
+### `corso_scadenza.csv` — **lo scadenzario dei corsi di Sicurweb, per il riscontro**
+
+Non si migra: il passo 08 lo confronta con il motore della Fase 4 e non scrive niente. Viene da
+`ExportExcelCorsiScadenze.xlsx`, che e in `Download`, e lo scrive uno script come per le visite:
+
+```bash
+python supabase/migrazione-dati/estrai_scadenzario.py        "C:/Users/Francesco/Downloads/ExportExcelCorsiScadenze.xlsx"        "C:/Users/Francesco/Documents/migrazione-privata/<cartella>"
+```
+
+Stampa `righe_scadenzario_attese` e la data che il file dichiara. **Il riscontro vale se lo scadenzario e gli
+attestati sono dello stesso istante**: oggi lo sono tutti e due, 06/08/2026. Se se ne riscarica uno, vanno
+riscaricati tutti e due.
+
 ## 3. Come si salva ogni risultato
 
 - Dal risultato della query, l'**esportazione in CSV** dell'editor, con il **nome esatto** scritto sopra ogni query,
@@ -313,11 +326,12 @@ bash supabase/migrazione-dati/prova_generale.sh "C:/Users/Francesco/Documents/mi
      clienti_attesi=<clienti> sedi_attese=<sedi> righe_attese=<persone> nomine_attese=<nomine> \
      righe_formazione_attese=<attestati> righe_frazionata_attese=<sessioni> \
      righe_visite_attese=<visite> righe_scadenze_attese=<scadenze> \
-     righe_persone_storiche_attese=<righe> null_scritto=null
+     righe_persone_storiche_attese=<righe> \
+     righe_scadenzario_attese=<scadenzario> null_scritto=null
 ```
 
 con i numeri della fotografia: `clienti_attesi` = `clienti`, `sedi_attese` = `sedi`, `righe_attese` = `persone`,
-`nomine_attese` = `nomine`, `righe_formazione_attese` = `attestati`, `righe_frazionata_attese` = la somma delle due `sessioni`. `righe_visite_attese` e `righe_scadenze_attese` li stampa `estrai_visite.py`. `righe_persone_storiche_attese` = `righe` della fotografia di `persona_storica.csv`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
+`nomine_attese` = `nomine`, `righe_formazione_attese` = `attestati`, `righe_frazionata_attese` = la somma delle due `sessioni`. `righe_visite_attese` e `righe_scadenze_attese` li stampa `estrai_visite.py`. `righe_persone_storiche_attese` = `righe` della fotografia di `persona_storica.csv`. `righe_scadenzario_attese` lo stampa `estrai_scadenzario.py`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
 script si ferma al caricamento e lo dice.
 
 Serve PostgreSQL installato, e nient'altro da configurare. **Su `OVERALL-PC07` c'e**: PostgreSQL **16.10** in

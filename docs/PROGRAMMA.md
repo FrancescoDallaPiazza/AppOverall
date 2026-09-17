@@ -3598,6 +3598,45 @@ le query della prova, solo ASCII.
 | **AppSopralluoghi** | completare VERDEPOSITIVO SRL — invariato | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
+### Il riscontro con Sicurweb e scritto · 17 settembre 2026, sera
+
+**Il secondo passo del piano della Fase 4.** `estrai_scadenzario.py` porta lo
+scadenzario dei corsi del gestionale (`ExportExcelCorsiScadenze`, 4.897 righe, stesso
+istante degli attestati: 06/08/2026) in un CSV, e il **passo 08** lo mette accanto al
+motore **senza scrivere niente**. Per ogni persona e corso — il titolo diventa corso con
+i 268 alias, e di piu titoli sullo stesso corso vale il **rinnovo piu lontano** — una
+categoria sola:
+
+    uguale
+    diversa · transitoria del preposto | periodicita | dichiarata | altro
+    solo Sicurweb · persona fuori anagrafe | non attiva | corso senza obbligo nel catalogo
+                  | ruolo non assegnato | il motore conta un altro corso
+    solo motore
+
+e per le periodicita diverse dice **quale**: «LAV_SPEC 24 mesi invece di 60».
+
+**Una cosa che i dati finti hanno mostrato prima dei veri:** il motore non fa
+`lavoratore` il **datore di lavoro presso il proprio cliente** (la regola di
+AppFormazione). Se Sicurweb tiene a un datore-RSPP la scadenza dei corsi lavoratori, il
+riscontro lo dice come «ruolo non assegnato». Sui dati veri i datori-RSPP sono 116: e
+una delle righe che il primo giro fara vedere, e una decisione possibile.
+
+**Provato**, con due attestati finti in piu perche il motore avesse qualcosa da
+confrontare: una coppia per categoria, **tutte le prove passate**, e quelle dei passi
+01-03 rilanciate. La regola transitoria del preposto non ha un caso finto — nessuna
+persona finta e preposto con un attestato — e ne avra uno quando il motore v2 la porta.
+
+**Sui dati veri serve un giro**, il quinto di oggi: le sette query, e i due script
+(visite e scadenzario) che lancio io dai file in `Download`. E il giro che dice **quanto
+manca** a spegnere Sicurweb.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | quando vuole: il giro con il riscontro | le due domande della Fase 4 (data di Sicurweb, preavviso visite) |
+| **AppOverall** | al giro: leggere il riscontro, e ordinare le regole della v2 per quante righe spiegano | il motore v2 |
+| **AppSopralluoghi** | completare VERDEPOSITIVO SRL — invariato | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
