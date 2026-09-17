@@ -3751,6 +3751,52 @@ entro l'8 ottobre**. Prima di svuotarlo serve sapere cosa contiene che qui non c
 | **AppFormazione** | **inventario di cosa il suo database contiene che AppOverall non porta** (sola lettura), per la decisione 3; poi la misura delle 29 nomine | l'archiviazione, quando Francesco la fissa |
 | **AppSopralluoghi** | completare VERDEPOSITIVO SRL — invariato | — |
 
+### L'app della Fase 4 esiste, sul banco di prova · 17 settembre 2026, sera
+
+**`app/`**: React + Vite + supabase-js, come l'app di AppFormazione. Cinque pagine:
+
+- **Clienti**, i piu urgenti in cima;
+- **Cliente**, con le sue scadenze e i ruoli da confermare;
+- **Scadenze** di tutti, filtrate sul database;
+- **Organigramma da aggiornare**, cioe la lista che la decisione 1 chiedeva;
+- **Registra**, un attestato o una visita fatti (decisione 4).
+
+L'app **non calcola niente**: legge il motore.
+
+**La `0028`** da all'app quello che le serve:
+
+- `v_scadenzario` (formazione e visite in una lista) e `v_scadenzario_cliente`;
+- `v_persona_in_forza`, **una riga per persona e cliente**: chi lavora in due sedi dello
+  stesso cliente compariva due volte, e il banco l'ha trovato;
+- `v_evento_registrato` e il nome del cliente in `v_ruolo_da_confermare`;
+- la **firma**: chi ha registrato e quando lo scrive un trigger. Una firma falsa mandata
+  dal client viene sovrascritta, e **una data nel futuro e rifiutata dal database**, non
+  solo dal modulo.
+
+**Il banco di prova** (`app/prova/avvia.sh`), perche AppOverall non ha ancora un
+database: PostgreSQL con **tutte le migrazioni** e i passi 01–07 sui dati finti, e
+PostgREST davanti come in Supabase, con le RLS vere e `auth.uid()` letto dal token.
+
+**Cosa e provato**, solo su dati finti:
+
+- le cinque pagine si leggono, senza errori in console;
+- un attestato registrato dall'amministrazione **fa diventare «valido» il ponteggio
+  scaduto** di ROSSI (il ruolo resta da confermare);
+- il **tecnico registra**; il **lettore** e **chi non e in `operatore`** sono fermati
+  dalle RLS (403);
+- la **visita doppia** e rifiutata;
+- `verifica_prova_generale.sh` passa con 28 migrazioni.
+
+**Cosa non e provato:** il login vero, perche il banco entra con un token gia firmato, e
+i dati veri. Tutti e due arrivano con il database vero, nella settimana 3 del piano.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | se vuole vederla: `bash app/prova/avvia.sh` e `npm run prova` (istruzioni in `app/README.md`); dire cosa manca o cosa non si capisce | quando e come AppFormazione si ferma |
+| **AppOverall** | **le 289 solo motore**: serve una nuova estrazione dello scadenzario, perche la cartella e cancellata. Si fa **con il si di Francesco** | il database vero sul progetto di AppFormazione, e l'app pubblicata |
+| **AppFormazione** | l'inventario di cosa il suo database contiene che AppOverall non porta (sola lettura). Invariato | l'archiviazione |
+| **AppSopralluoghi** | completare VERDEPOSITIVO SRL. Invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

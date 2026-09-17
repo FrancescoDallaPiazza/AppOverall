@@ -1,0 +1,245 @@
+/* Uno strumento interno: tabelle dense, poco cromo, i numeri che contano in
+   evidenza e gli altri spenti. Niente framework: non c'e ancora niente da
+   astrarre. */
+
+:root {
+  --fondo: #fbfbfa;
+  --carta: #ffffff;
+  --bordo: #e4e2dd;
+  --testo: #1f1e1c;
+  --tenue: #82807a;
+  --accento: #1a5fb4;
+  --grave: #8c1d18;
+  --scaduta: #b3261e;
+  --attesa: #9a6700;
+  --valida: #1a7f37;
+  --font: -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font: 14px/1.5 var(--font);
+  color: var(--testo);
+  background: var(--fondo);
+}
+
+/* ---------- navigazione ---------- */
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 20px;
+  height: 48px;
+  background: var(--carta);
+  border-bottom: 1px solid var(--bordo);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.marchio { font-weight: 600; margin-right: 20px; letter-spacing: -0.01em; }
+
+nav a {
+  color: var(--tenue);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+nav a:hover { background: var(--fondo); color: var(--testo); }
+nav a.active { color: var(--testo); font-weight: 500; background: var(--fondo); }
+
+.spinta { flex: 1; }
+.chi { color: var(--tenue); font-size: 13px; }
+.ruolo {
+  margin-left: 6px; padding: 2px 6px; border-radius: 4px;
+  background: var(--fondo); border: 1px solid var(--bordo); font-size: 11px;
+}
+.ruolo.avviso { color: var(--grave); border-color: var(--grave); }
+
+.esci {
+  margin-left: 12px; padding: 5px 10px; font: inherit; font-size: 13px;
+  background: transparent; border: 1px solid var(--bordo);
+  border-radius: 6px; color: var(--tenue); cursor: pointer;
+}
+.esci:hover { color: var(--testo); border-color: var(--tenue); }
+
+main { padding: 24px 20px 64px; max-width: 1500px; }
+
+/* ---------- testate ---------- */
+
+h1 { font-size: 20px; margin: 0 0 4px; letter-spacing: -0.01em; }
+h2 { font-size: 15px; margin: 32px 0 10px; font-weight: 600; }
+
+.sottotitolo { color: var(--tenue); margin: 0; max-width: 70ch; }
+.briciole { color: var(--tenue); margin: 0 0 8px; font-size: 13px; }
+.briciole a { color: var(--tenue); }
+
+.testata { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 20px; }
+.testata > div { flex: 1; }
+
+.cerca {
+  width: 260px; padding: 7px 10px; font: inherit;
+  border: 1px solid var(--bordo); border-radius: 6px; background: var(--carta);
+}
+.cerca:focus { outline: 2px solid var(--accento); outline-offset: -1px; }
+
+/* ---------- cifre in cima ---------- */
+
+.cifre { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+.cifra {
+  background: var(--carta); border: 1px solid var(--bordo); border-radius: 8px;
+  padding: 12px 16px; min-width: 130px; color: var(--tenue); font-size: 12px;
+}
+.cifra span { display: block; font-size: 24px; color: var(--testo); font-variant-numeric: tabular-nums; }
+.cifra.grave span { color: var(--grave); }
+.cifra.scaduta span { color: var(--scaduta); }
+.cifra.attesa span { color: var(--attesa); }
+
+/* ---------- filtri ---------- */
+
+.filtri { display: flex; gap: 6px; margin-bottom: 16px; }
+.filtri button {
+  font: inherit; padding: 5px 12px; border-radius: 999px; cursor: pointer;
+  background: var(--carta); border: 1px solid var(--bordo); color: var(--tenue);
+}
+.filtri button.attivo { background: var(--testo); color: var(--carta); border-color: var(--testo); }
+.filtri .quanti { margin-left: 7px; opacity: 0.65; font-variant-numeric: tabular-nums; }
+
+/* ---------- tabelle ---------- */
+
+table {
+  width: 100%; border-collapse: collapse; background: var(--carta);
+  border: 1px solid var(--bordo); border-radius: 8px; overflow: hidden;
+}
+th, td { text-align: left; padding: 7px 12px; border-bottom: 1px solid var(--bordo); }
+th {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--tenue); font-weight: 500; background: var(--fondo);
+  position: sticky; top: 48px;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--fondo); }
+td a { color: var(--accento); text-decoration: none; }
+td a:hover { text-decoration: underline; }
+
+.n { text-align: right; font-variant-numeric: tabular-nums; }
+.tenue { color: var(--tenue); }
+.piccolo { font-size: 12.5px; }
+td.grave { color: var(--grave); font-weight: 600; }
+td.scaduta { color: var(--scaduta); font-weight: 600; }
+td.attesa { color: var(--attesa); }
+td.valida { color: var(--valida); }
+
+.tipo {
+  display: block; font-size: 11px; color: var(--tenue);
+}
+
+.griglia td { vertical-align: top; }
+
+/* ---------- pastiglie di stato ---------- */
+
+.pastiglia {
+  display: inline-block; padding: 1px 8px; border-radius: 999px;
+  font-size: 11.5px; white-space: nowrap; border: 1px solid;
+}
+.pastiglia.valido          { color: var(--valida);  border-color: #b7dfc0; background: #eff8f1; }
+.pastiglia.in_scadenza     { color: var(--attesa);  border-color: #ecd28a; background: #fdf8e8; }
+.pastiglia.scaduto         { color: var(--scaduta); border-color: #f0b8b4; background: #fdf0ef; }
+.pastiglia.da_rifare       { color: var(--carta);   border-color: var(--grave); background: var(--grave); }
+.pastiglia.esonerato,
+.pastiglia.non_calcolabile,
+.pastiglia.non_scade       { color: var(--tenue);   border-color: var(--bordo); background: var(--fondo); }
+
+/* ---------- note in coda alle righe ---------- */
+
+.nota-ore, .nota-ciclo, .nota-transitoria { display: block; }
+.nota-ore { color: var(--accento); }
+.nota-ciclo { color: var(--tenue); }
+.nota-transitoria { color: var(--attesa); }
+
+/* ---------- accesso ---------- */
+
+.accesso { display: grid; place-items: center; min-height: 100vh; padding: 20px; }
+.accesso form {
+  width: 320px; background: var(--carta); border: 1px solid var(--bordo);
+  border-radius: 10px; padding: 28px;
+}
+.accesso h1 { margin-bottom: 2px; }
+.accesso .sottotitolo { margin-bottom: 22px; font-size: 13px; }
+.accesso label { display: block; margin-bottom: 14px; font-size: 12.5px; color: var(--tenue); }
+.accesso input {
+  display: block; width: 100%; margin-top: 4px; padding: 8px 10px; font: inherit;
+  border: 1px solid var(--bordo); border-radius: 6px; color: var(--testo);
+}
+.accesso input:focus { outline: 2px solid var(--accento); outline-offset: -1px; }
+.accesso button {
+  width: 100%; padding: 9px; font: inherit; font-weight: 500; cursor: pointer;
+  background: var(--testo); color: var(--carta); border: none; border-radius: 6px;
+}
+.accesso button:disabled { opacity: 0.5; cursor: default; }
+
+/* ---------- messaggi ---------- */
+
+.vuoto { color: var(--tenue); padding: 20px 0; }
+.vuoto.centrato { text-align: center; padding-top: 80px; }
+.errore { color: var(--scaduta); font-size: 13px; margin: 0 0 12px; }
+.nota { color: var(--tenue); font-size: 12px; margin: 16px 0 0; }
+code { font-size: 12px; background: var(--fondo); padding: 1px 4px; border-radius: 3px; }
+
+.riquadro-errore {
+  background: #fdf0ef; border: 1px solid #f0b8b4; border-radius: 8px;
+  padding: 14px 16px; margin: 16px 20px; max-width: 70ch;
+}
+.riquadro-errore p { margin: 6px 0 0; font-size: 13px; }
+
+/* ---------- AppOverall: gli stati del motore (0026, 0027) ---------- */
+
+.pastiglia.mancante     { color: var(--carta);   border-color: var(--grave); background: var(--grave); }
+.pastiglia.incompleto,
+.pastiglia.in_corso     { color: var(--attesa);  border-color: #ecd28a; background: var(--carta); }
+.pastiglia.senza_regola { color: var(--tenue);   border-color: var(--bordo); background: var(--fondo); }
+
+.livello { display: block; font-size: 12px; }
+.livello.livello_non_definito { color: var(--attesa); }
+.livello.conforme { color: var(--valida); }
+.livello.non_conforme { color: var(--scaduta); font-weight: 600; }
+
+.tipo.attesa { color: var(--attesa); }
+.filtri { flex-wrap: wrap; align-items: center; }
+.filtri .spinta { flex: 1; }
+
+/* ---------- AppOverall: il modulo di registrazione ---------- */
+
+.modulo {
+  background: var(--carta); border: 1px solid var(--bordo); border-radius: 8px;
+  padding: 18px 20px; max-width: 720px; margin-bottom: 8px;
+}
+.modulo label { display: block; margin-bottom: 12px; font-size: 12.5px; color: var(--tenue); }
+.modulo input, .modulo select {
+  display: block; width: 100%; margin-top: 4px; padding: 7px 10px; font: inherit;
+  border: 1px solid var(--bordo); border-radius: 6px; color: var(--testo); background: var(--carta);
+}
+.modulo input:focus, .modulo select:focus { outline: 2px solid var(--accento); outline-offset: -1px; }
+.modulo .spunta { display: flex; align-items: center; gap: 8px; color: var(--testo); }
+.modulo .spunta input { width: auto; margin: 0; }
+.modulo button[type="submit"] {
+  padding: 8px 16px; font: inherit; font-weight: 500; cursor: pointer;
+  background: var(--testo); color: var(--carta); border: none; border-radius: 6px;
+}
+.modulo button[type="submit"]:disabled { opacity: 0.5; cursor: default; }
+.cerca.largo { width: 100%; }
+.scelta { margin-bottom: 16px; }
+.scelta .esci { margin-left: 12px; }
+.elenco { list-style: none; margin: 4px 0 0; padding: 0; border: 1px solid var(--bordo); border-radius: 6px; max-height: 320px; overflow: auto; }
+.elenco li + li { border-top: 1px solid var(--bordo); }
+.elenco button {
+  display: block; width: 100%; text-align: left; padding: 7px 10px; font: inherit;
+  background: var(--carta); border: none; cursor: pointer; color: var(--testo);
+}
+.elenco button:hover { background: var(--fondo); }
+.esito { color: var(--valida); font-weight: 500; margin: 12px 0 0; }
+.avviso { color: var(--attesa); font-size: 13px; margin: 0 0 12px; }
