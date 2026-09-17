@@ -3392,6 +3392,52 @@ con due numeri, 2.810 attestati e 298 visite — e cio che non e mai stato racco
 | **AppSopralluoghi** | niente di aperto | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
+### Le 1.036 persone fuori anagrafe entrano con il loro rapporto · 17 settembre 2026, pomeriggio
+
+**Decisione di Francesco: strada C.** Delle tre messe davanti — lasciarle fuori (A),
+portarle senza datore (B), portarle con il cliente per cui lavoravano (C) — ha scelto
+la terza. Io avevo consigliato B, preceduta da una verifica sulle ~120 con una storia
+recente; la verifica resta dentro C come conteggio, e la decisione e sua.
+
+**C chiedeva una cosa che lo schema non sapeva dire: un rapporto finito senza una
+data.** Il gestionale toglie dall'anagrafica chi esce e la data non la scrive (4 righe
+in tutto). In `rapporto_lavoro` l'unico segno di fine era `data_cessazione`, e un
+rapporto con la data vuota **sembra aperto**: mille ex lavoratori sarebbero entrati
+nello scadenzario. **`0025`**: `rapporto_lavoro.cessato`, con il vincolo che una data
+implica cessato e non il contrario. Il passo 02 adesso lo scrive anche lui (data, o
+riga d'origine non attiva).
+
+**Il passo 02b** (`02b_persone_fuori_anagrafe.sql`), fra il 02 e il 03, perche
+attestati, sessioni e visite devono trovare queste persone quando le cercano:
+
+- entra chi ha **una storia** (attestato, sessione, visita) e **non ha una scheda**;
+- il nome da **AppFormazione**, che quelle persone le ha gia promosse; per chi ha
+  **solo visite**, dal file delle visite — `estrai_visite.py` adesso porta anche nome e
+  azienda. Senza nome non si entra, e si conta;
+- il cliente si riconosce **per P.IVA**, poi **per ragione sociale** con la regola del
+  passo 01 ma solo se porta a un cliente solo; altrimenti si crea **non attivo**;
+- il rapporto entra **cessato**, anche per chi AppFormazione dà per attivo: la sua
+  anagrafica e del 6 agosto, quella di AppSopralluoghi del 9 settembre, e vince la
+  piu recente. **Quelle persone si contano a parte**, con quante hanno una storia dal
+  2025: sono le «~120» che potrebbero essere lavoratori persi dall'anagrafe.
+
+**Una query in piu nell'SQL Editor di AppFormazione**, `persona_storica.csv`, con la
+sua fotografia. **Provato:** la verifica carica nove file e **tutte le prove passano**,
+con cinque controlli nuovi; e nei dati finti le persone che finora restavano fuori
+adesso entrano, e portano con se attestati, sessioni e visite — i conti dei passi 04,
+05 e 07 sono cambiati di conseguenza, e lo dicono. Rilanciate anche le prove dei
+passi 01, 02 e 03 su database usa e getta: passano.
+
+**Sui dati veri serve un quarto giro**: le sei query, la settima di AppFormazione, e lo
+script delle visite (che ora porta i nomi).
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | quando vuole: l'estrazione con `persona_storica.csv` | guardare quante persone AppFormazione da per attive e l'anagrafe non ha |
+| **AppOverall** | al giro vero: i due numeri da guardare sono le **attive per AppFormazione** e le **ragioni sociali ambigue** | la Fase 4 |
+| **AppSopralluoghi** | niente di aperto | se il giro conferma persone attive fuori anagrafe: sapere perche mancano |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

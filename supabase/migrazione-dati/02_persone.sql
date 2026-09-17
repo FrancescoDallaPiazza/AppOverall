@@ -153,10 +153,12 @@ select persona_id, null, nullif(codice_fiscale, ''), cognome, nome
 
 -- ---------- regola 1: un rapporto per riga ----------
 
+-- `cessato` dalla `0025`: una data di cessazione, o una riga che l'origine dichiara
+-- non attiva. Il secondo caso e' «finito, non si sa da quando».
 insert into rapporto_lavoro (id, persona_id, cliente_id, sede_id, mansione,
-                             data_assunzione, data_cessazione, import_key)
+                             data_assunzione, data_cessazione, cessato, import_key)
 select id, persona_id, cliente_dest, sede_id, mansione,
-       data_assunzione, data_cessazione, import_key
+       data_assunzione, data_cessazione, data_cessazione is not null or not attivo, import_key
   from riga;
 
 -- ---------- i conti, calcolati dall'origine e non scritti a mano ----------
@@ -217,6 +219,9 @@ begin
   raise notice 'righe d''origine %  ->  rapporti %, persone %', righe, rapporti, persone;
   raise notice '  codici fiscali validi distinti %, righe senza codice valido %', validi_distinti, senza_valido;
   raise notice '  persone fuse che non concordano sul nome: % (vince la riga aggiornata per ultima)', n;
+  raise notice '  rapporti cessati: % (di cui senza una data: %)',
+    (select count(*) from rapporto_lavoro where cessato),
+    (select count(*) from rapporto_lavoro where cessato and data_cessazione is null);
 end
 $$;
 

@@ -3,7 +3,7 @@
 Pagina per Francesco. Dice cosa lanciare nell'SQL Editor di **AppSopralluoghi**, come salvare i risultati e cosa
 farne dopo.
 
-**Non si fa finché Francesco non ha detto sì.** Gli otto file contengono nomi e codici fiscali di tutte le
+**Non si fa finché Francesco non ha detto sì.** I nove file contengono nomi e codici fiscali di tutte le
 persone e finiscono su questo disco: è una sua decisione, non un passo tecnico.
 
 Tutto quello che segue **legge e non scrive**.
@@ -13,7 +13,7 @@ Tutto quello che segue **legge e non scrive**.
 - Una cartella **fuori da qualunque repository**, per esempio
   `C:\Users\Francesco\Documents\migrazione-privata\2026-09-16`. Non sotto `GitHub`: lo script controlla e si
   rifiuta.
-- **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e gli otto file restano sul
+- **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e i nove file restano sul
   disco senza uso: prima PostgreSQL, poi l'estrazione. **Su `OVERALL-PC07` c'e** — PostgreSQL 16.10, misurato il
   16 settembre 2026, e la prova generale ci e passata intera sui dati finti. Su quel PC questo punto e chiuso.
 - Un momento in cui **nessuno sta usando AppSopralluoghi**. Le quattro letture devono vedere lo stesso archivio, e
@@ -45,7 +45,7 @@ select
 
 Copiare la riga che esce. Serve a tre cose:
 
-- **`clienti`, `sedi`, `persone`, `nomine`** sono quattro dei sei conteggi attesi della prova generale (punto 5); gli altri due stanno nell'altro database, qui sotto;
+- **`clienti`, `sedi`, `persone`, `nomine`** sono quattro dei nove conteggi attesi della prova generale (punto 5); tre stanno nell'altro database, qui sotto, e due li stampa lo script delle visite;
 - **`livello_origine`** deve contenere `qualifica`: vuol dire che la loro `070` è applicata. Si legge dal vincolo e
   non da `schema_migrations`, dove le migrazioni date dall'SQL Editor non risultano. Se la colonna esce vuota manca
   la `068`, e la select delle nomine al punto 2 fallirà;
@@ -185,6 +185,41 @@ il percorso di quella sessione e' completato o in corso, e nel gestionale non st
 
 Sono le select di `00_origine.sql`, e se una delle due cambia va cambiata anche l'altra.
 
+### `persona_storica.csv` — **anche questo dall'SQL Editor di AppFormazione**
+
+Le persone di AppFormazione con i loro rapporti e i loro clienti. Servono al passo 02b: chi ha attestati o visite
+e non e nell'anagrafe di AppSopralluoghi entra **con il suo rapporto**, segnato cessato (decisione di Francesco del
+17 settembre 2026). Si estraggono **tutte**: quali entrano lo decide il passo, non la query.
+
+**Prima la fotografia**, e la prima colonna e `righe_persone_storiche_attese`:
+
+```sql
+select (select count(*)
+          from persone p
+          left join rapporti_lavoro r on r.persona_id = p.id
+         where p.codice_fiscale is not null)            as righe,
+       (select count(*) from persone
+         where codice_fiscale is not null)              as persone,
+       (select count(*) from persone
+         where codice_fiscale is not null and not attiva) as non_attive,
+       now()                                            as letto_il;
+```
+
+**Poi l'estrazione:**
+
+```sql
+select p.id as persona_id, p.codice_fiscale, p.cognome, p.nome, p.data_nascita, p.attiva,
+       r.id as rapporto_id, r.mansione, r.data_assunzione, r.data_cessazione,
+       c.id as cliente_id, c.ragione_sociale, c.partita_iva
+  from persone p
+  left join rapporti_lavoro r on r.persona_id = p.id
+  left join clienti c on c.id = r.cliente_id
+ where p.codice_fiscale is not null
+ order by p.id, r.id;
+```
+
+Le righe devono essere quante `righe` della fotografia. Salvare come `persona_storica.csv`.
+
 ### `visita.csv` e `visita_scadenza.csv` — **non da un SQL Editor: da due file del gestionale**
 
 Le visite non stanno in nessun database. Stanno in due export del gestionale, che sono gia su questo PC in
@@ -277,11 +312,12 @@ Da Git Bash, nella cartella del repository AppOverall:
 bash supabase/migrazione-dati/prova_generale.sh "C:/Users/Francesco/Documents/migrazione-privata/2026-09-16" \
      clienti_attesi=<clienti> sedi_attese=<sedi> righe_attese=<persone> nomine_attese=<nomine> \
      righe_formazione_attese=<attestati> righe_frazionata_attese=<sessioni> \
-     righe_visite_attese=<visite> righe_scadenze_attese=<scadenze> null_scritto=null
+     righe_visite_attese=<visite> righe_scadenze_attese=<scadenze> \
+     righe_persone_storiche_attese=<righe> null_scritto=null
 ```
 
 con i numeri della fotografia: `clienti_attesi` = `clienti`, `sedi_attese` = `sedi`, `righe_attese` = `persone`,
-`nomine_attese` = `nomine`, `righe_formazione_attese` = `attestati`, `righe_frazionata_attese` = la somma delle due `sessioni`. `righe_visite_attese` e `righe_scadenze_attese` li stampa `estrai_visite.py`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
+`nomine_attese` = `nomine`, `righe_formazione_attese` = `attestati`, `righe_frazionata_attese` = la somma delle due `sessioni`. `righe_visite_attese` e `righe_scadenze_attese` li stampa `estrai_visite.py`. `righe_persone_storiche_attese` = `righe` della fotografia di `persona_storica.csv`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
 script si ferma al caricamento e lo dice.
 
 Serve PostgreSQL installato, e nient'altro da configurare. **Su `OVERALL-PC07` c'e**: PostgreSQL **16.10** in

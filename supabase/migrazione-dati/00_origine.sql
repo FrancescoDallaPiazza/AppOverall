@@ -290,7 +290,13 @@ create table if not exists origine.visita (
   codice_fiscale text,
   tipo text,
   data_esecuzione date,
-  dichiarazione text
+  dichiarazione text,
+  -- chi e per quale azienda: servono al passo 02b per chi ha SOLO visite
+  cognome text,
+  nome text,
+  data_nascita date,
+  societa text,
+  partita_iva text
 );
 
 create table if not exists origine.visita_scadenza (
@@ -306,3 +312,35 @@ comment on table origine.visita is
   'La storia delle visite (ExportExcelVisiteFatte), una riga per esecuzione, per la sola durata della migrazione dati. La scrive estrai_visite.py; il passo 07 la traduce in sorveglianza.';
 comment on table origine.visita_scadenza is
   'Lo scadenzario delle visite (ExportExcelVisiteScadenze), una riga per persona e tipo. Il passo 07 lo usa solo dove la scadenza dissente dal calcolo sull''ultima visita nota alla data del file.';
+
+-- ---------- le persone che l'anagrafe non ha: da AppFormazione ----------
+--
+-- Decisione di Francesco del 17 settembre 2026 (strada C): chi ha attestati o visite e
+-- non e' nell'anagrafe di AppSopralluoghi entra **con il suo rapporto**. Il nome e il
+-- datore li sa AppFormazione, che quelle persone le ha gia' promosse — 987 «non attive»
+-- dagli eventi, piu' le attive della sua anagrafica — con un rapporto verso il cliente
+-- che gli eventi nominano. Una riga per **rapporto**; la persona senza rapporti ha una
+-- riga sola, con le colonne del rapporto vuote.
+--
+-- Porta tutte le persone di AppFormazione con un codice fiscale: quali entrano lo
+-- decide il passo 02b, confrontandole con l'anagrafe che i passi 01 e 02 hanno gia'
+-- scritto. Filtrare qui vorrebbe dire decidere nell'SQL Editor.
+
+create table if not exists origine.persona_storica (
+  persona_id uuid not null,
+  codice_fiscale text,
+  cognome text,
+  nome text,
+  data_nascita date,
+  attiva boolean,
+  rapporto_id uuid,
+  mansione text,
+  data_assunzione date,
+  data_cessazione date,
+  cliente_id uuid,
+  ragione_sociale text,
+  partita_iva text
+);
+
+comment on table origine.persona_storica is
+  'Le persone di AppFormazione con i loro rapporti e i loro clienti, per la sola durata della migrazione dati. Il passo 02b ne porta quelle che hanno una storia (attestati, sessioni, visite) e che l''anagrafe di AppSopralluoghi non ha, con il rapporto segnato cessato (0025).';

@@ -9,7 +9,8 @@ script fa per loro cio' che l'SQL Editor fa per le altre tabelle — scrive un C
 colonne della select del passo 00, nella cartella dell'estrazione:
 
     visita.csv            la STORIA delle visite (ExportExcelVisiteFatte): una riga per
-                          esecuzione. Non il foglio «Visite» del 09/09, che porta solo
+                          esecuzione, con chi l'ha fatta e per quale azienda — il
+                          passo 02b ne ha bisogno per chi ha SOLO visite. Non il foglio «Visite» del 09/09, che porta solo
                           l'ultima esecuzione per persona e tipo: la storia lo contiene
                           tutto (800 coppie su 800) e ne ha 250 in piu'.
     visita_scadenza.csv   lo scadenzario (ExportExcelVisiteScadenze): una riga per
@@ -17,7 +18,7 @@ colonne della select del passo 00, nella cartella dell'estrazione:
 
 SOLA LETTURA sugli xlsx. Scrive due file e stampa soltanto numeri: i due conteggi da
 passare alla prova generale e la data che ogni file dichiara. Nessun nome, nessun
-codice fiscale.
+codice fiscale: quelli stanno nei file, nella cartella dell'estrazione.
 
 Le colonne si trovano per NOME d'intestazione, non per posizione: i due export hanno
 tracciati diversi (34 e 35 colonne, `Data` in due posti), e un indice fisso
@@ -103,7 +104,8 @@ def main():
     if dentro.returncode == 0:
         ferma("la cartella e dentro un repository git: i dati veri non entrano in nessun repo")
 
-    righe_f, dich_f = leggi(fatte, ["Codice Fiscale", "Genere", "Tipo", "Data"])
+    righe_f, dich_f = leggi(fatte, ["Codice Fiscale", "Genere", "Tipo", "Data",
+                                    "Cognome", "Nome", "Data di nascita", "Società", "P.iva"])
     # Una data vuota nel CSV, letto con null_scritto=null, arriverebbe come stringa
     # vuota e il caricamento si fermerebbe su un errore di tipo che non dice quale
     # riga ne quale file: meglio fermarsi qui, dove lo si sa dire.
@@ -114,9 +116,12 @@ def main():
         ferma("il file delle visite fatte contiene righe che non sono visite: Genere = %s" % sorted(generi))
     with open(os.path.join(cartella, "visita.csv"), "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["riga", "codice_fiscale", "tipo", "data_esecuzione", "dichiarazione"])
+        w.writerow(["riga", "codice_fiscale", "tipo", "data_esecuzione", "dichiarazione",
+                    "cognome", "nome", "data_nascita", "societa", "partita_iva"])
         for r in righe_f:
-            w.writerow([r["riga"], testo(r["Codice Fiscale"]), testo(r["Tipo"]), data_iso(r["Data"]), dich_f])
+            w.writerow([r["riga"], testo(r["Codice Fiscale"]), testo(r["Tipo"]), data_iso(r["Data"]), dich_f,
+                        testo(r["Cognome"]), testo(r["Nome"]), data_iso(r["Data di nascita"]),
+                        testo(r["Società"]), testo(r["P.iva"])])
 
     righe_s, dich_s = leggi(scadenze, ["Codice Fiscale", "Stato", "Tipo", "Data"])
     if any(r["Data"] in (None, "") for r in righe_s):
