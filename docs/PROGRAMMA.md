@@ -3513,6 +3513,45 @@ accanto.
 | **AppSopralluoghi** | niente di aperto | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
+### Le 34 sono in AppSopralluoghi · 17 settembre 2026, pomeriggio
+
+**Scritte da Francesco, nell'SQL Editor di AppSopralluoghi, con uno script preparato
+qui** — non da questa sessione, che su quel database non scrive. Esito: **34 nell'elenco,
+34 presenti, 34 attive in stampatello, 0 senza cliente, 0 senza sede.**
+
+- **Tutte in stampatello**, su sua richiesta: cognome e nome, calcolati quando lo
+  script e stato generato e non con `upper()` nel database — la stessa lezione del
+  16 settembre, un maiuscolo che dipende dal locale del cluster non e un maiuscolo;
+- **con la chiave dell'import** (`anag:<cliente>:<codice fiscale>`): quando il
+  gestionale le riavra, l'import le riconoscera invece di duplicarle. Il loro import
+  non spegne chi manca dal file — verificato su `anagraficheImport.ts` prima di
+  scrivere — quindi restano;
+- **una nota su ogni riga**: da dove vengono, e che la decisione e di Francesco;
+- **l'anteprima aveva trovato 30 su 34.** Le altre 4 erano di **VERDEPOSITIVO SRL**,
+  che in AppSopralluoghi non era un cliente — e l'unico «ex cliente» che il passo 02b
+  aveva dovuto creare. Francesco: inserirle tutte. Quindi lo script ha **creato
+  VERDEPOSITIVO SRL come cliente attivo**, con la sola sede legale, ragione sociale e
+  P.IVA;
+- provato prima su un database finto con le stesse tabelle, nei due casi — cliente
+  mancante e due persone gia inserite in minuscolo — e rilanciato: nessun doppione.
+
+**Cosa cambia per la migrazione:** al prossimo giro queste 34 arrivano dall'anagrafe
+di AppSopralluoghi, cioe dal **passo 02**, e il passo 02b non le tocca piu.
+VERDEPOSITIVO arriva dal **passo 01** come cliente attivo. Il conto atteso del 02b
+scende di conseguenza: 991 persone, nessun rapporto aperto.
+
+**Cosa resta fuori:** il gestionale vero (`overall.sgslweb.com`), che da qui non si
+raggiunge. Li le 34 continuano a mancare, e un giorno che AppSopralluoghi reimportasse
+le anagrafiche da un file del gestionale non le perderebbe, ma non le avrebbe
+nemmeno aggiornate.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | cancellare `migrazione-privata/2026-09-17-e` quando non serve piu; se vuole, reinserire le 34 anche nel gestionale | — |
+| **AppOverall** | la Fase 4 | al prossimo giro vero: le 34 dal passo 02, VERDEPOSITIVO dal passo 01 |
+| **AppSopralluoghi** | **completare VERDEPOSITIVO SRL**: nato con ragione sociale e P.IVA soltanto — indirizzo, ATECO, livelli | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
