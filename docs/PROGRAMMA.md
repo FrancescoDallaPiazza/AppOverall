@@ -3209,6 +3209,64 @@ sezione.
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato; e, se Francesco lo chiede, dire quante delle ~1.000 persone fuori anagrafe loro hanno fra le attive | — |
 
 
+### Il passo 06: l'ATECO sulle sedi, e il rischio che viene dalla tabella non si scrive · 17 settembre 2026
+
+**La misura che il piano lasciava aperta e chiusa, e non l'ho fatta io.** «Se a
+livello di divisione 2007 e 2022 diano classi diverse»: AppFormazione l'aveva gia
+misurata nella sua `0048` — le 88 divisioni dell'Allegato IV e le 88 di ATECO 2022
+sono **lo stesso insieme**, senza resti — e l'allegato dice di se «ancorata ad ATECO
+2007 agg. 2022». A due cifre le due annate non si distinguono, e `'2007'` e il nome
+che la norma usa. Sesta istanza della regola di questa sezione: la risposta c'era,
+in un altro repo, da giorni.
+
+**Il piano diceva una cosa imprecisa, e la decisione 8 la correggeva gia.** «I
+livelli qui sono `valutazione_sede`» — tutti. Ma la decisione 8 dice che **il default
+calcolato dall'ATECO non si sovrascrive**, e la `0001` scrive `valutazione_sede` come
+il posto dello **scostamento**. Quindi:
+
+- **rischio uguale al default: non si scrive.** Si ricalcola, e se la tabella cambia
+  la sede la segue;
+- **rischio diverso, o senza divisione: si scrive**, con il default che la tabella
+  darebbe e il testo che AppSopralluoghi ha scritto accanto (loro `072`);
+- **antincendio e primo soccorso: si scrivono sempre.** Non hanno una tabella da cui
+  ricalcolarli, quindi un livello definito e una decisione.
+
+**E per distinguere i primi due casi mancavano due cose, tutte e due scritte oggi:**
+
+- **la tabella divisione -> classe**, che nel database non c'e e non ci deve stare.
+  La migrazione ne carica una **copia generata** dalla libreria
+  (`genera_allegato_iv.js` -> `allegato_iv.sql`, commit `736699e`), con le tre
+  divisioni dedotte marcate;
+- **quattro colonne che l'estrazione non portava**: `ateco_origine` e i tre
+  `*_definito_mediante`. Aggiunte **in coda** a `cliente.csv`, e la cella va sulla
+  sede con la `0023` — la forma di `titolo_origine`, perche la divisione derivata
+  male si riconosce solo li.
+
+**Cosa e scritto:** `0023`, `06_valutazioni.sql`, i dati finti del 06, la prova
+generale che lo esegue e conta sedi, annate, valutazioni e firma. **Tutte le prove
+passate**, piu due fermate nuove (un livello fuori vocabolario, un ATECO che non e
+una divisione). A parte: rilanciato due volte, il secondo giro non scrive niente; e
+**una valutazione gia presa da un'altra mano non si scavalca** — resta la sua, e si
+conta.
+
+**Cosa il passo non porta, e conta:** il testo di un rischio **tolto** (non c'e un
+valore da annotare) e il testo accanto a un rischio **uguale** al default che non
+dice `tabella_ateco` — l'unico punto in cui la regola perde una frase, e sui dati
+veri va visto quanti sono.
+
+**Non e ancora passato sui dati veri**, e non puo: la cartella di stamattina e
+cancellata, e `cliente.csv` adesso ha **quattro colonne in piu**. Serve una nuova
+estrazione **intera** — sei file, perche la prova e un giro solo e le fotografie
+devono essere dello stesso momento.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | quando vuole: **una nuova estrazione**, con la select di `cliente.csv` aggiornata in `estrazione.md` | la prova generale con il passo 06 dentro; lo storico dei ~1.000 fuori anagrafe resta sua |
+| **AppOverall** | alla prova sui dati veri: guardare i due «NON portati» del 06 e le valutazioni scritte | il passo della sorveglianza, 808 accertamenti |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

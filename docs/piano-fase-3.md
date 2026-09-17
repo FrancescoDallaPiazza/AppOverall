@@ -196,6 +196,9 @@ puo andare in coda.
    percorsi frazionati** (17 settembre: `05_frazionata.sql` e la `0022`), quindi le
    valutazioni di sede sono il **passo 06**. Le due decisioni sono prese (qui sotto):
    resta la misura su 2007 e 2022 a livello di divisione, e poi il lavoro.
+   **Scritto e provato sui dati finti il 17** (`06_valutazioni.sql`, `0023`): la misura
+   c'era gia in AppFormazione, e il rischio uguale al default non si scrive (decisione 8).
+   Manca il giro sui dati veri, con una nuova estrazione.
 4. **Il seed degli alias.** Non dipende da niente: puo andare in qualunque momento, e
    conviene presto perche e quello che si perde piu facilmente.
 5. **La sorveglianza.**
