@@ -3267,6 +3267,42 @@ devono essere dello stesso momento.
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
 
+### Il passo 06 sui dati veri: 262 divisioni, zero valutazioni · 17 settembre 2026, tarda mattina
+
+**Arrivata in fondo**, seconda estrazione del giorno (cartella `2026-09-17-b`, sei
+file, `cliente.csv` con le quattro colonne nuove). Tutti i passi da 01 a 05 danno
+**gli stessi numeri** del giro delle 10, e i file hanno le stesse dimensioni.
+
+    unita d'origine 608  ->  divisioni ATECO 262, scritte su 262 sedi (annata 2007)
+    livelli di rischio 262: uguali al default 262 (6 su una divisione dedotta), diversi 0
+    come e stato deciso: tabella_ateco 1, non risulta 261
+    antincendio 0, primo soccorso 0  ->  valutazioni vive: nessuna
+
+**Il risultato e piu povero di quanto il piano facesse pensare, ed e la cosa da
+sapere.** «Almeno un livello su 262» erano **262 livelli di rischio e nient'altro**, e
+**tutti e 262 coincidono con l'Allegato IV**: in AppSopralluoghi il livello e stato
+derivato dall'ATECO, come dice il loro `STATO.md`. Quindi, applicata la decisione 8,
+**non c'e una sola valutazione da migrare**. Antincendio e primo soccorso sono vuoti
+su tutte le 608 unita — lo zero della decisione 11 dell'11 settembre e ancora zero.
+E la cella d'origine dell'ATECO non c'e su nessuna: la loro `065` lo prevedeva, si
+riempie al prossimo import delle anagrafiche, che non c'e stato.
+
+**Da questo giro la Fase 3 non ha piu un dato anagrafico che resta fuori per forma.**
+Restano fuori per scelta, contati: i ~1.000 fuori anagrafe del passo 04, e cio che non
+e mai stato raccolto (357 ATECO, i livelli di emergenza).
+
+**Resta da ricevere:** la fotografia «dopo» di AppSopralluoghi e quella degli
+attestati. I file hanno le stesse dimensioni di quelli delle 10 e i conteggi tornano,
+ma finche quelle due righe non ci sono il giro e **provato sui numeri**, non sulla
+fotografia.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | incollare le due fotografie mancanti, poi **cancellare `migrazione-privata/2026-09-17-b`** | lo storico dei ~1.000 fuori anagrafe |
+| **AppOverall** | il passo della sorveglianza, 808 accertamenti | — |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
