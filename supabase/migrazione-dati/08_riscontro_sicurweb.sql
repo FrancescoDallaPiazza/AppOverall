@@ -32,6 +32,8 @@
 --                              preposto che il motore v1 non ha ancora
 --   diversa · periodicita      Sicurweb conta dallo stesso attestato con un'altra
 --                              periodicita': si dice quale, e si decide chi ha ragione
+--   diversa · Sicurweb sbaglia la periodicita (deciso)
+--                              quella decisione e' gia' presa: il catalogo ha ragione
 --   diversa · dichiarata       il motore usa una scadenza dichiarata sull'attestato
 --   diversa · altro            nessuna delle ragioni sopra: si guardano una per una
 --   solo Sicurweb · ...        il motore non ha quella coppia, e la ragione e' una fra
@@ -100,6 +102,20 @@ select distinct on (persona_id, corso)
  where corso is not null
  order by persona_id, corso, scadenza desc nulls last;
 
+-- ---------- le periodicita che Francesco ha gia deciso ----------
+--
+-- Quando Sicurweb conta da un attestato con una periodicita diversa dal catalogo, chi ha
+-- ragione lo decide Francesco, e una decisione presa non va rifatta a ogni giro. Il 17
+-- settembre 2026, sul primo riscontro vero: **il catalogo ha ragione** su LAV_SPEC (60
+-- mesi, non 36) e su PS_BLSD_LAICO (24, non 36). Quelle coppie restano diverse — Sicurweb
+-- le sollecita alla data sbagliata — ma la ragione e scritta.
+
+create temp table periodicita_decisa on commit drop as
+select * from (values
+  ('LAV_SPEC',      36, 'Francesco, 17.09.2026: 60 mesi, come il catalogo'),
+  ('PS_BLSD_LAICO', 36, 'Francesco, 17.09.2026: 24 mesi, come il catalogo')
+) v(corso_codice, mesi_sicurweb, decisione);
+
 -- ---------- il confronto ----------
 
 create temp table confronto on commit drop as
@@ -133,6 +149,10 @@ select s.persona_id, s.cf, s.corso_codice, s.scadenza as sw_scadenza, s.date as 
          when s.corso_codice = 'PREPOSTO' and s.scadenza in (date '2026-05-19', date '2027-05-19')
               then 'diversa · transitoria del preposto'
          when m.scadenza_dichiarata is not null then 'diversa · dichiarata'
+         when exists (select 1 from periodicita_decisa d
+                       where d.corso_codice = s.corso_codice
+                         and (m.completato_il + (d.mesi_sicurweb || ' months')::interval)::date = s.scadenza)
+              then 'diversa · Sicurweb sbaglia la periodicita (deciso)'
          when m.completato_il is not null
               and exists (select 1 from generate_series(1, 120) k
                            where (m.completato_il + (k || ' months')::interval)::date = s.scadenza)

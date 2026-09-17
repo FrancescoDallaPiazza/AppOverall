@@ -16,7 +16,8 @@
 --   11  senza codice fiscale
 --   12  un titolo che il dizionario non conosce
 --   13  un titolo ignorato a mano
---   e ZSGC ha un LAV_SPEC che Sicurweb non tiene: «solo motore»
+--   15  periodicita gia decisa: ZSGC ha LAV_SPEC del 06/06/2023 e Sicurweb conta 36 mesi,
+--       che Francesco ha detto sbagliati il 17.09.2026 (fino a quel giorno ZSGC era «solo motore»)
 --   e ZSGC ha un antincendio di livello 2 su una sede di livello 1: esito «conforme»
 --   (dal 0027 la riga 8 dice «nessun attestato del corso»: JQIO l'antincendio non l'ha)
 --
@@ -46,4 +47,5 @@ insert into origine.corso_scadenza (riga, codice_fiscale, tipo, data_scadenza, s
   (11, null,               'Aggiornamento Lavoratori 6 ore', '2029-01-01', '', 'Dati aggiornati al 06/08/2026 07:55'),
   (12, 'JQIOBW08B92B915V', 'CORSO INVENTATO DI SANA PIANTA', '2029-01-01', '', 'Dati aggiornati al 06/08/2026 07:55'),
   (13, 'JQIOBW08B92B915V', 'ADDETTO LAVORI IN AMBIENTI SOSPETTI DI PRESENZA AMIANTO', '2029-01-01', '', 'Dati aggiornati al 06/08/2026 07:55'),
-  (14, 'JQIOBW08B92B915V', 'Aggiornamento Lavoratori 6 ore', '2030-03-10', '', 'Dati aggiornati al 06/08/2026 07:55');
+  (14, 'JQIOBW08B92B915V', 'Aggiornamento Lavoratori 6 ore', '2030-03-10', '', 'Dati aggiornati al 06/08/2026 07:55'),
+  (15, 'ZSGCRSQ3HV1S5Q8P', 'Aggiornamento Lavoratori 6 ore', '2026-06-06', '', 'Dati aggiornati al 06/08/2026 07:55');

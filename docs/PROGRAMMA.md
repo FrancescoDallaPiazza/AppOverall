@@ -3746,7 +3746,7 @@ entro l'8 ottobre**. Prima di svuotarlo serve sapere cosa contiene che qui non c
 
 | chi | adesso | poi |
 |---|---|---|
-| **Francesco** | decidere le **10 periodicita** (LAV_SPEC a 36 mesi su 8 persone, BLSD laico a 36 su 2); cancellare `migrazione-privata/2026-09-17-e` e `-f` | quando e come AppFormazione si ferma |
+| **Francesco** | ~~decidere le 10 periodicita~~ **decise: il catalogo ha ragione** — LAV_SPEC 60 mesi, BLSD laico 24. Il passo 08 le chiama «Sicurweb sbaglia la periodicita (deciso)», e le cartelle `-e` e `-f` sono gia cancellate | quando e come AppFormazione si ferma |
 | **AppOverall** | **l'interfaccia**: lettura dello scadenzario e dei ruoli da confermare, e l'**inserimento** di attestati e visite (decisione 4) | le 289 solo motore; il database vero sul progetto di AppFormazione |
 | **AppFormazione** | **inventario di cosa il suo database contiene che AppOverall non porta** (sola lettura), per la decisione 3; poi la misura delle 29 nomine | l'archiviazione, quando Francesco la fissa |
 | **AppSopralluoghi** | completare VERDEPOSITIVO SRL — invariato | — |

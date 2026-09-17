@@ -102,9 +102,9 @@ ok "$("${X[@]}" -At -c "select count(*) from prova_null where t is null")" "1" "
 cluster_ferma >/dev/null
 # Righe di file, non record: in cliente.csv una cella va a capo (il testo accumulato
 # di un livello tolto, come lo scrive AppSopralluoghi), quindi 11 unita sono 12 righe.
-ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "12 10 5 9 15 10 10 6 5 11" "righe esportate: 11 unita (una cella a capo), 10 sedi, 5 persone, 9 nomine, 15 attestati, 10 sessioni frazionate, 10 visite, 6 scadenze, 5 righe di persone storiche, 11 righe di scadenzario"
+ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "12 10 5 9 15 10 10 6 5 12" "righe esportate: 11 unita (una cella a capo), 10 sedi, 5 persone, 9 nomine, 15 attestati, 10 sessioni frazionate, 10 visite, 6 scadenze, 5 righe di persone storiche, 12 righe di scadenzario"
 ok "$(grep -c $'\xc3\x8c' "$CSV/persona.csv")" "1" "persona.csv e UTF-8, con una lettera accentata"
-ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=11"
+ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=12"
 
 echo "== la prova generale arriva in fondo"
 if generale "$CSV" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; FALLITI=$((FALLITI+1)); fi
@@ -164,11 +164,11 @@ ok "$(grep -E '^  motore: obblighi [0-9]' "$USCITA")" "  motore: obblighi 13: va
 ok "$(grep -E '^  motore: obblighi senza regola' "$USCITA")" "  motore: obblighi senza regola per ruolo: datore_lavoro_art16 1" "e quali ruoli non hanno ancora una regola: dal 0027 l'antincendio ce l'ha"
 ok "$(grep -E '^  motore: da attestato' "$USCITA")" "  motore: da attestato, ruolo da confermare 3 (senza un ruolo proposto 0); livello di emergenza: conforme 1" "la v2 segue i corsi senza nomina, e confronta il livello dell'antincendio"
 ok "$(grep -E '^  motore: visite' "$USCITA")" "  motore: visite 3: valido 2, scaduto 1" "e lo stato delle visite, sulle persone con un rapporto vivo"
-ok "$(grep -oE 'scadenzario Sicurweb [0-9]+  ->  coppie persona-corso confrontate [0-9]+' "$USCITA")" "scadenzario Sicurweb 11  ->  coppie persona-corso confrontate 7" "il riscontro confronta per persona e corso"
+ok "$(grep -oE 'scadenzario Sicurweb [0-9]+  ->  coppie persona-corso confrontate [0-9]+' "$USCITA")" "scadenzario Sicurweb 12  ->  coppie persona-corso confrontate 8" "il riscontro confronta per persona e corso"
 ok "$(grep -oE 'righe NON confrontabili: .*' "$USCITA")" "righe NON confrontabili: 1 senza codice fiscale valido, 1 con un titolo che il dizionario non conosce, 1 con un titolo ignorato a mano" "e dice cosa non ha potuto confrontare"
-ok "$(grep -oE 'riscontro: .*' "$USCITA")" "riscontro: uguale 2, diversa · periodicita 1, solo Sicurweb · nessun attestato del corso 2, solo Sicurweb · persona non attiva 1, solo Sicurweb · persona fuori anagrafe 1" "ogni coppia in una categoria sola: di due titoli sullo stesso corso vale il rinnovo piu lontano, e il datore-RSPP con il corso lavoratori torna uguale dal 0027"
+ok "$(grep -oE 'riscontro: .*' "$USCITA")" "riscontro: uguale 2, diversa · Sicurweb sbaglia la periodicita (deciso) 1, diversa · periodicita 1, solo Sicurweb · nessun attestato del corso 2, solo Sicurweb · persona non attiva 1, solo Sicurweb · persona fuori anagrafe 1" "ogni coppia in una categoria sola: di due titoli sullo stesso corso vale il rinnovo piu lontano, e il datore-RSPP con il corso lavoratori torna uguale dal 0027"
 ok "$(grep -oE 'periodicita diverse \(corso, mesi di Sicurweb, mesi del catalogo, coppie\): .*' "$USCITA")" "periodicita diverse (corso, mesi di Sicurweb, mesi del catalogo, coppie): LAV_SPEC 24 mesi invece di 60 (1)" "una periodicita diversa dice quale"
-ok "$(grep -oE 'solo motore: .*' "$USCITA")" "solo motore: 4 (per corso: LAV_SPEC 1, ATTR_AMB_CONFINATI 1, AI_LIV2 1, PONTEGGI 1)" "e le scadenze che Sicurweb non tiene si contano"
+ok "$(grep -oE 'solo motore: .*' "$USCITA")" "solo motore: 3 (per corso: ATTR_AMB_CONFINATI 1, AI_LIV2 1, PONTEGGI 1)" "e le scadenze che Sicurweb non tiene si contano"
 ok "$(grep -oE '^  268 alias.*' "$USCITA")" "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse" "il seed degli alias e caricato e contato"
 
 echo "== e ci arriva anche con i file come potrebbe salvarli un editor"
@@ -201,15 +201,15 @@ fermata "una parola che non e una parola" "controlli iniziali" "solo lettere, ci
 
 echo "== e si ferma davvero, dicendo dove"
 fermata "nomine attese sbagliate"   "passo 03" "\(a\) origine.nomina ha 9 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=8 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=11
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=8 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=12
 fermata "persone attese sbagliate"  "passo 02" "\(a\) origine.persona ha 5 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=6 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=11
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=6 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=12
 fermata "clienti attesi sbagliati"  "passo 01" "\(a\) origine.cliente ha 11 righe" \
-  "$CSV" clienti_attesi=12 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=11
+  "$CSV" clienti_attesi=12 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=12
 fermata "attestati attesi sbagliati" "passo 04" "\\(a\\) origine.formazione ha 15 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=9 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=11
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=9 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=12
 fermata "sessioni attese sbagliate" "passo 05" "\\(a\\) origine.formazione_frazionata ha 10 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=9 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=11
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=9 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=12
 
 # Un secondo caricamento dello stesso file nello staging: le righe sono valide e i
 # conti tornano, e a fermarlo deve essere il controllo sui caricamenti.
@@ -229,7 +229,7 @@ C="$(copia accertamento_ignoto)"
 sed -i -E '/^9,/ s/,Esame Audiometrico,/,Esame Posturale,/' "$C/visita.csv"
 fermata "un accertamento che il vocabolario non ha" "passo 07" "\(c\) 1 tipi di accertamento" "$C" $ATTESI
 fermata "visite attese sbagliate" "passo 07" "\(a\) origine.visita ha 10 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=9 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=11
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=9 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=12
 
 C="$(copia ore_illeggibili)"
 sed -i -E '/^204,/ s#,2/6,#,due ore,#' "$C/formazione_frazionata.csv"
@@ -240,7 +240,7 @@ sed -i -E '/^00000000-0000-0000-0000-0000000000e7,/ s/,t,/,f,/' "$C/nomina.csv"
 fermata "una nomina non attiva"     "passo 03" "\(d\) 1 nomine non attive" "$C" $ATTESI
 
 fermata "un conteggio mancante"     "controlli iniziali" "manca nomine_attese" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=11
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 righe_formazione_attese=15 righe_frazionata_attese=10 righe_visite_attese=10 righe_scadenze_attese=6 righe_persone_storiche_attese=5 righe_scadenzario_attese=12
 fermata "la cartella dentro un repo" "controlli iniziali" "dentro un repository git" "$DIR" $ATTESI
 
 C="$(copia ordine)"
