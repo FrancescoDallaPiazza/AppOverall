@@ -3354,6 +3354,44 @@ script per le visite. Gli xlsx sono gia in `Download`.
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
 
+### La prova generale con la sorveglianza: otto file, e arriva in fondo · 17 settembre 2026, mezzogiorno
+
+**Terzo giro del giorno, cartella `2026-09-17-c`.** Fotografie di AppSopralluoghi
+identiche alle 11:32 e alle 11:35, quattro zeri, 13.215 attestati, un caricamento per
+ciascun `FormFraz`. I due CSV delle visite li ha scritti `estrai_visite.py` dai file in
+`Download`. I passi da 01 a 06 danno gli stessi numeri dei due giri di prima.
+
+    visite d'origine 1383     ->  visite scritte 1046, su 778 persone
+    scadenzario 812           ->  uguali al calcolo 764, anticipate 2 (scritte), posticipate 0
+    coppie persona-accertamento 799, con l'ultima visita scaduta oggi 320
+
+**Fuori, e contati:** 38 visite senza codice fiscale valido e **298 con un codice che
+l'anagrafe non ha** — la stessa forma dei 2.810 attestati del passo 04, sulle stesse
+persone o su altre; dello scadenzario 11 senza codice, 26 fuori anagrafe, 9 senza
+nessuna visita fino al 6 agosto, 10 «PIANIFICATA». Una sola visita registrata due
+volte fra quelle entrate (le altre otto misurate stamattina cadono fra le escluse).
+
+**Le due anticipate vere sono entrate, e la vista le mostra.** Nessuna delle due e
+su una persona rivista dopo il 6 agosto.
+
+**E un conteggio che avevo scritto male e il giro ha mostrato subito.** La prima
+versione della riga finale diceva «scadute oggi 555»: contava **ogni visita della
+storia**, e una visita del 2019 e scaduta per forza. Il numero che serve e sull'ultima
+visita per persona e tipo — 320 su 799 — e la riga adesso conta quello. Con la storia
+dentro, **«per riga» e «per coppia» non sono piu la stessa domanda**: la vista e per
+riga, e il motore della Fase 4 dovra chiedere per coppia.
+
+**Con questo giro ogni tabella che ha un'origine ha il suo passo, provato sui dati
+veri.** Restano fuori per scelta e contati: le persone che l'anagrafe non ha — adesso
+con due numeri, 2.810 attestati e 298 visite — e cio che non e mai stato raccolto.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | **cancellare `migrazione-privata/2026-09-17-c`**; e, quando vuole, decidere lo storico dei fuori anagrafe, che adesso tocca anche le visite | — |
+| **AppOverall** | misurare **quante persone** fra i fuori anagrafe dei passi 04 e 07 sono le stesse, per dare a Francesco un numero solo | la Fase 4 |
+| **AppSopralluoghi** | niente di aperto | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

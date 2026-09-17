@@ -278,7 +278,11 @@ echo; echo "== $FASE"
   select '  visite ' || count(*) || ', su ' || count(distinct persona_id) || ' persone'
       || ', scadenze dichiarate ' || count(scadenza_dichiarata)
       || ' (anticipate ' || count(*) filter (where anticipata) || ')'
-      || ', scadute oggi ' || count(*) filter (where scadenza < current_date)
+      || '; coppie persona-accertamento ' || (select count(*) from (select distinct persona_id, accertamento from sorveglianza) c)
+      || ', con l''ultima visita scaduta oggi ' || (select count(*) from (
+           select distinct on (persona_id, accertamento) scadenza
+             from v_sorveglianza order by persona_id, accertamento, data_esecuzione desc) u
+          where u.scadenza < current_date)
     from v_sorveglianza" || ferma "conteggi non letti"
 "${PSQL[@]}" -d generale -At -c "
   select '  nomine per ruolo: ' || coalesce(string_agg(ruolo || ' ' || n, ', ' order by n desc, ruolo), 'nessuna')
