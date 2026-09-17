@@ -152,6 +152,16 @@ ok "$(grep -oE 'NON entrate: [0-9]+ senza un nome' "$USCITA")" "NON entrate: 1 s
 ok "$(grep -oE 'ATTIVE per AppFormazione e assenti dall.anagrafe: [0-9]+ \(di cui con una storia dal 2025: [0-9]+\)' "$USCITA")" "ATTIVE per AppFormazione e assenti dall'anagrafe: 1 (di cui con una storia dal 2025: 1)" "chi AppFormazione da per attivo si conta a parte"
 ok "$(grep -oE 'aziende: riconosciute per P.IVA [0-9]+, per ragione sociale [0-9]+, ex clienti creati non attivi [0-9]+' "$USCITA")" "aziende: riconosciute per P.IVA 1, per ragione sociale 2, ex clienti creati non attivi 2" "il cliente si riconosce per P.IVA o per ragione sociale, e solo se manca si crea"
 ok "$(grep -oE 'rapporti scritti da questo passo: cessati [0-9]+, aperti [0-9]+ \(di cui su un cliente non attivo: [0-9]+\); persone entrate senza nessun rapporto: [0-9]+' "$USCITA")" "rapporti scritti da questo passo: cessati 3, aperti 2 (di cui su un cliente non attivo: 1); persone entrate senza nessun rapporto: 0" "cessati, tranne quelli di chi AppFormazione da per attivo"
+# Il motore v1 (0026) sui dati finti: distribuzioni, e cambiano solo se cambia il motore
+# o i dati finti. «in_corso» e le sessioni aperte di HOZU; i due «senza_regola» sono i
+# ruoli che il catalogo non assolve ancora (decisione 11, e il datore delegato).
+# ATTENZIONE: gli stati si contano rispetto a OGGI. Le date finte li tengono fermi fino
+# all'estate 2027 (la visita annuale del 28/08/2026 entra in preavviso a fine giugno 2027):
+# se queste righe falliscono dopo, e il calendario e non il motore — si aggiornano le date.
+ok "$(grep -E '^  motore: sedi' "$USCITA")" "  motore: sedi con una classe 6 su 10 (dall'ATECO 3, valutate 3)" "il motore legge la classe della sede: default ATECO o valutazione"
+ok "$(grep -E '^  motore: obblighi [0-9]' "$USCITA")" "  motore: obblighi 10: mancante 5, senza_regola 2, valido 2, in_corso 1" "il motore dice lo stato di ogni obbligo"
+ok "$(grep -E '^  motore: obblighi senza regola' "$USCITA")" "  motore: obblighi senza regola per ruolo: addetto_antincendio 1, datore_lavoro_art16 1" "e quali ruoli non hanno ancora una regola"
+ok "$(grep -E '^  motore: visite' "$USCITA")" "  motore: visite 3: valido 2, scaduto 1" "e lo stato delle visite, sulle persone con un rapporto vivo"
 ok "$(grep -oE '^  268 alias.*' "$USCITA")" "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse" "il seed degli alias e caricato e contato"
 
 echo "== e ci arriva anche con i file come potrebbe salvarli un editor"

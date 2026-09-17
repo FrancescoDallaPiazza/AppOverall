@@ -3552,6 +3552,52 @@ nemmeno aggiornate.
 | **AppSopralluoghi** | **completare VERDEPOSITIVO SRL**: nato con ragione sociale e P.IVA soltanto — indirizzo, ATECO, livelli | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
+### La Fase 4 comincia: il piano, e il motore v1 · 17 settembre 2026, pomeriggio
+
+**Il piano sta in `docs/piano-fase-4.md`.** Il criterio del programma — Sicurweb si
+spegne sullo scadenzario senza due finestre aperte — diventa un **numero**: il riscontro
+fra il motore e lo scadenzario che il gestionale esporta (`ExportExcelCorsiScadenze`,
+`ExportExcelVisiteScadenze`), righe uguali, diverse con una ragione, diverse senza. Si
+esce quando le ultime sono zero.
+
+**L'ordine:** motore v1 → riscontro con Sicurweb → motore v2 guidato dal riscontro →
+interfaccia (le pagine di AppFormazione) → giro vero sul progetto Supabase. Il motore
+prima del riscontro perche il riscontro confronta il motore; il riscontro prima della v2
+perche e lui a dire quali regole servono.
+
+**Il motore v1 e scritto** (`0026_il_motore_v1.sql`), e riusa l'impianto di
+AppFormazione — letto per intero prima di scrivere — con quello che qui si sa in piu:
+
+- **`ateco_classe`**, le 88 divisioni dell'Allegato IV **generate dalla libreria**
+  (`736699e`), come la decisione 7 chiede alle tabelle con una chiave; la classe della
+  sede resta calcolata (`v_classe_sede`), come chiede la 8;
+- **`v_obbligo_persona`**: nomine vive e `lavoratore` per ogni rapporto **non
+  cessato**, senza l'RSPP esterno e senza fare lavoratore il datore;
+- **`v_scadenza_formazione`**: l'ultimo attestato che **chiude il percorso** e non e nel
+  futuro; la scadenza dall'ultimo corso **periodico**, perche `lavoratore` si assolve con
+  `LAV_GEN` o `LAV_SPEC` e si aggiorna solo la seconda — chi ha solo la parte che non
+  scade e **incompleto**, non in regola per sempre. Stati: `senza_regola`, `mancante`,
+  `in_corso`, `non_scade`, `incompleto`, `scaduto`, `in_scadenza`, `valido`;
+- **`v_scadenza_visita`**: l'ultima visita per persona e accertamento;
+- **`scadenzario_preavviso`**: 180 e 90 giorni come AppFormazione; **60 per le visite e
+  una proposta**, marcata non decisa.
+
+**Non fa ancora, e lo dice:** crediti, regimi precedenti, regola transitoria del
+preposto, ore per classe, livelli di emergenza. Sui dati finti: 10 obblighi — 5
+mancanti, 2 senza regola (antincendio, datore delegato), 2 validi, 1 in corso — e 3
+visite. **Tutte le prove passate.**
+
+**E una cosa che la prova ha insegnato:** una riga di conteggio con un trattino lungo
+falliva su Windows, perche `psql` riceve la query nella codifica della console. Dentro
+le query della prova, solo ASCII.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | due domande che non bloccano: **entro quando va spento Sicurweb**, e **il preavviso delle visite** (60 giorni e una proposta) | — |
+| **AppOverall** | **il riscontro con Sicurweb**: lo scadenzario del gestionale come origine, e un passo che lo confronta col motore | poi un giro vero, per leggere motore e riscontro sui dati del giorno |
+| **AppSopralluoghi** | completare VERDEPOSITIVO SRL — invariato | — |
+| **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

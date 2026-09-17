@@ -291,6 +291,28 @@ echo; echo "== $FASE"
              from v_sorveglianza order by persona_id, accertamento, data_esecuzione desc) u
           where u.scadenza < current_date)
     from v_sorveglianza" || ferma "conteggi non letti"
+# Il motore (0026) sui dati appena migrati: non e' un passo della migrazione, e' la
+# prima lettura dello scadenzario. Stampa distribuzioni, non persone. Solo ASCII dentro
+# le query: su Windows un carattere come il trattino lungo arriva a psql nella codifica
+# della console, e la query fallisce (17 settembre 2026).
+"${PSQL[@]}" -d generale -At -c "
+  select '  motore: sedi con una classe ' || count(*) filter (where classe is not null)
+      || ' su ' || count(*)
+      || ' (dall''ATECO ' || count(*) filter (where classe_da = 'ateco')
+      || ', valutate ' || count(*) filter (where classe_da = 'valutazione') || ')'
+    from v_classe_sede" || ferma "motore non letto"
+"${PSQL[@]}" -d generale -At -c "
+  select '  motore: obblighi ' || (select count(*) from v_scadenza_formazione)
+      || ': ' || coalesce(string_agg(stato || ' ' || n, ', ' order by n desc, stato), 'nessuno')
+    from (select stato, count(*) n from v_scadenza_formazione group by stato) s" || ferma "motore non letto"
+"${PSQL[@]}" -d generale -At -c "
+  select '  motore: obblighi senza regola per ruolo: '
+      || coalesce(string_agg(ruolo || ' ' || n, ', ' order by n desc, ruolo), 'nessuno')
+    from (select ruolo, count(*) n from v_scadenza_formazione where stato = 'senza_regola' group by ruolo) s" || ferma "motore non letto"
+"${PSQL[@]}" -d generale -At -c "
+  select '  motore: visite ' || (select count(*) from v_scadenza_visita)
+      || ': ' || coalesce(string_agg(stato || ' ' || n, ', ' order by n desc, stato), 'nessuna')
+    from (select stato, count(*) n from v_scadenza_visita group by stato) s" || ferma "motore non letto"
 "${PSQL[@]}" -d generale -At -c "
   select '  nomine per ruolo: ' || coalesce(string_agg(ruolo || ' ' || n, ', ' order by n desc, ruolo), 'nessuna')
     from (select ruolo, count(*) n from nomina group by ruolo) s" || ferma "conteggi non letti"
