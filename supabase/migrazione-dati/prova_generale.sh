@@ -314,6 +314,14 @@ echo; echo "== $FASE"
       || coalesce(string_agg(ruolo || ' ' || n, ', ' order by n desc, ruolo), 'nessuno')
     from (select ruolo, count(*) n from v_scadenza_formazione where stato = 'senza_regola' group by ruolo) s" || ferma "motore non letto"
 "${PSQL[@]}" -d generale -At -c "
+  select '  motore: da attestato, ruolo da confermare ' || count(*) filter (where ruolo_da_confermare)
+      || ' (senza un ruolo proposto ' || count(*) filter (where ruolo_da_confermare and ruolo is null) || ')'
+      || '; livello di emergenza: '
+      || coalesce((select string_agg(esito_livello || ' ' || n, ', ' order by n desc, esito_livello)
+                     from (select esito_livello, count(*) n from v_scadenza_formazione
+                            where esito_livello is not null group by 1) e), 'nessuno')
+    from v_scadenza_formazione" || ferma "motore non letto"
+"${PSQL[@]}" -d generale -At -c "
   select '  motore: visite ' || (select count(*) from v_scadenza_visita)
       || ': ' || coalesce(string_agg(stato || ' ' || n, ', ' order by n desc, stato), 'nessuna')
     from (select stato, count(*) n from v_scadenza_visita group by stato) s" || ferma "motore non letto"

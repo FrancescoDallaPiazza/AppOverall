@@ -17,6 +17,8 @@
 --   12  un titolo che il dizionario non conosce
 --   13  un titolo ignorato a mano
 --   e ZSGC ha un LAV_SPEC che Sicurweb non tiene: «solo motore»
+--   e ZSGC ha un antincendio di livello 2 su una sede di livello 1: esito «conforme»
+--   (dal 0027 la riga 8 dice «nessun attestato del corso»: JQIO l'antincendio non l'ha)
 --
 -- La regola transitoria del preposto non ha un caso: nessuna persona finta e' preposto
 -- con un attestato. Si aggiunge quando il motore v2 la porta.
@@ -29,7 +31,9 @@ values
   ('00000000-0000-0000-0000-0000000000fd', 'HOZUNW31P60Q756F',
    'Aggiornamento Lavoratori 6 ore', 'GEST-ffffffff', '2024-02-02', 6, 'Ente Alfa', null, 'interna'),
   ('00000000-0000-0000-0000-0000000000fe', 'ZSGCRSQ3HV1S5Q8P',
-   'Aggiornamento Lavoratori 6 ore', 'GEST-ffffffff', '2023-06-06', 6, 'Ente Alfa', null, 'interna');
+   'Aggiornamento Lavoratori 6 ore', 'GEST-ffffffff', '2023-06-06', 6, 'Ente Alfa', null, 'interna'),
+  ('00000000-0000-0000-0000-0000000000ff', 'ZSGCRSQ3HV1S5Q8P',
+   'CORSO DI AGGIORNAMENTO ANTINCENDIO PER ADDETTI ANTINCENDIO IN ATTIVITÀ DI LIVELLO 2', 'GEST-aaaaaaa2', '2025-01-15', 5, 'Ente Alfa', null, 'interna');
 
 insert into origine.corso_scadenza (riga, codice_fiscale, tipo, data_scadenza, stato, dichiarazione) values
   (4,  'VRDLCU80A01L781W', 'Aggiornamento Lavoratori 6 ore', '2030-10-10', '', 'Dati aggiornati al 06/08/2026 07:55'),

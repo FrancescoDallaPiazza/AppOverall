@@ -3694,6 +3694,63 @@ molte figure non sono nominate da nessuna parte.
 **Quindi la v2 non e una lista di regole: e una scelta di forma**, e va a Francesco
 prima di scrivere.
 
+### Quattro decisioni, e il motore v2: 4.554 coppie su 4.575 · 17 settembre 2026, sera
+
+**Le quattro decisioni di Francesco**, date sul riscontro vero:
+
+1. **Le scadenze seguono anche i corsi fatti senza nomina, come Sicurweb** — «ma
+   sarebbe opportuno segnalarlo nell'app in maniera da aggiornare l'organigramma»;
+2. **antincendio e primo soccorso: scadenza, e avviso sul livello** (decisione 11);
+3. **il database vero e il progetto Supabase di AppFormazione.** Quindi AppFormazione e
+   l'app che si archivia **per prima**, e il repo unico ne prende il posto;
+4. **i corsi e le visite nuovi si registrano in AppOverall** dopo lo spegnimento.
+
+**Il motore v2** (`0027`) applica la 1 e la 2:
+
+- una scadenza **da attestato** per ogni corso periodico fatto da una persona in forza
+  che nessuna nomina presso quel cliente segue, con `ruolo_da_confermare`; il ruolo
+  proposto e quello che il corso assolve **se e uno solo**;
+- **`v_ruolo_da_confermare`**, la lista per l'organigramma che l'app mostrera;
+- antincendio e primo soccorso **in `corso_assolve`**, e `esito_livello` con la regola
+  della 11: `livello_non_definito`, `conforme` («pari o superiore» per l'antincendio,
+  marcata come decisione nostra), `non_conforme`; per il primo soccorso,
+  corrispondenza.
+
+**Il riscontro sugli stessi dati del pomeriggio:**
+
+    uguale                                   4.554   (era 1.935)
+    diversa · periodicita                       10   LAV_SPEC 36 mesi invece di 60 (8),
+                                                     PS_BLSD_LAICO 36 invece di 24 (2)
+    diversa · altro                              0
+    solo Sicurweb · nessun attestato del corso   7
+    solo Sicurweb · persona non attiva           3
+    solo Sicurweb · un altro corso               1
+    solo motore                                289
+
+**99,5% uguale, e le 21 che restano hanno tutte una ragione.** Il motore porta
+**6.528** scadenze, di cui **2.680 da confermare** nell'organigramma (282 senza un ruolo
+proposto) e **1.372** con il livello di emergenza non definito.
+
+**Un'etichetta corretta strada facendo.** La categoria «ruolo non assegnato» copriva
+anche le righe per cui **qui non c'e l'attestato** da cui Sicurweb conta: adesso si
+chiamano cosi, e vengono prima del controllo sul catalogo — dal 0027 un corso senza
+obbligo ha comunque la sua scadenza, se l'attestato c'e.
+
+**Cosa resta perche il criterio sia chiuso:** le 10 periodicita (chi ha ragione, il
+catalogo o Sicurweb?) e uno sguardo alle **289 solo motore**: scadenze che il motore
+vede e Sicurweb no, che allo spegnimento diventano solleciti nuovi.
+
+**E cosa cambia per le altre corsie, per la decisione 3.** AppFormazione non e piu «la
+corsia che si archivia prima o poi»: e **quella il cui database ospitera AppOverall
+entro l'8 ottobre**. Prima di svuotarlo serve sapere cosa contiene che qui non c'e.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | decidere le **10 periodicita** (LAV_SPEC a 36 mesi su 8 persone, BLSD laico a 36 su 2); cancellare `migrazione-privata/2026-09-17-e` e `-f` | quando e come AppFormazione si ferma |
+| **AppOverall** | **l'interfaccia**: lettura dello scadenzario e dei ruoli da confermare, e l'**inserimento** di attestati e visite (decisione 4) | le 289 solo motore; il database vero sul progetto di AppFormazione |
+| **AppFormazione** | **inventario di cosa il suo database contiene che AppOverall non porta** (sola lettura), per la decisione 3; poi la misura delle 29 nomine | l'archiviazione, quando Francesco la fissa |
+| **AppSopralluoghi** | completare VERDEPOSITIVO SRL — invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

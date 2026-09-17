@@ -104,8 +104,14 @@ quello del 18 novembre e vecchio di un mese senza che nessuno se ne accorga.
 ~~Niente per cominciare.~~ Con un mese, queste servono **nella prima settimana**:
 
 1. ~~**Entro quando va spento Sicurweb?**~~ **Un mese** (17 settembre 2026).
-2. **Il database vero.** Il programma diceva «uno dei due progetti Supabase esistenti,
-   svuotato quando un'app vecchia si archivia»: quel giorno non arriva in un mese, e sul
-   piano gratuito i progetti attivi sono pochi.
-3. **Dove entrano i corsi e le visite nuovi** dopo lo spegnimento.
+2. ~~**Il database vero.**~~ **Il progetto Supabase di AppFormazione** (17 settembre): il
+   repo unico ne prende il posto, e AppFormazione si archivia per prima.
+3. ~~**Dove entrano i corsi e le visite nuovi.**~~ **In AppOverall** (17 settembre): serve
+   una schermata di inserimento entro il mese.
 4. **Chi usa lo scadenzario, e dove.** L'innesto previsto sono le pagine di AppFormazione.
+
+E due decisioni sulla forma del motore, prese sul primo riscontro vero (17 settembre):
+**le scadenze seguono anche i corsi fatti senza nomina**, con una segnalazione per
+aggiornare l'organigramma; **antincendio e primo soccorso hanno scadenza e avviso sul
+livello**. Sono nella `0027`, e il riscontro e passato da 1.935 a 4.554 coppie uguali
+su 4.575.

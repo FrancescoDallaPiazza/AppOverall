@@ -36,7 +36,8 @@
 --   diversa · altro            nessuna delle ragioni sopra: si guardano una per una
 --   solo Sicurweb · ...        il motore non ha quella coppia, e la ragione e' una fra
 --                              persona fuori anagrafe, non attiva, corso senza obbligo
---                              nel catalogo, ruolo non assegnato, titolo ignorato
+--                              nel catalogo, nessun attestato di quel corso (Sicurweb
+--                              conta da una riga che qui non c'e'), ruolo non assegnato
 --   solo motore                il motore ha una scadenza che Sicurweb non tiene
 
 \set ON_ERROR_STOP on
@@ -110,6 +111,14 @@ select s.persona_id, s.cf, s.corso_codice, s.scadenza as sw_scadenza, s.date as 
          when m.persona_id is null and not exists (
                 select 1 from rapporto_lavoro r where r.persona_id = s.persona_id and not r.cessato)
               then 'solo Sicurweb · persona non attiva'
+         -- Prima «nessun attestato»: dal 0027 un corso senza obbligo nel catalogo ha
+         -- comunque una scadenza, se l'attestato c'e'. Se la coppia manca, e' quasi sempre
+         -- perche' l'attestato qui non c'e'.
+         when m.persona_id is null and not exists (
+                select 1 from evento_formativo e
+                 where e.persona_id = s.persona_id and e.corso_codice = s.corso_codice
+                   and e.completa_il_percorso and e.data <= current_date)
+              then 'solo Sicurweb · nessun attestato del corso'
          when m.persona_id is null and not exists (
                 select 1 from corso_assolve ca where ca.corso_codice = s.corso_codice and not ca.parziale)
               then 'solo Sicurweb · corso senza obbligo nel catalogo'
