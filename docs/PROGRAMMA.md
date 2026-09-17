@@ -3656,6 +3656,44 @@ fine: **il database vero** (il «progetto esistente svuotato quando un'app si ar
 non arriva in un mese), **dove entrano i corsi e le visite nuovi** dopo lo spegnimento, e
 **chi usa lo scadenzario, e dove**. Il rischio vero non e il motore: e il giorno dopo.
 
+### Il primo riscontro vero: dove ci sono tutti e due, sono d'accordo · 17 settembre 2026, sera
+
+**Quinto giro del giorno, cartella `2026-09-17-f`, dieci file, arrivato in fondo.**
+Fotografie identiche (15:02 e 15:07); AppSopralluoghi adesso ha 609 clienti e 3.528
+persone — le 34 e VERDEPOSITIVO — e infatti il passo 02b scende a **991** persone e
+**nessun rapporto aperto**, come atteso.
+
+    scadenzario Sicurweb 4.897  ->  coppie persona-corso 4.575
+    uguale                                  1.935
+    diversa · periodicita                       8   (LAV_SPEC 36 mesi invece di 60)
+    diversa · altro                             0
+    solo Sicurweb · corso senza obbligo     1.530
+    solo Sicurweb · ruolo non assegnato     1.098
+    solo Sicurweb · persona non attiva          3
+    solo Sicurweb · un altro corso              1
+    solo motore                                67   (59 LAV_SPEC)
+    non confrontabili: 69 senza codice fiscale, 203 titoli ignorati a mano
+
+**Dove Sicurweb e il motore hanno tutti e due la coppia, sono d'accordo 1.935 volte su
+1.943, e le 8 hanno una ragione.** Zero diverse senza ragione. Il motore non sbaglia le
+date: **non vede abbastanza coppie**.
+
+**E il perche e uno solo: Sicurweb ragiona per attestato, il motore per obbligo.**
+Sicurweb tiene la scadenza di **ogni corso fatto**; il motore parte dalle nomine, e
+molte figure non sono nominate da nessuna parte.
+
+- **ruolo non assegnato, 1.098:** ATTR_CARRELLO 274, PREPOSTO 199, ATTR_LAV_QUOTA 150,
+  ATTR_PLE 116, ATTR_CARROPONTE 70, ATTR_LAV_ELETTRICI 55, ATTR_TRATT_RUOTE 40, RLS 37,
+  ATTR_ESCAVATORI 35, PONTEGGI 31, e code piu corte;
+- **corso senza obbligo nel catalogo, 1.530:** AI_LIV2 568, PS_GRBC 401, PS_GRA 213,
+  **DL_RSPP_BASE 188**, AI_LIV1 86, PS_BLSD_LAICO 51, PS_BLSD_SANITARIO 16, AI_LIV3 7.
+  Antincendio e primo soccorso aspettano la decisione 11; DL_RSPP_BASE e il corso
+  dismesso che la `0014` lasciava aperto («giudicarlo su se stesso o sul percorso
+  nuovo»).
+
+**Quindi la v2 non e una lista di regole: e una scelta di forma**, e va a Francesco
+prima di scrivere.
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

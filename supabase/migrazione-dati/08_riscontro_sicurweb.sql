@@ -142,6 +142,7 @@ do $$
 declare
   righe int; senza_cf int; titoli_ignoti int; ignorate int; coppie int;
   cat text; per_mesi text; altro text; solo_motore int; solo_motore_corsi text;
+  senza_obbligo text; non_assegnato text;
 begin
   select count(*), count(*) filter (where cf is null),
          count(*) filter (where cf is not null and not titolo_noto),
@@ -166,6 +167,13 @@ begin
     into altro
     from (select corso_codice, count(*) n from confronto where categoria = 'diversa · altro' group by 1) x;
 
+  select string_agg(corso_codice || ' ' || n, ', ' order by n desc, corso_codice) into senza_obbligo
+    from (select corso_codice, count(*) n from confronto
+           where categoria = 'solo Sicurweb · corso senza obbligo nel catalogo' group by 1) x;
+  select string_agg(corso_codice || ' ' || n, ', ' order by n desc, corso_codice) into non_assegnato
+    from (select corso_codice, count(*) n from confronto
+           where categoria = 'solo Sicurweb · ruolo non assegnato' group by 1) x;
+
   select count(*), string_agg(corso_codice || ' ' || n, ', ' order by n desc)
     into solo_motore, solo_motore_corsi
     from (select m.corso_codice, count(*) n
@@ -183,6 +191,8 @@ begin
   raise notice '  periodicita diverse (corso, mesi di Sicurweb, mesi del catalogo, coppie): %', coalesce(per_mesi, 'nessuna');
   raise notice '  diverse senza ragione, per corso: %', coalesce(altro, 'nessuna');
   raise notice '  solo motore: % (per corso: %)', solo_motore, coalesce(solo_motore_corsi, 'nessuno');
+  raise notice '  corso senza obbligo nel catalogo, per corso: %', coalesce(senza_obbligo, 'nessuno');
+  raise notice '  ruolo non assegnato, per corso: %', coalesce(non_assegnato, 'nessuno');
 end $$;
 
 commit;
