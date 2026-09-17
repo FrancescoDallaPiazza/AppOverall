@@ -60,8 +60,15 @@
 -- ha **ricostruito** i cicli (`staging.cicli_frazionati`, 471 righe, con `chiuso` e
 -- `fuori_finestra`), ma la loro stessa migrazione avverte che e' una ricostruzione e
 -- va confrontata con le chiusure che il gestionale ha gia' registrato — che sono i
--- due export `FormFraz`, 516 e 410. Quel confronto e' un passo suo, e finche' non e'
--- fatto i percorsi restano aperti e si contano.
+-- due export `FormFraz`, 516 e 410. ~~Quel confronto e' un passo suo, e finche' non e'
+-- fatto i percorsi restano aperti e si contano.~~
+--
+-- **Corretto il 17 settembre 2026, scrivendo quel passo (05): i due export NON
+-- chiudono queste righe.** Le righe aperte qui sono i sette attestati con un titolo
+-- `... PARZIALE ...`, e nessuno di quei titoli e' nei due `FormFraz`: restano
+-- aperte, e nessun passo le chiude. Le sessioni dei `FormFraz` sono **altre righe**,
+-- che qui non ci sono, e le chiusure dei loro percorsi **sono gia' fra quelle di
+-- questo passo**, come attestati normali: il 05 le riconosce e non le crea.
 --
 -- **5. Le date fuori squadra entrano, e si contano.** Misurato il 16 settembre 2026
 -- sui 13.215 veri: **2 attestati hanno una data nel futuro** (il piu' avanti al
@@ -262,7 +269,7 @@ begin
     raise notice '  gia presenti da un giro precedente: % (saltati per import_key)', gia_presenti;
   end if;
   raise notice '  NON entrati: % con un titolo ignorato a mano, % senza codice fiscale valido, % con un codice fiscale che l''anagrafe non ha', ignorati, senza_cf, senza_persona;
-  raise notice '  percorsi frazionati entrati APERTI: % (chi li chiude e un passo suo, coi due export FormFraz)', frazionati;
+  raise notice '  percorsi frazionati entrati APERTI: % (titoli PARZIALE: i due export FormFraz non li chiudono)', frazionati;
   raise notice '  persone, corsi e date su cui cadono due o piu attestati: % (si segnalano, non si fondono)', collisioni;
   raise notice '  NON portati: % con un esito, % dichiarati di fonte esterna', con_esito, esterni;
   raise notice '  date fuori squadra, entrate e da guardare: % nel futuro (il motore le tratti come non avvenute), % anteriori al D.Lgs 81/2008', nel_futuro, prima_del_81;

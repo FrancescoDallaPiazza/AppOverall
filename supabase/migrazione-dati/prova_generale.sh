@@ -3,13 +3,13 @@
 #
 # Esegue la migrazione dati DA CAPO A FONDO su un cluster PostgreSQL usa e getta:
 # crea il cluster con Supabase simulato, applica tutte le migrazioni in ordine, poi il
-# passo 00, carica i quattro CSV, esegue 01, 02 e 03 con i conteggi attesi, stampa gli
+# passo 00, carica i sei CSV, esegue i passi da 01 a 05 con i conteggi attesi, stampa gli
 # avvisi dei passi e i conteggi finali, e **ferma e cancella il cluster** — anche
 # quando si ferma, e anche con Ctrl+C.
 #
 #   bash prova_generale.sh <cartella dei CSV> \
 #        clienti_attesi=N sedi_attese=N righe_attese=N nomine_attese=N \
-#        righe_formazione_attese=N [null_scritto=null]
+#        righe_formazione_attese=N righe_frazionata_attese=N [null_scritto=null]
 #
 # ---------- null_scritto, e perche esiste ----------
 #
@@ -26,9 +26,10 @@
 # finto si scrivono uguali. Si verifica **alla fonte**, con una query, e la query sta
 # in `estrazione.md`: qui non si puo.
 #
-# La cartella contiene cliente.csv, sede.csv, persona.csv e nomina.csv e **deve stare
+# La cartella contiene cliente.csv, sede.csv, persona.csv, nomina.csv, formazione.csv
+# e formazione_frazionata.csv, e **deve stare
 # fuori da qualunque repository**: lo script lo controlla e si rifiuta. Come si
-# producono i file, e da dove vengono i quattro numeri: `estrazione.md`, accanto.
+# producono i file, e da dove vengono i conteggi: `estrazione.md`, accanto.
 #
 # ---------- cosa dice quando finisce ----------
 #
@@ -38,8 +39,8 @@
 #   FERMATA in: <fase>      preceduta dal messaggio di chi ha rifiutato
 #
 # Le fasi, in ordine: controlli iniziali, avvio del cluster, Supabase simulato,
-# migrazione <file>, passo 00, caricamento di <tabella>.csv, passo 01, passo 02,
-# passo 03, conteggi finali. Un passo che si ferma non ha scritto niente: ognuno sta
+# migrazione <file>, seed degli alias, passo 00, caricamento di <tabella>.csv, passo 01,
+# passo 02, passo 03, passo 04, passo 05, conteggi finali. Un passo che si ferma non ha scritto niente: ognuno sta
 # in una transazione. Ma il cluster si cancella comunque, quindi per ripartire si
 # rilancia tutto: e voluto, perche il giro intero e la prova.
 #
@@ -99,10 +100,10 @@ esegui() { # [--zitto] argomenti di psql, sul database della prova
 CSV="$1"; shift
 
 clienti_attesi=""; sedi_attese=""; righe_attese=""; nomine_attese=""
-righe_formazione_attese=""; null_scritto=""
+righe_formazione_attese=""; righe_frazionata_attese=""; null_scritto=""
 for a in "$@"; do
   case "$a" in
-    clienti_attesi=*|sedi_attese=*|righe_attese=*|nomine_attese=*|righe_formazione_attese=*)
+    clienti_attesi=*|sedi_attese=*|righe_attese=*|nomine_attese=*|righe_formazione_attese=*|righe_frazionata_attese=*)
       [[ "${a#*=}" =~ ^[0-9]+$ ]] || ferma "$a: il conteggio non e un numero"
       printf -v "${a%%=*}" '%s' "${a#*=}" ;;
     null_scritto=*)
@@ -112,7 +113,7 @@ for a in "$@"; do
     *) ferma "parametro sconosciuto: $a" ;;
   esac
 done
-for k in clienti_attesi sedi_attese righe_attese nomine_attese righe_formazione_attese; do
+for k in clienti_attesi sedi_attese righe_attese nomine_attese righe_formazione_attese righe_frazionata_attese; do
   [ -n "${!k}" ] || ferma "manca $k=<numero>: il count fatto nello stesso momento dell'estrazione (estrazione.md)"
 done
 
@@ -138,7 +139,7 @@ for t in $TABELLE; do
 done
 
 echo "cartella: $CSV"
-echo "attesi:   clienti $clienti_attesi, sedi $sedi_attese, righe persona $righe_attese, nomine $nomine_attese, attestati $righe_formazione_attese"
+echo "attesi:   clienti $clienti_attesi, sedi $sedi_attese, righe persona $righe_attese, nomine $nomine_attese, attestati $righe_formazione_attese, sessioni frazionate $righe_frazionata_attese"
 
 # ============================================================================
 #  il cluster, Supabase simulato, le migrazioni
@@ -189,7 +190,7 @@ FASE="passo 00"
 esegui --zitto -f "$DIR/00_origine.sql" || ferma
 
 # ============================================================================
-#  i quattro CSV
+#  i sei CSV
 # ============================================================================
 
 echo; echo "== caricamento"
@@ -231,6 +232,10 @@ FASE="passo 04"
 echo; echo "== $FASE, gli attestati"
 esegui -v righe_formazione_attese="$righe_formazione_attese" -f "$DIR/04_formazione.sql" || ferma
 
+FASE="passo 05"
+echo; echo "== $FASE, le sessioni dei percorsi frazionati"
+esegui -v righe_frazionata_attese="$righe_frazionata_attese" -f "$DIR/05_frazionata.sql" || ferma
+
 FASE="conteggi finali"
 echo; echo "== $FASE"
 "${PSQL[@]}" -d generale -At -c "
@@ -241,6 +246,15 @@ echo; echo "== $FASE"
       || ', persone ' || (select count(*) from persona)
       || ', rapporti ' || (select count(*) from rapporto_lavoro)
       || ', nomine ' || (select count(*) from nomina)" || ferma "conteggi non letti"
+# Il percorso si legge dalla vista, perche' e' li' che il motore lo leggera': se la
+# 0022 non fosse applicata, le sessioni dei percorsi chiusi risulterebbero aperte.
+"${PSQL[@]}" -d generale -At -c "
+  select '  attestati e sessioni ' || (select count(*) from evento_formativo)
+      || ', percorsi ' || count(*)
+      || ' (' || count(*) filter (where completo) || ' completi, '
+      || count(*) filter (where sessioni_aperte > 0) || ' con sessioni aperte, '
+      || count(*) filter (where not completo and sessioni_aperte = 0) || ' non completi e senza sessioni aperte)'
+    from v_percorso_formativo" || ferma "conteggi non letti"
 "${PSQL[@]}" -d generale -At -c "
   select '  nomine per ruolo: ' || coalesce(string_agg(ruolo || ' ' || n, ', ' order by n desc, ruolo), 'nessuna')
     from (select ruolo, count(*) n from nomina group by ruolo) s" || ferma "conteggi non letti"

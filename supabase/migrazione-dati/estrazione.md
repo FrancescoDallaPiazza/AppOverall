@@ -3,7 +3,7 @@
 Pagina per Francesco. Dice cosa lanciare nell'SQL Editor di **AppSopralluoghi**, come salvare i risultati e cosa
 farne dopo.
 
-**Non si fa finché Francesco non ha detto sì.** I quattro file contengono nomi e codici fiscali di tutte le
+**Non si fa finché Francesco non ha detto sì.** I sei file contengono nomi e codici fiscali di tutte le
 persone e finiscono su questo disco: è una sua decisione, non un passo tecnico.
 
 Tutto quello che segue **legge e non scrive**.
@@ -13,7 +13,7 @@ Tutto quello che segue **legge e non scrive**.
 - Una cartella **fuori da qualunque repository**, per esempio
   `C:\Users\Francesco\Documents\migrazione-privata\2026-09-16`. Non sotto `GitHub`: lo script controlla e si
   rifiuta.
-- **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e i quattro file restano sul
+- **PostgreSQL installato su questo PC** (punto 5). Senza, la prova generale non parte e i sei file restano sul
   disco senza uso: prima PostgreSQL, poi l'estrazione. **Su `OVERALL-PC07` c'e** — PostgreSQL 16.10, misurato il
   16 settembre 2026, e la prova generale ci e passata intera sui dati finti. Su quel PC questo punto e chiuso.
 - Un momento in cui **nessuno sta usando AppSopralluoghi**. Le quattro letture devono vedere lo stesso archivio, e
@@ -45,7 +45,7 @@ select
 
 Copiare la riga che esce. Serve a tre cose:
 
-- **`clienti`, `sedi`, `persone`, `nomine`** sono quattro dei cinque conteggi attesi della prova generale (punto 5); il quinto sta nell'altro database, qui sotto;
+- **`clienti`, `sedi`, `persone`, `nomine`** sono quattro dei sei conteggi attesi della prova generale (punto 5); gli altri due stanno nell'altro database, qui sotto;
 - **`livello_origine`** deve contenere `qualifica`: vuol dire che la loro `070` è applicata. Si legge dal vincolo e
   non da `schema_migrations`, dove le migrazioni date dall'SQL Editor non risultano. Se la colonna esce vuota manca
   la `068`, e la select delle nomine al punto 2 fallirà;
@@ -126,6 +126,61 @@ Le due `join` sono a uno, quindi le righe restano quelle di `eventi_formativi`: 
 escono di piu', qualcosa nel loro schema e' cambiato e **si guarda prima di
 proseguire**. Salvare come `formazione.csv` nella stessa cartella degli altri quattro.
 
+### `formazione_frazionata.csv` — **anche questo dall'SQL Editor di AppFormazione**
+
+Le sessioni dei percorsi frazionati. **Non sono in `eventi_formativi`**: AppFormazione ha caricato i due export
+`FormFraz` nel suo `staging` e li ha lasciati li', per non contare due volte lo stesso corso. Si leggono da li'.
+
+**Prima la fotografia**, subito dopo quella degli attestati:
+
+```sql
+select entita,
+       count(distinct esecuzione_id) as caricamenti,
+       count(*) as righe,
+       count(*) filter (where dati->>'Data' is not null
+                           or dati->>'Tipo' is not null
+                           or dati->>'Codice Fiscale' is not null) as sessioni,
+       now() as letto_il
+  from staging.righe_import
+ where entita in ('fraz_completata', 'fraz_in_corso')
+ group by entita
+ order by entita;
+```
+
+- **`caricamenti` deve essere 1 su tutte e due le righe.** Se e' di piu', nello staging ci sono due estrazioni dello
+  stesso file e le loro sessioni si sommerebbero: ci si ferma qui, e il numero si porta ad AppOverall. Il passo 05 lo
+  ricontrolla e si ferma comunque (rifiuto c);
+- **la somma delle due `sessioni` e' `righe_frazionata_attese`.** Le `righe` sono due di piu' per file: sono il piede
+  del foglio — l'indirizzo del gestionale e «Dati aggiornati al ...» — che lo staging tiene come righe;
+- sull'estrazione del 6 agosto 2026, misurata sui file in Download il 17 settembre, ci si aspetta **513** e **407**,
+  quindi **920**. Se escono altri numeri non e' un errore: e' un'altra estrazione, e vale quella.
+
+**Poi l'estrazione:**
+
+```sql
+select r.id, r.esecuzione_id, r.entita as file,
+       r.dati->>'Codice Fiscale'      as codice_fiscale,
+       r.dati->>'Tipo'                as corso_titolo,
+       (r.dati->>'Data')::date        as data_sessione,
+       r.dati->>'Dettagli/Ore'        as dettagli_ore,
+       r.dati->>'Durata Formazione'   as durata,
+       (select min(kv.value)
+          from staging.righe_import f, jsonb_each_text(f.dati) kv
+         where f.esecuzione_id = r.esecuzione_id
+           and kv.value like 'Dati aggiornati al %') as dichiarazione
+  from staging.righe_import r
+ where r.entita in ('fraz_completata', 'fraz_in_corso')
+   and (r.dati->>'Data' is not null
+        or r.dati->>'Tipo' is not null
+        or r.dati->>'Codice Fiscale' is not null)
+ order by r.id;
+```
+
+Le righe devono essere quante la somma delle `sessioni`. **La colonna `file` e' il dato**, non un'etichetta: dice se
+il percorso di quella sessione e' completato o in corso, e nel gestionale non sta scritto da nessun'altra parte.
+`dichiarazione` deve essere piena su tutte le righe: se e' vuota, il piede del foglio non e' stato caricato e il passo
+05 si ferma (rifiuto d). Salvare come `formazione_frazionata.csv` nella stessa cartella.
+
 Sono le select di `00_origine.sql`, e se una delle due cambia va cambiata anche l'altra.
 
 ## 3. Come si salva ogni risultato
@@ -190,11 +245,11 @@ Da Git Bash, nella cartella del repository AppOverall:
 ```bash
 bash supabase/migrazione-dati/prova_generale.sh "C:/Users/Francesco/Documents/migrazione-privata/2026-09-16" \
      clienti_attesi=<clienti> sedi_attese=<sedi> righe_attese=<persone> nomine_attese=<nomine> \
-     righe_formazione_attese=<attestati> null_scritto=null
+     righe_formazione_attese=<attestati> righe_frazionata_attese=<sessioni> null_scritto=null
 ```
 
 con i numeri della fotografia: `clienti_attesi` = `clienti`, `sedi_attese` = `sedi`, `righe_attese` = `persone`,
-`nomine_attese` = `nomine`, `righe_formazione_attese` = `attestati`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
+`nomine_attese` = `nomine`, `righe_formazione_attese` = `attestati`, `righe_frazionata_attese` = la somma delle due `sessioni`. L'ultimo parametro serve perche i file vengono dall'SQL Editor (punto 3): senza, lo
 script si ferma al caricamento e lo dice.
 
 Serve PostgreSQL installato, e nient'altro da configurare. **Su `OVERALL-PC07` c'e**: PostgreSQL **16.10** in

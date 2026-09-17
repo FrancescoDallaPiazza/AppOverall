@@ -223,3 +223,41 @@ create table if not exists origine.formazione (
 
 comment on table origine.formazione is
   'Gli `eventi_formativi` di AppFormazione com''e, per la sola durata della migrazione dati: un attestato per riga, con il codice fiscale della persona e il TITOLO del corso del gestionale. Non viene da AppSopralluoghi: li la tabella omologa esiste ed e vuota, misurato il 16 settembre 2026. Il passo 04 la traduce in `evento_formativo`, mappando il titolo sui 268 alias.';
+
+-- ---------- la sesta tabella: le sessioni dei percorsi frazionati ----------
+--
+-- **Anche questa viene da AppFormazione, ma non dalle sue tabelle applicative.** I
+-- due export `ExportExcelFormFrazCompletata` e `ExportExcelFormFrazInCorso` loro li
+-- hanno caricati in `staging.righe_import` e **li hanno lasciati li' per scelta**
+-- (`docs/05`): «sono frazioni, non eventi conclusi: sommarle a `corsi_fatti`
+-- conterebbe due volte lo stesso corso». Quindi i 13.215 `eventi_formativi` del
+-- passo 04 **non le contengono**, e questa tabella non duplica niente.
+--
+-- Cosa porta, e perche' ognuna:
+--   * `id` ed `esecuzione_id`: la riga e il caricamento di staging. Il primo e'
+--     l'unica cosa che identifica una sessione — il gestionale non ha un id di
+--     percorso ne' di sessione. Il secondo serve a un controllo: se nello staging ci
+--     sono **due** caricamenti dello stesso file, le righe dei due si sommano (lo
+--     staging scarta solo le righe identiche), e il passo 05 si ferma;
+--   * `file`: `fraz_completata` o `fraz_in_corso`. **E' il dato**, non un'etichetta:
+--     vedi la `0021`, decisione 2, e la `0022`;
+--   * `dettagli_ore` **com'e'**, `1/6`: le ore della sessione su quelle previste. Si
+--     porta come provenienza e il passo non ci somma niente;
+--   * `dichiarazione`: il piede del file, «Dati aggiornati al 06/08/2026 07:47».
+--     Lo staging lo tiene come una riga fra le altre, e l'estrazione lo attacca a
+--     ogni sessione del suo file.
+
+create table if not exists origine.formazione_frazionata (
+  id bigint primary key,
+  esecuzione_id uuid not null,
+  file text not null,
+  codice_fiscale text,
+  corso_titolo text,
+  data_sessione date,
+  dettagli_ore text,
+  durata text,
+  dichiarazione text
+);
+
+comment on table origine.formazione_frazionata is
+  'Le sessioni dei due export FormFraz del gestionale, come le tiene lo staging di AppFormazione, per la sola durata della migrazione dati. Non sono negli eventi_formativi del passo 04: AppFormazione le ha lasciate in staging per non contare due volte lo stesso corso. Il passo 05 le traduce in evento_formativo.';

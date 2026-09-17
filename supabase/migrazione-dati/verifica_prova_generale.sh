@@ -8,7 +8,7 @@
 #
 # I dati finti sono scritti come insert su `origine.*`, quindi si caricano su un
 # cluster usa e getta e si esportano con le colonne di `prova_generale_comune.sh`:
-# gli stessi quattro file che l'estrazione produrra, con dati di fantasia. Due
+# gli stessi sei file che l'estrazione produrra, con dati di fantasia. Due
 # ritocchi, fatti prima di esportare e scritti qui perche non sembrino dati:
 #
 #   * **BAR SPORT diventa BAR CENTRALE sull'unita UC di prova_03.** I due insiemi
@@ -69,6 +69,7 @@ X=("${PSQL[@]}" -d postgres)
   && "${X[@]}" -f "$DIR/prova_01_clienti_dati.sql" \
   && "${X[@]}" -f "$DIR/prova_03_nomine_dati.sql" \
   && "${X[@]}" -f "$DIR/prova_04_formazione_dati.sql" \
+  && "${X[@]}" -f "$DIR/prova_05_frazionata_dati.sql" \
   && "${X[@]}" -c "update origine.cliente set ragione_sociale = 'BAR CENTRALE' where id = '00000000-0000-0000-0000-00000000000c'" \
   && "${X[@]}" -c "update origine.persona set cognome = 'BIANCH' || chr(204) where id = '00000000-0000-0000-0000-000000000004'" \
   || { echo "  NO   dati finti non caricati"; exit 1; }
@@ -92,9 +93,9 @@ ok "$(tr -d '\r' < "$LAVORO/null.csv" | paste -sd'|')" '"null"|null' "psql scriv
 ok "$("${X[@]}" -At -c "select count(*) from prova_null where t = 'null'")" "1" "e rileggendolo il testo resta testo"
 ok "$("${X[@]}" -At -c "select count(*) from prova_null where t is null")" "1" "e il nullo resta nullo"
 cluster_ferma >/dev/null
-ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "11 10 5 9 10" "righe esportate: 11 unita, 10 sedi, 5 persone, 9 nomine, 10 attestati"
+ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "11 10 5 9 11 10" "righe esportate: 11 unita, 10 sedi, 5 persone, 9 nomine, 11 attestati, 10 sessioni frazionate"
 ok "$(grep -c $'\xc3\x8c' "$CSV/persona.csv")" "1" "persona.csv e UTF-8, con una lettera accentata"
-ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=10"
+ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10"
 
 echo "== la prova generale arriva in fondo"
 if generale "$CSV" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; FALLITI=$((FALLITI+1)); fi
@@ -102,7 +103,7 @@ sed 's/^/       | /' "$USCITA"
 ok "$(ultima)" "ARRIVATA IN FONDO" "l'ultima riga lo dice"
 ok "$(grep -oE 'unita fuse\): [0-9]+' "$USCITA")" "unita fuse): 1" "gli avvisi del passo 03 sono stampati"
 ok "$(grep -oE 'unita assorbite' "$USCITA" | head -1)" "unita assorbite" "e quelli del passo 01"
-ok "$(grep -oE 'attestati d.origine 10  ->  eventi scritti [0-9]+, su [0-9]+ persone' "$USCITA")" "attestati d'origine 10  ->  eventi scritti 7, su 2 persone" "il passo 04 scrive 7 attestati su 10, e dice su quante persone"
+ok "$(grep -oE 'attestati d.origine 11  ->  eventi scritti [0-9]+, su [0-9]+ persone' "$USCITA")" "attestati d'origine 11  ->  eventi scritti 8, su 2 persone" "il passo 04 scrive 8 attestati su 11, e dice su quante persone"
 ok "$(grep -oE 'NON entrati: [0-9]+ con un titolo ignorato a mano, [0-9]+ senza codice fiscale valido, [0-9]+ con un codice fiscale che l.anagrafe non ha' "$USCITA")" "NON entrati: 1 con un titolo ignorato a mano, 1 senza codice fiscale valido, 1 con un codice fiscale che l'anagrafe non ha" "le tre ragioni per restare fuori si contano separate"
 ok "$(grep -oE 'percorsi frazionati entrati APERTI: [0-9]+' "$USCITA")" "percorsi frazionati entrati APERTI: 2" "i due spezzoni entrano aperti"
 ok "$(grep -oE 'su cui cadono due o piu attestati: [0-9]+' "$USCITA")" "su cui cadono due o piu attestati: 1" "la collisione si segnala e non si fonde"
@@ -111,6 +112,15 @@ ok "$(grep -oE 'nel futuro \(il motore le tratti come non avvenute\), [0-9]+ ant
 ok "$(grep -oE 'NON portati: [0-9]+ con un esito, [0-9]+ dichiarati di fonte esterna' "$USCITA")" "NON portati: 2 con un esito, 2 dichiarati di fonte esterna" "esito e fonte esterna si contano e non entrano"
 ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "i conteggi finali: quattro unita su una P.IVA"
 ok "$(grep -c 'cluster fermato e cancellato' "$USCITA")" "1" "e il cluster e cancellato"
+ok "$(grep -oE 'sessioni d.origine 10 \(5 di percorsi completati, 5 di percorsi in corso\)  ->  sessioni scritte [0-9]+, su [0-9]+ persone' "$USCITA")" "sessioni d'origine 10 (5 di percorsi completati, 5 di percorsi in corso)  ->  sessioni scritte 6, su 2 persone" "il passo 05 scrive 6 sessioni su 10"
+ok "$(grep -oE 'estrazioni: .*' "$USCITA")" "estrazioni: fraz_completata_20260806 («Dati aggiornati al 06/08/2026 07:47»), fraz_in_corso_20260806 («Dati aggiornati al 06/08/2026 07:46»)" "e dice da quali estrazioni, con la data che dichiarano"
+ok "$(grep -oE 'chiusure gia dentro dal passo 04: [0-9]+ sessioni su un attestato dello stesso giorno, [0-9]+ attestati' "$USCITA")" "chiusure gia dentro dal passo 04: 1 sessioni su un attestato dello stesso giorno, 1 attestati" "la chiusura non si riscrive: si riconosce, e l'attestato prende i segni"
+ok "$(grep -oE 'NON entrate: [0-9]+ con un titolo ignorato a mano, [0-9]+ senza codice fiscale valido, [0-9]+ con un codice' "$USCITA")" "NON entrate: 1 con un titolo ignorato a mano, 1 senza codice fiscale valido, 1 con un codice" "le tre ragioni per restare fuori, anche per le sessioni"
+ok "$(grep -oE 'senza nessun attestato che li chiuda: [0-9]+' "$USCITA")" "senza nessun attestato che li chiuda: 1" "un percorso completato senza chiusura entra e si conta"
+ok "$(grep -oE 'sul giorno di un attestato dello stesso corso: [0-9]+' "$USCITA")" "sul giorno di un attestato dello stesso corso: 1" "una sessione in corso sul giorno di una chiusura entra e si conta"
+ok "$(grep -oE 'arrivano gia alle previste: [0-9]+' "$USCITA")" "arrivano gia alle previste: 0" "nessun percorso in corso ha gia tutte le ore"
+ok "$(grep -oE 'previste diverse dalla durata del corso: [0-9]+' "$USCITA")" "previste diverse dalla durata del corso: 1" "le ore previste diverse dalla durata si contano"
+ok "$(grep -E '^  attestati e sessioni ' "$USCITA")" "  attestati e sessioni 14, percorsi 6 (3 completi, 3 con sessioni aperte, 1 non completi e senza sessioni aperte)" "la vista del percorso: le sessioni di un percorso chiuso non sono aperte"
 ok "$(grep -oE '^  268 alias.*' "$USCITA")" "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse" "il seed degli alias e caricato e contato"
 
 echo "== e ci arriva anche con i file come potrebbe salvarli un editor"
@@ -128,7 +138,7 @@ for t in $TABELLE; do
   } > "$C/$t.csv"
 done
 ok "$(head -c 3 "$C/cliente.csv" | od -An -tx1 | tr -d ' ')" "efbbbf" "cliente.csv comincia con il BOM, e l'intestazione e fra virgolette"
-ok "$(for t in $TABELLE; do [ "$(tr -cd '\r' < "$C/$t.csv" | wc -c)" = "$(tr -cd '\n' < "$C/$t.csv" | wc -c)" ] && printf s || printf n; done)" "sssss" "ogni file ha tanti CR quanti LF: tutte le righe in CRLF"
+ok "$(for t in $TABELLE; do [ "$(tr -cd '\r' < "$C/$t.csv" | wc -c)" = "$(tr -cd '\n' < "$C/$t.csv" | wc -c)" ] && printf s || printf n; done)" "ssssss" "ogni file ha tanti CR quanti LF: tutte le righe in CRLF"
 if generale "$C" $ATTESI; then echo "  ok   uscita 0"; else echo "  NO   uscita non zero"; sed 's/^/       | /' "$USCITA"; FALLITI=$((FALLITI+1)); fi
 ok "$(ultima)" "ARRIVATA IN FONDO" "BOM, virgolette e CRLF non la fermano"
 ok "$(grep -E '^  clienti ' "$USCITA")" "  clienti 8, sedi 10, unita d'origine 11 (3 assorbite), persone 4, rapporti 5, nomine 9" "e i conteggi sono gli stessi"
@@ -143,20 +153,32 @@ fermata "una parola che non e una parola" "controlli iniziali" "solo lettere, ci
 
 echo "== e si ferma davvero, dicendo dove"
 fermata "nomine attese sbagliate"   "passo 03" "\(a\) origine.nomina ha 9 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=8 righe_formazione_attese=8
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=8 righe_formazione_attese=11 righe_frazionata_attese=10
 fermata "persone attese sbagliate"  "passo 02" "\(a\) origine.persona ha 5 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=6 nomine_attese=9 righe_formazione_attese=8
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=6 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10
 fermata "clienti attesi sbagliati"  "passo 01" "\(a\) origine.cliente ha 11 righe" \
-  "$CSV" clienti_attesi=12 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=8
-fermata "attestati attesi sbagliati" "passo 04" "\\(a\\) origine.formazione ha 10 righe" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=9
+  "$CSV" clienti_attesi=12 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10
+fermata "attestati attesi sbagliati" "passo 04" "\\(a\\) origine.formazione ha 11 righe" \
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=9 righe_frazionata_attese=10
+fermata "sessioni attese sbagliate" "passo 05" "\\(a\\) origine.formazione_frazionata ha 10 righe" \
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=9
+
+# Un secondo caricamento dello stesso file nello staging: le righe sono valide e i
+# conti tornano, e a fermarlo deve essere il controllo sui caricamenti.
+C="$(copia due_caricamenti)"
+sed -i -E '/^205,/ s/,00000000-0000-0000-0000-0000000000d2,/,00000000-0000-0000-0000-0000000000d3,/' "$C/formazione_frazionata.csv"
+fermata "un file caricato due volte nello staging" "passo 05" "\\(c\\) 1 file caricati piu di una volta" "$C" $ATTESI
+
+C="$(copia ore_illeggibili)"
+sed -i -E '/^204,/ s#,2/6,#,due ore,#' "$C/formazione_frazionata.csv"
+fermata "le ore in un'altra forma" "passo 05" "\\(f\\) 1 sessioni con le ore non nella forma" "$C" $ATTESI
 
 C="$(copia attiva)"
 sed -i -E '/^00000000-0000-0000-0000-0000000000e7,/ s/,t,/,f,/' "$C/nomina.csv"
 fermata "una nomina non attiva"     "passo 03" "\(d\) 1 nomine non attive" "$C" $ATTESI
 
 fermata "un conteggio mancante"     "controlli iniziali" "manca nomine_attese" \
-  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 righe_formazione_attese=8
+  "$CSV" clienti_attesi=11 sedi_attese=10 righe_attese=5 righe_formazione_attese=11 righe_frazionata_attese=10
 fermata "la cartella dentro un repo" "controlli iniziali" "dentro un repository git" "$DIR" $ATTESI
 
 C="$(copia ordine)"
