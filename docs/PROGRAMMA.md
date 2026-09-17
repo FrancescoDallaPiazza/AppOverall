@@ -3291,14 +3291,14 @@ riempie al prossimo import delle anagrafiche, che non c'e stato.
 Restano fuori per scelta, contati: i ~1.000 fuori anagrafe del passo 04, e cio che non
 e mai stato raccolto (357 ATECO, i livelli di emergenza).
 
-**Resta da ricevere:** la fotografia «dopo» di AppSopralluoghi e quella degli
-attestati. I file hanno le stesse dimensioni di quelli delle 10 e i conteggi tornano,
-ma finche quelle due righe non ci sono il giro e **provato sui numeri**, non sulla
-fotografia.
+~~**Resta da ricevere:** la fotografia «dopo» di AppSopralluoghi e quella degli
+attestati.~~ **Arrivate tutte e due.** La fotografia di AppSopralluoghi e identica
+alle 11:02 e alle 11:11, con i quattro file esportati fra le 11:03 e le 11:05; quella
+degli attestati dice 13.215 e zero senza data. Il giro e uno scatto solo.
 
 | chi | adesso | poi |
 |---|---|---|
-| **Francesco** | incollare le due fotografie mancanti, poi **cancellare `migrazione-privata/2026-09-17-b`** | lo storico dei ~1.000 fuori anagrafe |
+| **Francesco** | **cancellare `migrazione-privata/2026-09-17-b`** | lo storico dei ~1.000 fuori anagrafe |
 | **AppOverall** | il passo della sorveglianza, 808 accertamenti | — |
 | **AppSopralluoghi** | niente di aperto | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
