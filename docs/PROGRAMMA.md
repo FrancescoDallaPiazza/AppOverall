@@ -3637,6 +3637,25 @@ manca** a spegnere Sicurweb.
 | **AppSopralluoghi** | completare VERDEPOSITIVO SRL — invariato | — |
 | **AppFormazione** | misurare cosa hanno acceso le 29 nomine nuove — invariato | — |
 
+### Sicurweb si spegne entro un mese · 17 settembre 2026, sera
+
+**Decisione di Francesco: un mese, cioe intorno al 17 ottobre 2026.** Il piano della
+Fase 4 ha adesso un calendario di quattro settimane (`docs/piano-fase-4.md`): riscontro
+vero e regole della v2 entro il 24/09, v2 e interfaccia di lettura entro l'01/10,
+database vero entro l'08/10, una settimana di riscontri ripetuti prima dello
+spegnimento.
+
+**E il preavviso delle visite e deciso: 60 giorni.** Francesco ha chiesto anche se l'RLS
+non sia formazione: **lo e**. La riga a parte gli dava solo un preavviso piu corto — 90
+giorni, perche l'aggiornamento e annuale — ma il nome (`rls` accanto a `formazione`)
+faceva pensare a un ambito diverso. Adesso si chiama `formazione_rls`, e la `0026`, che
+non e applicata da nessuna parte, e corretta sul posto.
+
+**Tre decisioni diventano urgenti**, perche un mese non lascia spazio per scoprirle alla
+fine: **il database vero** (il «progetto esistente svuotato quando un'app si archivia»
+non arriva in un mese), **dove entrano i corsi e le visite nuovi** dopo lo spegnimento, e
+**chi usa lo scadenzario, e dove**. Il rischio vero non e il motore: e il giorno dopo.
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

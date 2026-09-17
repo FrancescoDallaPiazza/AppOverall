@@ -139,10 +139,12 @@ comment on table ateco_classe is
 --  DUE — IL PREAVVISO, CHE E' UNA SCELTA E NON UNA NORMA
 -- ============================================================================
 --
--- 180 giorni per la formazione e 90 per l'RLS sono quelli di AppFormazione, che li ha
--- scelti per le sue lettere. Per le visite nessuno ha ancora deciso: **60 e' una
--- proposta**, scritta come tale. Una tabella e non una costante, perche' cambiarli non
--- deve chiedere una migrazione.
+-- 180 giorni per la formazione e 90 per l'aggiornamento dell'RLS sono quelli di
+-- AppFormazione, che li ha scelti per le sue lettere. **L'RLS e' formazione come le
+-- altre**: la riga a parte non la separa, le da' solo un preavviso piu' corto, perche' il
+-- suo aggiornamento e' annuale e 180 giorni sarebbero meta' del ciclo. 60 per le visite:
+-- proposto qui e confermato da Francesco il 17 settembre 2026. Una tabella e non una
+-- costante, perche' cambiarli non deve chiedere una migrazione.
 
 create table scadenzario_preavviso (
   ambito text primary key,
@@ -153,8 +155,8 @@ create table scadenzario_preavviso (
 
 insert into scadenzario_preavviso (ambito, giorni, deciso, nota) values
   ('formazione', 180, true,  'Come AppFormazione (obblighi.giorni_preavviso), per le lettere di sollecito.'),
-  ('rls',         90, true,  'Come AppFormazione: l''aggiornamento e annuale, 180 giorni sarebbero meta del ciclo.'),
-  ('sorveglianza', 60, false, 'PROPOSTA, non decisa: nessuna fonte e nessun repo la fissa. Da confermare con Francesco.');
+  ('formazione_rls', 90, true, 'E formazione: cambia solo il preavviso, perche l''aggiornamento dell''RLS e annuale e 180 giorni sarebbero meta del ciclo. Come AppFormazione.'),
+  ('sorveglianza', 60, true,  'Proposto il 17/09/2026 e confermato da Francesco lo stesso giorno. Nessuna fonte lo fissa.');
 
 -- ============================================================================
 --  TRE — LA CLASSE DELLA SEDE
@@ -311,7 +313,7 @@ calcolo as (
          q.data as ultimo_attestato_il,
          q.corso_codice as ultimo_corso,
          coalesce(s.n, 0) as sessioni_aperte,
-         case when o.ruolo = 'rls' then 'rls' else 'formazione' end as ambito
+         case when o.ruolo = 'rls' then 'formazione_rls' else 'formazione' end as ambito
     from v_obbligo_persona o
     left join regola g on g.ruolo = o.ruolo
     left join ultimo_periodico p on p.persona_id = o.persona_id and p.ruolo = o.ruolo

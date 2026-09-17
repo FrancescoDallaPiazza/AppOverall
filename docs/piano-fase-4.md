@@ -58,7 +58,8 @@ Cambia dove il repo unico sa di piu:
 **Gli stati**, con la precedenza di AppFormazione piu due: `esonerato`, `non_scade`,
 `senza_regola` (il ruolo non ha corsi che lo assolvono), `mancante`, `in_corso` (percorso
 frazionato aperto), `scaduto`, `in_scadenza`, `valido`. Il preavviso e 180 giorni, 90 per
-l'RLS, come la loro.
+l'aggiornamento dell'RLS (che e formazione, ma annuale), come la loro; 60 per le visite,
+confermato da Francesco il 17 settembre 2026.
 
 ## L'ordine, e perche questo
 
@@ -81,12 +82,30 @@ Il motore viene prima del riscontro perche il riscontro confronta **il motore**;
 riscontro viene prima della v2 perche e lui a dire quali regole servono, invece di
 scriverle tutte e sperare.
 
+## Il calendario: un mese
+
+**Deciso da Francesco il 17 settembre 2026: Sicurweb si spegne entro un mese, cioe intorno
+al 17 ottobre 2026.** L'ordine sopra resta; diventa un calendario, e due cose che il piano
+metteva «dopo» vanno decise adesso, perche un mese non lascia spazio per scoprirle alla fine.
+
+| settimana | entro | cosa |
+|---|---|---|
+| 1 | 24/09 | **il riscontro sui dati veri**; le regole della v2 ordinate per quante righe spiegano; **le decisioni qui sotto** |
+| 2 | 01/10 | la **v2** fino a zero «diverse senza ragione»; l'interfaccia di sola lettura: scadenzario per cliente e solleciti |
+| 3 | 08/10 | il **database vero**: migrazioni e migrazione dati sul progetto scelto; il flusso dei dati nuovi |
+| 4 | 15/10 | **due settimane non ci sono: una**. Il riscontro rifatto sui dati del giorno, ogni due giorni, finche resta a zero; poi lo spegnimento |
+
+**Il rischio vero non e il motore: e il giorno dopo.** Spento Sicurweb, i corsi e le visite
+nuove devono finire da qualche parte, altrimenti lo scadenzario del 18 ottobre e giusto e
+quello del 18 novembre e vecchio di un mese senza che nessuno se ne accorga.
+
 ## Cosa serve da Francesco
 
-Niente per cominciare. Due domande che servono **dopo**, e non bloccano i primi due passi:
+~~Niente per cominciare.~~ Con un mese, queste servono **nella prima settimana**:
 
-1. **Entro quando va spento Sicurweb?** L'assunzione A2 dice che il calendario lo detta
-   lui, e che se la data slitta la Fase 4 puo scambiarsi con la 5. Una data decide quanto
-   della v2 serve prima dell'interfaccia.
-2. **Chi usera lo scadenzario, e dove?** L'innesto previsto sono le pagine di
-   AppFormazione. Se lo leggono anche i tecnici in campo, l'interfaccia cambia.
+1. ~~**Entro quando va spento Sicurweb?**~~ **Un mese** (17 settembre 2026).
+2. **Il database vero.** Il programma diceva «uno dei due progetti Supabase esistenti,
+   svuotato quando un'app vecchia si archivia»: quel giorno non arriva in un mese, e sul
+   piano gratuito i progetti attivi sono pochi.
+3. **Dove entrano i corsi e le visite nuovi** dopo lo spegnimento.
+4. **Chi usa lo scadenzario, e dove.** L'innesto previsto sono le pagine di AppFormazione.
