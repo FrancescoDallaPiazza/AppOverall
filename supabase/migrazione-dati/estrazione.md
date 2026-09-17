@@ -62,7 +62,9 @@ scritte, in quell'ordine**: lo script confronta l'intestazione e si ferma se non
 ```sql
 select id, werp_id, ragione_sociale, partita_iva, codice_fiscale, attivo,
        numero_lavoratori, codice_ateco, livello_rischio, livello_antincendio,
-       gruppo_primo_soccorso, created_at
+       gruppo_primo_soccorso, created_at,
+       ateco_origine, livello_rischio_definito_mediante,
+       antincendio_definito_mediante, primo_soccorso_definito_mediante
   from cliente order by id;
 ```
 

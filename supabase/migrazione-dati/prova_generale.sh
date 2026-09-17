@@ -3,7 +3,7 @@
 #
 # Esegue la migrazione dati DA CAPO A FONDO su un cluster PostgreSQL usa e getta:
 # crea il cluster con Supabase simulato, applica tutte le migrazioni in ordine, poi il
-# passo 00, carica i sei CSV, esegue i passi da 01 a 05 con i conteggi attesi, stampa gli
+# passo 00, carica i sei CSV, esegue i passi da 01 a 06 con i conteggi attesi, stampa gli
 # avvisi dei passi e i conteggi finali, e **ferma e cancella il cluster** — anche
 # quando si ferma, e anche con Ctrl+C.
 #
@@ -40,7 +40,7 @@
 #
 # Le fasi, in ordine: controlli iniziali, avvio del cluster, Supabase simulato,
 # migrazione <file>, seed degli alias, passo 00, caricamento di <tabella>.csv, passo 01,
-# passo 02, passo 03, passo 04, passo 05, conteggi finali. Un passo che si ferma non ha scritto niente: ognuno sta
+# passo 02, passo 03, passo 04, passo 05, passo 06, conteggi finali. Un passo che si ferma non ha scritto niente: ognuno sta
 # in una transazione. Ma il cluster si cancella comunque, quindi per ripartire si
 # rilancia tutto: e voluto, perche il giro intero e la prova.
 #
@@ -236,6 +236,10 @@ FASE="passo 05"
 echo; echo "== $FASE, le sessioni dei percorsi frazionati"
 esegui -v righe_frazionata_attese="$righe_frazionata_attese" -f "$DIR/05_frazionata.sql" || ferma
 
+FASE="passo 06"
+echo; echo "== $FASE, l'ATECO e i livelli sulle sedi"
+esegui -f "$DIR/06_valutazioni.sql" || ferma
+
 FASE="conteggi finali"
 echo; echo "== $FASE"
 "${PSQL[@]}" -d generale -At -c "
@@ -255,6 +259,16 @@ echo; echo "== $FASE"
       || count(*) filter (where sessioni_aperte > 0) || ' con sessioni aperte, '
       || count(*) filter (where not completo and sessioni_aperte = 0) || ' non completi e senza sessioni aperte)'
     from v_percorso_formativo" || ferma "conteggi non letti"
+"${PSQL[@]}" -d generale -At -c "
+  select '  sedi con ATECO ' || (select count(*) from sede where codice_ateco is not null)
+      || ' (annate: ' || coalesce((select string_agg(ateco_versione || ' ' || n, ', ' order by ateco_versione)
+                                    from (select ateco_versione, count(*) n from sede
+                                           where codice_ateco is not null group by ateco_versione) a), 'nessuna') || ')'
+      || ', valutazioni vive: ' || coalesce((select string_agg(attributo || ' ' || n, ', ' order by attributo)
+                                    from (select attributo, count(*) n from valutazione_sede
+                                           where revocato_il is null group by attributo) v), 'nessuna')
+      || ', firmate da ' || coalesce((select string_agg(distinct o.cognome || ' ' || o.nome, ', ')
+                                    from valutazione_sede v join operatore o on o.id = v.deciso_da), 'nessuno')" || ferma "conteggi non letti"
 "${PSQL[@]}" -d generale -At -c "
   select '  nomine per ruolo: ' || coalesce(string_agg(ruolo || ' ' || n, ', ' order by n desc, ruolo), 'nessuna')
     from (select ruolo, count(*) n from nomina group by ruolo) s" || ferma "conteggi non letti"

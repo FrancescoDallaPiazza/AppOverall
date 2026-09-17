@@ -69,7 +69,7 @@ X=("${PSQL[@]}" -d postgres)
   && "${X[@]}" -f "$DIR/prova_01_clienti_dati.sql" \
   && "${X[@]}" -f "$DIR/prova_03_nomine_dati.sql" \
   && "${X[@]}" -f "$DIR/prova_04_formazione_dati.sql" \
-  && "${X[@]}" -f "$DIR/prova_05_frazionata_dati.sql" \
+  && "${X[@]}" -f "$DIR/prova_05_frazionata_dati.sql"   && "${X[@]}" -f "$DIR/prova_06_valutazioni_dati.sql" \
   && "${X[@]}" -c "update origine.cliente set ragione_sociale = 'BAR CENTRALE' where id = '00000000-0000-0000-0000-00000000000c'" \
   && "${X[@]}" -c "update origine.persona set cognome = 'BIANCH' || chr(204) where id = '00000000-0000-0000-0000-000000000004'" \
   || { echo "  NO   dati finti non caricati"; exit 1; }
@@ -93,7 +93,9 @@ ok "$(tr -d '\r' < "$LAVORO/null.csv" | paste -sd'|')" '"null"|null' "psql scriv
 ok "$("${X[@]}" -At -c "select count(*) from prova_null where t = 'null'")" "1" "e rileggendolo il testo resta testo"
 ok "$("${X[@]}" -At -c "select count(*) from prova_null where t is null")" "1" "e il nullo resta nullo"
 cluster_ferma >/dev/null
-ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "11 10 5 9 11 10" "righe esportate: 11 unita, 10 sedi, 5 persone, 9 nomine, 11 attestati, 10 sessioni frazionate"
+# Righe di file, non record: in cliente.csv una cella va a capo (il testo accumulato
+# di un livello tolto, come lo scrive AppSopralluoghi), quindi 11 unita sono 12 righe.
+ok "$(for t in $TABELLE; do echo $(( $(wc -l < "$CSV/$t.csv") - 1 )); done | paste -sd' ')" "12 10 5 9 11 10" "righe esportate: 11 unita (una cella a capo), 10 sedi, 5 persone, 9 nomine, 11 attestati, 10 sessioni frazionate"
 ok "$(grep -c $'\xc3\x8c' "$CSV/persona.csv")" "1" "persona.csv e UTF-8, con una lettera accentata"
 ATTESI="clienti_attesi=11 sedi_attese=10 righe_attese=5 nomine_attese=9 righe_formazione_attese=11 righe_frazionata_attese=10"
 
@@ -121,6 +123,15 @@ ok "$(grep -oE 'sul giorno di un attestato dello stesso corso: [0-9]+' "$USCITA"
 ok "$(grep -oE 'arrivano gia alle previste: [0-9]+' "$USCITA")" "arrivano gia alle previste: 0" "nessun percorso in corso ha gia tutte le ore"
 ok "$(grep -oE 'previste diverse dalla durata del corso: [0-9]+' "$USCITA")" "previste diverse dalla durata del corso: 1" "le ore previste diverse dalla durata si contano"
 ok "$(grep -E '^  attestati e sessioni ' "$USCITA")" "  attestati e sessioni 14, percorsi 6 (3 completi, 3 con sessioni aperte, 1 non completi e senza sessioni aperte)" "la vista del percorso: le sessioni di un percorso chiuso non sono aperte"
+ok "$(grep -oE 'unita d.origine 11  ->  divisioni ATECO [0-9]+, scritte ora su [0-9]+ sedi' "$USCITA")" "unita d'origine 11  ->  divisioni ATECO 5, scritte ora su 5 sedi" "il passo 06 porta 5 divisioni sulle sedi"
+ok "$(grep -oE 'portate a due: [0-9]+, divisioni che l.Allegato IV non ha: [0-9]+, con la cella d.origine: [0-9]+' "$USCITA")" "portate a due: 1, divisioni che l'Allegato IV non ha: 0, con la cella d'origine: 1" "una divisione a una cifra si allarga, e la cella viaggia"
+ok "$(grep -oE 'livelli di rischio [0-9]+: uguali al default [0-9]+ .*' "$USCITA")" "livelli di rischio 5: uguali al default 2 (non si scrivono, si ricalcolano; 1 su una divisione dedotta), diversi dal default 2, senza un default 1" "il rischio uguale al default non si scrive, gli altri si"
+ok "$(grep -oE 'secondo il gestionale: tabella_ateco [0-9]+, altro testo [0-9]+, non risulta [0-9]+' "$USCITA")" "secondo il gestionale: tabella_ateco 1, altro testo 3, non risulta 1" "come e stato deciso, contato"
+ok "$(grep -oE 'valutazioni di rischio scritte: [0-9]+' "$USCITA")" "valutazioni di rischio scritte: 3" "tre valutazioni di rischio"
+ok "$(grep -oE 'livelli antincendio [0-9]+, valutazioni scritte [0-9]+' "$USCITA")" "livelli antincendio 2, valutazioni scritte 2" "l'antincendio si scrive sempre"
+ok "$(grep -oE 'gruppi di primo soccorso [0-9]+ \(di cui BC, il gruppo di prima della loro 050: [0-9]+\), valutazioni scritte [0-9]+' "$USCITA")" "gruppi di primo soccorso 2 (di cui BC, il gruppo di prima della loro 050: 1), valutazioni scritte 2" "il primo soccorso pure, e BC si conta"
+ok "$(grep -oE 'NON portati: [0-9]+ testi di un rischio tolto.*non dicono tabella_ateco' "$USCITA")" "NON portati: 1 testi di un rischio tolto (nessun valore da annotare), 1 testi accanto a un rischio uguale al default che non dicono tabella_ateco" "cio che la regola perde si conta"
+ok "$(grep -E '^  sedi con ATECO ' "$USCITA")" "  sedi con ATECO 5 (annate: 2007 5), valutazioni vive: gruppo_primo_soccorso 2, livello_antincendio 2, livello_rischio 3, firmate da Dalla Piazza Francesco" "i conteggi finali delle sedi"
 ok "$(grep -oE '^  268 alias.*' "$USCITA")" "  268 alias: 237 mappati su 39 codici, 31 ignorati, 98 aggiornamenti, 7 parziali, 2 pregresse" "il seed degli alias e caricato e contato"
 
 echo "== e ci arriva anche con i file come potrebbe salvarli un editor"
@@ -168,6 +179,14 @@ fermata "sessioni attese sbagliate" "passo 05" "\\(a\\) origine.formazione_frazi
 C="$(copia due_caricamenti)"
 sed -i -E '/^205,/ s/,00000000-0000-0000-0000-0000000000d2,/,00000000-0000-0000-0000-0000000000d3,/' "$C/formazione_frazionata.csv"
 fermata "un file caricato due volte nello staging" "passo 05" "\\(c\\) 1 file caricati piu di una volta" "$C" $ATTESI
+
+C="$(copia livello_ignoto)"
+sed -i -E '/^00000000-0000-0000-0000-0000000000c5,/ s/,alto,/,altissimo,/' "$C/cliente.csv"
+fermata "un livello fuori vocabolario" "passo 06" "\(d\) 1 unita con un livello fuori dal vocabolario" "$C" $ATTESI
+
+C="$(copia ateco_foglia)"
+sed -i -E '/^00000000-0000-0000-0000-0000000000c1,/ s/,25,alto,/,25.62,alto,/' "$C/cliente.csv"
+fermata "un ATECO che non e una divisione" "passo 06" "\(c\) 1 codici ATECO che non sono una divisione" "$C" $ATTESI
 
 C="$(copia ore_illeggibili)"
 sed -i -E '/^204,/ s#,2/6,#,due ore,#' "$C/formazione_frazionata.csv"

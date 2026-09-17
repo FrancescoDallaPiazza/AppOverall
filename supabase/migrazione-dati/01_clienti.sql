@@ -67,6 +67,11 @@
 -- perimetro dell'anagrafe. Restano nell'estrazione e nel database d'origine; questo
 -- passo stampa **quanti clienti ne avevano**, perche un dato non portato e diverso
 -- da un dato che non c'era.
+--
+-- **Dal 17 settembre 2026 ATECO e livelli li porta il passo 06**, sulle sedi che
+-- questo passo crea: l'annata e l'operatore li ha decisi Francesco il 16, e la regola
+-- per i livelli e' la decisione 8. Qui restano contati, perche' questo passo da solo
+-- continua a non portarli.
 
 \set ON_ERROR_STOP on
 
@@ -274,7 +279,7 @@ begin
   raise notice '  fusioni per P.IVA: % clienti da piu unita, % unita assorbite, % con ragioni sociali discordi (vince il superstite)', fusi, assorbiti, discordi;
   raise notice '  P.IVA scritte e non usabili: %, di cui % segnaposto a cifre tutte uguali (usabili per la guardia d''origine)', scartate, segnaposto;
   raise notice '  sedi che non sono la sede legale del loro cliente: %', non_legali;
-  raise notice '  NON portati: ATECO su % clienti, almeno un livello su %', con_ateco, con_livello;
+  raise notice '  NON portati qui, li porta il passo 06: ATECO su % clienti, almeno un livello su %', con_ateco, con_livello;
   raise notice '  possibili doppioni non fusi: % clienti senza P.IVA usabile con la ragione sociale di uno che ce l''ha', doppi;
 end
 $$;

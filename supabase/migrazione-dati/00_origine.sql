@@ -118,7 +118,17 @@ create table if not exists origine.cliente (
   livello_rischio text,
   livello_antincendio text,
   gruppo_primo_soccorso text,
-  created_at timestamptz not null
+  created_at timestamptz not null,
+  -- Le quattro colonne del passo 06, aggiunte il 17 settembre 2026 IN CODA, perche'
+  -- l'ordine delle colonne e' quello del CSV. Dicono **come** e' nato il valore
+  -- accanto: la cella da cui la divisione e' derivata (loro `065`), e il testo che
+  -- ogni gesto sui tre livelli scrive nella stessa patch (loro `072`, `050`, `051`).
+  -- Senza, il passo 06 non saprebbe distinguere un livello preso dalla tabella da
+  -- uno scelto a mano — e la decisione 8 tratta i due in modo opposto.
+  ateco_origine text,
+  livello_rischio_definito_mediante text,
+  antincendio_definito_mediante text,
+  primo_soccorso_definito_mediante text
 );
 
 comment on table origine.cliente is

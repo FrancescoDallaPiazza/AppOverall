@@ -13,7 +13,7 @@
 TABELLE="cliente sede persona nomina formazione formazione_frazionata"
 
 declare -A COLONNE=(
-  [cliente]="id,werp_id,ragione_sociale,partita_iva,codice_fiscale,attivo,numero_lavoratori,codice_ateco,livello_rischio,livello_antincendio,gruppo_primo_soccorso,created_at"
+  [cliente]="id,werp_id,ragione_sociale,partita_iva,codice_fiscale,attivo,numero_lavoratori,codice_ateco,livello_rischio,livello_antincendio,gruppo_primo_soccorso,created_at,ateco_origine,livello_rischio_definito_mediante,antincendio_definito_mediante,primo_soccorso_definito_mediante"
   [sede]="id,cliente_id,nome,indirizzo,localita,provincia,principale,attivo,created_at"
   [persona]="id,cliente_id,sede_id,nome,cognome,codice_fiscale,mansione,data_assunzione,attivo,data_cessazione,import_key,updated_at"
   [nomina]="id,persona_id,figura_codice,data_nomina,attiva,note,estremi_procura,da_confermare,origine,origine_testo,created_at,updated_at"
