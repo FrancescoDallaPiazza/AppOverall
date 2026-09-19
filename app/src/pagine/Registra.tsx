@@ -228,7 +228,12 @@ function SceltaPersona({ persona, bloccata, onScegli, testoIniziale = '' }: {
         </ul>
       )}
       {testo.trim().length >= 2 && trovate.length === 0 && (
-        <p className="nota">Nessuna persona in forza con questo testo. Chi non e in anagrafe va aggiunto prima all'organigramma del cliente.</p>
+        <p className="nota">
+          {testoIniziale && testo === testoIniziale
+            ? `Il codice fiscale letto dall'attestato (${testoIniziale}) non e di nessuna persona in forza: controllarlo sull'attestato, o cercare per cognome.`
+            : 'Nessuna persona in forza con questo testo.'}
+          {' '}Chi non e in anagrafe va aggiunto prima all'organigramma del cliente.
+        </p>
       )}
     </div>
   )
