@@ -4,6 +4,8 @@ import { supabase } from '../supabase'
 import { useSessione } from '../sessione'
 import { useVista, data, Errore, Vuoto } from '../componenti/comuni'
 import ControlloAsr from '../componenti/ControlloAsr'
+import { estrai } from '../estrai'
+import { leggiAttestato } from '../lettura'
 import type { EventoRegistrato, PersonaInForza, RigaControllo, TipoFormatore } from '../tipi'
 
 type Corso = {
@@ -39,6 +41,8 @@ export default function Registra() {
   const [tipo, setTipo] = useState<Tipo>(parametri.get('tipo') === 'sorveglianza' ? 'sorveglianza' : 'formazione')
   const [persona, setPersona] = useState<PersonaInForza | null>(null)
   const [esito, setEsito] = useState<string | null>(null)
+  const [letto, setLetto] = useState('')
+  const cfLetto = letto ? estrai(letto, [], oggi()).codiceFiscale : null
 
   const recenti = useVista<EventoRegistrato>(
     () => supabase.from('v_evento_registrato').select('*').order('inserito_il', { ascending: false }).limit(20)
@@ -88,11 +92,12 @@ export default function Registra() {
       )}
 
       <div className="modulo">
-        <SceltaPersona persona={persona} bloccata={!!daScadenza}
+        {tipo === 'formazione' && <LeggiFile onLetto={(t) => { setLetto(t); setEsito(null) }} />}
+        <SceltaPersona key={cfLetto ?? ''} testoIniziale={cfLetto ?? ''} persona={persona} bloccata={!!daScadenza}
                        onScegli={(p) => { setPersona(p); setEsito(null) }} />
         {persona && (tipo === 'formazione'
           ? <ModuloAttestato key={persona.persona_id} persona={persona} onFatto={fatto}
-                             obbligo={parametri.get('obbligo')} corsoIniziale={parametri.get('corso')} />
+                             obbligo={parametri.get('obbligo')} corsoIniziale={parametri.get('corso')} letto={letto} />
           : <ModuloVisita key={persona.persona_id} persona={persona} onFatto={fatto}
                           accertamentoIniziale={parametri.get('corso')} />)}
         {esito && (
@@ -129,10 +134,52 @@ export default function Registra() {
   )
 }
 
-function SceltaPersona({ persona, bloccata, onScegli }: {
-  persona: PersonaInForza | null; bloccata: boolean; onScegli: (p: PersonaInForza | null) => void
-}) {
+/**
+ * L'attestato si legge nel browser (lettura.ts) e i campi si ricavano con regole fisse
+ * (estrai.ts). Il file non si salva: va nella cartella del cliente sul server, a mano
+ * (decisione del 19 settembre 2026).
+ */
+function LeggiFile({ onLetto }: { onLetto: (testo: string) => void }) {
+  const [stato, setStato] = useState<string | null>(null)
   const [testo, setTesto] = useState('')
+
+  async function leggi(file: File | undefined) {
+    if (!file) return
+    setTesto('')
+    try {
+      const t = await leggiAttestato(file, setStato)
+      setTesto(t)
+      setStato(t.trim() ? null : 'Non ho trovato testo nel file.')
+      onLetto(t)
+    } catch (e) {
+      setStato(`Lettura non riuscita: ${e instanceof Error ? e.message : e}`)
+    }
+  }
+
+  return (
+    <div className="scelta">
+      <label>Attestato (PDF, anche scansione, o foto)
+        <input type="file" accept="application/pdf,image/*" onChange={(e) => leggi(e.target.files?.[0])} />
+      </label>
+      {stato && <p className="nota">{stato}</p>}
+      {testo && (
+        <details>
+          <summary className="nota">
+            Letto. I campi trovati sono compilati qui sotto: controllarli uno per uno sull'attestato.
+            Il file va salvato nella cartella del cliente sul server.
+          </summary>
+          <pre className="letto">{testo}</pre>
+        </details>
+      )}
+    </div>
+  )
+}
+
+function SceltaPersona({ persona, bloccata, onScegli, testoIniziale = '' }: {
+  persona: PersonaInForza | null; bloccata: boolean; onScegli: (p: PersonaInForza | null) => void
+  testoIniziale?: string
+}) {
+  const [testo, setTesto] = useState(testoIniziale)
   const [trovate, setTrovate] = useState<PersonaInForza[]>([])
 
   useEffect(() => {
@@ -253,8 +300,9 @@ function SceltaCorso({ corsi, suggeriti, scelto, onScegli }: {
   )
 }
 
-function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
+function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale, letto }: {
   persona: PersonaInForza; onFatto: (t: string) => void; obbligo: string | null; corsoIniziale: string | null
+  letto: string
 }) {
   const corsi = useVista<Corso>(() => supabase.from('corso')
     .select('codice, nome, categoria, ore, ore_grandezza, aggiornamento_mesi, ore_aggiornamento, ore_aggiornamento_grandezza')
@@ -265,6 +313,8 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
       : Promise.resolve({ data: [], error: null }),
     [obbligo])
 
+  const alias = useVista<{ testo: string; corso_codice: string }>(() => supabase.from('corso_alias')
+    .select('testo, corso_codice').not('corso_codice', 'is', null).eq('ignorato', false))
   const tipiEnte = useVista<TipoFormatore>(() => supabase.from('soggetto_formatore_tipo').select('*').order('nome'))
   const [corso, setCorso] = useState<Corso | null>(null)
   const [giorno, setGiorno] = useState(oggi())
@@ -289,6 +339,22 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
     if (corsoIniziale && !corso) setCorso(corsi.righe.find((c) => c.codice === corsoIniziale) ?? null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [corsi.righe, corsoIniziale])
+
+  // Dall'attestato letto: si compila solo quello che si e trovato, il resto non si tocca.
+  const estratto = useMemo(() => letto && corsi.righe.length
+    ? estrai(letto, [...corsi.righe, ...alias.righe.map((a) => ({ codice: a.corso_codice, nome: a.testo }))], oggi())
+    : null, [letto, corsi.righe, alias.righe])
+  useEffect(() => {
+    if (!estratto) return
+    const c = corsi.righe.find((x) => x.codice === estratto.corso)
+    if (c) setCorso(c)
+    if (estratto.data) setGiorno(estratto.data)
+    if (estratto.ore) setOre(estratto.ore)
+    if (estratto.modalita) setModalita(estratto.modalita)
+    if (estratto.aggiornamento) setAggiornamento(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [estratto])
+  const cfDiverso = estratto?.codiceFiscale && persona.codice_fiscale && estratto.codiceFiscale !== persona.codice_fiscale
 
   const contaDoppi = async () => {
     if (!corso || !giorno) return 0
@@ -382,6 +448,12 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale }: {
 
   return (
     <form onSubmit={salva} className="campi">
+      {cfDiverso && (
+        <p className="avviso">
+          Sull'attestato c'e il codice fiscale {estratto!.codiceFiscale}, la persona scelta ha {persona.codice_fiscale}.
+        </p>
+      )}
+      {estratto && !estratto.corso && !corso && <p className="nota">Il corso dall'attestato non l'ho riconosciuto: sceglierlo qui sotto.</p>}
       <SceltaCorso corsi={corsi.righe} suggeriti={suggeriti} scelto={corso} onScegli={setCorso} />
       {corso && (
         <>

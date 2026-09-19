@@ -336,3 +336,6 @@ td.persona { white-space: nowrap; }
 .pastiglia.controllo-da_verificare { color: var(--attesa);  border-color: #ecd28a; background: #fdf8e8; }
 .pastiglia.controllo-non_conforme  { color: var(--scaduta); border-color: #f0b8b4; background: #fdf0ef; }
 
+
+/* Il testo letto dall'attestato, per confrontarlo con i campi. */
+pre.letto { white-space: pre-wrap; max-height: 240px; overflow: auto; font-size: 12px; padding: 8px; border: 1px solid var(--bordo); }

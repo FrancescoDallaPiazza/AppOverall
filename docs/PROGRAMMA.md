@@ -3917,6 +3917,21 @@ acceso sul server a ricevere i file.
 | **AppFormazione** | la correzione dell'intestazione, poi l'inventario in sola lettura | l'archiviazione |
 | **AppSopralluoghi** | completare VERDEPOSITIVO SRL. Invariato | — |
 
+**Lo stesso giorno, provando: «voglio provare a caricare un attestato pdf», e «deve
+funzionare anche con le scansioni».** Quindi l'app **legge** il PDF, e continua a non
+salvarlo. La lettura avviene nel browser: il testo del PDF com'e, e le pagine che non
+hanno testo passano dall'OCR in italiano (Tesseract). **Il file non esce dal PC**, e
+resta vero quello che Francesco aveva chiesto il 17: nessun servizio esterno. Dal testo
+si ricavano, a regole fisse (`app/src/estrai.ts`), il codice fiscale, che cerca la
+persona; il corso, confrontato con il catalogo **e con i 268 titoli di `corso_alias`**;
+la data, le ore, la modalita e se e un aggiornamento. Poi parte il controllo ASR come se
+i dati li avesse scritti una persona. Ente, luogo e firma restano da scrivere.
+
+**Provato sul banco** con due attestati finti di ROSSI MARIO, uno in PDF con il testo e
+uno scansionato, sfocato e storto: la persona trovata dal codice fiscale, il carrello
+elevatore riconosciuto, 12 ore, in presenza, 12/06/2026, e le regole su modalita e durata
+rispettate.
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

@@ -51,6 +51,16 @@ corso non e disciplinato dall'ASR: antincendio, primo soccorso, RLS, ponteggi…
 attestato non conforme si registra solo dopo averlo confermato, e l'esito del momento
 resta scritto sulla riga (`controllo_esito`, `controllo_asr`).
 
+## Leggere l'attestato
+
+Nel modulo si puo scegliere il PDF dell'attestato, anche scansionato, o una foto. Il
+file si legge **nel browser** e non esce dal PC: il testo del PDF com'e, le pagine
+senza testo con l'OCR in italiano (Tesseract, che al primo uso scarica il modello da
+jsdelivr). `src/estrai.ts` ne ricava a regole fisse codice fiscale (che cerca la
+persona), corso (catalogo e titoli di `corso_alias`), data, ore, modalita e
+aggiornamento; il resto si scrive a mano. La prova: `node prova/estrai.prova.ts`.
+Il file **non si salva**: va nella cartella del cliente sul server, a mano.
+
 Le viste e i permessi sono nella `0028` e nella `0029`. Chi ha registrato una riga e
 quando lo scrive un trigger, non il client; lo stesso trigger rifiuta le date nel futuro.
 Registrare serve il livello 2 (tecnico, formazione, amministrazione): il lettore e chi
