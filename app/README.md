@@ -61,6 +61,12 @@ persona), corso (catalogo e titoli di `corso_alias`), data, ore, modalita e
 aggiornamento; il resto si scrive a mano. La prova: `node prova/estrai.prova.ts`.
 Il file **non si salva**: va nella cartella del cliente sul server, a mano.
 
+Se il codice fiscale letto non e di nessuna persona in forza, la persona si aggiunge
+da li (`0031`, `aggiungi_persona_da_attestato()`): cognome e nome sono le parole del
+testo che danno le prime sei lettere del codice fiscale, la data di nascita viene dal
+codice fiscale, il cliente lo sceglie chi registra. Resta nei Promemoria, «da riportare
+nel gestionale», finche qualcuno non preme «riportata».
+
 Le viste e i permessi sono nella `0028` e nella `0029`. Chi ha registrato una riga e
 quando lo scrive un trigger, non il client; lo stesso trigger rifiuta le date nel futuro.
 Registrare serve il livello 2 (tecnico, formazione, amministrazione): il lettore e chi

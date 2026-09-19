@@ -67,7 +67,7 @@ export type SintesiCliente = {
   prima_scadenza: string | null
 }
 
-export type GenerePromemoria = 'ruolo_da_confermare' | 'livello_emergenza' | 'corso_non_definito'
+export type GenerePromemoria = 'ruolo_da_confermare' | 'livello_emergenza' | 'corso_non_definito' | 'da_riportare'
 
 /** v_promemoria */
 export type Promemoria = {
@@ -85,6 +85,7 @@ export type Promemoria = {
   completato_il: string | null
   scadenza: string | null
   livello_richiesto: string | null
+  codice_fiscale: string | null
 }
 
 /** v_persona_in_forza */

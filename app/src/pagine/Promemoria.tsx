@@ -11,7 +11,7 @@ import type { Promemoria as RigaPromemoria } from '../tipi'
  */
 export default function Promemoria() {
   const [cerca, setCerca] = useState('')
-  const { righe, errore, caricando } = useVista<RigaPromemoria>(
+  const { righe, errore, caricando, ricarica } = useVista<RigaPromemoria>(
     () => supabase.from('v_promemoria').select('*')
       .order('ragione_sociale').order('cognome').limit(LIMITE)
   )
@@ -34,7 +34,7 @@ export default function Promemoria() {
         <div>
           <h1>Promemoria</h1>
           <p className="sottotitolo">
-            Non sono scadenze: sono cose da sistemare nell'organigramma o nel catalogo
+            Non sono scadenze: sono cose da sistemare nell'organigramma, nel catalogo o nel gestionale
             perche le scadenze siano giuste. Ogni gruppo spiega a cosa si riferisce.
           </p>
         </div>
@@ -46,7 +46,7 @@ export default function Promemoria() {
       )}
       {caricando ? <Vuoto>Carico…</Vuoto>
         : viste.length === 0 ? <Vuoto>Nessun promemoria.</Vuoto>
-        : <ElencoPromemoria righe={viste} conCliente />}
+        : <ElencoPromemoria righe={viste} conCliente onCambiato={ricarica} />}
     </section>
   )
 }

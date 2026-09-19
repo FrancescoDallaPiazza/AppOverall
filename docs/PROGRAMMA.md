@@ -3932,6 +3932,24 @@ uno scansionato, sfocato e storto: la persona trovata dal codice fiscale, il car
 elevatore riconosciuto, 12 ore, in presenza, 12/06/2026, e le regole su modalita e durata
 rispettate.
 
+**E la persona che non c'e si aggiunge dall'attestato: Francesco ha scelto «1».** Le
+strade erano due: l'app crea la persona, oppure mostra i dati da copiare nel gestionale
+e aspetta l'import. La prima tocca A4 — l'anagrafe unica sta dove ci sono le sedi — e
+per questo la persona nasce **segnata**: `da_riportare_nel_gestionale` (`0031`), e un
+quarto genere di promemoria la tiene in vista finche qualcuno non preme «riportata».
+`aggiungi_persona_da_attestato()` scrive persona e rapporto insieme e non crea doppioni
+sul codice fiscale: se la persona c'era, aggiunge solo il rapporto con quel cliente.
+Cognome e nome non si cercano dietro un'etichetta: sono le parole del testo che **danno
+le prime sei lettere del codice fiscale**, in un ordine o nell'altro; la data di nascita
+viene dal codice fiscale. Provato sul banco dall'attestato fino a «riportata», e
+`verifica_prova_generale.sh` passa con 31 migrazioni.
+
+**Una cosa vista provando, e non toccata:** l'attestato di Baccini e del 2016, e il
+controllo lo dice **non conforme** perche manca la modalita di erogazione — che
+l'accordo del 2011 non chiedeva di scrivere. Gli elementi minimi della Parte I punto 6
+valgono per gli attestati dell'ASR 2025. Da decidere se, prima del 24/05/2025, quella
+regola diventa «da guardare».
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12

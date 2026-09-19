@@ -130,7 +130,7 @@ export default function Cliente() {
       ) : (
         promemoria.caricando ? <Vuoto>Carico…</Vuoto>
           : promemoria.righe.length === 0 ? <Vuoto>Niente da sistemare per questo cliente.</Vuoto>
-          : <ElencoPromemoria righe={promemoria.righe} conCliente={false} />
+          : <ElencoPromemoria righe={promemoria.righe} conCliente={false} onCambiato={promemoria.ricarica} />
       )}
     </section>
   )

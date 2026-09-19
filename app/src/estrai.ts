@@ -15,6 +15,9 @@ export type Estratto = {
   corso: string | null         // codice del catalogo
   ente: string | null
   luogo: string | null
+  cognome: string | null       // per aggiungere chi non e in anagrafe
+  nome: string | null
+  nascita: string | null
 }
 
 const CF = /\b[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]\b/
@@ -35,6 +38,44 @@ function codiceFiscale(testo: string): string | null {
     if (CF.test(p)) return p
   }
   return null
+}
+
+// Le tre lettere del codice fiscale per un cognome o un nome (DM 23/12/1976).
+function tripla(parole: string, nome: boolean): string {
+  const l = parole.toUpperCase().normalize('NFD').replace(/[^A-Z]/g, '')
+  let cons = l.replace(/[AEIOU]/g, '')
+  if (nome && cons.length >= 4) cons = cons[0] + cons[2] + cons[3]
+  return (cons + l.replace(/[^AEIOU]/g, '') + 'XXX').slice(0, 3)
+}
+
+// Cognome e nome: le due-cinque parole consecutive del testo le cui lettere danno le
+// prime sei del codice fiscale, in un ordine o nell'altro. Senza etichette da cercare.
+function nominativo(testo: string, cf: string): { cognome: string; nome: string } | null {
+  const parole = testo.match(/[A-Za-zÀ-ÿ']+/g) ?? []
+  for (let i = 0; i < parole.length; i++) {
+    for (let n = 2; n <= 5 && i + n <= parole.length; n++) {
+      const w = parole.slice(i, i + n)
+      for (let k = 1; k < n; k++) {
+        const a = w.slice(0, k).join(' '), b = w.slice(k).join(' ')
+        if (tripla(a, false) + tripla(b, true) === cf.slice(0, 6)) return { cognome: a, nome: b }
+        if (tripla(b, false) + tripla(a, true) === cf.slice(0, 6)) return { cognome: b, nome: a }
+      }
+    }
+  }
+  return null
+}
+
+// La data di nascita scritta nel codice fiscale. Le lettere di omocodia tornano cifre;
+// il secolo e il piu recente che non la mette nel futuro.
+function nascita(cf: string, oggi: string): string | null {
+  const cifra = (c: string) => ('LMNPQRSTUV'.includes(c) ? String('LMNPQRSTUV'.indexOf(c)) : c)
+  const n = (s: string) => Number(s.split('').map(cifra).join(''))
+  const aa = n(cf.slice(6, 8)), mese = 'ABCDEHLMPRST'.indexOf(cf[8]) + 1, giorno = n(cf.slice(9, 11)) % 40
+  if (!mese || !giorno) return null
+  let anno = 2000 + aa
+  const d = () => `${anno}-${String(mese).padStart(2, '0')}-${String(giorno).padStart(2, '0')}`
+  if (d() > oggi) anno -= 100
+  return d()
 }
 
 const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio',
@@ -97,14 +138,19 @@ function dopo(testo: string, etichetta: RegExp): string | null {
 }
 
 export function estrai(testo: string, corsi: CorsoNome[], oggi: string): Estratto {
+  const cf = codiceFiscale(testo)
+  const chi = cf ? nominativo(testo, cf) : null
   return {
-    codiceFiscale: codiceFiscale(testo),
+    codiceFiscale: cf,
     data: dataCorso(testo, oggi),
     ore: ore(testo),
     modalita: modalita(testo),
     aggiornamento: /aggiornamento/i.test(testo),
     corso: corso(testo, corsi),
     ente: dopo(testo, /(?:soggetto (?:che ha organizzato il corso|formatore|organizzatore)|ente formatore|organizzato da)/),
+    cognome: chi?.cognome ?? null,
+    nome: chi?.nome ?? null,
+    nascita: cf ? nascita(cf, oggi) : null,
     luogo: dopo(testo, /\bluogo(?! di nascita)/),
   }
 }

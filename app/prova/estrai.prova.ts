@@ -16,6 +16,7 @@ della durata di 12 ore, erogato in presenza, concluso il 15 marzo 2025. Verona, 
 assert.deepEqual(estrai(pdf, corsi, '2026-09-19'), {
   codiceFiscale: 'RSSMRA80D03H501U', data: '2025-03-15', ore: '12',
   modalita: 'presenza', aggiornamento: false, corso: 'CARRELLO', ente: null, luogo: null,
+  cognome: 'ROSSI', nome: 'MARIO', nascita: '1980-04-03',
 })
 
 // Scansione: l'OCR legge O per 0 nel codice fiscale; e-learning; aggiornamento; ore con virgola.
@@ -34,7 +35,15 @@ const vero = `Si attesta che il Sig.   BRUNELLI DAVIDE   Codice Fiscale   BRN DV
 assert.deepEqual(estrai(vero, [...corsi, { codice: 'LAV_GEN', nome: 'Formazione generale per lavoratori' }], '2026-09-19'), {
   codiceFiscale: 'BRNDVD94E04B296W', data: '2016-04-11', ore: '4', modalita: null,
   aggiornamento: false, corso: 'LAV_GEN', ente: 'G&P Formazione sas', luogo: 'VERONA',
+  cognome: 'BRUNELLI', nome: 'DAVIDE', nascita: '1994-05-04',
 })
+
+// Cognome e nome si riconoscono dal codice fiscale anche nell'ordine nome-cognome, con
+// un cognome di due parole; una donna ha il giorno piu 40; le lettere di omocodia.
+const due = estrai('Si attesta che Anna Maria De Luca, C.F. DLCNMR85M52F205Z, ha frequentato', [], '2026-09-19')
+assert.equal(due.cognome, 'De Luca'); assert.equal(due.nome, 'Anna Maria'); assert.equal(due.nascita, '1985-08-12')
+assert.equal(estrai('BACCINI BARBARA BCCBBR77L41E884T', [], '2026-09-19').nascita, '1977-07-01')
+assert.equal(estrai('XX RSSMRA0MA01H501U', [], '2026-09-19').nascita, '2001-01-01')
 
 // Una data nel futuro non e la data del corso; niente di riconoscibile resta vuoto.
 assert.equal(estrai('rilasciato il 01/01/2030', corsi, '2026-09-19').data, null)

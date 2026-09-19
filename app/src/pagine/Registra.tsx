@@ -4,7 +4,7 @@ import { supabase } from '../supabase'
 import { useSessione } from '../sessione'
 import { useVista, data, Errore, Vuoto } from '../componenti/comuni'
 import ControlloAsr from '../componenti/ControlloAsr'
-import { estrai } from '../estrai'
+import { estrai, type Estratto } from '../estrai'
 import { leggiAttestato } from '../lettura'
 import type { EventoRegistrato, PersonaInForza, RigaControllo, TipoFormatore } from '../tipi'
 
@@ -42,7 +42,8 @@ export default function Registra() {
   const [persona, setPersona] = useState<PersonaInForza | null>(null)
   const [esito, setEsito] = useState<string | null>(null)
   const [letto, setLetto] = useState('')
-  const cfLetto = letto ? estrai(letto, [], oggi()).codiceFiscale : null
+  const daLetto = useMemo(() => letto ? estrai(letto, [], oggi()) : null, [letto])
+  const cfLetto = daLetto?.codiceFiscale ?? null
 
   const recenti = useVista<EventoRegistrato>(
     () => supabase.from('v_evento_registrato').select('*').order('inserito_il', { ascending: false }).limit(20)
@@ -93,7 +94,7 @@ export default function Registra() {
 
       <div className="modulo">
         {tipo === 'formazione' && <LeggiFile onLetto={(t) => { setLetto(t); setEsito(null) }} />}
-        <SceltaPersona key={cfLetto ?? ''} testoIniziale={cfLetto ?? ''} persona={persona} bloccata={!!daScadenza}
+        <SceltaPersona key={cfLetto ?? ''} testoIniziale={cfLetto ?? ''} letto={daLetto} persona={persona} bloccata={!!daScadenza}
                        onScegli={(p) => { setPersona(p); setEsito(null) }} />
         {persona && (tipo === 'formazione'
           ? <ModuloAttestato key={persona.persona_id} persona={persona} onFatto={fatto}
@@ -175,12 +176,14 @@ function LeggiFile({ onLetto }: { onLetto: (testo: string) => void }) {
   )
 }
 
-function SceltaPersona({ persona, bloccata, onScegli, testoIniziale = '' }: {
+function SceltaPersona({ persona, bloccata, onScegli, testoIniziale = '', letto = null }: {
   persona: PersonaInForza | null; bloccata: boolean; onScegli: (p: PersonaInForza | null) => void
-  testoIniziale?: string
+  testoIniziale?: string; letto?: Estratto | null
 }) {
   const [testo, setTesto] = useState(testoIniziale)
   const [trovate, setTrovate] = useState<PersonaInForza[]>([])
+  // Il testo dell'ultima ricerca arrivata: finche non e questo, «nessuno» non si dice.
+  const [cercato, setCercato] = useState<string | null>(null)
 
   useEffect(() => {
     const t = testo.trim().replace(/[,()*]/g, ' ')
@@ -189,9 +192,10 @@ function SceltaPersona({ persona, bloccata, onScegli, testoIniziale = '' }: {
     supabase.from('v_persona_in_forza').select('*')
       .or(`cognome.ilike.*${t}*,nome.ilike.*${t}*,codice_fiscale.ilike.*${t}*,ragione_sociale.ilike.*${t}*`)
       .order('cognome').limit(20)
-      .then(({ data }) => { if (vivo) setTrovate((data as PersonaInForza[]) ?? []) })
+      .then(({ data }) => { if (vivo) { setTrovate((data as PersonaInForza[]) ?? []); setCercato(testo) } })
     return () => { vivo = false }
   }, [testo])
+  const nessuno = testo.trim().length >= 2 && cercato === testo && trovate.length === 0
 
   if (persona) {
     return (
@@ -227,15 +231,105 @@ function SceltaPersona({ persona, bloccata, onScegli, testoIniziale = '' }: {
           ))}
         </ul>
       )}
-      {testo.trim().length >= 2 && trovate.length === 0 && (
+      {nessuno && (
         <p className="nota">
           {testoIniziale && testo === testoIniziale
             ? `Il codice fiscale letto dall'attestato (${testoIniziale}) non e di nessuna persona in forza: controllarlo sull'attestato, o cercare per cognome.`
             : 'Nessuna persona in forza con questo testo.'}
-          {' '}Chi non e in anagrafe va aggiunto prima all'organigramma del cliente.
+          {testoIniziale && testo === testoIniziale && letto
+            ? " Se non e in anagrafe si aggiunge qui sotto, dai dati dell'attestato."
+            : " Chi non e in anagrafe va aggiunto prima all'organigramma del cliente."}
         </p>
       )}
+      {nessuno && testoIniziale && testo === testoIniziale && letto && (
+        <NuovaPersona letto={letto} onAggiunta={onScegli} />
+      )}
     </div>
+  )
+}
+
+/**
+ * Decisione di Francesco del 19 settembre 2026: chi arriva con un attestato e non e in
+ * anagrafe si aggiunge da qui, con il suo rapporto col cliente, e resta nei promemoria
+ * come da riportare nel gestionale (0031). Il cliente lo sceglie chi registra:
+ * l'attestato quasi mai lo dice.
+ */
+function NuovaPersona({ letto, onAggiunta }: { letto: Estratto; onAggiunta: (p: PersonaInForza) => void }) {
+  const [cognome, setCognome] = useState(letto.cognome ?? '')
+  const [nome, setNome] = useState(letto.nome ?? '')
+  const [cf, setCf] = useState(letto.codiceFiscale ?? '')
+  const [nascita, setNascita] = useState(letto.nascita ?? '')
+  const [mansione, setMansione] = useState('')
+  const [cerca, setCerca] = useState('')
+  const [clienti, setClienti] = useState<{ id: string; ragione_sociale: string }[]>([])
+  const [cliente, setCliente] = useState<{ id: string; ragione_sociale: string } | null>(null)
+  const [errore, setErrore] = useState<string | null>(null)
+  const [inCorso, setInCorso] = useState(false)
+
+  useEffect(() => {
+    const t = cerca.trim().replace(/[,()*]/g, ' ')
+    if (t.length < 2) { setClienti([]); return }
+    let vivo = true
+    supabase.from('cliente').select('id, ragione_sociale').eq('attivo', true)
+      .ilike('ragione_sociale', `%${t}%`).order('ragione_sociale').limit(20)
+      .then(({ data }) => { if (vivo) setClienti(data ?? []) })
+    return () => { vivo = false }
+  }, [cerca])
+
+  async function aggiungi(e: FormEvent) {
+    e.preventDefault()
+    if (!cliente) return
+    setErrore(null); setInCorso(true)
+    const { data: id, error } = await supabase.rpc('aggiungi_persona_da_attestato', {
+      p_codice_fiscale: cf, p_cognome: cognome, p_nome: nome, p_data_nascita: nascita || null,
+      p_cliente_id: cliente.id, p_mansione: mansione,
+    })
+    if (error) { setInCorso(false); setErrore(error.message); return }
+    const { data } = await supabase.from('v_persona_in_forza').select('*')
+      .eq('persona_id', id as string).eq('cliente_id', cliente.id)
+    setInCorso(false)
+    const p = (data as PersonaInForza[] | null)?.[0]
+    if (p) onAggiunta(p)
+    else setErrore('Aggiunta, ma non la ritrovo fra le persone in forza: ricaricare la pagina.')
+  }
+
+  return (
+    <form onSubmit={aggiungi} className="avviso doppio">
+      <strong>Aggiungi dall'attestato.</strong> Controllare i dati sull'attestato. La persona
+      restera nei promemoria finche non e riportata nel gestionale.
+      <div className="affiancati">
+        <label>Cognome<input value={cognome} onChange={(e) => setCognome(e.target.value)} required /></label>
+        <label>Nome<input value={nome} onChange={(e) => setNome(e.target.value)} required /></label>
+      </div>
+      <div className="affiancati">
+        <label>Codice fiscale
+          <input value={cf} onChange={(e) => setCf(e.target.value.toUpperCase())} required pattern="[A-Z0-9]{16}" />
+        </label>
+        <label>Data di nascita<input type="date" value={nascita} onChange={(e) => setNascita(e.target.value)} /></label>
+      </div>
+      {cliente ? (
+        <p>
+          <span className="etichetta">Cliente</span> <strong>{cliente.ragione_sociale}</strong>{' '}
+          <button type="button" className="esci" onClick={() => setCliente(null)}>cambia</button>
+        </p>
+      ) : (
+        <>
+          <label>Cliente per cui lavora
+            <input className="cerca largo" value={cerca} onChange={(e) => setCerca(e.target.value)} placeholder="ragione sociale" />
+          </label>
+          {clienti.length > 0 && (
+            <ul className="elenco">
+              {clienti.map((c) => (
+                <li key={c.id}><button type="button" onClick={() => { setCliente(c); setCerca('') }}>{c.ragione_sociale}</button></li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+      <label>Mansione<input value={mansione} onChange={(e) => setMansione(e.target.value)} placeholder="facoltativa" /></label>
+      {errore && <p className="errore">{errore}</p>}
+      <button type="submit" disabled={inCorso || !cliente}>{inCorso ? 'Aggiungo…' : 'Aggiungi la persona'}</button>
+    </form>
   )
 }
 
