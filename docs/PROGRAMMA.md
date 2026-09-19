@@ -3949,6 +3949,11 @@ controllo lo dice **non conforme** perche manca la modalita di erogazione — ch
 l'accordo del 2011 non chiedeva di scrivere. Gli elementi minimi della Parte I punto 6
 valgono per gli attestati dell'ASR 2025. Da decidere se, prima del 24/05/2025, quella
 regola diventa «da guardare».
+**Deciso da Francesco lo stesso giorno: si** (`0032`). Prima del 24/05/2025 la modalita
+mancante e «da guardare» nel controllo, e il trigger della `0029` non la pretende piu:
+un attestato che il controllo dice «da guardare» si deve poter registrare. Nel modulo
+la modalita resta facoltativa per quelle date («non scritta sull'attestato»). Gli altri
+cinque elementi minimi non cambiano. Prova generale passata con 32 migrazioni.
 
 ### Tre cose decise a tarda sera, e una regola che si allarga
 

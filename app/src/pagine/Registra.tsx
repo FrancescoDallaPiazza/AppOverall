@@ -532,7 +532,7 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale, letto }: {
       is_aggiornamento: aggiornamento,
       ente_formatore: ente.trim(),
       ore_attestato: oreNumero,
-      modalita_erogazione: modalita,
+      modalita_erogazione: modalita || null,
       luogo: luogo.trim(),
       attestato_firmato: firmato,
       soggetto_formatore_tipo: tipoEnte,
@@ -583,8 +583,10 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale, letto }: {
                      placeholder={previste ? `previste ${previste}` : ''} />
             </label>
             <label>Modalita di erogazione
-              <select value={modalita} onChange={(e) => setModalita(e.target.value)} required>
-                <option value="">— scegli —</option>
+              <select value={modalita} onChange={(e) => setModalita(e.target.value)}
+                      // 0032: l'accordo del 2011 non chiedeva di scriverla.
+                      required={giorno >= '2025-05-24'}>
+                <option value="">{giorno >= '2025-05-24' ? '— scegli —' : "non scritta sull'attestato"}</option>
                 {MODALITA.map((m) => <option key={m.valore} value={m.valore}>{m.etichetta}</option>)}
               </select>
             </label>

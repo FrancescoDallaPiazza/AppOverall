@@ -38,7 +38,7 @@ stesso attestato da sempre lo stesso esito. Una riga per regola, con la fonte:
 
 | regola | cosa guarda |
 |---|---|
-| elementi minimi | i sei elementi della Parte I punto 6, codice fiscale compreso |
+| elementi minimi | i sei elementi della Parte I punto 6, codice fiscale compreso; prima del 24/05/2025 la modalita mancante e da guardare (`0032`) |
 | data | attestato non nel futuro; prima del 24/05/2025 vale l'accordo del 2011 |
 | modalita di erogazione | la tabella della Parte IV punto 3.5, corso per corso (`corso_modalita`) |
 | durata | il minimo del catalogo, la classe di rischio per la formazione specifica, il regime precedente per gli attestati vecchi |
