@@ -352,6 +352,8 @@ function ModuloAttestato({ persona, onFatto, obbligo, corsoIniziale, letto }: {
     if (estratto.ore) setOre(estratto.ore)
     if (estratto.modalita) setModalita(estratto.modalita)
     if (estratto.aggiornamento) setAggiornamento(true)
+    if (estratto.ente) setEnte(estratto.ente)
+    if (estratto.luogo) setLuogo(estratto.luogo)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estratto])
   const cfDiverso = estratto?.codiceFiscale && persona.codice_fiscale && estratto.codiceFiscale !== persona.codice_fiscale

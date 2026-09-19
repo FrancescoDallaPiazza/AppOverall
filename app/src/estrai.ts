@@ -13,6 +13,8 @@ export type Estratto = {
   modalita: string | null
   aggiornamento: boolean
   corso: string | null         // codice del catalogo
+  ente: string | null
+  luogo: string | null
 }
 
 const CF = /\b[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]\b/
@@ -23,6 +25,9 @@ function codiceFiscale(testo: string): string | null {
   const t = testo.toUpperCase().replace(/[^A-Z0-9\s]/g, ' ')
   const esatto = t.match(CF)
   if (esatto) return esatto[0]
+  // Scritto a gruppi: «BRN DVD 94E04 B296W».
+  const unito = t.replace(/\s+/g, '').match(new RegExp(CF.source.replaceAll('\\b', '')))
+  if (unito) return unito[0]
   const cifre: Record<string, string> = { O: '0', I: '1', Z: '2', S: '5', B: '8' }
   for (const parola of t.split(/\s+/)) {
     if (parola.length !== 16) continue
@@ -85,6 +90,12 @@ function corso(testo: string, corsi: CorsoNome[]): string | null {
   return punteggio >= 0.8 && !pari ? migliore : null
 }
 
+// Il valore dopo un'etichetta, fino a fine riga o a un salto di piu spazi.
+function dopo(testo: string, etichetta: RegExp): string | null {
+  const m = testo.match(new RegExp(`${etichetta.source}\\s*:?\\s*(.+?)(?:\\s{2,}|\\n|$)`, 'i'))
+  return m ? m[1].trim() : null
+}
+
 export function estrai(testo: string, corsi: CorsoNome[], oggi: string): Estratto {
   return {
     codiceFiscale: codiceFiscale(testo),
@@ -93,5 +104,7 @@ export function estrai(testo: string, corsi: CorsoNome[], oggi: string): Estratt
     modalita: modalita(testo),
     aggiornamento: /aggiornamento/i.test(testo),
     corso: corso(testo, corsi),
+    ente: dopo(testo, /(?:soggetto (?:che ha organizzato il corso|formatore|organizzatore)|ente formatore|organizzato da)/),
+    luogo: dopo(testo, /\bluogo(?! di nascita)/),
   }
 }
