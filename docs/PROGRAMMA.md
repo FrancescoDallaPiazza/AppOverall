@@ -3898,6 +3898,25 @@ su cosa se ne fa: il controllo di oggi guarda i dati inseriti, non il PDF.
 | **AppFormazione** | la correzione dell'intestazione (voce sopra), poi l'inventario in sola lettura | l'archiviazione |
 | **AppSopralluoghi** | completare VERDEPOSITIVO SRL. Invariato | — |
 
+### I PDF degli attestati stanno nella cartella del cliente · 19 settembre 2026
+
+**Deciso da Francesco:** «i file pdf andranno salvati nella cartella del cliente sul ns
+server». Non su Supabase. L'app gira nel browser, e il browser non scrive da solo in una
+cartella del server: quindi, **per partire, il PDF lo salva a mano chi registra**, come
+oggi, e l'app non ne sa niente. Registra i dati e il loro controllo, e basta. Zero codice.
+
+**Poi, semmai, due passi in ordine di costo** — scelti da Francesco quando servono:
+un campo con il nome del file sulla riga dell'attestato, cosi dalla riga si sa dove
+cercarlo; oppure l'app che salva il file da sola, che chiede un piccolo programma sempre
+acceso sul server a ricevere i file.
+
+| chi | adesso | poi |
+|---|---|---|
+| **Francesco** | provare il controllo sul banco | quando e come AppFormazione si ferma; se servono le funzioni sui file |
+| **AppOverall** | le 289 solo motore, con il si all'estrazione | il database vero, e l'app pubblicata |
+| **AppFormazione** | la correzione dell'intestazione, poi l'inventario in sola lettura | l'archiviazione |
+| **AppSopralluoghi** | completare VERDEPOSITIVO SRL. Invariato | — |
+
 ### Tre cose decise a tarda sera, e una regola che si allarga
 
 **L'import delle nomine lo esegue Francesco dal back-office.** Deciso da lui il 12
